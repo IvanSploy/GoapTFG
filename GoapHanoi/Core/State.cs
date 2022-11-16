@@ -1,37 +1,38 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace GoapHanoi.Core
 {
     public class State<TA, TB>
     {
-        private Dictionary<TA, TB> _values;
-
-        public State()
-        {
-            _values = new Dictionary<TA, TB>();
-        }
+        private readonly Dictionary<TA, TB> _values;
         
-        public State(Dictionary<TA, TB> values)
+        public State(Dictionary<TA, TB> values = null)
         {
-            _values = values;
+            //Si values es null, se crea un nuevo diccionario.
+            _values = values == null ? new Dictionary<TA, TB>() : new Dictionary<TA, TB>(values);
         }
         
         //GOAP Utilities, A* addons.
-        public bool IsConflictive(State<TA, TB> state, out int mismatches)
+        public bool CheckConflict(State<TA, TB> state)
         {
-            mismatches = 0;
+            return state._values.Where(pair => Has(pair.Key)).Any(pair => !HasValue(pair.Key, pair.Value));
+        }
+        
+        public bool CheckConflict(State<TA, TB> state, out State<TA, TB> mismatches)
+        {
+            mismatches = new State<TA, TB>();
             foreach (var pair in state._values)
             {
                 if (Has(pair.Key))
                 {
-                    if (HasValue(pair.Key, pair.Value))
+                    if (!HasValue(pair.Key, pair.Value))
                     {
-                        mismatches++;
+                        mismatches.Set(pair.Key, _values[pair.Key]);
                     }
                 }
             }
-            
-            return mismatches == 0;
+            return !mismatches.IsEmpty();
         }
 
         //Dictionary
@@ -54,6 +55,11 @@ namespace GoapHanoi.Core
         {
             return _values[key].Equals(value);
         }
+
+        public bool IsEmpty()
+        {
+            return _values.Count == 0;
+        }
         
         //Operators
         public static State<TA, TB> operator +(State<TA, TB> a, State<TA, TB> b)
@@ -65,6 +71,18 @@ namespace GoapHanoi.Core
             }
             
             return state;
+        }
+        
+        //Overrides
+        public override string ToString()
+        {
+            return _values.Aggregate("", (current, pair) => current + ("Key: " + pair.Key + " | Valor: " + pair.Value + "\n"));
+            /*var text = ""; Equivalente a la función Linq.
+            foreach (var pair in _values)
+            {
+                text += "Key: " + pair.Key + " | Valor: " + pair.Value + "\n";
+            }
+            return text;*/
         }
     }
 }
