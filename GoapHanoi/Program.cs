@@ -6,7 +6,7 @@ namespace GoapHanoi
     {
         public static void Main(string[] args)
         {
-            Console.Out.Write("Me llamo IvanSployano\n");
+            Console.Out.Write("Este es el programa principal\n");
         }
     }
 }

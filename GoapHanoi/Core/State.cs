@@ -1,7 +1,10 @@
-﻿namespace GoapHanoi.Core
+﻿using System.Collections.Generic;
+
+namespace GoapHanoi.Core
 {
-    public class State
+    public class State<TA, TB>
     {
+        private HashSet<Property<TA, TB>> values;
         
     }
 }
