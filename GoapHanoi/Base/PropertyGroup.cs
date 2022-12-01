@@ -1,34 +1,39 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GoapHanoi.Core
+namespace GoapHanoi.Base
 {
-    public class State<TA, TB>
+    public class PropertyGroup<TA, TB>
     {
         private readonly Dictionary<TA, TB> _values;
         
-        public State(Dictionary<TA, TB> values = null)
+        public PropertyGroup(Dictionary<TA, TB> values = null)
         {
             //Si values es null, se crea un nuevo diccionario.
             _values = values == null ? new Dictionary<TA, TB>() : new Dictionary<TA, TB>(values);
         }
-        
-        //GOAP Utilities, A* addons.
-        public bool CheckConflict(State<TA, TB> state)
+
+        public PropertyGroup(PropertyGroup<TA, TB> propertyGroup)
         {
-            return state._values.Where(pair => Has(pair.Key)).Any(pair => !HasValue(pair.Key, pair.Value));
+            _values = new Dictionary<TA, TB>(propertyGroup._values);
+        }
+
+        //GOAP Utilities, A* addons.
+        public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup)
+        {
+            return propertyGroup._values.Where(pair => Has(pair.Key)).Any(pair => !HasValue(pair.Key, pair.Value));
         }
         
-        public bool CheckConflict(State<TA, TB> state, out State<TA, TB> mismatches)
+        public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup, out PropertyGroup<TA, TB> mismatches)
         {
-            mismatches = new State<TA, TB>();
-            foreach (var pair in state._values)
+            mismatches = new PropertyGroup<TA, TB>();
+            foreach (var pair in propertyGroup._values)
             {
                 if (Has(pair.Key))
                 {
                     if (!HasValue(pair.Key, pair.Value))
                     {
-                        mismatches.Set(pair.Key, _values[pair.Key]);
+                        mismatches.Set(pair.Key, pair.Value);
                     }
                 }
             }
@@ -60,17 +65,22 @@ namespace GoapHanoi.Core
         {
             return _values.Count == 0;
         }
+
+        public int Count()
+        {
+            return _values.Count;
+        }
         
         //Operators
-        public static State<TA, TB> operator +(State<TA, TB> a, State<TA, TB> b)
+        public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
         {
-            State<TA, TB> state = new State<TA, TB>(a._values);
+            PropertyGroup<TA, TB> propertyGroup = new PropertyGroup<TA, TB>(a._values);
             foreach (var pair in b._values)
             {
-                state._values[pair.Key] = pair.Value;
+                propertyGroup._values[pair.Key] = pair.Value;
             }
             
-            return state;
+            return propertyGroup;
         }
         
         //Overrides

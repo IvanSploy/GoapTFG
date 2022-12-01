@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoapHanoi.Core;
+using GoapHanoi.Base;
 
 namespace GoapHanoi
 {
@@ -8,19 +8,22 @@ namespace GoapHanoi
     {
         public static void Main(string[] args)
         {
-            State<string, bool> stateA = new State<string, bool>();
-            stateA.Set("puertaAbierta", true);
+            PropertyGroup<string, bool> propertyGroupA = new PropertyGroup<string, bool>();
+            propertyGroupA.Set("puertaAbierta", true);
             
-            State<string, bool> stateB = new State<string, bool>();
-            stateB.Set("puertaAbierta", false);
+            PropertyGroup<string, bool> propertyGroupB = new PropertyGroup<string, bool>();
+            propertyGroupB.Set("puertaAbierta", false);
 
-            Core.Action<string, bool> actionA = new Core.Action<string, bool>("cerrar",stateA, stateB);
-            Core.Action<string, bool> actionB = new Core.Action<string, bool>("abrir",stateB, stateA);
+            Base.Action<string, bool> actionA = new Base.Action<string, bool>("cerrar",propertyGroupA, propertyGroupB);
+            Base.Action<string, bool> actionB = new Base.Action<string, bool>("abrir",propertyGroupB, propertyGroupA);
             
-            actionA.CheckApplyAction(stateA);
-            actionA.CheckApplyAction(stateB);
-            actionB.CheckApplyAction(stateA);
-            actionB.CheckApplyAction(stateB);
+            actionA.CheckApplyAction(propertyGroupA);
+            actionA.CheckApplyAction(propertyGroupB);
+            actionB.CheckApplyAction(propertyGroupA);
+            actionB.CheckApplyAction(propertyGroupB);
+            
+            Console.Out.Write(propertyGroupA + propertyGroupB);
+            Console.Out.Write(propertyGroupB + propertyGroupA);
         }
     }
 }

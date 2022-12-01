@@ -39,8 +39,12 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Core\Action.cs" />
-        <Compile Include="Core\State.cs" />
+        <Compile Include="Base\Goal.cs" />
+        <Compile Include="Planner\Agent.cs" />
+        <Compile Include="Planner\NodeGenerator.cs" />
+        <Compile Include="Base\Action.cs" />
+        <Compile Include="Base\PropertyGroup.cs" />
+        <Compile Include="Planner\Node.cs" />
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
