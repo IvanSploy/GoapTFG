@@ -3,6 +3,11 @@ using System.Linq;
 
 namespace GoapHanoi.Base
 {
+    /// <summary>
+    /// A group of properties.
+    /// </summary>
+    /// <typeparam name="TA">Key type</typeparam>
+    /// <typeparam name="TB">Value type</typeparam>
     public class PropertyGroup<TA, TB>
     {
         private readonly Dictionary<TA, TB> _values;

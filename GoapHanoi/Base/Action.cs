@@ -5,36 +5,35 @@ namespace GoapHanoi.Base
     public class Action<TA, TB>
     {
         private string _id;
-        private readonly PropertyGroup<TA, TB> _preconditionPropertyGroup;
-        private readonly PropertyGroup<TA, TB> _effectPropertyGroup;
+        private readonly PropertyGroup<TA, TB> _preconditions;
+        private readonly PropertyGroup<TA, TB> _effects;
 
         public event Action PerformedActions;
 
         public Action(string id, PropertyGroup<TA, TB> prePropertyGroup = null, PropertyGroup<TA, TB> effectPropertyGroup = null)
         {
             _id = id;
-            _preconditionPropertyGroup = prePropertyGroup ?? new PropertyGroup<TA, TB>();
-            _effectPropertyGroup = effectPropertyGroup ?? new PropertyGroup<TA, TB>();
+            _preconditions = prePropertyGroup ?? new PropertyGroup<TA, TB>();
+            _effects = effectPropertyGroup ?? new PropertyGroup<TA, TB>();
             PerformedActions += () => System.Console.Out.WriteLine("Acción ejecutada: " + this);
         }
         
         //GOAP utilities.
         public bool CheckAction(PropertyGroup<TA, TB> propertyGroup)
         {
-            return propertyGroup.CheckConflict(_preconditionPropertyGroup);
+            return propertyGroup.CheckConflict(_preconditions);
         }
 
         public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> propertyGroup)
         {
             OnPerformedActions();
-            return propertyGroup + _effectPropertyGroup;
+            return propertyGroup + _effects;
         }
         
         public PropertyGroup<TA, TB> CheckApplyAction(PropertyGroup<TA, TB> propertyGroup)
         {
-            if (propertyGroup.CheckConflict(_preconditionPropertyGroup)) return null;
-            OnPerformedActions();
-            return propertyGroup + _effectPropertyGroup;
+            if (CheckAction(propertyGroup)) return null;
+            return ApplyAction(propertyGroup);
         }
 
         protected virtual void OnPerformedActions()
@@ -45,7 +44,7 @@ namespace GoapHanoi.Base
         //Overrides
         public override string ToString()
         {
-            return _id + " ->\n" + _effectPropertyGroup;
+            return _id + " ->\n" + _effects;
         }
     }
 }
