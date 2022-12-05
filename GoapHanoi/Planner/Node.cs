@@ -6,6 +6,9 @@ namespace GoapHanoi.Planner
 {
     public class Node<TA, TB> : IComparable
     {
+        //Consts
+        public const int ACTION_COST = 1;
+        
         //Properties
         public PropertyGroup<TA, TB> PropertyGroup;
         public Node<TA, TB> Parent;
@@ -25,16 +28,23 @@ namespace GoapHanoi.Planner
         }
 
         //AStar
-        public void ApplyAction(Base.Action<TA, TB> action)
+        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
         {
-            PropertyGroup.App
+            PropertyGroup<TA, TB> pg = Action.CheckApplyAction(PropertyGroup);
+            if (pg == null) return null;
+            
+            Node<TA,TB> node = new Node<TA, TB>(pg);
+            node.Parent = this;
+            AddChild(node);
+            node.Action = action;
+            return node;
         }
         
-        public void Update(Base.Action<TA, TB> action, Goal<TA, TB> goal)
+        public void Update(Goal<TA, TB> goal)
         {
-            Action = action;
             Cost = GetHeuristic(goal);
             IsGoal = Cost == 0;
+            Cost += ACTION_COST;
         }
 
         public int GetHeuristic(Goal<TA, TB> goal)
