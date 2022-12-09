@@ -1,6 +1,6 @@
 using System.Runtime.Remoting;
 
-namespace GoapHanoi.Base
+namespace GoapTFG.Base
 {
     public class Goal<TA, TB>
     {

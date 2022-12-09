@@ -7,8 +7,8 @@
         <ProjectGuid>{CBA5DDBC-E2FC-421A-BA67-CE8D96C61804}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>GoapHanoi</RootNamespace>
-        <AssemblyName>GoapHanoi</AssemblyName>
+        <RootNamespace>GoapTFG</RootNamespace>
+        <AssemblyName>GoapTFG</AssemblyName>
         <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

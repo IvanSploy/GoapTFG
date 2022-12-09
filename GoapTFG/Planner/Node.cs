@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GoapHanoi.Base;
+using GoapTFG.Base;
 
-namespace GoapHanoi.Planner
+namespace GoapTFG.Planner
 {
     public class Node<TA, TB> : IComparable
     {
@@ -30,7 +30,7 @@ namespace GoapHanoi.Planner
         //AStar
         public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
         {
-            PropertyGroup<TA, TB> pg = Action.CheckApplyAction(PropertyGroup);
+            PropertyGroup<TA, TB> pg = action.CheckApplyAction(PropertyGroup);
             if (pg == null) return null;
             
             Node<TA,TB> node = new Node<TA, TB>(pg);
@@ -76,6 +76,27 @@ namespace GoapHanoi.Planner
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
             return Cost.CompareTo(objNode.Cost);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            Node<TA, TB> objNode = (Node<TA, TB>)obj;
+            
+            return PropertyGroup.Equals(objNode.PropertyGroup);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return PropertyGroup + "Coste: " + Cost + "\n";
         }
     }
 }

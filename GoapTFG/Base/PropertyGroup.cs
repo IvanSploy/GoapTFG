@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GoapHanoi.Base
+namespace GoapTFG.Base
 {
     /// <summary>
     /// A group of properties.
@@ -26,7 +26,7 @@ namespace GoapHanoi.Base
         //GOAP Utilities, A* addons.
         public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup)
         {
-            return propertyGroup._values.Where(pair => Has(pair.Key)).Any(pair => !HasValue(pair.Key, pair.Value));
+            return propertyGroup._values.Any(HasConflict);
         }
         
         public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup, out PropertyGroup<TA, TB> mismatches)
@@ -34,15 +34,16 @@ namespace GoapHanoi.Base
             mismatches = new PropertyGroup<TA, TB>();
             foreach (var pair in propertyGroup._values)
             {
-                if (Has(pair.Key))
-                {
-                    if (!HasValue(pair.Key, pair.Value))
-                    {
-                        mismatches.Set(pair.Key, pair.Value);
-                    }
-                }
+                if (HasConflict(pair))
+                    mismatches.Set(pair.Key, pair.Value);
             }
             return !mismatches.IsEmpty();
+        }
+
+        private bool HasConflict(KeyValuePair<TA, TB> pair)
+        {
+            if (!Has(pair.Key)) return true;
+            return !HasValue(pair.Key, pair.Value);
         }
 
         //Dictionary
@@ -98,6 +99,11 @@ namespace GoapHanoi.Base
                 text += "Key: " + pair.Key + " | Valor: " + pair.Value + "\n";
             }
             return text;*/
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
         }
     }
 }
