@@ -10,29 +10,29 @@ namespace GoapTFG.Base
     /// <typeparam name="TB">Value type</typeparam>
     public class PropertyGroup<TA, TB>
     {
-        private readonly Dictionary<TA, TB> _values;
+        private readonly SortedDictionary<TA, TB> _values;
         
-        public PropertyGroup(Dictionary<TA, TB> values = null)
+        public PropertyGroup(SortedDictionary<TA, TB> values = null)
         {
             //Si values es null, se crea un nuevo diccionario.
-            _values = values == null ? new Dictionary<TA, TB>() : new Dictionary<TA, TB>(values);
+            _values = values == null ? new SortedDictionary<TA, TB>() : new SortedDictionary<TA, TB>(values);
         }
 
         public PropertyGroup(PropertyGroup<TA, TB> propertyGroup)
         {
-            _values = new Dictionary<TA, TB>(propertyGroup._values);
+            _values = new SortedDictionary<TA, TB>(propertyGroup._values);
         }
 
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup)
+        public bool CheckConflict(PropertyGroup<TA, TB> otherPG)
         {
-            return propertyGroup._values.Any(HasConflict);
+            return otherPG._values.Any(HasConflict);
         }
         
-        public bool CheckConflict(PropertyGroup<TA, TB> propertyGroup, out PropertyGroup<TA, TB> mismatches)
+        public bool CheckConflict(PropertyGroup<TA, TB> otherPG, out PropertyGroup<TA, TB> mismatches)
         {
             mismatches = new PropertyGroup<TA, TB>();
-            foreach (var pair in propertyGroup._values)
+            foreach (var pair in otherPG._values)
             {
                 if (HasConflict(pair))
                     mismatches.Set(pair.Key, pair.Value);
@@ -40,10 +40,15 @@ namespace GoapTFG.Base
             return !mismatches.IsEmpty();
         }
 
-        private bool HasConflict(KeyValuePair<TA, TB> pair)
+        public int CountConflict(PropertyGroup<TA, TB> otherPG)
         {
-            if (!Has(pair.Key)) return true;
-            return !HasValue(pair.Key, pair.Value);
+            return otherPG._values.Count(HasConflict);
+        }
+        
+        private bool HasConflict(KeyValuePair<TA, TB> otherPair)
+        {
+            if (!Has(otherPair.Key)) return true;
+            return !HasValue(otherPair.Key, otherPair.Value);
         }
 
         //Dictionary
@@ -103,7 +108,26 @@ namespace GoapTFG.Base
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            PropertyGroup<TA, TB> objPG = (PropertyGroup<TA, TB>)obj;
+            return GetHashCode()==objPG.GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 0;
+            int i = 1;
+            foreach(KeyValuePair<TA, TB> kvp in _values)
+            {
+                if (kvp.Value.GetHashCode() == 0) continue;
+                
+                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode()) * i;
+                i++;
+            }
+            return hash;
         }
     }
 }

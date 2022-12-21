@@ -5,7 +5,7 @@ namespace GoapTFG.Base
     public class Goal<TA, TB>
     {
         //Fields
-        private PropertyGroup<TA, TB> _properties;
+        private PropertyGroup<TA, TB> propertyGroup;
 
         //Properties
         public float PriorityLevel { get; set; }
@@ -13,25 +13,30 @@ namespace GoapTFG.Base
         //Constructors
         public Goal(PropertyGroup<TA, TB> goal, float priorityLevel)
         {
-            _properties = new PropertyGroup<TA, TB>(goal) ;
+            propertyGroup = new PropertyGroup<TA, TB>(goal) ;
             PriorityLevel = priorityLevel;
         }
         
         //GOAP Utilites
-        public bool IsReached (PropertyGroup<TA, TB> propertyGroup)
+        public bool IsReached (PropertyGroup<TA, TB> otherPG)
         {
-            return !propertyGroup.CheckConflict(_properties);
+            return !otherPG.CheckConflict(propertyGroup);
         }
         
-        public PropertyGroup<TA, TB> GetMismatches (PropertyGroup<TA, TB> propertyGroup)
+        public PropertyGroup<TA, TB> GetConflicts (PropertyGroup<TA, TB> otherPG)
         {
-            return _properties.CheckConflict(propertyGroup, out var mismatches) ? mismatches : null;
+            return otherPG.CheckConflict(propertyGroup, out var mismatches) ? mismatches : null;
+        }
+        
+        public int CountConflicts (PropertyGroup<TA, TB> otherPG)
+        {
+            return otherPG.CountConflict(propertyGroup);
         }
         
         //Getters
         public PropertyGroup<TA, TB> GetState()
         {
-            return _properties;
+            return propertyGroup;
         }
     }
 }

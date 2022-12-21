@@ -44,5 +44,10 @@ namespace GoapTFG.Planner
 
             return true;
         }
+
+        public int Count()
+        {
+            return _currentPlan.Count;
+        }
     }
 }

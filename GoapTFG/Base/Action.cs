@@ -40,7 +40,7 @@ namespace GoapTFG.Base
 
         public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> propertyGroup)
         {
-            Console.Out.WriteLine("Acción aplicada: " + this);
+            //Console.Out.WriteLine("Acción aplicada: " + this);
             var result = propertyGroup + _effects;
             var aux = ProceduralEffects?.Invoke(result);
             if (aux != null) result += aux;
@@ -66,7 +66,9 @@ namespace GoapTFG.Base
         //Overrides
         public override string ToString()
         {
-            return _id + " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effects;
+            return _id 
+                   //+ " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effects
+                   ;
         }
     }
 }

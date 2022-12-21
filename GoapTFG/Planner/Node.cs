@@ -10,12 +10,14 @@ namespace GoapTFG.Planner
         public const int ACTION_COST = 1;
         
         //Properties
-        public PropertyGroup<TA, TB> PropertyGroup;
+        public readonly PropertyGroup<TA, TB> PropertyGroup;
         public Node<TA, TB> Parent;
         public Base.Action<TA, TB> Action;
         public readonly List<Node<TA, TB>> Children;
 
-        public int Cost;
+        public int TotalCost;
+        public int RealCost;
+        public int EstimatedCost;
         public bool IsGoal;
         
         //Constructor
@@ -23,7 +25,9 @@ namespace GoapTFG.Planner
         {
             PropertyGroup = propertyGroup;
             Children = new List<Node<TA, TB>>();
-            Cost = 0;
+            TotalCost = 0;
+            RealCost = 0;
+            EstimatedCost = 0;
             IsGoal = false;
         }
 
@@ -40,16 +44,17 @@ namespace GoapTFG.Planner
             return node;
         }
         
-        public void Update(Goal<TA, TB> goal)
+        public void Update(int parentRealCost, Goal<TA, TB> goal)
         {
-            Cost = GetHeuristic(goal);
-            IsGoal = Cost == 0;
-            Cost += ACTION_COST;
+            EstimatedCost = GetHeuristic(goal);
+            IsGoal = EstimatedCost == 0;
+            RealCost = ACTION_COST + parentRealCost;
+            TotalCost = EstimatedCost + RealCost;
         }
 
         public int GetHeuristic(Goal<TA, TB> goal)
         {
-            return goal.GetMismatches(PropertyGroup).Count();
+            return goal.CountConflicts(PropertyGroup);
         }
         
         //Planner structure
@@ -75,9 +80,10 @@ namespace GoapTFG.Planner
             if (obj.GetType() != GetType()) return -1;
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
-            return Cost.CompareTo(objNode.Cost);
+            return TotalCost.CompareTo(objNode.TotalCost);
         }
 
+        #region Overrides
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
@@ -91,12 +97,14 @@ namespace GoapTFG.Planner
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return PropertyGroup.GetHashCode();
         }
 
         public override string ToString()
         {
-            return PropertyGroup + "Coste: " + Cost + "\n";
+            return PropertyGroup + "Costes: " + RealCost + " | " + EstimatedCost + " | " + TotalCost + "\n";
+            //return GetHashCode() + "\n";
         }
+        #endregion
     }
 }

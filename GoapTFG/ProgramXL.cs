@@ -8,11 +8,12 @@ namespace GoapTFG
 {
     internal class Program
     {
-        public const int PIECES = 4;
+        public const int PIECES = 5;
         public const int RODS = 3;
 
         public static readonly string[] Hanoi =
         {
+            "XS",
             "S",
             "M",
             "L",
@@ -48,19 +49,21 @@ namespace GoapTFG
             initialProperties.Set("ON(" + Hanoi[1] + "," + Hanoi[2] + ")", true);
             initialProperties.Set("ON(" + Hanoi[2] + "," + Hanoi[3] + ")", true);
             initialProperties.Set("ON(" + Hanoi[3] + "," + Hanoi[4] + ")", true);
+            initialProperties.Set("ON(" + Hanoi[4] + "," + Hanoi[5] + ")", true);
             initialProperties.Set("CLEAR(" + Hanoi[0] + ")", true);
-            initialProperties.Set("CLEAR(" + Hanoi[5] + ")", true);
             initialProperties.Set("CLEAR(" + Hanoi[6] + ")", true);
+            initialProperties.Set("CLEAR(" + Hanoi[7] + ")", true);
             
             //Se define la situación objetivo
             PropertyGroup<string, object> goalProperties = new PropertyGroup<string, object>();
             goalProperties.Set("ON(" + Hanoi[0] + "," + Hanoi[1] + ")", true);
             goalProperties.Set("ON(" + Hanoi[1] + "," + Hanoi[2] + ")", true);
             goalProperties.Set("ON(" + Hanoi[2] + "," + Hanoi[3] + ")", true);
-            goalProperties.Set("ON(" + Hanoi[3] + "," + Hanoi[6] + ")", true);
+            goalProperties.Set("ON(" + Hanoi[3] + "," + Hanoi[4] + ")", true);
+            goalProperties.Set("ON(" + Hanoi[4] + "," + Hanoi[7] + ")", true);
             goalProperties.Set("CLEAR(" + Hanoi[0] + ")", true);
-            goalProperties.Set("CLEAR(" + Hanoi[4] + ")", true);
             goalProperties.Set("CLEAR(" + Hanoi[5] + ")", true);
+            goalProperties.Set("CLEAR(" + Hanoi[6] + ")", true);
             
             //Console.Out.WriteLine(initialProperties);
             //Console.Out.WriteLine(goalProperties);

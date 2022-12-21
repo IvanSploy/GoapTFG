@@ -11,6 +11,7 @@ namespace GoapTFG.Planner
         private Node<TA, TB> _current;
         public readonly List<Node<TA, TB>> OpenList;
         public readonly HashSet<Node<TA, TB>> ExpandedNodes;
+        public readonly Dictionary<Node<TA, TB>, int> ExpandedNodesCosts;
         
 
         public NodeGenerator(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal)
@@ -19,6 +20,7 @@ namespace GoapTFG.Planner
             _goal = goal;
             OpenList = new List<Node<TA, TB>>();
             ExpandedNodes = new HashSet<Node<TA, TB>>();
+            ExpandedNodesCosts = new Dictionary<Node<TA, TB>, int>();
         }
 
         /// <summary>
@@ -51,18 +53,25 @@ namespace GoapTFG.Planner
         private void ExpandCurrentNode(List<Base.Action<TA, TB>> actions)
         {
             ExpandedNodes.Add(_current);
+            ExpandedNodesCosts[_current] = _current.TotalCost;
             for (int i = 0; i < actions.Count; i++)
             {
                 Node<TA, TB> aux = _current.ApplyAction(actions[i]);
                 if(aux == null) continue;
                     
-                aux.Update(_goal);
-                if(!ExpandedNodes.Contains(aux))
-                    OpenList.Add(aux);
-                else
+                
+                aux.Update(_current.RealCost, _goal);
+                if (ExpandedNodes.Contains(aux))
                 {
-                    ExpandedNodes.Add(aux);
+                    //En caso de que el nodo expandido sea de menor coste, se reemplaza en la lista de nodos expandidos.
+                    if (aux.TotalCost < ExpandedNodesCosts[aux])
+                    {
+                        ExpandedNodes.Add(aux);
+                        ExpandedNodesCosts[aux] = aux.TotalCost;
+                    }
                 }
+                else
+                    OpenList.Add(aux);
             }
             OpenList.Sort();
         }
@@ -82,7 +91,7 @@ namespace GoapTFG.Planner
                 nodeGoal = nodeGoal.Parent;
             }
 
-            for (int i = invertedPlan.Count; i >= 0; i--)
+            for (int i = invertedPlan.Count - 1; i >= 0; i--)
             {
                 plan.Add(invertedPlan[i]);
             }
