@@ -1,40 +1,43 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting;
 using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
     public class NodeGenerator<TA, TB>
     {
-        private Goal<TA, TB> _goal;
         private Node<TA, TB> _current;
-        public readonly List<Node<TA, TB>> OpenList;
-        public readonly HashSet<Node<TA, TB>> ExpandedNodes;
-        public readonly Dictionary<Node<TA, TB>, int> ExpandedNodesCosts;
+        private readonly List<Node<TA, TB>> _openList;
+        private readonly HashSet<Node<TA, TB>> _expandedNodes;
+        private readonly Dictionary<Node<TA, TB>, int> _expandedNodesCosts;
         
 
-        public NodeGenerator(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal)
+        public NodeGenerator()
         {
-            _current = new Node<TA, TB>(currentState);
-            _goal = goal;
-            OpenList = new List<Node<TA, TB>>();
-            ExpandedNodes = new HashSet<Node<TA, TB>>();
-            ExpandedNodesCosts = new Dictionary<Node<TA, TB>, int>();
+            _openList = new List<Node<TA, TB>>();
+            _expandedNodes = new HashSet<Node<TA, TB>>();
+            _expandedNodesCosts = new Dictionary<Node<TA, TB>, int>();
         }
 
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
         /// </summary>
-        public List<Base.Action<TA, TB>> CreatePlan(List<Base.Action<TA, TB>> actions)
+        public List<Base.Action<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
+            List<Base.Action<TA, TB>> actions)
         {
-            while (!_current.IsGoal)
+            if (currentState == null || goal == null || actions == null) throw new ArgumentNullException();
+            if (actions.Count == 0) return null;
+            
+            _current = new Node<TA, TB>(currentState);
+            while (_current != null && !_current.IsGoal)
             {
-                ExpandCurrentNode(actions);
+                ExpandCurrentNode(actions, goal);
                 _current = Pop(); //Get next node.
-                Console.Out.WriteLine("Nodo actual:\n" + _current);
             }
 
+            if (_current == null) return null;
             return GeneratePlan(_current); //Se extrae el plan del nodo objetivo expandido.
         }
         
@@ -45,35 +48,37 @@ namespace GoapTFG.Planner
         /// <returns>First node to expand.</returns>
         private Node<TA, TB> Pop()
         {
-            Node<TA, TB> node = OpenList[0];
-            OpenList.RemoveAt(0);
+            if (_openList.Count == 0) return null;
+            Node<TA, TB> node = _openList[0];
+            _openList.RemoveAt(0);
+            Console.Out.WriteLine("Nodo extraido:\n" + node);
             return node;
         }
 
-        private void ExpandCurrentNode(List<Base.Action<TA, TB>> actions)
+        private void ExpandCurrentNode(List<Base.Action<TA, TB>> actions, Goal<TA, TB> goal)
         {
-            ExpandedNodes.Add(_current);
-            ExpandedNodesCosts[_current] = _current.TotalCost;
+            _expandedNodes.Add(_current);
+            _expandedNodesCosts[_current] = _current.TotalCost;
             for (int i = 0; i < actions.Count; i++)
             {
                 Node<TA, TB> aux = _current.ApplyAction(actions[i]);
                 if(aux == null) continue;
                     
                 
-                aux.Update(_current.RealCost, _goal);
-                if (ExpandedNodes.Contains(aux))
+                aux.Update(_current.RealCost, goal);
+                if (_expandedNodes.Contains(aux))
                 {
                     //En caso de que el nodo expandido sea de menor coste, se reemplaza en la lista de nodos expandidos.
-                    if (aux.TotalCost < ExpandedNodesCosts[aux])
+                    if (aux.TotalCost < _expandedNodesCosts[aux])
                     {
-                        ExpandedNodes.Add(aux);
-                        ExpandedNodesCosts[aux] = aux.TotalCost;
+                        _expandedNodes.Add(aux);
+                        _expandedNodesCosts[aux] = aux.TotalCost;
                     }
                 }
                 else
-                    OpenList.Add(aux);
+                    _openList.Add(aux);
             }
-            OpenList.Sort();
+            _openList.Sort();
         }
         
         /// <summary>

@@ -97,7 +97,7 @@ namespace GoapTFG.Base
         //Overrides
         public override string ToString()
         {
-            return _values.Aggregate("", (current, pair) => current + ("Key: " + pair.Key + " | Valor: " + pair.Value + "\n"));
+            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " + pair.Value + "\n");
             /*var text = ""; Equivalente a la función Linq.
             foreach (var pair in _values)
             {
@@ -112,16 +112,22 @@ namespace GoapTFG.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            PropertyGroup<TA, TB> objPG = (PropertyGroup<TA, TB>)obj;
-            return GetHashCode()==objPG.GetHashCode();
+            PropertyGroup<TA, TB> objPg = (PropertyGroup<TA, TB>)obj;
+            return GetHashCode()==objPg.GetHashCode();
         }
 
+        
+        /// <summary>
+        /// Evauate hash code of the dictionary with sort order and xor exlclusion.
+        /// </summary>
+        /// <returns>Hash Number</returns>
         public override int GetHashCode()
         {
             int hash = 0;
             int i = 1;
             foreach(KeyValuePair<TA, TB> kvp in _values)
             {
+                //No se toman en cuenta las reglas desinformadas.
                 if (kvp.Value.GetHashCode() == 0) continue;
                 
                 hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode()) * i;

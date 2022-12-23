@@ -8,7 +8,7 @@ namespace GoapTFG
 {
     internal class Program
     {
-        public const int PIECES = 8;
+        public const int PIECES = 5;
         public const int RODS = 3;
 
         public const string S_PIECE = "PIECE";
@@ -40,7 +40,7 @@ namespace GoapTFG
             
             //NO Es implicitamente necesario debido a las restricciones de las acciones.
             //Las piezas están encima de otras. 
-            for (var i = 0; i < PIECES - 1; i++) goalProperties.Set("ON(" + Hanoi[i] + "," + Hanoi[i + 1] + ")", true);
+            //for (var i = 0; i < PIECES - 1; i++) goalProperties.Set("ON(" + Hanoi[i] + "," + Hanoi[i + 1] + ")", true);
 
             //La ultima pieza debe estar sobre la ultima varilla.
             goalProperties.Set("ON(" + Hanoi[PIECES - 1] + "," + Hanoi[HANOI - 1] + ")", true);
@@ -55,9 +55,8 @@ namespace GoapTFG
             Console.Out.WriteLine(goalProperties);
             
             Goal<string, object> goal = new Goal<string, object>(goalProperties, 0);
-            NodeGenerator<string, object> planner = new NodeGenerator<string, object>(initialProperties, goal);
-            Agent<string, object> agent = new Agent<string, object>(planner);
-            
+            NodeGenerator<string, object> planner = new NodeGenerator<string, object>();
+
             //Acciones disponibles por el agente.
             List<Base.Action<string, object>> actions = new List<Base.Action<string, object>>();
 
@@ -89,10 +88,11 @@ namespace GoapTFG
                 }
             }
             
-            agent.AddActions(actions);
+            //USO DE UN AJENTE.
+            Agent<string, object> agent = new Agent<string, object>(planner, goal, actions);
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            agent.CreatePlan();
+            agent.CreatePlan(initialProperties);
             timer.Stop();
             Console.WriteLine("Tiempo total: " + timer.ElapsedMilliseconds + "\n");
             agent.DoPlan();

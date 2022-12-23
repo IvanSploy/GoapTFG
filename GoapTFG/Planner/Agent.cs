@@ -8,16 +8,27 @@ namespace GoapTFG.Planner
     public class Agent<TA, TB>
     {
         private NodeGenerator<TA, TB> _nodeGenerator;
-        private readonly List<Action<TA, TB>> _actions;
         private List<Action<TA, TB>> _currentPlan;
-
-        public Agent(NodeGenerator<TA, TB> planner)
+        private readonly List<Action<TA, TB>> _actions;
+        private Goal<TA, TB> _goal;
+        
+        public Agent(NodeGenerator<TA, TB> planner, Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
         {
             _nodeGenerator = planner;
-            _actions = new List<Action<TA, TB>>();
+            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
+            _goal = goal;
             _currentPlan = null;
         }
 
+        /// <summary>
+        /// Add posible action to the agent, this can be used by the sensors.
+        /// </summary>
+        /// <param name="action">Action to be added</param>
+        public void AddAction(Action<TA,TB> action)
+        {
+            _actions.Add(action);
+        }
+        
         /// <summary>
         /// Add posible actions to the agent, this can be used by the sensors.
         /// </summary>
@@ -27,9 +38,16 @@ namespace GoapTFG.Planner
             _actions.AddRange(actions);
         }
 
-        public List<Action<TA,TB>> CreatePlan()
+        public void SetGoal(Goal<TA, TB> goal)
         {
-            return _currentPlan = _nodeGenerator.CreatePlan(_actions);
+            _goal = goal;
+        }
+
+        public bool CreatePlan(PropertyGroup<TA, TB> initialState)
+        {
+            if (_goal == null || _actions.Count == 0) return false;
+            _currentPlan = _nodeGenerator.CreatePlan(initialState, _goal, _actions);
+            return _currentPlan != null;
         }
         
         //Plan follower
@@ -41,12 +59,12 @@ namespace GoapTFG.Planner
             {
                 _currentPlan[i].PerformAction();
             }
-
             return true;
         }
 
         public int Count()
         {
+            if (_currentPlan == null) return 0;
             return _currentPlan.Count;
         }
     }
