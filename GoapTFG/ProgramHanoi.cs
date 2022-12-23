@@ -8,62 +8,51 @@ namespace GoapTFG
 {
     internal class Program
     {
-        public const int PIECES = 4;
+        public const int PIECES = 8;
         public const int RODS = 3;
 
-        public static readonly string[] Hanoi =
-        {
-            "S",
-            "M",
-            "L",
-            "XL",
-            "Rod1",
-            "Rod2",
-            "Rod3"
-        };
-        
+        public const string S_PIECE = "PIECE";
+        public const string S_ROD = "ROD";
+
+        public static readonly List<string> Hanoi = new List<string>();
+
         public static void Main(string[] args)
         {
-            /*PropertyGroup<string, bool> propertyGroupA = new PropertyGroup<string, bool>();
-            propertyGroupA.Set("puertaAbierta", true);
-            
-            PropertyGroup<string, bool> propertyGroupB = new PropertyGroup<string, bool>();
-            propertyGroupB.Set("puertaAbierta", false);
-
-            Base.Action<string, bool> actionA = new Base.Action<string, bool>("cerrar",propertyGroupA, propertyGroupB);
-            Base.Action<string, bool> actionB = new Base.Action<string, bool>("abrir",propertyGroupB, propertyGroupA);
-            
-            actionA.CheckApplyAction(propertyGroupA);
-            actionA.CheckApplyAction(propertyGroupB);
-            actionB.CheckApplyAction(propertyGroupA);
-            actionB.CheckApplyAction(propertyGroupB);
-            */
-
-            //Hanoi variables
+            //INICIALIZACION VARIABLES HANOI
             const int HANOI = RODS + PIECES;
-            
-            //Se define la situación inicial.
+            for (var i = 1; i <= PIECES; i++) Hanoi.Add(S_PIECE + i);
+            for (var i = 1; i <= RODS; i++) Hanoi.Add(S_ROD + i);
+
+            //SITUACION INICIAL
             PropertyGroup<string, object> initialProperties = new PropertyGroup<string, object>();
-            initialProperties.Set("ON(" + Hanoi[0] + "," + Hanoi[1] + ")", true);
-            initialProperties.Set("ON(" + Hanoi[1] + "," + Hanoi[2] + ")", true);
-            initialProperties.Set("ON(" + Hanoi[2] + "," + Hanoi[3] + ")", true);
-            initialProperties.Set("ON(" + Hanoi[3] + "," + Hanoi[4] + ")", true);
+            
+            //Las piezas están encima de otras y del primer rod.
+            for (var i = 0; i < PIECES; i++) initialProperties.Set("ON(" + Hanoi[i] + "," + Hanoi[i + 1] + ")", true);
+
+            //La primera pieza está libre.
             initialProperties.Set("CLEAR(" + Hanoi[0] + ")", true);
-            initialProperties.Set("CLEAR(" + Hanoi[5] + ")", true);
-            initialProperties.Set("CLEAR(" + Hanoi[6] + ")", true);
-            
-            //Se define la situación objetivo
+
+            //El resto de rods menos el primero están libres.
+            for (var i = PIECES + 1; i < HANOI; i++) initialProperties.Set("CLEAR(" + Hanoi[i] + ")", true);
+
+            //SITUACION OBJETIVA
             PropertyGroup<string, object> goalProperties = new PropertyGroup<string, object>();
-            goalProperties.Set("ON(" + Hanoi[0] + "," + Hanoi[1] + ")", true);
-            goalProperties.Set("ON(" + Hanoi[1] + "," + Hanoi[2] + ")", true);
-            goalProperties.Set("ON(" + Hanoi[2] + "," + Hanoi[3] + ")", true);
-            goalProperties.Set("ON(" + Hanoi[3] + "," + Hanoi[6] + ")", true);
-            goalProperties.Set("CLEAR(" + Hanoi[0] + ")", true);
-            goalProperties.Set("CLEAR(" + Hanoi[4] + ")", true);
-            goalProperties.Set("CLEAR(" + Hanoi[5] + ")", true);
             
-            //Console.Out.WriteLine(initialProperties);
-            //Console.Out.WriteLine(goalProperties);
+            //NO Es implicitamente necesario debido a las restricciones de las acciones.
+            //Las piezas están encima de otras. 
+            for (var i = 0; i < PIECES - 1; i++) goalProperties.Set("ON(" + Hanoi[i] + "," + Hanoi[i + 1] + ")", true);
+
+            //La ultima pieza debe estar sobre la ultima varilla.
+            goalProperties.Set("ON(" + Hanoi[PIECES - 1] + "," + Hanoi[HANOI - 1] + ")", true);
+
+            //La primera pieza está libre
+            goalProperties.Set("CLEAR(" + Hanoi[0] + ")", true);
+
+            //Las primeras varillas están libres.
+            for (var i = PIECES; i < HANOI - 1; i++) goalProperties.Set("CLEAR(" + Hanoi[i] + ")", true);
+
+            Console.Out.WriteLine(initialProperties);
+            Console.Out.WriteLine(goalProperties);
             
             Goal<string, object> goal = new Goal<string, object>(goalProperties, 0);
             NodeGenerator<string, object> planner = new NodeGenerator<string, object>(initialProperties, goal);
@@ -95,18 +84,17 @@ namespace GoapTFG
                         effects.Set("CLEAR(" + Hanoi[k] + ")", false);
                         effects.Set("ON(" + Hanoi[i] + "," + Hanoi[j] + ")", false);
                         
-                        actions.Add(new Base.Action<string, object>("MOVE(" + i + "," + j + "," + k + ")", preCond, effects));
+                        actions.Add(new Base.Action<string, object>("MOVE(" + Hanoi[i] + "," + Hanoi[j] + "," + Hanoi[k] + ")", preCond, effects));
                     }
                 }
             }
             
             agent.AddActions(actions);
-
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            agent.GetPlan();
+            agent.CreatePlan();
             timer.Stop();
-            Console.WriteLine(timer.ElapsedMilliseconds);
+            Console.WriteLine("Tiempo total: " + timer.ElapsedMilliseconds + "\n");
             agent.DoPlan();
             Console.WriteLine("Total de acciones del plan: " + agent.Count());
         }

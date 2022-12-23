@@ -8,16 +8,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GoapTFG/ProgramXL.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramXL.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,8 +23,6 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a962703268874edc9774216522be7d07a4000/44/1d5cacb4/HashSet`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/96/57a8e6d1/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/ae/222f3aaa/List`1.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/GoapTFG/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/GoapTFG/ProgramXL.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -91,7 +84,7 @@
       <workItem from="1669747727833" duration="599000" />
       <workItem from="1669852436042" duration="40405000" />
       <workItem from="1671578289907" duration="13318000" />
-      <workItem from="1671596225954" duration="540000" />
+      <workItem from="1671596225954" duration="4282000" />
     </task>
     <servers />
   </component>

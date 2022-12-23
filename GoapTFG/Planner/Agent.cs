@@ -27,7 +27,7 @@ namespace GoapTFG.Planner
             _actions.AddRange(actions);
         }
 
-        public List<Action<TA,TB>> GetPlan()
+        public List<Action<TA,TB>> CreatePlan()
         {
             return _currentPlan = _nodeGenerator.CreatePlan(_actions);
         }

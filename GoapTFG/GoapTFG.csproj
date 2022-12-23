@@ -45,7 +45,7 @@
         <Compile Include="Base\Action.cs" />
         <Compile Include="Base\PropertyGroup.cs" />
         <Compile Include="Planner\Node.cs" />
-        <Compile Include="ProgramXL.cs" />
+        <Compile Include="ProgramHanoi.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
