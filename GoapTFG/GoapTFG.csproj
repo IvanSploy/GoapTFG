@@ -40,12 +40,14 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Base\Goal.cs" />
+        <Compile Include="MainProgram.cs" />
         <Compile Include="Planner\Agent.cs" />
         <Compile Include="Planner\NodeGenerator.cs" />
         <Compile Include="Base\Action.cs" />
         <Compile Include="Base\PropertyGroup.cs" />
         <Compile Include="Planner\Node.cs" />
         <Compile Include="ProgramHanoi.cs" />
+        <Compile Include="ProgramSettlers.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,10 +8,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/GoapTFG/MainProgram.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GoapTFG/ProgramSettlers.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,9 +52,9 @@
 }</component>
   <component name="RunManager">
     <configuration name="GoapHanoi" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/GoapTFG/bin/Debug/GoapTFG.exe" />
+      <option name="PROGRAM_PARAMETERS" value="1" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GoapTFG/bin/Debug" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -62,7 +64,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="Console" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value=".NETFramework,Version=v3.5" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -84,7 +86,10 @@
       <workItem from="1669747727833" duration="599000" />
       <workItem from="1669852436042" duration="40405000" />
       <workItem from="1671578289907" duration="13318000" />
-      <workItem from="1671596225954" duration="11023000" />
+      <workItem from="1671596225954" duration="12003000" />
+      <workItem from="1673538657145" duration="1306000" />
+      <workItem from="1673660050941" duration="2018000" />
+      <workItem from="1673819382255" duration="1843000" />
     </task>
     <servers />
   </component>

@@ -6,20 +6,22 @@ using GoapTFG.Planner;
 
 namespace GoapTFG
 {
-    internal class Program
+    internal static class ProgramHanoi
     {
-        public const int PIECES = 5;
-        public const int RODS = 3;
-
         public const string S_PIECE = "PIECE";
         public const string S_ROD = "ROD";
 
         public static readonly List<string> Hanoi = new List<string>();
 
-        public static void Main(string[] args)
+        /// <summary>
+        /// Executes the Hanoi resolved by the GOAP Utility.
+        /// </summary>
+        /// <param name="PIECES">Number of Pieces of the Hanoi problem.</param>
+        /// <param name="RODS">Number of Rods of the Hanoi problem.</param>
+        public static void Execute(int PIECES, int RODS)
         {
             //INICIALIZACION VARIABLES HANOI
-            const int HANOI = RODS + PIECES;
+            int HANOI = RODS + PIECES;
             for (var i = 1; i <= PIECES; i++) Hanoi.Add(S_PIECE + i);
             for (var i = 1; i <= RODS; i++) Hanoi.Add(S_ROD + i);
 
