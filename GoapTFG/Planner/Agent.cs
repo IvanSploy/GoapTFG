@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using GoapTFG.Base;
 
@@ -7,16 +9,22 @@ namespace GoapTFG.Planner
     //Handles the GOAP planification and is who realices the actions.
     public class Agent<TA, TB>
     {
-        private NodeGenerator<TA, TB> _nodeGenerator;
-        private List<Action<TA, TB>> _currentPlan;
-        private readonly List<Action<TA, TB>> _actions;
-        private Goal<TA, TB> _goal;
+        private List<Base.Action<TA, TB>> _currentPlan;
+        private readonly List<Base.Action<TA, TB>> _actions;
+        private readonly List<Goal<TA, TB>> _goals;
         
-        public Agent(NodeGenerator<TA, TB> planner, Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
+        public Agent(List<Goal<TA, TB>> goals, List<Base.Action<TA, TB>> actions = null)
         {
-            _nodeGenerator = planner;
-            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
-            _goal = goal;
+            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
+            _goals = new List<Goal<TA, TB>>(goals);
+            OrderGoals();
+            _currentPlan = null;
+        }
+        
+        public Agent(Goal<TA, TB> goal, List<Base.Action<TA, TB>> actions = null)
+        {
+            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
+            _goals = new List<Goal<TA, TB>> { goal };
             _currentPlan = null;
         }
 
@@ -24,7 +32,7 @@ namespace GoapTFG.Planner
         /// Add posible action to the agent, this can be used by the sensors.
         /// </summary>
         /// <param name="action">Action to be added</param>
-        public void AddAction(Action<TA,TB> action)
+        public void AddAction(Base.Action<TA,TB> action)
         {
             _actions.Add(action);
         }
@@ -33,20 +41,54 @@ namespace GoapTFG.Planner
         /// Add posible actions to the agent, this can be used by the sensors.
         /// </summary>
         /// <param name="actions">Actions to be added</param>
-        public void AddActions(List<Action<TA,TB>> actions)
+        public void AddActions(List<Base.Action<TA,TB>> actions)
         {
             _actions.AddRange(actions);
         }
 
-        public void SetGoal(Goal<TA, TB> goal)
+        public void AddGoal(Goal<TA, TB> goal)
         {
-            _goal = goal;
+            _goals.Add(goal);
+            OrderGoals();
+        }
+        
+        public void AddGoals(List<Goal<TA, TB>> goals)
+        {
+            _goals.AddRange(goals);
+            OrderGoals();
         }
 
-        public bool CreatePlan(PropertyGroup<TA, TB> initialState)
+        private void OrderGoals()
         {
-            if (_goal == null || _actions.Count == 0) return false;
-            _currentPlan = _nodeGenerator.CreatePlan(initialState, _goal, _actions);
+            _goals.Sort((g1, g2) =>
+            {
+                return g2.PriorityLevel.CompareTo(g1.PriorityLevel);
+            });
+        }
+
+        /// <summary>
+        /// Manages to create a new plan for the Agent.
+        /// </summary>
+        /// <param name="initialState"></param>
+        /// <returns>Id of the goal whose plan has been created.</returns>
+        public int Update(PropertyGroup<TA, TB> initialState)
+        {
+            if (_goals == null || _actions.Count == 0) return -1;
+            int i = 0;
+            bool created = false;
+            while (i < _goals.Count && _currentPlan == null)
+            {
+                created = CreatePlan(initialState, _goals[i]);
+                i++;
+            }
+
+            if (!created) return -1;
+            return i-1;
+        }
+
+        private bool CreatePlan(PropertyGroup<TA, TB> initialState, Goal<TA, TB> goal)
+        {
+            _currentPlan = NodeGenerator<TA, TB>.CreatePlan(initialState, goal, _actions);
             return _currentPlan != null;
         }
         

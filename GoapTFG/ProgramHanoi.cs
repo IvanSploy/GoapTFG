@@ -56,8 +56,10 @@ namespace GoapTFG
             Console.Out.WriteLine(initialProperties);
             Console.Out.WriteLine(goalProperties);
             
+            //Manejo de múltiples objetivos
             Goal<string, object> goal = new Goal<string, object>(goalProperties, 0);
-            NodeGenerator<string, object> planner = new NodeGenerator<string, object>();
+            goalProperties.Set("ON("+ Hanoi[Hanoi.Count - 1] + "," + Hanoi[Hanoi.Count - 2] + ")", true);
+            Goal<string, object> goal2 = new Goal<string, object>(goalProperties, 1);
 
             //Acciones disponibles por el agente.
             List<Base.Action<string, object>> actions = new List<Base.Action<string, object>>();
@@ -91,14 +93,15 @@ namespace GoapTFG
             }
             
             //USO DE UN AJENTE.
-            Agent<string, object> agent = new Agent<string, object>(planner, goal, actions);
+            Agent<string, object> agent = new Agent<string, object>(goal, actions);
+            agent.AddGoal(goal2);
             Stopwatch timer = new Stopwatch();
             timer.Start();
-            agent.CreatePlan(initialProperties);
+            int num = agent.Update(initialProperties);
             timer.Stop();
             Console.WriteLine("Tiempo total: " + timer.ElapsedMilliseconds + "\n");
             agent.DoPlan();
-            Console.WriteLine("Total de acciones del plan: " + agent.Count());
+            Console.WriteLine("Objetivo: " + num + "\nTotal de acciones del plan: " + agent.Count());
         }
     }
 }

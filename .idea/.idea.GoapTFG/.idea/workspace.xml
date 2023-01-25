@@ -7,9 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
+    <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="Refractor">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +22,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a962703268874edc9774216522be7d07a4000/44/1d5cacb4/HashSet`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/96/57a8e6d1/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/ae/222f3aaa/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Documentos/Proyectos Rider/GoapTFG/GoapTFG/Base/PropertyGroup.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -48,7 +51,7 @@
   <component name="RunManager">
     <configuration name="GoapHanoi" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/GoapTFG/bin/Debug/GoapTFG.exe" />
-      <option name="PROGRAM_PARAMETERS" value="1" />
+      <option name="PROGRAM_PARAMETERS" value="0" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GoapTFG/bin/Debug" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -87,7 +90,16 @@
       <workItem from="1673819382255" duration="1843000" />
       <workItem from="1674475412297" duration="1206000" />
       <workItem from="1674649352061" duration="598000" />
+      <workItem from="1674678875826" duration="3701000" />
     </task>
+    <task id="LOCAL-00001" summary="Refractor">
+      <created>1674678988420</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1674678988420</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -108,6 +120,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Refractor" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refractor" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>
