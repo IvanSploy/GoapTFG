@@ -48,8 +48,8 @@ namespace GoapTFG.Base
         
         private bool HasConflict(KeyValuePair<TA, TB> otherPair)
         {
-            if (!Has(otherPair.Key)) return true;
-            return !HasValue(otherPair.Key, otherPair.Value);
+            if (!HasKey(otherPair.Key)) return true;
+            return !CompareValue(otherPair.Key, otherPair.Value);
         }
 
         //Dictionary
@@ -63,14 +63,14 @@ namespace GoapTFG.Base
             _values.Remove(key);
         }
 
-        private bool Has(TA key)
+        private bool HasKey(TA key)
         {
             return _values.ContainsKey(key);
         }
         
-        private bool HasValue(TA key, TB value)
+        private bool CompareValue(TA key, TB value)
         {
-            Comparer<TB> comparer = Comparer<TB>.Default;
+            var comparer = Comparer<TB>.Default;
             return comparer.Compare(_values[key], value) >= 0; //Para valores no booleanos, intenta satisfacer el número en cuestión.
         }
 
@@ -87,7 +87,7 @@ namespace GoapTFG.Base
         //Operators
         public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
         {
-            PropertyGroup<TA, TB> propertyGroup = new PropertyGroup<TA, TB>(a._values);
+            var propertyGroup = new PropertyGroup<TA, TB>(a._values);
             foreach (var pair in b._values)
             {
                 propertyGroup._values[pair.Key] = pair.Value;

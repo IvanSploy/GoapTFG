@@ -8,13 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GoapTFG/MainProgram.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GoapTFG/ProgramSettlers.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Goal.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +85,8 @@
       <workItem from="1673538657145" duration="1306000" />
       <workItem from="1673660050941" duration="2018000" />
       <workItem from="1673819382255" duration="1843000" />
+      <workItem from="1674475412297" duration="1206000" />
+      <workItem from="1674649352061" duration="598000" />
     </task>
     <servers />
   </component>
