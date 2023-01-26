@@ -34,7 +34,7 @@ namespace GoapTFG.Planner
         //AStar
         public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
         {
-            PropertyGroup<TA, TB> pg = action.CheckApplyAction(PropertyGroup);
+            PropertyGroup<TA, TB> pg = action.ApplyAction(PropertyGroup);
             if (pg == null) return null;
             
             Node<TA,TB> node = new Node<TA, TB>(pg);

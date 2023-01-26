@@ -11,56 +11,49 @@ namespace GoapTFG.Base
         public event Action PerformedActions;
         public delegate bool Condition(PropertyGroup<TA, TB> pg);
         
-        public delegate PropertyGroup<TA, TB> Effect(PropertyGroup<TA, TB> pg);
+        public delegate void Effect();
         public event Condition ProceduralConditions;
         public event Effect ProceduralEffects;
 
-        public Action(string id, PropertyGroup<TA, TB> prePropertyGroup = null, PropertyGroup<TA, TB> effectPropertyGroup = null)
+        public Action(string id, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
             _id = id;
-            _preconditions = prePropertyGroup ?? new PropertyGroup<TA, TB>();
-            _effects = effectPropertyGroup ?? new PropertyGroup<TA, TB>();
+            _preconditions = preconditions ?? new PropertyGroup<TA, TB>();
+            _effects = effects ?? new PropertyGroup<TA, TB>();
             PerformedActions += () => Console.Out.WriteLine("Acción ejecutada: " + this);
         }
         
         //GOAP utilities.
-        public bool CheckAction(PropertyGroup<TA, TB> propertyGroup)
+        public bool CheckAction(PropertyGroup<TA, TB> worldState)
         {
-            if (!propertyGroup.CheckConflict(_preconditions))
+            if (!worldState.CheckConflict(_preconditions))
             {
                 if (ProceduralConditions != null)
                 {
-                    return ProceduralConditions.Invoke(propertyGroup);
+                    return ProceduralConditions.Invoke(worldState);
                 }
                 return true;
             }
-
             return false;
         }
 
-        public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> propertyGroup)
+        public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> worldState)
         {
             //Console.Out.WriteLine("Acción aplicada: " + this);
-            var result = propertyGroup + _effects;
-            var aux = ProceduralEffects?.Invoke(result);
-            if (aux != null) result += aux;
-            return result;
+            if (!CheckAction(worldState)) return null;
+            return worldState + _effects;
         }
         
-        public PropertyGroup<TA, TB> CheckApplyAction(PropertyGroup<TA, TB> propertyGroup)
+        public PropertyGroup<TA, TB> ForceAction(PropertyGroup<TA, TB> worldState)
         {
-            if (!CheckAction(propertyGroup)) return null;
-            return ApplyAction(propertyGroup);
+            return worldState + _effects;
         }
 
-        public void PerformAction()
+        public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
         {
-            OnPerformedActions();
-        }
-
-        protected virtual void OnPerformedActions()
-        {
-            PerformedActions?.Invoke();
+            var state = ApplyAction(worldState);
+            ProceduralEffects?.Invoke();
+            return state;
         }
         
         //Overrides

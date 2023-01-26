@@ -58,7 +58,7 @@ namespace GoapTFG
             
             //Manejo de múltiples objetivos
             Goal<string, object> goal = new Goal<string, object>(goalProperties, 0);
-            goalProperties.Set("ON("+ Hanoi[Hanoi.Count - 1] + "," + Hanoi[Hanoi.Count - 2] + ")", true);
+            goalProperties.Set("ON("+ Hanoi[HANOI - 1] + "," + Hanoi[HANOI - 2] + ")", true);
             Goal<string, object> goal2 = new Goal<string, object>(goalProperties, 1);
 
             //Acciones disponibles por el agente.
@@ -100,8 +100,9 @@ namespace GoapTFG
             int num = agent.Update(initialProperties);
             timer.Stop();
             Console.WriteLine("Tiempo total: " + timer.ElapsedMilliseconds + "\n");
-            agent.DoPlan();
+            var finalProperties = agent.DoPlan(initialProperties);
             Console.WriteLine("Objetivo: " + num + "\nTotal de acciones del plan: " + agent.Count());
+            Console.WriteLine(finalProperties);
         }
     }
 }

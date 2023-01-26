@@ -93,15 +93,24 @@ namespace GoapTFG.Planner
         }
         
         //Plan follower
-        public bool DoPlan()
+        public PropertyGroup<TA, TB> DoPlan(PropertyGroup<TA, TB> worldState)
         {
-            if (_currentPlan == null) return false;
+            if (_currentPlan == null || _currentPlan.Count == 0) return worldState;
 
-            for (int i = 0; i < _currentPlan.Count(); i++)
+            for (int i = 0; i < _currentPlan.Count; i++)
             {
-                _currentPlan[i].PerformAction();
+                worldState = _currentPlan[i].PerformAction(worldState);
             }
-            return true;
+            return worldState;
+        }
+
+        public PropertyGroup<TA, TB> PlanStep(PropertyGroup<TA, TB> worldState)
+        {
+            if (_currentPlan == null || _currentPlan.Count == 0) return worldState;
+
+            worldState = _currentPlan[0].PerformAction(worldState);
+            _currentPlan.RemoveAt(0);
+            return worldState;
         }
 
         public int Count()

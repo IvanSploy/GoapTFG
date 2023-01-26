@@ -7,10 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="Refractor">
+    <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Agent.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,23 +36,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.27480915&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.27480915",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="GoapHanoi" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/GoapTFG/bin/Debug/GoapTFG.exe" />
-      <option name="PROGRAM_PARAMETERS" value="0" />
+      <option name="PROGRAM_PARAMETERS" value="1" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/GoapTFG/bin/Debug" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
@@ -90,7 +92,7 @@
       <workItem from="1673819382255" duration="1843000" />
       <workItem from="1674475412297" duration="1206000" />
       <workItem from="1674649352061" duration="598000" />
-      <workItem from="1674678875826" duration="3701000" />
+      <workItem from="1674678875826" duration="6663000" />
     </task>
     <task id="LOCAL-00001" summary="Refractor">
       <created>1674678988420</created>
