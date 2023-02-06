@@ -4,6 +4,7 @@ namespace GoapTFG.Base
 {
     public class Action<TA, TB>
     {
+        public int Cost = 1;
         private string _id;
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;

@@ -39,6 +39,8 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Base\Blackboard.cs" />
+        <Compile Include="Base\MemoryFact.cs" />
         <Compile Include="Base\Goal.cs" />
         <Compile Include="MainProgram.cs" />
         <Compile Include="Planner\Agent.cs" />

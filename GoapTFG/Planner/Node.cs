@@ -6,9 +6,6 @@ namespace GoapTFG.Planner
 {
     public class Node<TA, TB> : IComparable
     {
-        //Consts
-        public const int ACTION_COST = 1;
-        
         //Properties
         public readonly PropertyGroup<TA, TB> PropertyGroup;
         public Node<TA, TB> Parent;
@@ -48,7 +45,7 @@ namespace GoapTFG.Planner
         {
             EstimatedCost = GetHeuristic(goal);
             IsGoal = EstimatedCost == 0;
-            RealCost = ACTION_COST + parentRealCost;
+            RealCost = Action.Cost + parentRealCost;
             TotalCost = EstimatedCost + RealCost;
         }
 
