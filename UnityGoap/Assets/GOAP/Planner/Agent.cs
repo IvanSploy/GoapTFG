@@ -71,7 +71,7 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="initialState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int Update(PropertyGroup<TA, TB> initialState)
+        public int UpdateBehaviour(PropertyGroup<TA, TB> initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;
@@ -95,7 +95,7 @@ namespace GoapTFG.Planner
         //Plan follower
         public PropertyGroup<TA, TB> DoPlan(PropertyGroup<TA, TB> worldState)
         {
-            if (_currentPlan == null || _currentPlan.Count == 0) return worldState;
+            if (_currentPlan == null || _currentPlan.Count == 0) return null;
 
             for (int i = 0; i < _currentPlan.Count; i++)
             {
@@ -106,7 +106,7 @@ namespace GoapTFG.Planner
 
         public PropertyGroup<TA, TB> PlanStep(PropertyGroup<TA, TB> worldState)
         {
-            if (_currentPlan == null || _currentPlan.Count == 0) return worldState;
+            if (_currentPlan == null || _currentPlan.Count == 0) return null;
 
             worldState = _currentPlan[0].PerformAction(worldState);
             _currentPlan.RemoveAt(0);

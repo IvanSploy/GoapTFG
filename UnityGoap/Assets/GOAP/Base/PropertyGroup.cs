@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,8 +71,8 @@ namespace GoapTFG.Base
         
         private bool CompareValue(TA key, TB value)
         {
-            var comparer = Comparer<TB>.Default;
-            return comparer.Compare(_values[key], value) >= 0; //Para valores no booleanos, intenta satisfacer el número en cuestión.
+            return String.Compare(_values[key].ToString(), value.ToString(),
+                StringComparison.Ordinal) >= 0; //Para valores no booleanos, intenta satisfacer el número en cuestión.
         }
 
         public bool IsEmpty()
