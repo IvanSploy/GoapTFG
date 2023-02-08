@@ -12,7 +12,7 @@ public static class PropertyManager
         StoneCount,
         GoldCount,
         IsAlive,
-        LastDeath
+        Target
     }
 
     private static Dictionary<PropertyList, PropertyType> ProperTypes = new()
@@ -21,7 +21,7 @@ public static class PropertyManager
         { PropertyList.StoneCount, PropertyType.Integer },
         { PropertyList.GoldCount, PropertyType.Float },
         { PropertyList.IsAlive, PropertyType.Boolean },
-        { PropertyList.LastDeath, PropertyType.String }
+        { PropertyList.Target, PropertyType.String }
     };
     
     //LÓGICA INTERNA DEL PROGRAMA
@@ -29,6 +29,12 @@ public static class PropertyManager
     public struct Property {
         public PropertyList name;
         public string value;
+
+        public Property(PropertyList name, string value)
+        {
+            this.name = name;
+            this.value = value;
+        }
     }
     
     [System.Serializable]
@@ -92,8 +98,14 @@ public static class PropertyManager
         return result;
     }
 
-    public static void ApplyProperty(Property property, ref PropertyGroup<string, object> pg)
+    /// <summary>
+    /// Converts a Property into a value inside a PropertyGroup.
+    /// </summary>
+    /// <param name="property">Property to be converted.</param>
+    /// <param name="pg">PropertyGroup that will include the new Property.</param>
+    public static void ApplyProperty(Property property, ref PropertyGroup<string, object> pg,
+        System.Func<object, object, bool> predicate = null)
     {
-        pg.Set(property.name.ToString(), ParseValue(GetType(property.name), property.value));
+        pg.Set(property.name.ToString(), ParseValue(GetType(property.name), property.value), predicate);
     }
 }

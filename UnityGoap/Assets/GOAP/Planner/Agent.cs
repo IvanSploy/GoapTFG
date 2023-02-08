@@ -20,7 +20,7 @@ namespace GoapTFG.Planner
             OrderGoals();
             _currentPlan = null;
         }
-        
+
         public Agent(Goal<TA, TB> goal, List<Base.Action<TA, TB>> actions = null)
         {
             _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);

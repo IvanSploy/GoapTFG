@@ -12,51 +12,76 @@ namespace GoapTFG.Base
     /// <typeparam name="TB">Value type</typeparam>
     public class PropertyGroup<TA, TB>
     {
-        private readonly SortedDictionary<TA, TB> _values;
-        
-        public PropertyGroup(SortedDictionary<TA, TB> values = null)
+        private struct GPValue
         {
-            //Si values es null, se crea un nuevo diccionario.
-            _values = values == null ? new SortedDictionary<TA, TB>() : new SortedDictionary<TA, TB>(values);
-        }
+            public TB value;
+            public Func<TB, TB, bool> predicate;
 
-        public PropertyGroup(PropertyGroup<TA, TB> propertyGroup)
+            public GPValue(TB value, Func<TB, TB, bool> predicate = null)
+            {
+                this.value = value;
+                this.predicate = predicate;
+            }
+        }
+        
+        private readonly SortedDictionary<TA, GPValue> _values;
+        
+        public PropertyGroup(PropertyGroup<TA, TB> propertyGroup = null)
         {
-            _values = new SortedDictionary<TA, TB>(propertyGroup._values);
+            _values = propertyGroup != null ? new SortedDictionary<TA, GPValue>(propertyGroup._values)
+                : new SortedDictionary<TA, GPValue>();
         }
 
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(PropertyGroup<TA, TB> otherPG)
+        public bool CheckConflict(PropertyGroup<TA, TB> mainPG)
         {
-            return otherPG._values.Any(HasConflict);
+            return mainPG._values.Any(HasConflict);
         }
         
-        public bool CheckConflict(PropertyGroup<TA, TB> otherPG, out PropertyGroup<TA, TB> mismatches)
+        public bool CheckConflict(PropertyGroup<TA, TB> mainPG, out PropertyGroup<TA, TB> mismatches)
         {
             mismatches = new PropertyGroup<TA, TB>();
-            foreach (var pair in otherPG._values)
+            foreach (var pair in mainPG._values)
             {
                 if (HasConflict(pair))
-                    mismatches.Set(pair.Key, pair.Value);
+                    mismatches.Set(pair.Key, pair.Value.value);
             }
             return !mismatches.IsEmpty();
         }
 
-        public int CountConflict(PropertyGroup<TA, TB> otherPG)
+        public int CountConflict(PropertyGroup<TA, TB> mainPG)
         {
-            return otherPG._values.Count(HasConflict);
+            return mainPG._values.Count(HasConflict);
         }
         
-        private bool HasConflict(KeyValuePair<TA, TB> otherPair)
+        private bool HasConflict(KeyValuePair<TA, GPValue> mainPair)
         {
-            if (!HasKey(otherPair.Key)) return true;
-            return !CompareValue(otherPair.Key, otherPair.Value);
+            TA key = mainPair.Key;
+            if (!HasKey(key)) return true;
+            //Se prioriza el predicado de la clave en caso de que exista.
+            if(mainPair.Value.predicate != null) return !mainPair.Value.predicate(_values[key].value,
+                mainPair.Value.value);
+            return !_values[key].value.Equals(mainPair.Value.value);
         }
 
         //Dictionary
-        public void Set(TA key, TB value)
+        public void Set(TA key, TB value, Func<TB, TB, bool> predicate = null)
         {
-            _values[key] = value;
+            _values[key] = new GPValue(value, predicate);
+        }
+        
+        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
+        {
+            if (predicate == null || !HasKey(key)) return false;
+            var aux = _values[key];
+            aux.predicate = predicate;
+            _values[key] = aux;
+            return true;
+        }
+        
+        public TB Get(TA key)
+        {
+            return _values[key].value;
         }
         
         public void Remove(TA key)
@@ -67,12 +92,6 @@ namespace GoapTFG.Base
         private bool HasKey(TA key)
         {
             return _values.ContainsKey(key);
-        }
-        
-        private bool CompareValue(TA key, TB value)
-        {
-            return String.Compare(_values[key].ToString(), value.ToString(),
-                StringComparison.Ordinal) >= 0; //Para valores no booleanos, intenta satisfacer el número en cuestión.
         }
 
         public bool IsEmpty()
@@ -88,7 +107,7 @@ namespace GoapTFG.Base
         //Operators
         public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
         {
-            var propertyGroup = new PropertyGroup<TA, TB>(a._values);
+            var propertyGroup = new PropertyGroup<TA, TB>(a);
             foreach (var pair in b._values)
             {
                 propertyGroup._values[pair.Key] = pair.Value;
@@ -100,7 +119,8 @@ namespace GoapTFG.Base
         //Overrides
         public override string ToString()
         {
-            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " + pair.Value + "\n");
+            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
+                                                            pair.Value.value + "\n");
             /*var text = ""; Equivalente a la función Linq.
             foreach (var pair in _values)
             {
@@ -128,12 +148,12 @@ namespace GoapTFG.Base
         {
             int hash = 0;
             int i = 1;
-            foreach(KeyValuePair<TA, TB> kvp in _values)
+            foreach(KeyValuePair<TA, GPValue> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (kvp.Value.GetHashCode() == 0) continue;
+                if (kvp.Value.value.GetHashCode() == 0) continue;
                 
-                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode()) * i;
+                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.value.GetHashCode()) * i;
                 i++;
             }
             return hash;

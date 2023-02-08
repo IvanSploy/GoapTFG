@@ -17,19 +17,19 @@ namespace GoapTFG.Base
         }
         
         //GOAP Utilites
-        public bool IsReached (PropertyGroup<TA, TB> otherPG)
+        public bool IsReached (PropertyGroup<TA, TB> worldState)
         {
-            return !otherPG.CheckConflict(_propertyGroup);
+            return !worldState.CheckConflict(_propertyGroup);
         }
         
-        public PropertyGroup<TA, TB> GetConflicts (PropertyGroup<TA, TB> otherPG)
+        public PropertyGroup<TA, TB> GetConflicts (PropertyGroup<TA, TB> worldState)
         {
-            return otherPG.CheckConflict(_propertyGroup, out var mismatches) ? mismatches : null;
+            return worldState.CheckConflict(_propertyGroup, out var mismatches) ? mismatches : null;
         }
         
-        public int CountConflicts (PropertyGroup<TA, TB> otherPG)
+        public int CountConflicts (PropertyGroup<TA, TB> worldState)
         {
-            return otherPG.CountConflict(_propertyGroup);
+            return worldState.CountConflict(_propertyGroup);
         }
         
         //Getters

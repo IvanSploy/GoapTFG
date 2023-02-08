@@ -9,19 +9,18 @@ namespace GoapTFG.Base
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;
 
-        public event Action PerformedActions;
-        public delegate bool Condition(PropertyGroup<TA, TB> pg);
-        
-        public delegate void Effect();
+        public delegate bool Condition(PropertyGroup<TA, TB> worldState);
+        public delegate void Effect(PropertyGroup<TA, TB> worldState);
         public event Condition ProceduralConditions;
         public event Effect ProceduralEffects;
+        public event Effect PerformedActions;
 
         public Action(string id, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
             _id = id;
-            _preconditions = preconditions ?? new PropertyGroup<TA, TB>();
-            _effects = effects ?? new PropertyGroup<TA, TB>();
-            PerformedActions += () => Console.Out.WriteLine("Acción ejecutada: " + this);
+            _preconditions = preconditions != null ?
+                new PropertyGroup<TA, TB>(preconditions) : new PropertyGroup<TA, TB>();
+            _effects = effects != null ? new PropertyGroup<TA, TB>(effects) : new PropertyGroup<TA, TB>();
         }
         
         //GOAP utilities.
@@ -42,7 +41,12 @@ namespace GoapTFG.Base
         {
             //Console.Out.WriteLine("Acción aplicada: " + this);
             if (!CheckAction(worldState)) return null;
-            return worldState + _effects;
+            worldState += _effects;
+            if (ProceduralEffects != null)
+            {
+                ProceduralEffects.Invoke(worldState);
+            }
+            return worldState;
         }
         
         public PropertyGroup<TA, TB> ForceAction(PropertyGroup<TA, TB> worldState)
@@ -52,9 +56,9 @@ namespace GoapTFG.Base
 
         public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
         {
-            var state = ApplyAction(worldState);
-            ProceduralEffects?.Invoke();
-            return state;
+            worldState = ApplyAction(worldState);
+            PerformedActions?.Invoke(worldState);
+            return worldState;
         }
         
         //Overrides
