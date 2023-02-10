@@ -4,17 +4,17 @@ using UnityEngine;
 namespace GoapTFG.Base
 {
     /// <summary>
-    /// Represents the update info of the objects in the world.
+    /// Represents the info recollected by the sensors.
     /// </summary>
     /// <typeparam name="TA">Vector3 class</typeparam>
     /// <typeparam name="TB">Object class</typeparam>
-    public class Blackboard<TA, TB>
+    public class WorkingMemory<TA, TB>
     {
         //Datos
         private List<MemoryFact<TA, TB>> _facts;
         
         //Constructor
-        public Blackboard()
+        public WorkingMemory()
         {
             _facts = new();
         }

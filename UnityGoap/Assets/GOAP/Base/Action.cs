@@ -5,7 +5,7 @@ namespace GoapTFG.Base
     public class Action<TA, TB>
     {
         public int Cost = 1;
-        private string _id;
+        public string Name;
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;
 
@@ -15,9 +15,9 @@ namespace GoapTFG.Base
         public event Effect ProceduralEffects;
         public event Effect PerformedActions;
 
-        public Action(string id, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
+        public Action(string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
-            _id = id;
+            Name = name;
             _preconditions = preconditions != null ?
                 new PropertyGroup<TA, TB>(preconditions) : new PropertyGroup<TA, TB>();
             _effects = effects != null ? new PropertyGroup<TA, TB>(effects) : new PropertyGroup<TA, TB>();
@@ -61,11 +61,17 @@ namespace GoapTFG.Base
             return worldState;
         }
         
+        //PG Related
+        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
+        {
+            return _preconditions.SetPredicate(key, predicate);
+        }
+        
         //Overrides
         public override string ToString()
         {
-            return _id 
-                   //+ " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effects
+            return Name 
+                   + " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effects
                    ;
         }
     }

@@ -23,7 +23,7 @@ namespace GoapTFG.Base
                 this.predicate = predicate;
             }
         }
-        
+
         private readonly SortedDictionary<TA, GPValue> _values;
         
         public PropertyGroup(PropertyGroup<TA, TB> propertyGroup = null)
@@ -70,7 +70,7 @@ namespace GoapTFG.Base
             _values[key] = new GPValue(value, predicate);
         }
         
-        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
+        internal bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
         {
             if (predicate == null || !HasKey(key)) return false;
             var aux = _values[key];

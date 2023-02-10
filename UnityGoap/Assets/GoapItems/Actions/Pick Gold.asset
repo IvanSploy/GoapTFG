@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
+  m_Name: Pick Gold
+  m_EditorClassIdentifier: 
+  type: 2
+  nameItem: Pick Gold
+  stateProperties: []
+  goalProperties: []
+  priority: 0
+  preconditions:
+  - name: 2
+    value: 50
+  - name: 4
+    value: Mine
+  - name: 3
+    value: true
+  effects: []
+  cost: 1

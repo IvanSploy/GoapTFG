@@ -63,7 +63,7 @@ public static class PropertyManager
                 }
                 catch (System.FormatException e)
                 {
-                    Debug.LogError("Value not recognized as boolean");
+                    Debug.LogError(e.Message);
                     result = false;
                 }
                 break;
@@ -74,7 +74,7 @@ public static class PropertyManager
                 }
                 catch (System.FormatException e)
                 {
-                    Debug.LogError("Value not recognized as integer");
+                    Debug.LogError(e.Message);
                     result = 0;
                 }
                 break;
@@ -85,7 +85,7 @@ public static class PropertyManager
                 }
                 catch(System.FormatException e)
                 {
-                    Debug.LogError("Value not recognized as float");
+                    Debug.LogError(e.Message);
                     result = 0f;
                 }
                 break;

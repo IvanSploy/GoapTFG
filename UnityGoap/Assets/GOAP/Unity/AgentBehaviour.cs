@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
 using JetBrains.Annotations;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static GoapData;
 using static PropertyManager;
@@ -12,7 +13,8 @@ using static PropertyManager.PropertyList;
 public class AgentBehaviour : MonoBehaviour
 {
     //Propiedades
-    public Property[] goalValues;
+    public GoapItem goal;
+    public GoapItem action;
     public float priorityLevel;
     public bool active = true;
     public bool hasPlan;
@@ -21,43 +23,23 @@ public class AgentBehaviour : MonoBehaviour
 
     //Referencias
     public Agent<string, object> Agent;
+    public BlackboardData Blackboard;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        PropertyGroup<string, object> goalState = new PropertyGroup<string, object>();
-        foreach (var property in goalValues)
-        {
-            ApplyProperty(property, ref goalState);
-        }
-
-        //Condiciones especiales, sirven para reemplazar la instrucción equals.
-        goalState.SetPredicate(GoldCount.ToString(), (a, b) => (float)a >= (float)b);
+        Goal<string, object> myGoal = goal.GetGoal();
         
-        Goal<string, object> myGoal = new Goal<string, object>(goalState, priorityLevel);
+        //Condiciones especiales, sirven para reemplazar la instrucción equals.
+        myGoal.SetPredicate(GoldCount.ToString(), (a, b) => (float)a >= (float)b);
 
         //ACCION PRINCIPAL
+        GoapTFG.Base.Action<string, object> myAction = action.GetAction();
+        myAction.SetPredicate(GoldCount.ToString(), (a, b) => (float)a <= (float)b);
+
+        //ACCION GOTOTARGET
         PropertyGroup<string, object> pgPrec = new PropertyGroup<string, object>();
         PropertyGroup<string, object> pgEffect = new PropertyGroup<string, object>();
-
-        //Condiciones estáticas con predicados personalizados.
-        ApplyProperty(new Property(GoldCount, "50"), ref pgPrec, (a,b) => (float)a <= (float)b);
-        ApplyProperty(new Property(Target, "Mine"), ref pgPrec);
-        ApplyProperty(new Property(IsAlive, "true"), ref pgPrec);
-        
-        //ApplyProperty(new Property(GoldCount, "150"), ref pgEffect);
-
-        GoapTFG.Base.Action<string, object> mainAction =
-            new GoapTFG.Base.Action<string, object>("GoldReward", pgPrec, pgEffect);
-
-        //Posible apliacación de efectos procedurales.
-        //mainAction.ProceduralConditions += (pg) => (float) pg.Get(GoldCount.ToString()) <= 50f;
-        mainAction.ProceduralEffects += (pg) => pg.Set(GoldCount.ToString(),
-            (float) pg.Get(GoldCount.ToString()) + 100f);
-        
-        //ACCION GOTOTARGET
-        pgPrec = new PropertyGroup<string, object>();
-        pgEffect = new PropertyGroup<string, object>();
         
         ApplyProperty(new Property(IsAlive, "true"), ref pgPrec);
         ApplyProperty(new Property(Target, "Hall"), ref pgEffect);
@@ -82,14 +64,15 @@ public class AgentBehaviour : MonoBehaviour
         goToCottage.PerformedActions += (ws) => GoToTarget((string)ws.Get(Target.ToString()));
         
         Agent = new Agent<string, object>(myGoal);
-        Agent.AddAction(mainAction);
+        Agent.AddAction(myAction);
         Agent.AddAction(goToHall);
         Agent.AddAction(goToMine);
         Agent.AddAction(goToCottage);
-    }
 
-    private void Start()
-    {
+        //Se crea el blackboard utilizado por las acciones de GOAP.
+        Blackboard = new BlackboardData();
+        
+        //Comienza la planificación
         if (GoapDataInstance == null)
         {
             Debug.LogError("GoapData necesario para utilizar Agentes de Goap");
@@ -127,12 +110,13 @@ public class AgentBehaviour : MonoBehaviour
     public void GoToTarget(string target)
     {
         performingAction = true;
-        MemoryFact<Vector3, GameObject> fact = BlackboardData.Get(target);
-        StartCoroutine(Movement(fact.Position));
+        Blackboard.Target = WorkingMemoryManager.Get(target).Position.Value;
+        StartCoroutine(Movement());
     }
 
-    IEnumerator Movement(Vector3 finalPos)
+    IEnumerator Movement()
     {
+        Vector3 finalPos = Blackboard.Target;
         bool reached = false;
         while (!reached)
         {
@@ -143,7 +127,7 @@ public class AgentBehaviour : MonoBehaviour
             Vector3 aux = finalPos;
             aux.y = position.y;
             if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
         performingAction = false;
     }

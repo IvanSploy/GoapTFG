@@ -1,4 +1,7 @@
 
+using System;
+using UnityEditor;
+
 namespace GoapTFG.Base
 {
     public class Goal<TA, TB>
@@ -7,13 +10,15 @@ namespace GoapTFG.Base
         private readonly PropertyGroup<TA, TB> _propertyGroup;
 
         //Properties
+        public string Name;
         public float PriorityLevel { get; set; }
         
         //Constructors
-        public Goal(PropertyGroup<TA, TB> goal, float priorityLevel)
+        public Goal(string name, PropertyGroup<TA, TB> goal, float priorityLevel)
         {
-            _propertyGroup = new PropertyGroup<TA, TB>(goal) ;
-            PriorityLevel = priorityLevel;
+            this._propertyGroup = new PropertyGroup<TA, TB>(goal) ;
+            this.PriorityLevel = priorityLevel;
+            this.Name = name;
         }
         
         //GOAP Utilites
@@ -32,10 +37,22 @@ namespace GoapTFG.Base
             return worldState.CountConflict(_propertyGroup);
         }
         
+        //PG Related
+        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
+        {
+            return _propertyGroup.SetPredicate(key, predicate);
+        }
+        
         //Getters
         public PropertyGroup<TA, TB> GetState()
         {
             return _propertyGroup;
+        }
+
+        //Overrides
+        public override string ToString()
+        {
+            return "Objetivo: " + Name + "\n" + _propertyGroup;
         }
     }
 }
