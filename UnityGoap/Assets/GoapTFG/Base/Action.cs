@@ -1,9 +1,11 @@
 using System;
+using GoapTFG.Planner;
 
 namespace GoapTFG.Base
 {
     public class Action<TA, TB>
     {
+        public IAgent<TA, TB> Agent;
         public int Cost = 1;
         public string Name;
         private readonly PropertyGroup<TA, TB> _preconditions;
@@ -11,12 +13,15 @@ namespace GoapTFG.Base
 
         public delegate bool Condition(PropertyGroup<TA, TB> worldState);
         public delegate void Effect(PropertyGroup<TA, TB> worldState);
+        
+        public delegate void PerformedAction(IAgent<TA, TB> agent);
         public event Condition ProceduralConditions;
         public event Effect ProceduralEffects;
-        public event Effect PerformedActions;
+        public event PerformedAction PerformedActions;
 
-        public Action(string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
+        public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
+            this.Agent = agent;
             Name = name;
             _preconditions = preconditions != null ?
                 new PropertyGroup<TA, TB>(preconditions) : new PropertyGroup<TA, TB>();
@@ -57,7 +62,7 @@ namespace GoapTFG.Base
         public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
         {
             worldState = ApplyAction(worldState);
-            PerformedActions?.Invoke(worldState);
+            PerformedActions?.Invoke(Agent);
             return worldState;
         }
 

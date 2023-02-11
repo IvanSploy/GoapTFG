@@ -9,7 +9,7 @@ public class ActionAdditionalData
 {
     public Action<string, object>.Condition conditions;
     public Action<string, object>.Effect effects;
-    public Action<string, object>.Effect actions;
+    public Action<string, object>.PerformedAction actions;
 }
 
 public class GoapData : MonoBehaviour
@@ -50,12 +50,10 @@ public class GoapData : MonoBehaviour
         
         //Actions Additional Data
         ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
-
-        //AddEffectsToAction("Pick Gold", (pg) => pg.Set(GoldCount.ToString(), (float)pg.Get(GoldCount.ToString()) + 100f));
-
-        AddPerformedActionsToAction("Go To", (ws) =>
+        
+        AddPerformedActionsToAction("Go To", (agent) =>
         {
-            GetComponent<AgentBehaviour>().GoToTarget((string)ws.Get(Target.ToString()));
+            ((AgentBehaviour)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target.ToString()));
         });
     }
 
@@ -81,7 +79,7 @@ public class GoapData : MonoBehaviour
         SaveAdditionalData(key, aad);
     }
 
-    public static void AddPerformedActionsToAction(string key, Action<string, object>.Effect action)
+    public static void AddPerformedActionsToAction(string key, Action<string, object>.PerformedAction action)
     {
         ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
         aad.actions += action;

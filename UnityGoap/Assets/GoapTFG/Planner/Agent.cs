@@ -1,47 +1,36 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
     //Handles the GOAP planification and is who realices the actions.
-    public class Agent<TA, TB>
+    public class Agent<TA, TB> : IAgent<TA, TB>
     {
-        private List<Base.Action<TA, TB>> _currentPlan;
-        private readonly List<Base.Action<TA, TB>> _actions;
+        private List<Action<TA, TB>> _currentPlan;
+        private readonly List<Action<TA, TB>> _actions;
         private readonly List<Goal<TA, TB>> _goals;
         
-        public Agent(List<Goal<TA, TB>> goals, List<Base.Action<TA, TB>> actions = null)
+        public Agent(List<Goal<TA, TB>> goals, List<Action<TA, TB>> actions = null)
         {
-            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
+            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
             OrderGoals();
             _currentPlan = null;
         }
 
-        public Agent(Goal<TA, TB> goal, List<Base.Action<TA, TB>> actions = null)
+        public Agent(Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
         {
-            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
+            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>> { goal };
             _currentPlan = null;
         }
 
-        /// <summary>
-        /// Add posible action to the agent, this can be used by the sensors.
-        /// </summary>
-        /// <param name="action">Action to be added</param>
-        public void AddAction(Base.Action<TA,TB> action)
+        public void AddAction(Action<TA,TB> action)
         {
             _actions.Add(action);
         }
         
-        /// <summary>
-        /// Add posible actions to the agent, this can be used by the sensors.
-        /// </summary>
-        /// <param name="actions">Actions to be added</param>
-        public void AddActions(List<Base.Action<TA,TB>> actions)
+        public void AddActions(List<Action<TA,TB>> actions)
         {
             _actions.AddRange(actions);
         }
@@ -60,10 +49,7 @@ namespace GoapTFG.Planner
 
         private void OrderGoals()
         {
-            _goals.Sort((g1, g2) =>
-            {
-                return g2.PriorityLevel.CompareTo(g1.PriorityLevel);
-            });
+            _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
 
         /// <summary>
@@ -71,7 +57,7 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="initialState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int UpdateBehaviour(PropertyGroup<TA, TB> initialState)
+        public int CreateNewPlan(PropertyGroup<TA, TB> initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;

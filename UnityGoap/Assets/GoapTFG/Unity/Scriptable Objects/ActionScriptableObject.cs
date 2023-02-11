@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.Planner;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -26,13 +27,13 @@ namespace GoapTFG.Unity
             if(nameItem.Equals(""))nameItem = name;
         }
     
-        public Base.Action<string, object> Create()
+        public Base.Action<string, object> Create(IAgent<string, object> agent)
         {
             PropertyGroup<string, object> precsPg = new();
             AddIntoPropertyGroup(preconditions, ref precsPg);
             PropertyGroup<string, object> effectsPg = new();
             AddIntoPropertyGroup(effects, ref effectsPg);
-            Base.Action<string, object> action = new(nameItem, precsPg, effectsPg)
+            Base.Action<string, object> action = new(agent, nameItem, precsPg, effectsPg)
             {
                 Cost = cost
             };

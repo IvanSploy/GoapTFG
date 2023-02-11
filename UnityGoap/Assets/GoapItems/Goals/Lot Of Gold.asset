@@ -17,6 +17,3 @@ MonoBehaviour:
   - name: 2
     value: 100
     condition: 5
-  - name: 3
-    value: true
-    condition: 0
