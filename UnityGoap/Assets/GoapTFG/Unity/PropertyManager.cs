@@ -15,32 +15,26 @@ namespace GoapTFG.Unity
             WoodCount,
             StoneCount,
             GoldCount,
-            IsAlive,
-            Target
+            Target,
+            InTarget
         }
 
-        private static Dictionary<PropertyList, PropertyType> ProperTypes = new()
+        private static readonly Dictionary<PropertyList, PropertyType> ProperTypes = new()
         {
             { PropertyList.WoodCount, PropertyType.Integer },
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
-            { PropertyList.IsAlive, PropertyType.Boolean },
-            { PropertyList.Target, PropertyType.String }
+            { PropertyList.Target, PropertyType.String },
+            { PropertyList.InTarget, PropertyType.Boolean }
         };
+        
+        private static PropertyType GetType(Property property)
+        {
+            return ProperTypes[property.name];
+        }
 
         //LÓGICA INTERNA DEL PROGRAMA
         #region PropertyDefinitions
-        [System.Serializable]
-        public class Property {
-            public PropertyList name;
-            public string value;
-
-            public Property(PropertyList name, string value)
-            {
-                this.name = name;
-                this.value = value;
-            }
-        }
         
         //CONFIGURACIÓN PREDICADOS 
         [Serializable]
@@ -63,6 +57,18 @@ namespace GoapTFG.Unity
             Mod
         }
         
+        [System.Serializable]
+        public class Property {
+            public PropertyList name;
+            public string value;
+
+            public Property(PropertyList name, string value)
+            {
+                this.name = name;
+                this.value = value;
+            }
+        }
+
         [Serializable]
         public class ConditionProperty : Property{
             public ConditionList condition;
@@ -82,8 +88,11 @@ namespace GoapTFG.Unity
                 this.effect = effect;
             }
         }
+        #endregion
         
-        [System.Serializable]
+        #region Parsers
+        
+        [Serializable]
         private enum PropertyType
         {
             Boolean = 0,
@@ -91,15 +100,6 @@ namespace GoapTFG.Unity
             Float = 2,
             String = 3
         }
-        
-        #endregion
-
-        private static PropertyType GetType(Property property)
-        {
-            return ProperTypes[property.name];
-        }
-        
-        #region Parsers
         
         private static object ParseValue(Property prop)
         {
@@ -163,7 +163,7 @@ namespace GoapTFG.Unity
                     result = null;
                     break;
                 case ConditionList.Ne:
-                    result = (a, b) => a != b;
+                    result = (a, b) => !a.Equals(b);
                     break;
                 case ConditionList.Lt:
                     switch (type)
@@ -353,36 +353,64 @@ namespace GoapTFG.Unity
         
         #endregion
 
+        //USOS EXTERNOS
         /// <summary>
         /// Converts a Property into a value inside a PropertyGroup.
         /// </summary>
         /// <param name="property">Property to be converted.</param>
         /// <param name="pg">PropertyGroup that will include the new Property.</param>
-        public static void ApplyProperty(Property property, ref PropertyGroup<string, object> pg)
+        public static void AddIntoPropertyGroup(List<Property> properties, ref PropertyGroup<string, object> state)
         {
-            pg.Set(property.name.ToString(), ParseValue(property));
+            foreach (var property in properties)
+            {
+                ApplyProperty(property, ref state);
+            }
         }
+    
         
         /// <summary>
         /// Converts a ConditionProperty into a value inside a PropertyGroup.
         /// </summary>
         /// <param name="property">Property to be converted.</param>
         /// <param name="pg">PropertyGroup that will include the new Property.</param>
-        public static void ApplyProperty(ConditionProperty property, ref PropertyGroup<string, object> pg)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, ref PropertyGroup<string, object> state)
         {
-            var predicate = ParseCondition(property);
-            pg.Set(property.name.ToString(), ParseValue(property), predicate);
+            foreach (var property in properties)
+            {
+                ApplyProperty(property, ref state);
+            }
         }
-
+    
         /// <summary>
         /// Converts an EffectProperty into a value inside a PropertyGroup.
         /// </summary>
         /// <param name="property">Property to be converted.</param>
         /// <param name="pg">PropertyGroup that will include the new Property.</param>
-        public static void ApplyProperty(EffectProperty property, ref PropertyGroup<string, object> pg)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, ref PropertyGroup<string, object> state)
+        {
+            foreach (var property in properties)
+            {
+                ApplyProperty(property, ref state);
+            }
+        }
+
+        #region Converters
+        private static void ApplyProperty(Property property, ref PropertyGroup<string, object> pg)
+        {
+            pg.Set(property.name.ToString(), ParseValue(property));
+        }
+        
+        private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<string, object> pg)
+        {
+            var predicate = ParseCondition(property);
+            pg.Set(property.name.ToString(), ParseValue(property), predicate);
+        }
+
+        private static void ApplyProperty(EffectProperty property, ref PropertyGroup<string, object> pg)
         {
             var predicate = ParseEffect(property);
             pg.Set(property.name.ToString(), ParseValue(property), predicate);
         } 
+        #endregion
     }
 }

@@ -349,8 +349,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goal: {fileID: 11400000, guid: bb034874c31dfec49a31dd73411ac86b, type: 2}
-  action: {fileID: 11400000, guid: 4ea9dcd8166991d4d9e2f4fd91157499, type: 2}
+  goal:
+    goal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
+    priority: 0
+  actions:
+  - {fileID: 11400000, guid: e2946d536bb452e4c92e46eef4f95dd3, type: 2}
+  - {fileID: 11400000, guid: 08980453dd089df44b9b209efc8d3e64, type: 2}
+  - {fileID: 11400000, guid: f60b6f9d3f07da640b46ee99fc884baf, type: 2}
+  - {fileID: 11400000, guid: d7281bf4be329d84db62f8ca8ce74775, type: 2}
+  - {fileID: 11400000, guid: 0bc2d0bd62b289b4888f991d850a50b5, type: 2}
+  - {fileID: 11400000, guid: 6a8b6a8009fe7ca40bf4a5664fe2b32c, type: 2}
   active: 1
   hasPlan: 0
   performingAction: 0

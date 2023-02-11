@@ -9,33 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
-  m_Name: Pick Gold
+  m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
+  m_Name: Buy Stone
   m_EditorClassIdentifier: 
-  type: 2
-  nameItem: Pick Gold
-  stateProperties:
-  - name: 0
-    value: 5
-  - name: 3
-    value: true
-  goalProperties:
-  - name: 0
-    value: 5
-    condition: 5
-  priority: 16
+  nameItem: Buy Stone
   preconditions:
-  - name: 2
-    value: 50
-    condition: 3
-  - name: 4
-    value: Mine
-    condition: 0
   - name: 3
+    value: Hall
+    condition: 0
+  - name: 4
     value: true
     condition: 0
-  effects:
   - name: 2
-    value: 100
+    value: 69
+    condition: 4
+  effects:
+  - name: 1
+    value: 200
     effect: 1
+  - name: 2
+    value: 70
+    effect: 2
   cost: 1

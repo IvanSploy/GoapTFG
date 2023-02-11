@@ -11,10 +11,10 @@ namespace GoapTFG.Base
 
         //Properties
         public string Name;
-        public float PriorityLevel { get; set; }
+        public int PriorityLevel { get; set; }
         
         //Constructors
-        public Goal(string name, PropertyGroup<TA, TB> goal, float priorityLevel)
+        public Goal(string name, PropertyGroup<TA, TB> goal, int priorityLevel)
         {
             this._propertyGroup = new PropertyGroup<TA, TB>(goal) ;
             this.PriorityLevel = priorityLevel;

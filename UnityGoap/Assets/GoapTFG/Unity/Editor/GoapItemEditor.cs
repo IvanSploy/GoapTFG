@@ -1,83 +1,102 @@
 using UnityEditor;
 using UnityEngine;
 using static GoapTFG.Unity.GoapItemEditor;
-using static GoapTFG.Unity.GoapScriptableObject.ItemType;
 
 
 namespace GoapTFG.Unity
 {
-    [CustomEditor(typeof(GoapScriptableObject))]
+    #region ScriptableObjects
+    
+    [CustomEditor(typeof(StateScriptableObject))]
     public class GoapItemEditor : Editor
     {
-        
-        public static float LABEL_SIZE = 50f;
-        public static float PADDING = 3f;
-        
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            GoapScriptableObject goapScriptableObject = (GoapScriptableObject)target;
+            StateScriptableObject stateScriptableObject = (StateScriptableObject)target;
         
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
             EditorGUI.indentLevel++;
         
-            goapScriptableObject.nameItem = EditorGUILayout.TextField("Name", goapScriptableObject.nameItem);
-
-            switch (goapScriptableObject.type)
-            {
-                case State:
-                default:
-                    DrawState();
-                    break;
-                case Goal:
-                    DrawGoal(goapScriptableObject);
-                    break;
-                case Action:
-                    DrawAction(goapScriptableObject);
-                    break;
-            }
-        
-            EditorGUI.indentLevel--;
-        }
-
-        void DrawState()
-        {
+            stateScriptableObject.nameItem = EditorGUILayout.TextField("Name", stateScriptableObject.nameItem);
+            
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("stateProperties"), true);
             serializedObject.ApplyModifiedProperties();
+        
+            EditorGUI.indentLevel--;
         }
+    }
     
-        void DrawGoal(GoapScriptableObject goapScriptableObject)
+    [CustomEditor(typeof(GoalScriptableObject))]
+    public class GoalEditor : Editor
+    {
+        public override void OnInspectorGUI()
         {
+            base.OnInspectorGUI();
+
+            GoalScriptableObject goalScriptableObject = (GoalScriptableObject)target;
+        
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
+
+            EditorGUI.indentLevel++;
+        
+            goalScriptableObject.nameItem = EditorGUILayout.TextField("Name", goalScriptableObject.nameItem);
+
             EditorGUILayout.BeginHorizontal();
             {
                 EditorGUILayout.LabelField("Priority Level");
-                goapScriptableObject.priority = EditorGUILayout.Slider(goapScriptableObject.priority, 0, 20);
             }
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("goalProperties"), true);
             serializedObject.ApplyModifiedProperties();
+        
+            EditorGUI.indentLevel--;
         }
+    }
     
-        void DrawAction(GoapScriptableObject goapScriptableObject)
+    [CustomEditor(typeof(ActionScriptableObject))]
+    public class ActionEditor : Editor
+    {
+        public override void OnInspectorGUI()
         {
-            goapScriptableObject.cost = EditorGUILayout.IntField("Cost", goapScriptableObject.cost);
+            base.OnInspectorGUI();
+
+            ActionScriptableObject actionScriptableObject = (ActionScriptableObject)target;
+        
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
+
+            EditorGUI.indentLevel++;
+        
+            actionScriptableObject.nameItem = EditorGUILayout.TextField("Name", actionScriptableObject.nameItem);
+            actionScriptableObject.cost = EditorGUILayout.IntField("Cost", actionScriptableObject.cost);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), true);
         
             //Guarda los cambios realizados en los property fields.
             serializedObject.ApplyModifiedProperties();
+        
+            EditorGUI.indentLevel--;
         }
     }
+    
+    #endregion
+    
+    #region PropertyDrawers
 
     [CustomPropertyDrawer(typeof(PropertyManager.Property))]
-    public class PGPropertyDrawer : PropertyDrawer
+    public class StatePropertyDrawer : PropertyDrawer
     {
+        public static float LABEL_SIZE = 50f;
+        public static float PADDING = 3f;
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -127,6 +146,9 @@ namespace GoapTFG.Unity
     [CustomPropertyDrawer(typeof(PropertyManager.ConditionProperty))]
     public class ConditionPropertyDrawer : PropertyDrawer
     {
+        public static float LABEL_SIZE = 50f;
+        public static float PADDING = 3f;
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -182,6 +204,9 @@ namespace GoapTFG.Unity
     [CustomPropertyDrawer(typeof(PropertyManager.EffectProperty))]
     public class EffectPropertyDrawer : PropertyDrawer
     {
+        public static float LABEL_SIZE = 50f;
+        public static float PADDING = 3f;
+        
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             EditorGUI.BeginProperty(position, label, property);
@@ -233,4 +258,6 @@ namespace GoapTFG.Unity
             return EditorGUI.GetPropertyHeight(property) * 2.5f;
         }
     }
+    
+    #endregion
 }

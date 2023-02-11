@@ -11,11 +11,28 @@ using static GoapData;
 using static GoapTFG.Unity.PropertyManager;
 using static GoapTFG.Unity.PropertyManager.PropertyList;
 
+
+
 public class AgentBehaviour : MonoBehaviour
 {
-    //Propiedades
-    public GoapScriptableObject goal;
-    public GoapScriptableObject action;
+    [Serializable]
+    private struct GoalObject
+    {
+        [SerializeField]
+        private GoalScriptableObject goal;
+        
+        [Range(20, 0)]
+        [SerializeField]
+        private int priority;
+
+        public Goal<string, object> Create()
+        {
+            return goal.Create(priority);
+        }
+    }
+    [SerializeField]
+    private GoalObject goal;
+    public List<ActionScriptableObject> actions;
     public bool active = true;
     public bool hasPlan;
     public bool performingAction = false;
@@ -28,42 +45,16 @@ public class AgentBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Goal<string, object> myGoal = goal.GetGoal();
-        
+        Goal<string, object> myGoal = goal.Create();
+        List<GoapTFG.Base.Action<string, object>> myActions = new();
+            
         //ACCION PRINCIPAL
-        GoapTFG.Base.Action<string, object> myAction = action.GetAction();
-
-        //ACCION GOTOTARGET
-        PropertyGroup<string, object> pgPrec = new PropertyGroup<string, object>();
-        PropertyGroup<string, object> pgEffect = new PropertyGroup<string, object>();
+        foreach (var action in actions)
+        {
+            myActions.Add(action.Create());
+        }
         
-        ApplyProperty(new Property(IsAlive, "true"), ref pgPrec);
-        ApplyProperty(new Property(Target, "Hall"), ref pgEffect);
-        
-        GoapTFG.Base.Action<string, object> goToHall =
-            new GoapTFG.Base.Action<string, object>("GoToHall", pgPrec, pgEffect);
-
-        goToHall.PerformedActions += (ws) => GoToTarget((string)ws.Get(Target.ToString()));
-        
-        ApplyProperty(new Property(Target, "Mine"), ref pgEffect);
-        
-        GoapTFG.Base.Action<string, object> goToMine =
-            new GoapTFG.Base.Action<string, object>("GoToMine", pgPrec, pgEffect);
-
-        goToMine.PerformedActions += (ws) => GoToTarget((string)ws.Get(Target.ToString()));
-        
-        ApplyProperty(new Property(Target, "Cottage"), ref pgEffect);
-        
-        GoapTFG.Base.Action<string, object> goToCottage =
-            new GoapTFG.Base.Action<string, object>("GoToCottage", pgPrec, pgEffect);
-
-        goToCottage.PerformedActions += (ws) => GoToTarget((string)ws.Get(Target.ToString()));
-        
-        Agent = new Agent<string, object>(myGoal);
-        Agent.AddAction(myAction);
-        Agent.AddAction(goToHall);
-        Agent.AddAction(goToMine);
-        Agent.AddAction(goToCottage);
+        Agent = new Agent<string, object>(myGoal, myActions);
 
         //Se crea el blackboard utilizado por las acciones de GOAP.
         Blackboard = new BlackboardData();

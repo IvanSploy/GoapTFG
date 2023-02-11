@@ -27,7 +27,7 @@ public class GoapData : MonoBehaviour
     public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
     
     //Datos
-    public GoapScriptableObject initialState;
+    public StateScriptableObject initialState;
     public PropertyGroup<string, object> actualState;
 
 
@@ -41,7 +41,7 @@ public class GoapData : MonoBehaviour
         }
         GoapDataInstance = this;
         
-        actualState = initialState.GetState();
+        actualState = initialState.Create();
 
         foreach (var go in BlackboardObjects)
         {
@@ -53,6 +53,10 @@ public class GoapData : MonoBehaviour
 
         //AddEffectsToAction("Pick Gold", (pg) => pg.Set(GoldCount.ToString(), (float)pg.Get(GoldCount.ToString()) + 100f));
 
+        AddPerformedActionsToAction("Go To", (ws) =>
+        {
+            GetComponent<AgentBehaviour>().GoToTarget((string)ws.Get(Target.ToString()));
+        });
     }
 
     

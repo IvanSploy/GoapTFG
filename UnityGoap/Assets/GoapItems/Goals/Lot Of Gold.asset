@@ -7,20 +7,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
-  m_Name: Start
+  m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
+  m_Name: Lot Of Gold
   m_EditorClassIdentifier: 
-  nameItem: Start
-  stateProperties:
-  - name: 0
-    value: 100
-  - name: 1
-    value: 20
+  nameItem: Lot Of Gold
+  goalProperties:
   - name: 2
-    value: 10
+    value: 100
+    condition: 5
   - name: 3
-    value: 
-  - name: 4
-    value: false
+    value: true
+    condition: 0
