@@ -15,12 +15,28 @@ namespace GoapTFG.Base
         private struct GPValue
         {
             public TB value;
-            public Func<TB, TB, bool> predicate;
+            public Func<TB, TB, bool> condition;
+            public Func<TB, TB, TB> effect;
 
-            public GPValue(TB value, Func<TB, TB, bool> predicate = null)
+            public GPValue(TB value)
             {
                 this.value = value;
-                this.predicate = predicate;
+                this.condition = null;
+                this.effect = null;
+            }
+            
+            public GPValue(TB value, Func<TB, TB, bool> condition)
+            {
+                this.value = value;
+                this.condition = condition;
+                this.effect = null;
+            }
+            
+            public GPValue(TB value, Func<TB, TB, TB> effect)
+            {
+                this.value = value;
+                this.condition = null;
+                this.effect = effect;
             }
         }
 
@@ -58,25 +74,27 @@ namespace GoapTFG.Base
         {
             TA key = mainPair.Key;
             if (!HasKey(key)) return true;
-            //Se prioriza el predicado de la clave en caso de que exista.
-            if(mainPair.Value.predicate != null) return !mainPair.Value.predicate(_values[key].value,
+            //Se prioriza el predicado de condición de la clave en caso de que exista.
+            if(mainPair.Value.condition != null) return !mainPair.Value.condition(_values[key].value,
                 mainPair.Value.value);
             return !_values[key].value.Equals(mainPair.Value.value);
         }
 
         //Dictionary
-        public void Set(TA key, TB value, Func<TB, TB, bool> predicate = null)
+        public void Set(TA key, TB value)
+        {
+            _values[key] = new GPValue(value);
+        }
+
+        
+        public void Set(TA key, TB value, Func<TB, TB, bool> predicate)
         {
             _values[key] = new GPValue(value, predicate);
         }
         
-        internal bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
+        public void Set(TA key, TB value, Func<TB, TB, TB> effect)
         {
-            if (predicate == null || !HasKey(key)) return false;
-            var aux = _values[key];
-            aux.predicate = predicate;
-            _values[key] = aux;
-            return true;
+            _values[key] = new GPValue(value, effect);
         }
         
         public TB Get(TA key)
@@ -110,7 +128,15 @@ namespace GoapTFG.Base
             var propertyGroup = new PropertyGroup<TA, TB>(a);
             foreach (var pair in b._values)
             {
-                propertyGroup._values[pair.Key] = pair.Value;
+                if (pair.Value.effect != null)
+                {
+                    var aux = new GPValue
+                    {
+                        value = pair.Value.effect(propertyGroup._values[pair.Key].value, pair.Value.value)
+                    };
+                    propertyGroup._values[pair.Key] = aux;
+                }
+                else propertyGroup._values[pair.Key] = pair.Value;
             }
             
             return propertyGroup;

@@ -37,12 +37,6 @@ namespace GoapTFG.Base
             return worldState.CountConflict(_propertyGroup);
         }
         
-        //PG Related
-        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
-        {
-            return _propertyGroup.SetPredicate(key, predicate);
-        }
-        
         //Getters
         public PropertyGroup<TA, TB> GetState()
         {

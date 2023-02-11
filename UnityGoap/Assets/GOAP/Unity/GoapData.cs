@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.Unity;
 using UnityEngine;
-using static PropertyManager.PropertyList;
+using static GoapTFG.Unity.PropertyManager.PropertyList;
 
 public class ActionAdditionalData
 {
@@ -26,7 +27,7 @@ public class GoapData : MonoBehaviour
     public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
     
     //Datos
-    public GoapItem initialState;
+    public GoapScriptableObject initialState;
     public PropertyGroup<string, object> actualState;
 
 
@@ -50,8 +51,7 @@ public class GoapData : MonoBehaviour
         //Actions Additional Data
         ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
 
-        AddEffectsToAction("Pick Gold", (pg) => pg.Set(GoldCount.ToString(),
-            (float)pg.Get(GoldCount.ToString()) + 100f));
+        //AddEffectsToAction("Pick Gold", (pg) => pg.Set(GoldCount.ToString(), (float)pg.Get(GoldCount.ToString()) + 100f));
 
     }
 

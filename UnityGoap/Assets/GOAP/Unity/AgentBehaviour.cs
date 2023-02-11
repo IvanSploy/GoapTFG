@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
+using GoapTFG.Unity;
 using JetBrains.Annotations;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static GoapData;
-using static PropertyManager;
-using static PropertyManager.PropertyList;
+using static GoapTFG.Unity.PropertyManager;
+using static GoapTFG.Unity.PropertyManager.PropertyList;
 
 public class AgentBehaviour : MonoBehaviour
 {
     //Propiedades
-    public GoapItem goal;
-    public GoapItem action;
-    public float priorityLevel;
+    public GoapScriptableObject goal;
+    public GoapScriptableObject action;
     public bool active = true;
     public bool hasPlan;
     public bool performingAction = false;
@@ -30,12 +30,8 @@ public class AgentBehaviour : MonoBehaviour
     {
         Goal<string, object> myGoal = goal.GetGoal();
         
-        //Condiciones especiales, sirven para reemplazar la instrucción equals.
-        myGoal.SetPredicate(GoldCount.ToString(), (a, b) => (float)a >= (float)b);
-
         //ACCION PRINCIPAL
         GoapTFG.Base.Action<string, object> myAction = action.GetAction();
-        myAction.SetPredicate(GoldCount.ToString(), (a, b) => (float)a <= (float)b);
 
         //ACCION GOTOTARGET
         PropertyGroup<string, object> pgPrec = new PropertyGroup<string, object>();

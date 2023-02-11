@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   nameItem: Find Gold
-  stateProperties:
-  - name: 2
-    value: 100
-  - name: 3
-    value: true
+  stateProperties: []
   goalProperties:
   - name: 2
     value: 100
+    condition: 5
   - name: 3
     value: true
+    condition: 0
   priority: 0
   preconditions:
   - name: 0
     value: 
+    condition: 0
   effects:
   - name: 0
     value: 
+    effect: 0
   cost: 1

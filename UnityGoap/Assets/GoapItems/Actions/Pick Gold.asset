@@ -14,15 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   nameItem: Pick Gold
-  stateProperties: []
-  goalProperties: []
-  priority: 0
+  stateProperties:
+  - name: 0
+    value: 5
+  - name: 3
+    value: true
+  goalProperties:
+  - name: 0
+    value: 5
+    condition: 5
+  priority: 16
   preconditions:
   - name: 2
     value: 50
+    condition: 3
   - name: 4
     value: Mine
+    condition: 0
   - name: 3
     value: true
-  effects: []
+    condition: 0
+  effects:
+  - name: 2
+    value: 100
+    effect: 1
   cost: 1

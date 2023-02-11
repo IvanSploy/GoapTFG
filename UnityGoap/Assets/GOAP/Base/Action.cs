@@ -60,13 +60,7 @@ namespace GoapTFG.Base
             PerformedActions?.Invoke(worldState);
             return worldState;
         }
-        
-        //PG Related
-        public bool SetPredicate(TA key, Func<TB, TB, bool> predicate)
-        {
-            return _preconditions.SetPredicate(key, predicate);
-        }
-        
+
         //Overrides
         public override string ToString()
         {
