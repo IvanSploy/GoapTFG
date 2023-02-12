@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
 
@@ -7,30 +8,30 @@ namespace GoapTFG.Planner
     public class Agent<TA, TB> : IAgent<TA, TB>
     {
         private Stack<Base.Action<TA, TB>> _currentPlan;
-        private readonly List<Action<TA, TB>> _actions;
+        private readonly List<Base.Action<TA, TB>> _actions;
         private readonly List<Goal<TA, TB>> _goals;
         
-        public Agent(List<Goal<TA, TB>> goals, List<Action<TA, TB>> actions = null)
+        public Agent(List<Goal<TA, TB>> goals, List<Base.Action<TA, TB>> actions = null)
         {
-            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
+            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
             OrderGoals();
             _currentPlan = new Stack<Base.Action<TA, TB>>();
         }
 
-        public Agent(Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
+        public Agent(Goal<TA, TB> goal, List<Base.Action<TA, TB>> actions = null)
         {
-            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
+            _actions = actions == null ? new List<Base.Action<TA, TB>>() : new List<Base.Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>> { goal };
             _currentPlan = new Stack<Base.Action<TA, TB>>();
         }
 
-        public void AddAction(Action<TA,TB> action)
+        public void AddAction(Base.Action<TA,TB> action)
         {
             _actions.Add(action);
         }
         
-        public void AddActions(List<Action<TA,TB>> actions)
+        public void AddActions(List<Base.Action<TA,TB>> actions)
         {
             _actions.AddRange(actions);
         }
@@ -69,7 +70,7 @@ namespace GoapTFG.Planner
 
         private bool CreatePlan(PropertyGroup<TA, TB> initialState, Goal<TA, TB> goal)
         {
-            var plan = NodeGenerator<TA, TB>.CreatePlan(initialState, goal, _actions);
+            var plan = AStar<TA, TB>.CreatePlan(initialState, goal, _actions);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

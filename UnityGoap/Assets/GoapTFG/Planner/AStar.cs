@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace GoapTFG.Planner
 {
-    public class NodeGenerator<TA, TB> : INodeGenerator<TA, TB>
+    public class AStar<TA, TB> : INodeGenerator<TA, TB>
     {
         private const int ACTION_LIMIT = -1;
         
@@ -15,7 +15,7 @@ namespace GoapTFG.Planner
         private readonly HashSet<Node<TA, TB>> _expandedNodes;
         private readonly Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
 
-        private NodeGenerator(Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic)
+        private AStar(Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic)
         {
             _openList = new List<Node<TA, TB>>();
             _expandedNodes = new HashSet<Node<TA, TB>>();
@@ -34,7 +34,7 @@ namespace GoapTFG.Planner
             List<Base.Action<TA, TB>> actions, Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
         {
             if (goal.IsReached(currentState)) return null;
-            NodeGenerator<TA, TB> planner = new NodeGenerator<TA, TB>(newHeuristic);
+            AStar<TA, TB> planner = new AStar<TA, TB>(newHeuristic);
             return planner.DoCreatePlan(currentState, goal, actions);
         }
 

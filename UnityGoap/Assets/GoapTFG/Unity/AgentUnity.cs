@@ -149,7 +149,7 @@ public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
         var created = false;
         while (i < _goals.Count && _currentPlan.Count == 0)
         {
-            created = CreatePlan(initialState, _goals[i]);
+            created = CreatePlan(initialState, _goals[i], GetCustomHeuristic());
             i++;
         }
 
@@ -157,9 +157,10 @@ public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
         return i-1;
     }
 
-    public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal)
+    public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
+        Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
     {
-        var plan = NodeGenerator<PropertyList, object>.CreatePlan(initialState, goal, _actions);
+        var plan = AStar<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
         if (plan == null) return false;
         _currentPlan = plan;
         return true;

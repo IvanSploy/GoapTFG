@@ -78,6 +78,15 @@ namespace GoapTFG.Base
                 mainPair.Value.Value);
             return !_values[key].Value.Equals(mainPair.Value.Value);
         }
+        
+        public bool HasConflict(TA key, PropertyGroup<TA, TB> mainPg)
+        {
+            if (!HasKey(key)) return true;
+            //Se prioriza el predicado de condición de la clave en caso de que exista.
+            if(mainPg._values[key].Condition != null) return !mainPg._values[key].Condition(_values[key].Value,
+                mainPg._values[key].Value);
+            return !_values[key].Value.Equals(mainPg._values[key].Value);
+        }
 
         //Dictionary
         public void Set(TA key, TB value)
@@ -100,6 +109,11 @@ namespace GoapTFG.Base
             return _values[key].Value;
         }
         
+        public List<TA> GetKeys()
+        {
+            return new List<TA>(_values.Keys);
+        }
+        
         public void Remove(TA key)
         {
             _values.Remove(key);
@@ -119,6 +133,7 @@ namespace GoapTFG.Base
         {
             return _values.Count;
         }
+
         
         //Operators
         public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)

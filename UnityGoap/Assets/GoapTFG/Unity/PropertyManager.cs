@@ -28,12 +28,55 @@ namespace GoapTFG.Unity
             { PropertyList.InTarget, PropertyType.Boolean }
         };
         
+        /// <summary>
+        /// User defined heuristic for GOAP.
+        /// </summary>
+        /// <returns></returns>
+        public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
+        {
+            return (goal, worldState) =>
+            {
+                int heuristic = 0;
+                foreach (var name in goal.GetState().GetKeys())
+                {
+                    if(!worldState.HasConflict(name, goal.GetState())) continue;
+                    switch (GetType(name))
+                    {
+                        case PropertyType.Boolean:
+                        case PropertyType.String:
+                            if (!worldState.HasKey(name) || !goal.GetState().Get(name).Equals(worldState.Get(name))) 
+                                heuristic += 1;
+                            break;
+                        case PropertyType.Integer:
+                            if (worldState.HasKey(name))
+                                heuristic += Math.Abs((int)goal.GetState().Get(name) - (int)worldState.Get(name));
+                            else heuristic += (int)goal.GetState().Get(name);
+                            break;
+                        case PropertyType.Float:
+                            if (worldState.HasKey(name))
+                                heuristic += (int)Mathf.Abs((float)goal.GetState().Get(name) - (float)worldState.Get(name));
+                            else heuristic += (int)goal.GetState().Get(name);
+                            break;
+                    }
+                }
+                return heuristic;
+            };
+        }
+        
+        #region Getters
+        
         private static PropertyType GetType(Property property)
         {
             return ProperTypes[property.name];
         }
+        
+        private static PropertyType GetType(PropertyList property)
+        {
+            return ProperTypes[property];
+        }
+        
+        #endregion
 
-        //LÓGICA INTERNA DEL PROGRAMA
         #region PropertyDefinitions
         
         //CONFIGURACIÓN PREDICADOS 
@@ -352,7 +395,8 @@ namespace GoapTFG.Unity
         
         #endregion
 
-        //USOS EXTERNOS
+        #region Usos externos
+        
         /// <summary>
         /// Converts a Property into a value inside a PropertyGroup.
         /// </summary>
@@ -392,6 +436,8 @@ namespace GoapTFG.Unity
                 ApplyProperty(property, ref state);
             }
         }
+        
+        #endregion
 
         #region Converters
         private static void ApplyProperty(Property property, ref PropertyGroup<PropertyList, object> pg)

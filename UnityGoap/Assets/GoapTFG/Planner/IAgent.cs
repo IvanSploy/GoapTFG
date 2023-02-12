@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.Unity;
 
 namespace GoapTFG.Planner
 {
@@ -9,13 +11,13 @@ namespace GoapTFG.Planner
         /// Add posible action to the agent.
         /// </summary>
         /// <param name="action">Action to be added</param>
-        public void AddAction(Action<TA, TB> action);
+        public void AddAction(Base.Action<TA, TB> action);
 
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
         /// <param name="actions">Actions to be added</param>
-        public void AddActions(List<Action<TA, TB>> actions);
+        public void AddActions(List<Base.Action<TA, TB>> actions);
         
         /// <summary>
         /// Add goal to the agent.
@@ -35,7 +37,6 @@ namespace GoapTFG.Planner
         /// <param name="initialState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
         public int CreateNewPlan(PropertyGroup<TA, TB> initialState);
-        
         /// <summary>
         /// Performs all of the actions in the actual plan all at once.
         /// </summary>
