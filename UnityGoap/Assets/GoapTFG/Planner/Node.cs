@@ -42,7 +42,6 @@ namespace GoapTFG.Planner
             return node;
         }
         
-        public void Update(int parentRealCost, Goal<TA, TB> goal)
         public void Update(Node<TA, TB> parent, Base.Action<TA, TB> action, Goal<TA, TB> goal)
         {
             //Se define la relación padre hijo.
