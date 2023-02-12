@@ -57,7 +57,7 @@ namespace GoapTFG.Unity
             Mod
         }
         
-        [System.Serializable]
+        [Serializable]
         public class Property {
             public PropertyList name;
             public string value;
@@ -358,7 +358,7 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, ref PropertyGroup<string, object> state)
+        public static void AddIntoPropertyGroup(List<Property> properties, ref PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
@@ -372,7 +372,7 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, ref PropertyGroup<string, object> state)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, ref PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
@@ -385,7 +385,7 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, ref PropertyGroup<string, object> state)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, ref PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
@@ -394,21 +394,21 @@ namespace GoapTFG.Unity
         }
 
         #region Converters
-        private static void ApplyProperty(Property property, ref PropertyGroup<string, object> pg)
+        private static void ApplyProperty(Property property, ref PropertyGroup<PropertyList, object> pg)
         {
-            pg.Set(property.name.ToString(), ParseValue(property));
+            pg.Set(property.name, ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<string, object> pg)
+        private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
             var predicate = ParseCondition(property);
-            pg.Set(property.name.ToString(), ParseValue(property), predicate);
+            pg.Set(property.name, ParseValue(property), predicate);
         }
 
-        private static void ApplyProperty(EffectProperty property, ref PropertyGroup<string, object> pg)
+        private static void ApplyProperty(EffectProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
             var predicate = ParseEffect(property);
-            pg.Set(property.name.ToString(), ParseValue(property), predicate);
+            pg.Set(property.name, ParseValue(property), predicate);
         } 
         #endregion
     }

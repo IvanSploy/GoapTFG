@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Unity;
 using UnityEngine;
+using static GoapTFG.Unity.PropertyManager;
 using static GoapTFG.Unity.PropertyManager.PropertyList;
 
 public class ActionAdditionalData
 {
-    public Action<string, object>.Condition conditions;
-    public Action<string, object>.Effect effects;
-    public Action<string, object>.PerformedAction actions;
+    public Action<PropertyList, object>.Condition conditions;
+    public Action<PropertyList, object>.Effect effects;
+    public Action<PropertyList, object>.PerformedAction actions;
 }
 
 public class GoapData : MonoBehaviour
@@ -28,7 +29,7 @@ public class GoapData : MonoBehaviour
     
     //Datos
     public StateScriptableObject initialState;
-    public PropertyGroup<string, object> actualState;
+    public PropertyGroup<PropertyList, object> actualState;
 
 
     void Awake()
@@ -53,9 +54,29 @@ public class GoapData : MonoBehaviour
         
         AddPerformedActionsToAction("Go To", (agent) =>
         {
-            ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target.ToString()));
-            Debug.Log("Estado actual: " + GoapDataInstance.actualState);
+            ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target));
+            //Debug.Log("Estado actual: " + GoapDataInstance.actualState);
         });
+        
+        /*AddEffectsToAction("Buy Stone", (ws) =>
+        {
+            var initialGold = (float)ws.Get(GoldCount.ToString());
+            var initialStone = (int)ws.Get(StoneCount.ToString());
+            var num = (int)initialGold / 70;
+            float mod = initialGold % 70;
+            ws.Set(GoldCount.ToString(), mod);
+            ws.Set(StoneCount.ToString(), initialStone + 200 * num);
+        });
+                
+        AddEffectsToAction("Chop Trees", (ws) =>
+        {
+            var initialStone = (int)ws.Get(StoneCount.ToString());
+            var initialWood = (int)ws.Get(WoodCount.ToString());
+            var num = initialStone / 500;
+            var mod = initialStone % 500;
+            ws.Set(StoneCount.ToString(), mod);
+            ws.Set(WoodCount.ToString(), initialWood + 150 * num);
+        });*/
     }
 
     //Actions Additional Data Usages
@@ -65,21 +86,21 @@ public class GoapData : MonoBehaviour
         return GoapDataInstance.ActionAdditionalDatas[key];
     }
 
-    public static void AddConditionsToAction(string key, Action<string, object>.Condition condition)
+    public static void AddConditionsToAction(string key, Action<PropertyList, object>.Condition condition)
     {
         ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
         aad.conditions += condition;
         SaveAdditionalData(key, aad);
     }
 
-    public static void AddEffectsToAction(string key, Action<string, object>.Effect effect)
+    public static void AddEffectsToAction(string key, Action<PropertyList, object>.Effect effect)
     {
         ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
         aad.effects += effect;
         SaveAdditionalData(key, aad);
     }
 
-    public static void AddPerformedActionsToAction(string key, Action<string, object>.PerformedAction action)
+    public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.PerformedAction action)
     {
         ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
         aad.actions += action;

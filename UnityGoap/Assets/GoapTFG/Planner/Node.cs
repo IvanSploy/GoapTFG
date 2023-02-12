@@ -15,6 +15,7 @@ namespace GoapTFG.Planner
         public int TotalCost;
         public int RealCost;
         public int EstimatedCost;
+        public int ActionCount;
         public bool IsGoal;
         
         //Constructor
@@ -25,28 +26,41 @@ namespace GoapTFG.Planner
             TotalCost = 0;
             RealCost = 0;
             EstimatedCost = 0;
+            ActionCount = 0;
             IsGoal = false;
         }
 
         //AStar
-        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
+        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action, Goal<TA, TB> goal)
         {
             PropertyGroup<TA, TB> pg = action.ApplyAction(PropertyGroup);
             if (pg == null) return null;
             
             Node<TA,TB> node = new Node<TA, TB>(pg);
-            node.Parent = this;
+            node.Update(this, action, goal);
             AddChild(node);
-            node.Action = action;
             return node;
         }
         
         public void Update(int parentRealCost, Goal<TA, TB> goal)
+        public void Update(Node<TA, TB> parent, Base.Action<TA, TB> action, Goal<TA, TB> goal)
         {
+            //Se define la relación padre hijo.
+            Action = action;
+            Parent = parent;
+            
+            //Se definen los costes
             EstimatedCost = GetHeuristic(goal);
             IsGoal = EstimatedCost == 0;
-            RealCost = Action.Cost + parentRealCost;
+            RealCost = Action.Cost + parent.RealCost;
             TotalCost = EstimatedCost + RealCost;
+            ActionCount = parent.ActionCount + 1;
+            
+            //En caso de que tenga hijos se actualizan.
+            foreach (var child in Children)
+            {
+                child.Update(this, child.Action, goal);
+            }
         }
 
         public int GetHeuristic(Goal<TA, TB> goal)
@@ -55,19 +69,9 @@ namespace GoapTFG.Planner
         }
         
         //Planner structure
-        public void AddChild(Node<TA, TB> child)
+        private void AddChild(Node<TA, TB> child)
         {
             Children.Add(child);
-        }
-        
-        public void AddChildren(Node<TA,TB>[] children)
-        {
-            Children.AddRange(children);
-        }
-
-        public void ClearChildren()
-        {
-            Children.Clear();
         }
 
         public int CompareTo(object obj)
@@ -99,8 +103,11 @@ namespace GoapTFG.Planner
 
         public override string ToString()
         {
-            return PropertyGroup + "Costes: " + RealCost + " | " + EstimatedCost + " | " + TotalCost + "\n";
-            //return GetHashCode() + "\n";
+            string text = "";
+            if (Action == null) text += "Initial Node";
+            else text += Action.Name;
+            text += " | Costes: " + RealCost + " | " + EstimatedCost + " | " + TotalCost + "\n";
+            return text;
         }
         #endregion
     }

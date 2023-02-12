@@ -9,22 +9,22 @@ namespace GoapTFG.Unity
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class StateScriptableObject : ScriptableObject
     {
-        [HideInInspector] public string nameItem;
+        [HideInInspector] public string stateName;
         [HideInInspector] public List<Property> stateProperties;
     
         private void Awake()
         {
-            nameItem = name;
+            stateName = name;
         }
 
         private void OnValidate()
         {
-            if(nameItem.Equals(""))nameItem = name;
+            if(stateName.Equals(""))stateName = name;
         }
 
-        public PropertyGroup<string, object> Create()
+        public PropertyGroup<PropertyList, object> Create()
         {
-            PropertyGroup<string, object> state = new();
+            PropertyGroup<PropertyList, object> state = new();
             AddIntoPropertyGroup(stateProperties, ref state);
             return state;
         }

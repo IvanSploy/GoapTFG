@@ -10,34 +10,34 @@ namespace GoapTFG.Unity
     [CreateAssetMenu(fileName = "Action", menuName = "Goap Items/Action", order = 3)]
     public class ActionScriptableObject : ScriptableObject
     {
-        [HideInInspector] public string nameItem;
+        [HideInInspector] public string actionName;
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
         [HideInInspector] public int cost;
     
         private void Awake()
         {
-            nameItem = name;
+            actionName = name;
             cost = 1;
         }
 
         private void OnValidate()
         {
             cost = Math.Max(1, cost);
-            if(nameItem.Equals(""))nameItem = name;
+            if(actionName.Equals(""))actionName = name;
         }
     
-        public Base.Action<string, object> Create(IAgent<string, object> agent)
+        public Base.Action<PropertyList, object> Create(IAgent<PropertyList, object> agent)
         {
-            PropertyGroup<string, object> precsPg = new();
+            PropertyGroup<PropertyList, object> precsPg = new();
             AddIntoPropertyGroup(preconditions, ref precsPg);
-            PropertyGroup<string, object> effectsPg = new();
+            PropertyGroup<PropertyList, object> effectsPg = new();
             AddIntoPropertyGroup(effects, ref effectsPg);
-            Base.Action<string, object> action = new(agent, nameItem, precsPg, effectsPg)
+            Base.Action<PropertyList, object> action = new(agent, actionName, precsPg, effectsPg)
             {
                 Cost = cost
             };
-            ActionAdditionalData data = GoapData.GetActionAdditionalData(nameItem);
+            ActionAdditionalData data = GoapData.GetActionAdditionalData(actionName);
             if (data != null)
             {
                 action.ProceduralConditions += data.conditions;

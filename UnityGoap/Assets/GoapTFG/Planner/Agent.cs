@@ -6,7 +6,7 @@ namespace GoapTFG.Planner
     //Handles the GOAP planification and is who realices the actions.
     public class Agent<TA, TB> : IAgent<TA, TB>
     {
-        private List<Action<TA, TB>> _currentPlan;
+        private Stack<Base.Action<TA, TB>> _currentPlan;
         private readonly List<Action<TA, TB>> _actions;
         private readonly List<Goal<TA, TB>> _goals;
         
@@ -15,14 +15,14 @@ namespace GoapTFG.Planner
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
             OrderGoals();
-            _currentPlan = new List<Action<TA, TB>>();
+            _currentPlan = new Stack<Base.Action<TA, TB>>();
         }
 
         public Agent(Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
         {
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>> { goal };
-            _currentPlan = new List<Action<TA, TB>>();
+            _currentPlan = new Stack<Base.Action<TA, TB>>();
         }
 
         public void AddAction(Action<TA,TB> action)
@@ -51,12 +51,7 @@ namespace GoapTFG.Planner
         {
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
-
-        /// <summary>
-        /// Manages to create a new plan for the Agent.
-        /// </summary>
-        /// <param name="initialState"></param>
-        /// <returns>Id of the goal whose plan has been created.</returns>
+        
         public int CreateNewPlan(PropertyGroup<TA, TB> initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
@@ -97,8 +92,7 @@ namespace GoapTFG.Planner
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan[0].PerformAction(worldState);
-            _currentPlan.RemoveAt(0);
+            worldState = _currentPlan.Pop().PerformAction(worldState);
             return worldState;
         }
 

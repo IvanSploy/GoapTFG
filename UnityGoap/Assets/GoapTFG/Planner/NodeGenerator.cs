@@ -2,24 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using GoapTFG.Base;
+using UnityEngine;
 
 namespace GoapTFG.Planner
 {
     public class NodeGenerator<TA, TB>
     {
+        private const int ACTION_LIMIT = -1;
+        
         private Node<TA, TB> _current;
         private readonly List<Node<TA, TB>> _openList;
         private readonly HashSet<Node<TA, TB>> _expandedNodes;
-        private readonly Dictionary<Node<TA, TB>, int> _expandedNodesCosts;
 
         private NodeGenerator()
         {
             _openList = new List<Node<TA, TB>>();
             _expandedNodes = new HashSet<Node<TA, TB>>();
-            _expandedNodesCosts = new Dictionary<Node<TA, TB>, int>();
         }
-
-        public static List<Base.Action<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
+        
+        /// <summary>
+        /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
+        /// </summary>
+        /// <param name="currentState">Current state of the world.</param>
+        /// <param name="goal">Goal that is going to be reached.</param>
+        /// <param name="actions">Actions aviable for the agent.</param>
+        /// <returns>Stack of the plan actions.</returns>
+        public static Stack<Base.Action<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
             List<Base.Action<TA, TB>> actions)
         {
             if (goal.IsReached(currentState)) return null;
@@ -27,36 +35,28 @@ namespace GoapTFG.Planner
             return planner.DoCreatePlan(currentState, goal, actions);
         }
 
-        /// <summary>
-        /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
-        /// </summary>
-        private List<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
+        private Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
             List<Base.Action<TA, TB>> actions)
         {
             if (currentState == null || goal == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
             
             _current = new Node<TA, TB>(currentState);
+            var initialHeuristic = _current.GetHeuristic(goal);
+            _current.EstimatedCost = initialHeuristic;
+            _current.TotalCost = initialHeuristic;
+            
             while (_current != null && !_current.IsGoal)
             {
                 ExpandCurrentNode(actions, goal);
                 _current = Pop(); //Get next node.
-                if (_expandedNodes.Count > 200){
-                    _current.IsGoal = true; //To avoid recursive loop behaviour.
-                    Console.Out.WriteLine("WARNING: OBJETIVO FALSEADO, PUEDE QUE SU ESCENARIO NO TENGA SOLUCIÓN Y " +
-                                          "QUE TENGA ACCIONES QUE SE PUEDAN REALIZAR INFINITAMENTE\n");
-                }
+                if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
             }
 
-            if (_current == null) return null;
-            return GetNodePlan(_current); //Se extrae el plan del nodo objetivo expandido.
+            if (_current == null) return null; //Plan doesnt exist.
+            return GetPlan(_current); //Gets the plan of the goal node.
         }
         
-        //SortedNodes
-        /// <summary>
-        /// Extracts the first node to expand in the next iteration.
-        /// </summary>
-        /// <returns>First node to expand.</returns>
         private Node<TA, TB> Pop()
         {
             if (_openList.Count == 0) return null;
@@ -69,47 +69,35 @@ namespace GoapTFG.Planner
         private void ExpandCurrentNode(List<Base.Action<TA, TB>> actions, Goal<TA, TB> goal)
         {
             _expandedNodes.Add(_current);
-            _expandedNodesCosts[_current] = _current.TotalCost;
-            for (int i = 0; i < actions.Count; i++)
+            foreach (var action in actions)
             {
-                Node<TA, TB> aux = _current.ApplyAction(actions[i]);
-                if(aux == null) continue;
-                    
+                Node<TA, TB> newNode = _current.ApplyAction(action, goal);
+                if(newNode == null) continue;
                 
-                aux.Update(_current.RealCost, goal);
-                if (_expandedNodes.Contains(aux))
+                if (_expandedNodes.Contains(newNode))
                 {
-                    //En caso de que el nodo expandido sea de menor coste, se reemplaza en la lista de nodos expandidos.
-                    if (aux.TotalCost < _expandedNodesCosts[aux])
+                    Node<TA, TB> original;
+                    _expandedNodes.TryGetValue(newNode, out original);
+                    //En caso de que el nodo expandido sea de menor coste,
+                    //se actualiza el nodo original con la nueva información.
+                    if (newNode.TotalCost < original.TotalCost)
                     {
-                        _expandedNodes.Add(aux);
-                        _expandedNodesCosts[aux] = aux.TotalCost;
+                        original.Update(_current, action, goal);
                     }
                 }
                 else
-                    _openList.Add(aux);
+                    _openList.Add(newNode);
             }
             _openList.Sort();
         }
         
-        /// <summary>
-        /// After reached the goal node, retrieves the plan associated with the node.
-        /// </summary>
-        /// <param name="nodeGoal">Node goal</param>
-        /// <returns>Action plan generated by the planner</returns>
-        public static List<Base.Action<TA, TB>> GetNodePlan(Node<TA, TB> nodeGoal)
+        private static Stack<Base.Action<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
         {
-            List<Base.Action<TA, TB>> plan = new List<Base.Action<TA, TB>>(); 
-            List<Base.Action<TA, TB>> invertedPlan = new List<Base.Action<TA, TB>>();
+            Stack<Base.Action<TA, TB>> plan = new Stack<Base.Action<TA, TB>>();
             while (nodeGoal.Parent != null)
             {
-                invertedPlan.Add(nodeGoal.Action);
+                plan.Push(nodeGoal.Action);
                 nodeGoal = nodeGoal.Parent;
-            }
-
-            for (int i = invertedPlan.Count - 1; i >= 0; i--)
-            {
-                plan.Add(invertedPlan[i]);
             }
 
             return plan;

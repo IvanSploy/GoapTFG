@@ -9,24 +9,24 @@ namespace GoapTFG.Unity
     [CreateAssetMenu(fileName = "Goal", menuName = "Goap Items/Goal", order = 2)]
     public class GoalScriptableObject : ScriptableObject
     {
-        [HideInInspector] public string nameItem;
+        [HideInInspector] public string goalName;
         [HideInInspector] public List<ConditionProperty> goalProperties;
     
         private void Awake()
         {
-            nameItem = name;
+            goalName = name;
         }
         
         private void OnValidate()
         {
-            if(nameItem.Equals(""))nameItem = name;
+            if(goalName.Equals(""))goalName = name;
         }
         
-        public Goal<string, object> Create(int priority)
+        public Goal<PropertyList, object> Create(int priority)
         {
-            PropertyGroup<string, object> state = new();
+            PropertyGroup<PropertyList, object> state = new();
             AddIntoPropertyGroup(goalProperties, ref state);
-            return new Goal<string, object>(nameItem, state, priority);
+            return new Goal<PropertyList, object>(goalName, state, priority);
         }
     }
 }
