@@ -10,15 +10,15 @@ namespace GoapTFG.Base
         private readonly PropertyGroup<TA, TB> _propertyGroup;
 
         //Properties
-        public string Name;
+        public string Name { get; set; }
         public int PriorityLevel { get; set; }
         
         //Constructors
         public Goal(string name, PropertyGroup<TA, TB> goal, int priorityLevel)
         {
-            this._propertyGroup = new PropertyGroup<TA, TB>(goal) ;
-            this.PriorityLevel = priorityLevel;
-            this.Name = name;
+            _propertyGroup = new PropertyGroup<TA, TB>(goal) ;
+            PriorityLevel = priorityLevel;
+            Name = name;
         }
         
         //GOAP Utilites

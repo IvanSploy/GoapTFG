@@ -7,22 +7,31 @@ namespace GoapTFG.Planner
     public class Node<TA, TB> : IComparable
     {
         //Properties
-        public readonly PropertyGroup<TA, TB> PropertyGroup;
-        public Node<TA, TB> Parent;
-        public Base.Action<TA, TB> Action;
-        public readonly List<Node<TA, TB>> Children;
+        public Node<TA, TB> Parent { get; set; }
 
-        public int TotalCost;
-        public int RealCost;
-        public int EstimatedCost;
-        public int ActionCount;
-        public bool IsGoal;
+        public Base.Action<TA, TB> Action { get; set; }
+
+        public int TotalCost { get; set; }
+
+        public int EstimatedCost { get; set; }
+        
+        public int RealCost { get; set; }
+
+        public int ActionCount { get; set; }
+
+        public bool IsGoal { get; set; }
+
+        //Fields
+        private readonly PropertyGroup<TA, TB> _propertyGroup;
+        private readonly List<Node<TA, TB>> _children;
+        private INodeGenerator<TA, TB> _generator;
         
         //Constructor
-        public Node(PropertyGroup<TA, TB> propertyGroup)
+        public Node(PropertyGroup<TA, TB> propertyGroup, INodeGenerator<TA, TB> generator)
         {
-            PropertyGroup = propertyGroup;
-            Children = new List<Node<TA, TB>>();
+            _propertyGroup = propertyGroup;
+            _generator = generator;
+            _children = new List<Node<TA, TB>>();
             TotalCost = 0;
             RealCost = 0;
             EstimatedCost = 0;
@@ -33,10 +42,10 @@ namespace GoapTFG.Planner
         //AStar
         public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action, Goal<TA, TB> goal)
         {
-            PropertyGroup<TA, TB> pg = action.ApplyAction(PropertyGroup);
+            PropertyGroup<TA, TB> pg = action.ApplyAction(_propertyGroup);
             if (pg == null) return null;
             
-            Node<TA,TB> node = new Node<TA, TB>(pg);
+            Node<TA,TB> node = new Node<TA, TB>(pg, _generator);
             node.Update(this, action, goal);
             AddChild(node);
             return node;
@@ -56,7 +65,7 @@ namespace GoapTFG.Planner
             ActionCount = parent.ActionCount + 1;
             
             //En caso de que tenga hijos se actualizan.
-            foreach (var child in Children)
+            foreach (var child in _children)
             {
                 child.Update(this, child.Action, goal);
             }
@@ -64,19 +73,18 @@ namespace GoapTFG.Planner
 
         public int GetHeuristic(Goal<TA, TB> goal)
         {
-            return goal.CountConflicts(PropertyGroup);
+            return _generator.GetCustomHeuristic()?.Invoke(goal, _propertyGroup) ?? goal.CountConflicts(_propertyGroup);
         }
         
         //Planner structure
         private void AddChild(Node<TA, TB> child)
         {
-            Children.Add(child);
+            _children.Add(child);
         }
 
         public int CompareTo(object obj)
         {
             if (obj == null) return -1;
-            if (this == obj) return 0;
             if (obj.GetType() != GetType()) return -1;
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
@@ -92,12 +100,12 @@ namespace GoapTFG.Planner
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
             
-            return PropertyGroup.Equals(objNode.PropertyGroup);
+            return _propertyGroup.Equals(objNode._propertyGroup);
         }
 
         public override int GetHashCode()
         {
-            return PropertyGroup.GetHashCode();
+            return _propertyGroup.GetHashCode();
         }
 
         public override string ToString()

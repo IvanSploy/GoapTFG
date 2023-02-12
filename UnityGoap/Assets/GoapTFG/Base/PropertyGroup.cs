@@ -33,9 +33,9 @@ namespace GoapTFG.Base
             
             public GpValue(TB value, Func<TB, TB, TB> effect)
             {
-                this.Value = value;
-                this.Condition = null;
-                this.Effect = effect;
+                Value = value;
+                Condition = null;
+                Effect = effect;
             }
         }
 
@@ -43,8 +43,8 @@ namespace GoapTFG.Base
         
         public PropertyGroup(PropertyGroup<TA, TB> propertyGroup = null)
         {
-            _values = propertyGroup != null ? new SortedDictionary<TA, GpValue>(propertyGroup._values)
-                : new SortedDictionary<TA, GpValue>();
+            _values = propertyGroup == null ? new SortedDictionary<TA, GpValue>()
+                : new SortedDictionary<TA, GpValue>(propertyGroup._values);
         }
 
         //GOAP Utilities, A* addons.
