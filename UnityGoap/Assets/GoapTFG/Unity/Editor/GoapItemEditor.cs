@@ -47,11 +47,6 @@ namespace GoapTFG.Unity
         
             goalScriptableObject.nameItem = EditorGUILayout.TextField("Name", goalScriptableObject.nameItem);
 
-            EditorGUILayout.BeginHorizontal();
-            {
-                EditorGUILayout.LabelField("Priority Level");
-            }
-            EditorGUILayout.EndHorizontal();
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("goalProperties"), true);
             serializedObject.ApplyModifiedProperties();

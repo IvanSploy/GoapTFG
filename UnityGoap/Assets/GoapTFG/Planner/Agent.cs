@@ -15,14 +15,14 @@ namespace GoapTFG.Planner
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
             OrderGoals();
-            _currentPlan = null;
+            _currentPlan = new List<Action<TA, TB>>();
         }
 
         public Agent(Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
         {
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>> { goal };
-            _currentPlan = null;
+            _currentPlan = new List<Action<TA, TB>>();
         }
 
         public void AddAction(Action<TA,TB> action)
@@ -62,7 +62,7 @@ namespace GoapTFG.Planner
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;
             bool created = false;
-            while (i < _goals.Count && _currentPlan == null)
+            while (i < _goals.Count && _currentPlan.Count == 0)
             {
                 created = CreatePlan(initialState, _goals[i]);
                 i++;
@@ -74,25 +74,28 @@ namespace GoapTFG.Planner
 
         private bool CreatePlan(PropertyGroup<TA, TB> initialState, Goal<TA, TB> goal)
         {
-            _currentPlan = NodeGenerator<TA, TB>.CreatePlan(initialState, goal, _actions);
-            return _currentPlan != null;
+            var plan = NodeGenerator<TA, TB>.CreatePlan(initialState, goal, _actions);
+            if (plan == null) return false;
+            _currentPlan = plan;
+            return true;
         }
         
         //Plan follower
         public PropertyGroup<TA, TB> DoPlan(PropertyGroup<TA, TB> worldState)
         {
-            if (_currentPlan == null || _currentPlan.Count == 0) return null;
+            if (_currentPlan.Count == 0) return null;
 
-            for (int i = 0; i < _currentPlan.Count; i++)
+            foreach (var action in _currentPlan)
             {
-                worldState = _currentPlan[i].PerformAction(worldState);
+                worldState = action.PerformAction(worldState);
             }
+            _currentPlan.Clear();
             return worldState;
         }
 
         public PropertyGroup<TA, TB> PlanStep(PropertyGroup<TA, TB> worldState)
         {
-            if (_currentPlan == null || _currentPlan.Count == 0) return null;
+            if (_currentPlan.Count == 0) return null;
 
             worldState = _currentPlan[0].PerformAction(worldState);
             _currentPlan.RemoveAt(0);
@@ -101,7 +104,6 @@ namespace GoapTFG.Planner
 
         public int Count()
         {
-            if (_currentPlan == null) return 0;
             return _currentPlan.Count;
         }
     }

@@ -10,21 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
-  m_Name: Pick Mine Gold
+  m_Name: Chop Trees
   m_EditorClassIdentifier: 
-  nameItem: Pick Mine Gold
+  nameItem: Chop Trees
   preconditions:
   - name: 3
-    value: Mine
+    value: Cottage
     condition: 0
   - name: 4
     value: true
     condition: 0
-  - name: 2
-    value: 2000
-    condition: 3
+  - name: 1
+    value: 500
+    condition: 5
   effects:
-  - name: 2
-    value: 100
+  - name: 0
+    value: 150
     effect: 1
+  - name: 1
+    value: 500
+    effect: 2
   cost: 1

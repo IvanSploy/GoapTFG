@@ -22,6 +22,7 @@ namespace GoapTFG.Planner
         public static List<Base.Action<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
             List<Base.Action<TA, TB>> actions)
         {
+            if (goal.IsReached(currentState)) return null;
             NodeGenerator<TA, TB> planner = new NodeGenerator<TA, TB>();
             return planner.DoCreatePlan(currentState, goal, actions);
         }
@@ -40,6 +41,11 @@ namespace GoapTFG.Planner
             {
                 ExpandCurrentNode(actions, goal);
                 _current = Pop(); //Get next node.
+                if (_expandedNodes.Count > 200){
+                    _current.IsGoal = true; //To avoid recursive loop behaviour.
+                    Console.Out.WriteLine("WARNING: OBJETIVO FALSEADO, PUEDE QUE SU ESCENARIO NO TENGA SOLUCIÓN Y " +
+                                          "QUE TENGA ACCIONES QUE SE PUEDAN REALIZAR INFINITAMENTE\n");
+                }
             }
 
             if (_current == null) return null;

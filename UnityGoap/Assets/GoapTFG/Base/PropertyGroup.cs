@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,94 +11,93 @@ namespace GoapTFG.Base
     /// <typeparam name="TB">Value type</typeparam>
     public class PropertyGroup<TA, TB>
     {
-        private struct GPValue
+        private struct GpValue
         {
-            public TB value;
-            public Func<TB, TB, bool> condition;
-            public Func<TB, TB, TB> effect;
+            public TB Value;
+            public readonly Func<TB, TB, bool> Condition;
+            public readonly Func<TB, TB, TB> Effect;
 
-            public GPValue(TB value)
+            public GpValue(TB value)
             {
-                this.value = value;
-                this.condition = null;
-                this.effect = null;
+                Value = value;
+                Condition = null;
+                Effect = null;
             }
             
-            public GPValue(TB value, Func<TB, TB, bool> condition)
+            public GpValue(TB value, Func<TB, TB, bool> condition)
             {
-                this.value = value;
-                this.condition = condition;
-                this.effect = null;
+                Value = value;
+                Condition = condition;
+                Effect = null;
             }
             
-            public GPValue(TB value, Func<TB, TB, TB> effect)
+            public GpValue(TB value, Func<TB, TB, TB> effect)
             {
-                this.value = value;
-                this.condition = null;
-                this.effect = effect;
+                this.Value = value;
+                this.Condition = null;
+                this.Effect = effect;
             }
         }
 
-        private readonly SortedDictionary<TA, GPValue> _values;
+        private readonly SortedDictionary<TA, GpValue> _values;
         
         public PropertyGroup(PropertyGroup<TA, TB> propertyGroup = null)
         {
-            _values = propertyGroup != null ? new SortedDictionary<TA, GPValue>(propertyGroup._values)
-                : new SortedDictionary<TA, GPValue>();
+            _values = propertyGroup != null ? new SortedDictionary<TA, GpValue>(propertyGroup._values)
+                : new SortedDictionary<TA, GpValue>();
         }
 
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(PropertyGroup<TA, TB> mainPG)
+        public bool CheckConflict(PropertyGroup<TA, TB> mainPg)
         {
-            return mainPG._values.Any(HasConflict);
+            return mainPg._values.Any(HasConflict);
         }
         
-        public bool CheckConflict(PropertyGroup<TA, TB> mainPG, out PropertyGroup<TA, TB> mismatches)
+        public bool CheckConflict(PropertyGroup<TA, TB> mainPg, out PropertyGroup<TA, TB> mismatches)
         {
             mismatches = new PropertyGroup<TA, TB>();
-            foreach (var pair in mainPG._values)
+            foreach (var pair in mainPg._values)
             {
                 if (HasConflict(pair))
-                    mismatches.Set(pair.Key, pair.Value.value);
+                    mismatches.Set(pair.Key, pair.Value.Value);
             }
             return !mismatches.IsEmpty();
         }
 
-        public int CountConflict(PropertyGroup<TA, TB> mainPG)
+        public int CountConflict(PropertyGroup<TA, TB> mainPg)
         {
-            return mainPG._values.Count(HasConflict);
+            return mainPg._values.Count(HasConflict);
         }
         
-        private bool HasConflict(KeyValuePair<TA, GPValue> mainPair)
+        private bool HasConflict(KeyValuePair<TA, GpValue> mainPair)
         {
             TA key = mainPair.Key;
             if (!HasKey(key)) return true;
             //Se prioriza el predicado de condición de la clave en caso de que exista.
-            if(mainPair.Value.condition != null) return !mainPair.Value.condition(_values[key].value,
-                mainPair.Value.value);
-            return !_values[key].value.Equals(mainPair.Value.value);
+            if(mainPair.Value.Condition != null) return !mainPair.Value.Condition(_values[key].Value,
+                mainPair.Value.Value);
+            return !_values[key].Value.Equals(mainPair.Value.Value);
         }
 
         //Dictionary
         public void Set(TA key, TB value)
         {
-            _values[key] = new GPValue(value);
+            _values[key] = new GpValue(value);
         }
 
-        
         public void Set(TA key, TB value, Func<TB, TB, bool> predicate)
         {
-            _values[key] = new GPValue(value, predicate);
+            _values[key] = new GpValue(value, predicate);
         }
         
         public void Set(TA key, TB value, Func<TB, TB, TB> effect)
         {
-            _values[key] = new GPValue(value, effect);
+            _values[key] = new GpValue(value, effect);
         }
         
         public TB Get(TA key)
         {
-            return _values[key].value;
+            return _values[key].Value;
         }
         
         public void Remove(TA key)
@@ -107,7 +105,7 @@ namespace GoapTFG.Base
             _values.Remove(key);
         }
 
-        private bool HasKey(TA key)
+        public bool HasKey(TA key)
         {
             return _values.ContainsKey(key);
         }
@@ -128,11 +126,11 @@ namespace GoapTFG.Base
             var propertyGroup = new PropertyGroup<TA, TB>(a);
             foreach (var pair in b._values)
             {
-                if (pair.Value.effect != null)
+                if (pair.Value.Effect != null)
                 {
-                    var aux = new GPValue
+                    var aux = new GpValue
                     {
-                        value = pair.Value.effect(propertyGroup._values[pair.Key].value, pair.Value.value)
+                        Value = pair.Value.Effect(propertyGroup._values[pair.Key].Value, pair.Value.Value)
                     };
                     propertyGroup._values[pair.Key] = aux;
                 }
@@ -146,7 +144,7 @@ namespace GoapTFG.Base
         public override string ToString()
         {
             return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
-                                                            pair.Value.value + "\n");
+                                                            pair.Value.Value + "\n");
             /*var text = ""; Equivalente a la función Linq.
             foreach (var pair in _values)
             {
@@ -172,14 +170,14 @@ namespace GoapTFG.Base
         /// <returns>Hash Number</returns>
         public override int GetHashCode()
         {
-            int hash = 0;
-            int i = 1;
-            foreach(KeyValuePair<TA, GPValue> kvp in _values)
+            var hash = 0;
+            var i = 1;
+            foreach(KeyValuePair<TA, GpValue> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (kvp.Value.value.GetHashCode() == 0) continue;
+                if (kvp.Value.Value.GetHashCode() == 0) continue;
                 
-                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.value.GetHashCode()) * i;
+                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode()) * i;
                 i++;
             }
             return hash;

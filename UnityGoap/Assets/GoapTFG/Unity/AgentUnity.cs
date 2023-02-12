@@ -4,16 +4,10 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
 using GoapTFG.Unity;
-using JetBrains.Annotations;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static GoapData;
-using static GoapTFG.Unity.PropertyManager;
-using static GoapTFG.Unity.PropertyManager.PropertyList;
 
-
-
-public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
+public class AgentUnity : MonoBehaviour, IAgent<string, object>
 {
     [Serializable]
     private struct GoalObject
@@ -21,7 +15,7 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
         [SerializeField]
         private GoalScriptableObject goal;
         
-        [Range(20, 0)]
+        [Range(0, 15)]
         [SerializeField]
         private int priority;
 
@@ -32,7 +26,7 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
     }
     
     [SerializeField]
-    private GoalObject goal;
+    private List<GoalObject> goals;
     public List<ActionScriptableObject> actions;
     public bool active = true;
     public bool hasPlan;
@@ -41,8 +35,8 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
     
     //Agent base related
     private List<GoapTFG.Base.Action<string, object>> _currentPlan;
-    private List<GoapTFG.Base.Action<string, object>> _actions;
     private List<Goal<string, object>> _goals;
+    private List<GoapTFG.Base.Action<string, object>> _actions;
     
     //Referencias
     public BlackboardData Blackboard;
@@ -50,19 +44,24 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
     // Start is called before the first frame update
     void Start()
     {
-        Goal<string, object> myGoal = goal.Create();
+        _currentPlan = new();
+        _goals = new();
+        _actions = new();
+        List<Goal<string, object>> myGoals = new();
         List<GoapTFG.Base.Action<string, object>> myActions = new();
             
+        //OBJETIVOS
+        foreach (var goal in goals)
+        {
+            _goals.Add(goal.Create());
+        }
+        
         //ACCION PRINCIPAL
         foreach (var action in actions)
         {
-            myActions.Add(action.Create(this));
+            _actions.Add(action.Create(this));
         }
-        
-        _actions = new List<GoapTFG.Base.Action<string, object>>(myActions);
-        _goals = new List<Goal<string, object>>(new List<Goal<string, object>>()) { myGoal }; //TO DO
         OrderGoals();
-        _currentPlan = null;
         
         //Se crea el blackboard utilizado por las acciones de GOAP.
         Blackboard = new BlackboardData();
@@ -87,7 +86,7 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
             StartCoroutine(ExecutePlan());
             yield return new WaitUntil(() => !hasPlan && active);
         }
-        Debug.LogWarning("No se ha encontrado plan asesquible" + " | Estado actual: " + GoapDataInstance.actualState);
+        Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + GoapDataInstance.actualState);
     }
 
     private IEnumerator ExecutePlan()
@@ -135,9 +134,9 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
     public int CreateNewPlan(PropertyGroup<string, object> initialState)
     {
         if (_goals == null || _actions.Count == 0) return -1;
-        int i = 0;
-        bool created = false;
-        while (i < _goals.Count && _currentPlan == null)
+        var i = 0;
+        var created = false;
+        while (i < _goals.Count && _currentPlan.Count == 0)
         {
             created = CreatePlan(initialState, _goals[i]);
             i++;
@@ -149,24 +148,28 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
 
     public bool CreatePlan(PropertyGroup<string, object> initialState, Goal<string, object> goal)
     {
-        _currentPlan = NodeGenerator<string, object>.CreatePlan(initialState, goal, _actions);
-        return _currentPlan != null;
+        var plan = NodeGenerator<string, object>.CreatePlan(initialState, goal, _actions);
+        if (plan == null) return false;
+        _currentPlan = plan;
+        return true;
     }
 
     public PropertyGroup<string, object> DoPlan(PropertyGroup<string, object> worldState)
     {
-        if (_currentPlan == null || _currentPlan.Count == 0) return null;
+        if (_currentPlan.Count == 0) return null;
 
-        for (int i = 0; i < _currentPlan.Count; i++)
+        foreach (var action in _currentPlan)
         {
-            worldState = _currentPlan[i].PerformAction(worldState);
+            worldState = action.PerformAction(worldState);
         }
+
+        _currentPlan.Clear();
         return worldState;
     }
 
     public PropertyGroup<string, object> PlanStep(PropertyGroup<string, object> worldState)
     {
-        if (_currentPlan == null || _currentPlan.Count == 0) return null;
+        if (_currentPlan.Count == 0 ) return null;
 
         worldState = _currentPlan[0].PerformAction(worldState);
         _currentPlan.RemoveAt(0);
@@ -175,7 +178,6 @@ public class AgentBehaviour : MonoBehaviour, IAgent<string, object>
 
     public int Count()
     {
-        if (_currentPlan == null) return 0;
         return _currentPlan.Count;
     }
     

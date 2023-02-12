@@ -104,8 +104,8 @@ namespace GoapTFG.Unity
         private static object ParseValue(Property prop)
         {
             object result;
-            PropertyType type = GetType(prop);
-            string value = prop.value;
+            var type = GetType(prop);
+            var value = prop.value;
             switch (type)
             {
                 case PropertyType.Boolean:
@@ -146,15 +146,14 @@ namespace GoapTFG.Unity
                     result = value;
                     break;
             }
-            Debug.Log(result.GetType() + " | " + result);
             return result;
         }
         
         private static Func<object, object, bool> ParseCondition(ConditionProperty prop)
         {
             Func<object, object, bool> result;
-            ConditionList condition = prop.condition;
-            PropertyType type = GetType(prop);
+            var condition = prop.condition;
+            var type = GetType(prop);
             switch (condition)
             {
                 case ConditionList.Eq:
@@ -248,8 +247,8 @@ namespace GoapTFG.Unity
         private static Func<object, object, object> ParseEffect(EffectProperty prop)
         {
             Func<object, object, object> result;
-            EffectList effect = prop.effect;
-            PropertyType type = GetType(prop);
+            var effect = prop.effect;
+            var type = GetType(prop);
             switch (effect)
             {
                 case EffectList.Set:
@@ -357,8 +356,8 @@ namespace GoapTFG.Unity
         /// <summary>
         /// Converts a Property into a value inside a PropertyGroup.
         /// </summary>
-        /// <param name="property">Property to be converted.</param>
-        /// <param name="pg">PropertyGroup that will include the new Property.</param>
+        /// <param name="properties">Property to be converted.</param>
+        /// <param name="state">PropertyGroup that will include the new Property.</param>
         public static void AddIntoPropertyGroup(List<Property> properties, ref PropertyGroup<string, object> state)
         {
             foreach (var property in properties)
@@ -371,8 +370,8 @@ namespace GoapTFG.Unity
         /// <summary>
         /// Converts a ConditionProperty into a value inside a PropertyGroup.
         /// </summary>
-        /// <param name="property">Property to be converted.</param>
-        /// <param name="pg">PropertyGroup that will include the new Property.</param>
+        /// <param name="properties">Property to be converted.</param>
+        /// <param name="state">PropertyGroup that will include the new Property.</param>
         public static void AddIntoPropertyGroup(List<ConditionProperty> properties, ref PropertyGroup<string, object> state)
         {
             foreach (var property in properties)
@@ -384,8 +383,8 @@ namespace GoapTFG.Unity
         /// <summary>
         /// Converts an EffectProperty into a value inside a PropertyGroup.
         /// </summary>
-        /// <param name="property">Property to be converted.</param>
-        /// <param name="pg">PropertyGroup that will include the new Property.</param>
+        /// <param name="properties">Property to be converted.</param>
+        /// <param name="state">PropertyGroup that will include the new Property.</param>
         public static void AddIntoPropertyGroup(List<EffectProperty> properties, ref PropertyGroup<string, object> state)
         {
             foreach (var property in properties)

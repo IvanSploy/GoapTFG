@@ -53,11 +53,11 @@ public class GoapData : MonoBehaviour
         
         AddPerformedActionsToAction("Go To", (agent) =>
         {
-            ((AgentBehaviour)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target.ToString()));
+            ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target.ToString()));
+            Debug.Log("Estado actual: " + GoapDataInstance.actualState);
         });
     }
 
-    
     //Actions Additional Data Usages
     public static ActionAdditionalData GetActionAdditionalData(string key)
     {
