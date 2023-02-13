@@ -91,12 +91,15 @@ namespace GoapTFG.Planner
 
         public int CompareTo(object obj)
         {
-            if (obj == null) return -1;
-            if (obj.GetType() != GetType()) return -1;
-
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
-            var comp = TotalCost.CompareTo(objNode.TotalCost);
-            return comp == 0 ? -1 : comp;
+            //En inserciones se comprobará que no se trata del mismo nodo aunque tengan el mismo coste.
+            //En búsquedas se encontrará al comprobar que se trata del mismo nodo.
+            if (Equals(objNode)) return 0;
+            
+            //Comprobado que no se trata del mismo nodo se ordena por coste, ignorando si tienen el mismo coste,
+            //directamente se predomina el de la izquierda.
+            var result = TotalCost.CompareTo(objNode.TotalCost);
+            return result == 0 ? -1 : result;
         }
 
         #region Overrides

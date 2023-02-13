@@ -81,17 +81,19 @@ namespace GoapTFG.Planner
                 Node<TA, TB> newNode = _current.ApplyAction(action);
                 if(newNode == null) continue;
                 
+                //Si el nodo ya ha sido explorado.
                 if (_expandedNodes.Contains(newNode))
                 {
                     _expandedNodes.TryGetValue(newNode, out var original);
-                    //En caso de que el nodo expandido sea de menor coste,
-                    //se actualiza el nodo original con la nueva información.
+                    //Se actualiza el nodo original con la nueva información y sus hijos respectivamente
+                    //pudiendo afectar a algun nodo ubicado en la lista abierta.
                     if (newNode.TotalCost < original.TotalCost)
                     {
                         original.Update(_current, action);
                         UpdateChildren(original);
                     }
                 }
+                //Si el nodo se encuentra en la lista abierta.
                 else if (_openList.Contains(newNode))
                 {
                     _openList.TryGetValue(newNode, out var original);
@@ -104,12 +106,14 @@ namespace GoapTFG.Planner
                         _openList.Add(original);
                     }
                 }
+                //Si el nodo nunca había sido generado.
                 else _openList.Add(newNode);
             }
         }
 
         /// <summary>
         /// Update all the children of a node after a change of the parent.
+        /// It could change the order of the nodes in the Open List.
         /// </summary>
         /// <param name="node">Parent Node</param>
         private void UpdateChildren(Node<TA, TB> node)
