@@ -46,7 +46,7 @@ namespace GoapTFG.Base
             _values = propertyGroup == null ? new SortedDictionary<TA, GpValue>()
                 : new SortedDictionary<TA, GpValue>(propertyGroup._values);
         }
-
+        
         //GOAP Utilities, A* addons.
         public bool CheckConflict(PropertyGroup<TA, TB> mainPg)
         {
@@ -129,12 +129,6 @@ namespace GoapTFG.Base
             return _values.Count == 0;
         }
 
-        public int Count()
-        {
-            return _values.Count;
-        }
-
-        
         //Operators
         public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
         {
@@ -174,28 +168,37 @@ namespace GoapTFG.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            PropertyGroup<TA, TB> objPg = (PropertyGroup<TA, TB>)obj;
-            return GetHashCode()==objPg.GetHashCode();
+            PropertyGroup<TA, TB> otherPg = (PropertyGroup<TA, TB>)obj;
+            
+            if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
+            foreach (var key in _values.Keys)
+            {
+                if (!otherPg.HasKey(key)) return false;
+                if(!Get(key).Equals(otherPg.Get(key))) return false;
+            }
+            return true;
         }
 
-        
         /// <summary>
         /// Evauate hash code of the dictionary with sort order and xor exlclusion.
         /// </summary>
         /// <returns>Hash Number</returns>
         public override int GetHashCode()
         {
-            var hash = 0;
-            var i = 1;
+            int hash = 18;
             foreach(KeyValuePair<TA, GpValue> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
                 if (kvp.Value.Value.GetHashCode() == 0) continue;
                 
-                hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode()) * i;
-                i++;
+                hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode());
             }
             return hash;
+        }
+        
+        private int CountRelevantKeys()
+        {
+            return _values.Keys.Count(key => _values[key].GetHashCode() != 0);
         }
     }
 }

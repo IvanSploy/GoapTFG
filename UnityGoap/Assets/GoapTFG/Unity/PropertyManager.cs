@@ -60,6 +60,7 @@ namespace GoapTFG.Unity
                 }
                 return heuristic;
             };
+            return null;
         }
         
         #region Getters

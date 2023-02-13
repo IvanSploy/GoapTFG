@@ -8,7 +8,7 @@ namespace GoapTFG.Planner
 {
     public class AStar<TA, TB> : INodeGenerator<TA, TB>
     {
-        private const int ACTION_LIMIT = -1;
+        private const int ACTION_LIMIT = 150;
         
         private Node<TA, TB> _current;
         private readonly SortedSet<Node<TA, TB>> _openList; //Para acceder más rapidamente al elemento prioritario.
@@ -57,6 +57,8 @@ namespace GoapTFG.Planner
             }
 
             if (_current == null) return null; //Plan doesnt exist.
+            _openList.Clear();
+            _expandedNodes.Clear();
             return GetPlan(_current); //Gets the plan of the goal node.
         }
         
@@ -88,8 +90,19 @@ namespace GoapTFG.Planner
                         UpdateOrder(original);
                     }
                 }
-                else
-                    _openList.Add(newNode);
+                else if (_openList.Contains(newNode))
+                {
+                    _openList.TryGetValue(newNode, out var original);
+                    //En caso de que ya exista un nodo igual en la lista abierta,
+                    //se actualiza por el de menor valor de coste.
+                    if (newNode.TotalCost < original.TotalCost)
+                    {
+                        _openList.Remove(original);
+                        original.Update(_current, action, goal);
+                        _openList.Add(original);
+                    }
+                }
+                else _openList.Add(newNode);
             }
         }
 
@@ -106,10 +119,13 @@ namespace GoapTFG.Planner
                     UpdateOrder(child);
                 }
             }
-
-            if (_openList.Remove(node))
+            else
             {
-                _openList.Add(node);
+
+                if (_openList.Remove(node))
+                {
+                    _openList.Add(node);
+                }
             }
         }
         
@@ -121,7 +137,6 @@ namespace GoapTFG.Planner
                 plan.Push(nodeGoal.Action);
                 nodeGoal = nodeGoal.Parent;
             }
-
             return plan;
         }
 

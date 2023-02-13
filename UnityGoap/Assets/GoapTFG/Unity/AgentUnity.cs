@@ -85,7 +85,7 @@ public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
             var id = CreateNewPlan(GoapDataInstance.actualState);
             if (id >= 0)
             {
-                string debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
+                var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
                 hasPlan = true;
                 foreach (var action in _currentPlan)
                 {

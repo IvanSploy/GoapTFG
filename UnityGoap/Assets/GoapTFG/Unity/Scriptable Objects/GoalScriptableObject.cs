@@ -19,7 +19,7 @@ namespace GoapTFG.Unity
         
         private void OnValidate()
         {
-            if(goalName.Equals(""))goalName = name;
+            if(goalName is "")goalName = name;
         }
         
         public Goal<PropertyList, object> Create(int priority)
