@@ -15,34 +15,19 @@ MonoBehaviour:
   actionName: Buy Stone
   preconditions:
   - name: 3
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: Hall
+    value: Hall
     condition: 0
   - name: 4
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: 
+    value: true
     condition: 0
   - name: 2
-    boolValue: 0
-    intValue: 0
-    floatValue: 100
-    stringValue: 
+    value: 70
     condition: 5
   effects:
-  - name: 1
-    boolValue: 0
-    intValue: 100
-    floatValue: 0
-    stringValue: 
-    effect: 1
   - name: 2
-    boolValue: 0
-    intValue: 0
-    floatValue: 100
-    stringValue: 
+    value: 70
     effect: 2
+  - name: 1
+    value: 200
+    effect: 1
   cost: 1

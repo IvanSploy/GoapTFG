@@ -15,34 +15,19 @@ MonoBehaviour:
   actionName: Target Cottage
   preconditions:
   - name: 3
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: Cottage
+    value: Cottage
     condition: 1
   - name: 4
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: 
+    value: true
     condition: 0
   - name: 1
-    boolValue: 0
-    intValue: 100
-    floatValue: 0
-    stringValue: 
+    value: 500
     condition: 5
   effects:
   - name: 3
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: Cottage
+    value: Cottage
     effect: 0
   - name: 4
-    boolValue: 0
-    intValue: 2
-    floatValue: 0
-    stringValue: 
+    value: false
     effect: 0
-  cost: 0
+  cost: 1

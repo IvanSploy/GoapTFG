@@ -15,34 +15,19 @@ MonoBehaviour:
   actionName: Chop Trees
   preconditions:
   - name: 3
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: Cottage
+    value: Cottage
     condition: 0
   - name: 4
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: 
+    value: true
     condition: 0
   - name: 1
-    boolValue: 0
-    intValue: 100
-    floatValue: 0
-    stringValue: 
+    value: 500
     condition: 5
   effects:
   - name: 0
-    boolValue: 0
-    intValue: 100
-    floatValue: 0
-    stringValue: 
+    value: 150
     effect: 1
   - name: 1
-    boolValue: 0
-    intValue: 100
-    floatValue: 0
-    stringValue: 
+    value: 500
     effect: 2
   cost: 1

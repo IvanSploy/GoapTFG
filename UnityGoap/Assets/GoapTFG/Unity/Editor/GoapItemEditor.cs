@@ -1,10 +1,6 @@
-using System;
 using UnityEditor;
 using UnityEngine;
 using static GoapTFG.Unity.GoapItemEditor;
-using static GoapTFG.Unity.PropertyManager;
-
-
 
 
 namespace GoapTFG.Unity
@@ -90,7 +86,7 @@ namespace GoapTFG.Unity
     
     #region PropertyDrawers
 
-    [CustomPropertyDrawer(typeof(Property))]
+    [CustomPropertyDrawer(typeof(PropertyManager.Property))]
     public class StatePropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -128,43 +124,7 @@ namespace GoapTFG.Unity
             EditorGUI.LabelField(labelNameRect, "Name");
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
-            
-            SerializedProperty value;
-            var typeValue = PropertyManager.GetType((PropertyList) property.FindPropertyRelative("name").enumValueIndex);
-            
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                    value = property.FindPropertyRelative("boolValue");
-                    break;
-                case PropertyType.Integer:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.Float:
-                    value = property.FindPropertyRelative("floatValue");
-                    break;
-                case PropertyType.TargetState:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.String:
-                default:
-                    value = property.FindPropertyRelative("stringValue");
-                    break;
-            }
-
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                case PropertyType.Integer:
-                case PropertyType.Float:
-                case PropertyType.String:
-                default:
-                    EditorGUI.PropertyField(valueRect, value, GUIContent.none);
-                    break;
-                case PropertyType.TargetState:
-                    value.intValue = EditorGUI.IntPopup(valueRect, value.intValue, TargetStateNames, new[]{0,1,2});
-                    break;                    
-            }
+            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -178,7 +138,7 @@ namespace GoapTFG.Unity
         }
     }
     
-    [CustomPropertyDrawer(typeof(ConditionProperty))]
+    [CustomPropertyDrawer(typeof(PropertyManager.ConditionProperty))]
     public class ConditionPropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -222,43 +182,7 @@ namespace GoapTFG.Unity
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
             EditorGUI.PropertyField(conditionRect, property.FindPropertyRelative("condition"), GUIContent.none);
-            
-            SerializedProperty value;
-            var typeValue = PropertyManager.GetType((PropertyList) property.FindPropertyRelative("name").enumValueIndex);
-            
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                    value = property.FindPropertyRelative("boolValue");
-                    break;
-                case PropertyType.Integer:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.Float:
-                    value = property.FindPropertyRelative("floatValue");
-                    break;
-                case PropertyType.TargetState:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.String:
-                default:
-                    value = property.FindPropertyRelative("stringValue");
-                    break;
-            }
-
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                case PropertyType.Integer:
-                case PropertyType.Float:
-                case PropertyType.String:
-                default:
-                    EditorGUI.PropertyField(valueRect, value, GUIContent.none);
-                    break;
-                case PropertyType.TargetState:
-                    value.intValue = EditorGUI.IntPopup(valueRect, value.intValue, TargetStateNames, new[]{0,1,2});
-                    break;                    
-            }
+            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -272,7 +196,7 @@ namespace GoapTFG.Unity
         }
     }
     
-    [CustomPropertyDrawer(typeof(EffectProperty))]
+    [CustomPropertyDrawer(typeof(PropertyManager.EffectProperty))]
     public class EffectPropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -316,43 +240,7 @@ namespace GoapTFG.Unity
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
             EditorGUI.PropertyField(effectRect, property.FindPropertyRelative("effect"), GUIContent.none);
-            
-            SerializedProperty value;
-            var typeValue = PropertyManager.GetType((PropertyList) property.FindPropertyRelative("name").enumValueIndex);
-            
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                    value = property.FindPropertyRelative("boolValue");
-                    break;
-                case PropertyType.Integer:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.Float:
-                    value = property.FindPropertyRelative("floatValue");
-                    break;
-                case PropertyType.TargetState:
-                    value = property.FindPropertyRelative("intValue");
-                    break;
-                case PropertyType.String:
-                default:
-                    value = property.FindPropertyRelative("stringValue");
-                    break;
-            }
-
-            switch (typeValue)
-            {
-                case PropertyType.Boolean:
-                case PropertyType.Integer:
-                case PropertyType.Float:
-                case PropertyType.String:
-                default:
-                    EditorGUI.PropertyField(valueRect, value, GUIContent.none);
-                    break;
-                case PropertyType.TargetState:
-                    value.intValue = EditorGUI.IntPopup(valueRect, value.intValue, TargetStateNames, new[]{0,1,2});
-                    break;                    
-            }
+            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -365,6 +253,6 @@ namespace GoapTFG.Unity
             return EditorGUI.GetPropertyHeight(property) * 2.5f;
         }
     }
-
+    
     #endregion
 }

@@ -15,22 +15,13 @@ MonoBehaviour:
   actionName: Pick Mine Gold
   preconditions:
   - name: 3
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: Mine
+    value: Mine
     condition: 0
   - name: 4
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: 
+    value: true
     condition: 0
   effects:
   - name: 2
-    boolValue: 0
-    intValue: 0
-    floatValue: 100
-    stringValue: 
+    value: 100
     effect: 1
   cost: 1
