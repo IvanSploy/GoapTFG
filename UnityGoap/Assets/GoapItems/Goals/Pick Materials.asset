@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
   m_Name: Pick Materials
   m_EditorClassIdentifier: 
-  nameItem: Pick Materials
+  goalName: Pick Materials
   goalProperties:
   - name: 1
-    value: 150
+    boolValue: 0
+    intValue: 200
+    floatValue: 0
+    stringValue: 
     condition: 5

@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using GoapTFG.Base;
 using UnityEngine;
 
@@ -16,7 +14,8 @@ namespace GoapTFG.Unity
             StoneCount,
             GoldCount,
             Target,
-            InTarget
+            StateOfTarget,
+            Active
         }
 
         private static readonly Dictionary<PropertyList, PropertyType> ProperTypes = new()
@@ -25,17 +24,26 @@ namespace GoapTFG.Unity
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
             { PropertyList.Target, PropertyType.String },
-            { PropertyList.InTarget, PropertyType.Boolean }
+            { PropertyList.StateOfTarget, PropertyType.TargetState },
+            { PropertyList.Active, PropertyType.Boolean }
         };
         
         [Serializable]
-        private enum PropertyType
+        public enum PropertyType
         {
             Boolean = 0,
             Integer = 1,
             Float = 2,
-            String = 3
+            TargetState = 3,
+            String = 9
         }
+
+        public static string[] TargetStateNames = new[]
+        {
+            "Reached",
+            "Going",
+            "Ready"
+        };
         
         /// <summary>
         /// User defined heuristic for GOAP.
@@ -43,7 +51,7 @@ namespace GoapTFG.Unity
         /// <returns></returns>
         public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            /*return (goal, worldState) =>
+            return (goal, worldState) =>
             {
                 var heuristic = 0;
                 foreach (var name in goal.GetState().GetKeys())
@@ -68,7 +76,7 @@ namespace GoapTFG.Unity
                     }
                 }
                 return heuristic;
-            };*/
+            };
             return null;
         }
         
@@ -79,7 +87,7 @@ namespace GoapTFG.Unity
             return ProperTypes[property.name];
         }
         
-        private static PropertyType GetType(PropertyList property)
+        public static PropertyType GetType(PropertyList property)
         {
             return ProperTypes[property];
         }
@@ -112,12 +120,15 @@ namespace GoapTFG.Unity
         [Serializable]
         public class Property {
             public PropertyList name;
-            public string value;
+            
+            public bool boolValue;
+            public int intValue;
+            public float floatValue;
+            public string stringValue;
 
-            public Property(PropertyList name, string value)
+            public Property(PropertyList name)
             {
                 this.name = name;
-                this.value = value;
             }
         }
 
@@ -125,7 +136,7 @@ namespace GoapTFG.Unity
         public class ConditionProperty : Property{
             public ConditionList condition;
 
-            public ConditionProperty(PropertyList name, ConditionList condition, string value) : base(name, value)
+            public ConditionProperty(PropertyList name, ConditionList condition) : base(name)
             {
                 this.condition = condition;
             }
@@ -135,7 +146,7 @@ namespace GoapTFG.Unity
         public class EffectProperty : Property {
             public EffectList effect;
 
-            public EffectProperty(PropertyList name, EffectList effect, string value) : base(name, value)
+            public EffectProperty(PropertyList name, EffectList effect) : base(name)
             {
                 this.effect = effect;
             }
@@ -144,7 +155,7 @@ namespace GoapTFG.Unity
         
         #region Parsers
 
-        private static object ParseValue(Property prop)
+        /*private static object ParseValue(Property prop)
         {
             object result;
             var type = GetType(prop);
@@ -190,7 +201,7 @@ namespace GoapTFG.Unity
                     break;
             }
             return result;
-        }
+        }*/
         
         private static Func<object, object, bool> ParseCondition(ConditionProperty prop)
         {
@@ -211,6 +222,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -229,6 +241,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -247,6 +260,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -269,6 +283,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -303,6 +318,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -321,6 +337,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -339,6 +356,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -357,6 +375,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -375,6 +394,7 @@ namespace GoapTFG.Unity
                     switch (type)
                     {
                         case PropertyType.Boolean:
+                        case PropertyType.TargetState:
                         default:
                             result = null;
                             break;
@@ -442,20 +462,37 @@ namespace GoapTFG.Unity
         #region Converters
         private static void ApplyProperty(Property property, ref PropertyGroup<PropertyList, object> pg)
         {
-            pg.Set(property.name, ParseValue(property));
+            pg.Set(property.name, GetValue(property));
         }
         
         private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
             var predicate = ParseCondition(property);
-            pg.Set(property.name, ParseValue(property), predicate);
+            pg.Set(property.name, GetValue(property), predicate);
         }
 
         private static void ApplyProperty(EffectProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
             var predicate = ParseEffect(property);
-            pg.Set(property.name, ParseValue(property), predicate);
-        } 
+            pg.Set(property.name, GetValue(property), predicate);
+        }
+
+        private static object GetValue(Property property)
+        {
+            switch (GetType(property.name))
+            {
+                case PropertyType.Boolean:
+                    return property.boolValue;
+                case PropertyType.Integer:
+                case PropertyType.TargetState:
+                    return property.intValue;
+                case PropertyType.Float:
+                    return property.floatValue;
+                case PropertyType.String:
+                default:
+                    return property.stringValue;
+            }
+        }
         #endregion
     }
 }

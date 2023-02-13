@@ -15,5 +15,8 @@ MonoBehaviour:
   goalName: Chop Trees
   goalProperties:
   - name: 0
-    value: 1500
+    boolValue: 0
+    intValue: 1500
+    floatValue: 0
+    stringValue: 
     condition: 5

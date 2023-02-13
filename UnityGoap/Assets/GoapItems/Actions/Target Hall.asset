@@ -15,19 +15,34 @@ MonoBehaviour:
   actionName: Target Hall
   preconditions:
   - name: 3
-    value: Hall
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: Hall
     condition: 1
   - name: 4
-    value: true
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
     condition: 0
   - name: 2
-    value: 70
+    boolValue: 0
+    intValue: 0
+    floatValue: 100
+    stringValue: 
     condition: 5
   effects:
   - name: 3
-    value: Hall
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: Hall
     effect: 0
   - name: 4
-    value: false
+    boolValue: 0
+    intValue: 2
+    floatValue: 0
+    stringValue: 
     effect: 0
-  cost: 1
+  cost: 0

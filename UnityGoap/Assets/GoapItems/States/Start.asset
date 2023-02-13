@@ -15,12 +15,32 @@ MonoBehaviour:
   stateName: Start
   stateProperties:
   - name: 0
-    value: 100
+    boolValue: 0
+    intValue: 100
+    floatValue: 0
+    stringValue: 
   - name: 1
-    value: 20
+    boolValue: 0
+    intValue: 20
+    floatValue: 0
+    stringValue: 
   - name: 2
-    value: 10
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
   - name: 3
-    value: 
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
   - name: 4
-    value: true
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+  - name: 5
+    boolValue: 1
+    intValue: 0
+    floatValue: 0
+    stringValue: 
