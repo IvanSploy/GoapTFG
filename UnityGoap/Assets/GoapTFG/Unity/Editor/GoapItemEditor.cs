@@ -1,19 +1,17 @@
 using System;
 using System.Globalization;
+using GoapTFG.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using static GoapTFG.Unity.GoapItemEditor;
 using static GoapTFG.Unity.PropertyManager;
 
 
-
-
-namespace GoapTFG.Unity
+namespace GoapTFG.Unity.Editor
 {
     #region ScriptableObjects
     
     [CustomEditor(typeof(StateScriptableObject))]
-    public class GoapItemEditor : Editor
+    public class GoapItemEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
@@ -37,7 +35,7 @@ namespace GoapTFG.Unity
     }
     
     [CustomEditor(typeof(GoalScriptableObject))]
-    public class GoalEditor : Editor
+    public class GoalEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
@@ -61,7 +59,7 @@ namespace GoapTFG.Unity
     }
     
     [CustomEditor(typeof(ActionScriptableObject))]
-    public class ActionEditor : Editor
+    public class ActionEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

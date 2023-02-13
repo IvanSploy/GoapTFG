@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
 using UnityEngine;
+using static GoapTFG.Unity.GoapData;
 using static GoapTFG.Unity.PropertyManager;
 
-namespace GoapTFG.Unity
+namespace GoapTFG.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Action", menuName = "Goap Items/Action", order = 3)]
     public class ActionScriptableObject : ScriptableObject
@@ -31,7 +32,7 @@ namespace GoapTFG.Unity
             {
                 Cost = cost
             };
-            ActionAdditionalData data = GoapData.GetActionAdditionalData(actionName);
+            ActionAdditionalData data = GetActionAdditionalData(actionName);
             if (data != null)
             {
                 action.ProceduralConditions += data.conditions;

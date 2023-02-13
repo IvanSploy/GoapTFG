@@ -3,218 +3,224 @@ using System.Collections;
 using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
-using GoapTFG.Unity;
+using GoapTFG.Unity.ScriptableObjects;
 using UnityEngine;
-using static GoapData;
+using static GoapTFG.Unity.GoapData;
 using static GoapTFG.Unity.PropertyManager;
 
-public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
+namespace GoapTFG.Unity
 {
-    [Serializable]
-    private struct GoalObject
+    public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
     {
-        [SerializeField]
-        private GoalScriptableObject goal;
-        
-        [Range(0, 15)]
-        [SerializeField]
-        private int priority;
+        [Serializable]
+        private struct GoalObject
+        {
+            [SerializeField] private GoalScriptableObject goal;
 
-        public Goal<PropertyList, object> Create()
-        {
-            return goal.Create(priority);
-        }
-    }
-    
-    [SerializeField]
-    private List<GoalObject> goals;
-    public List<ActionScriptableObject> actions;
-    public bool active = true;
-    public bool hasPlan;
-    public bool performingAction = false;
-    public float speed = 5;
-    
-    //Agent base related
-    private Stack<GoapTFG.Base.Action<PropertyList, object>> _currentPlan;
-    private List<Goal<PropertyList, object>> _goals;
-    private List<GoapTFG.Base.Action<PropertyList, object>> _actions;
-    
-    //Referencias
-    public BlackboardData Blackboard;
+            [Range(0, 15)] [SerializeField] private int priority;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        _currentPlan = new();
-        _goals = new();
-        _actions = new();
-        List<Goal<PropertyList, object>> myGoals = new();
-        List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
-            
-        //OBJETIVOS
-        foreach (var goal in goals)
-        {
-            _goals.Add(goal.Create());
-        }
-        
-        //ACCION PRINCIPAL
-        foreach (var action in actions)
-        {
-            _actions.Add(action.Create(this));
-        }
-        OrderGoals();
-        
-        //Se crea el blackboard utilizado por las acciones de GOAP.
-        Blackboard = new BlackboardData();
-        
-        //Comienza la planificación
-        if (GoapDataInstance == null)
-        {
-            Debug.LogError("GoapData necesario para utilizar Agentes de Goap");
-            throw new Exception();
-        }
-        StartCoroutine(Replan());
-    }
-
-    //CORRUTINAS
-    private IEnumerator Replan()
-    {
-        while (true)
-        {
-            Debug.Log("Estado actual: " + GoapDataInstance.actualState);
-            var id = CreateNewPlan(GoapDataInstance.actualState);
-            if (id >= 0)
+            public Goal<PropertyList, object> Create()
             {
-                var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
-                hasPlan = true;
-                foreach (var action in _currentPlan)
-                {
-                    debugLog += action.Name + "\n";
-                }
-                Debug.Log(debugLog);
+                return goal.Create(priority);
             }
-            if (id < 0) break;
-            StartCoroutine(ExecutePlan());
-            yield return new WaitUntil(() => !hasPlan && active);
-        }
-        Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + GoapDataInstance.actualState);
-    }
-
-    private IEnumerator ExecutePlan()
-    {
-        PropertyGroup<PropertyList, object> result;
-        do
-        {
-            result = PlanStep(GoapDataInstance.actualState);
-            if (result != null) GoapDataInstance.actualState = result;
-            yield return new WaitWhile(() => performingAction);
-        } while (result != null);
-
-        hasPlan = false;
-    }
-
-    //INTERFACE CLASSES
-    
-    public void AddAction(GoapTFG.Base.Action<PropertyList, object> action)
-    {
-        _actions.Add(action);
-    }
-
-    public void AddActions(List<GoapTFG.Base.Action<PropertyList, object>> actions)
-    {
-        _actions.AddRange(actions);
-    }
-
-    public void AddGoal(Goal<PropertyList, object> goal)
-    {
-        _goals.Add(goal);
-        OrderGoals();
-    }
-
-    public void AddGoals(List<Goal<PropertyList, object>> goals)
-    {
-        _goals.AddRange(goals);
-        OrderGoals();
-    }
-
-    public void OrderGoals()
-    {
-        _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
-    }
-
-    public int CreateNewPlan(PropertyGroup<PropertyList, object> initialState)
-    {
-        if (_goals == null || _actions.Count == 0) return -1;
-        var i = 0;
-        var created = false;
-        while (i < _goals.Count && _currentPlan.Count == 0)
-        {
-            created = CreatePlan(initialState, _goals[i], GetCustomHeuristic());
-            i++;
         }
 
-        if (!created) return -1;
-        return i-1;
-    }
+        [SerializeField] private List<GoalObject> goals;
+        public List<ActionScriptableObject> actions;
+        public bool active = true;
+        public bool hasPlan;
+        public bool performingAction = false;
+        public float speed = 5;
 
-    public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
-        Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
-    {
-        var plan = AStar<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
-        if (plan == null) return false;
-        _currentPlan = plan;
-        return true;
-    }
+        //Agent base related
+        private Stack<GoapTFG.Base.Action<PropertyList, object>> _currentPlan;
+        private List<Goal<PropertyList, object>> _goals;
+        private List<GoapTFG.Base.Action<PropertyList, object>> _actions;
 
-    public PropertyGroup<PropertyList, object> DoPlan(PropertyGroup<PropertyList, object> worldState)
-    {
-        if (_currentPlan.Count == 0) return null;
+        //Referencias
+        public BlackboardData Blackboard;
 
-        foreach (var action in _currentPlan)
+        // Start is called before the first frame update
+        void Start()
         {
-            worldState = action.PerformAction(worldState);
+            _currentPlan = new();
+            _goals = new();
+            _actions = new();
+            List<Goal<PropertyList, object>> myGoals = new();
+            List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
+
+            //OBJETIVOS
+            foreach (var goal in goals)
+            {
+                _goals.Add(goal.Create());
+            }
+
+            //ACCION PRINCIPAL
+            foreach (var action in actions)
+            {
+                _actions.Add(action.Create(this));
+            }
+
+            OrderGoals();
+
+            //Se crea el blackboard utilizado por las acciones de GOAP.
+            Blackboard = new BlackboardData();
+
+            //Comienza la planificación
+            if (GoapDataInstance == null)
+            {
+                Debug.LogError("GoapData necesario para utilizar Agentes de Goap");
+                throw new Exception();
+            }
+
+            StartCoroutine(Replan());
         }
 
-        _currentPlan.Clear();
-        return worldState;
-    }
-
-    public PropertyGroup<PropertyList, object> PlanStep(PropertyGroup<PropertyList, object> worldState)
-    {
-        if (_currentPlan.Count == 0 ) return null;
-
-        worldState = _currentPlan.Pop().PerformAction(worldState);
-        return worldState;
-    }
-
-    public int Count()
-    {
-        return _currentPlan.Count;
-    }
-    
-    //MOVEMENT RELATED
-    public void GoToTarget(string target)
-    {
-        performingAction = true;
-        Blackboard.Target = WorkingMemoryManager.Get(target).Position.Value;
-        StartCoroutine(Movement());
-    }
-
-    IEnumerator Movement()
-    {
-        Vector3 finalPos = Blackboard.Target;
-        bool reached = false;
-        while (!reached)
+        //CORRUTINAS
+        private IEnumerator Replan()
         {
-            var position = transform.position;
-            position = Vector3.MoveTowards(position, finalPos,
-                Time.deltaTime * speed);
-            transform.position = position;
-            Vector3 aux = finalPos;
-            aux.y = position.y;
-            if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
-            yield return new WaitForFixedUpdate();
+            while (true)
+            {
+                Debug.Log("Estado actual: " + GoapDataInstance.actualState);
+                var id = CreateNewPlan(GoapDataInstance.actualState);
+                if (id >= 0)
+                {
+                    var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
+                    hasPlan = true;
+                    foreach (var action in _currentPlan)
+                    {
+                        debugLog += action.Name + "\n";
+                    }
+
+                    Debug.Log(debugLog);
+                }
+
+                if (id < 0) break;
+                StartCoroutine(ExecutePlan());
+                yield return new WaitUntil(() => !hasPlan && active);
+            }
+
+            Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
+                             GoapDataInstance.actualState);
         }
-        performingAction = false;
+
+        private IEnumerator ExecutePlan()
+        {
+            PropertyGroup<PropertyList, object> result;
+            do
+            {
+                result = PlanStep(GoapDataInstance.actualState);
+                if (result != null) GoapDataInstance.actualState = result;
+                yield return new WaitWhile(() => performingAction);
+            } while (result != null);
+
+            hasPlan = false;
+        }
+
+        //INTERFACE CLASSES
+
+        public void AddAction(GoapTFG.Base.Action<PropertyList, object> action)
+        {
+            _actions.Add(action);
+        }
+
+        public void AddActions(List<GoapTFG.Base.Action<PropertyList, object>> actions)
+        {
+            _actions.AddRange(actions);
+        }
+
+        public void AddGoal(Goal<PropertyList, object> goal)
+        {
+            _goals.Add(goal);
+            OrderGoals();
+        }
+
+        public void AddGoals(List<Goal<PropertyList, object>> goals)
+        {
+            _goals.AddRange(goals);
+            OrderGoals();
+        }
+
+        public void OrderGoals()
+        {
+            _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
+        }
+
+        public int CreateNewPlan(PropertyGroup<PropertyList, object> initialState)
+        {
+            if (_goals == null || _actions.Count == 0) return -1;
+            var i = 0;
+            var created = false;
+            while (i < _goals.Count && _currentPlan.Count == 0)
+            {
+                created = CreatePlan(initialState, _goals[i], GetCustomHeuristic());
+                i++;
+            }
+
+            if (!created) return -1;
+            return i - 1;
+        }
+
+        public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
+            Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
+        {
+            var plan = AStar<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
+            if (plan == null) return false;
+            _currentPlan = plan;
+            return true;
+        }
+
+        public PropertyGroup<PropertyList, object> DoPlan(PropertyGroup<PropertyList, object> worldState)
+        {
+            if (_currentPlan.Count == 0) return null;
+
+            foreach (var action in _currentPlan)
+            {
+                worldState = action.PerformAction(worldState);
+            }
+
+            _currentPlan.Clear();
+            return worldState;
+        }
+
+        public PropertyGroup<PropertyList, object> PlanStep(PropertyGroup<PropertyList, object> worldState)
+        {
+            if (_currentPlan.Count == 0) return null;
+
+            worldState = _currentPlan.Pop().PerformAction(worldState);
+            return worldState;
+        }
+
+        public int Count()
+        {
+            return _currentPlan.Count;
+        }
+
+        //MOVEMENT RELATED
+        public void GoToTarget(string target)
+        {
+            performingAction = true;
+            Blackboard.Target = WorkingMemoryManager.Get(target).Position.Value;
+            StartCoroutine(Movement());
+        }
+
+        IEnumerator Movement()
+        {
+            Vector3 finalPos = Blackboard.Target;
+            bool reached = false;
+            while (!reached)
+            {
+                var position = transform.position;
+                position = Vector3.MoveTowards(position, finalPos,
+                    Time.deltaTime * speed);
+                transform.position = position;
+                Vector3 aux = finalPos;
+                aux.y = position.y;
+                if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
+                yield return new WaitForFixedUpdate();
+            }
+
+            performingAction = false;
+        }
     }
 }

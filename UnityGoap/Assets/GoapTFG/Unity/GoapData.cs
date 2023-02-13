@@ -1,122 +1,125 @@
-using System.Collections;
 using System.Collections.Generic;
 using GoapTFG.Base;
-using GoapTFG.Unity;
+using GoapTFG.Unity.ScriptableObjects;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 using static GoapTFG.Unity.PropertyManager.PropertyList;
 
-public class ActionAdditionalData
+namespace GoapTFG.Unity
 {
-    public Action<PropertyList, object>.Condition conditions;
-    public Action<PropertyList, object>.Effect effects;
-    public Action<PropertyList, object>.PerformedAction actions;
-}
-
-public class GoapData : MonoBehaviour
-{
-    //Singleton
-    public static GoapData GoapDataInstance;
-    
-    //Propiedades
-    public GameObject[] BlackboardObjects;
-    
-    //Evaluaciones de comparación.
-    //TO DO
-    
-    //Acciones
-    public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
-    
-    //Datos
-    public StateScriptableObject initialState;
-    public PropertyGroup<PropertyList, object> actualState;
-
-
-    void Awake()
+    public class GoapData : MonoBehaviour
     {
-        //Singletone
-        if (GoapDataInstance && GoapDataInstance != this)
+        public class ActionAdditionalData
         {
-            Destroy(this);
-            return;
+            public Action<PropertyList, object>.Condition conditions;
+            public Action<PropertyList, object>.Effect effects;
+            public Action<PropertyList, object>.PerformedAction actions;
         }
-        GoapDataInstance = this;
-        
-        actualState = initialState.Create();
 
-        foreach (var go in BlackboardObjects)
+        //Singleton
+        public static GoapData GoapDataInstance;
+
+        //Propiedades
+        public GameObject[] BlackboardObjects;
+
+        //Evaluaciones de comparación.
+        //TO DO
+
+        //Acciones
+        public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
+
+        //Datos
+        public StateScriptableObject initialState;
+        public PropertyGroup<PropertyList, object> actualState;
+
+
+        void Awake()
         {
-            WorkingMemoryManager.Add(go);
+            //Singletone
+            if (GoapDataInstance && GoapDataInstance != this)
+            {
+                Destroy(this);
+                return;
+            }
+
+            GoapDataInstance = this;
+
+            actualState = initialState.Create();
+
+            foreach (var go in BlackboardObjects)
+            {
+                WorkingMemoryManager.Add(go);
+            }
+
+            //Actions Additional Data
+            ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
+
+            AddPerformedActionsToAction("Go To", (agent) =>
+            {
+                ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target));
+                //Debug.Log("Estado actual: " + GoapDataInstance.actualState);
+            });
+
+            /*AddEffectsToAction("Buy Stone", (ws) =>
+            {
+                var initialGold = (float)ws.Get(GoldCount.ToString());
+                var initialStone = (int)ws.Get(StoneCount.ToString());
+                var num = (int)initialGold / 70;
+                float mod = initialGold % 70;
+                ws.Set(GoldCount.ToString(), mod);
+                ws.Set(StoneCount.ToString(), initialStone + 200 * num);
+            });
+                    
+            AddEffectsToAction("Chop Trees", (ws) =>
+            {
+                var initialStone = (int)ws.Get(StoneCount.ToString());
+                var initialWood = (int)ws.Get(WoodCount.ToString());
+                var num = initialStone / 500;
+                var mod = initialStone % 500;
+                ws.Set(StoneCount.ToString(), mod);
+                ws.Set(WoodCount.ToString(), initialWood + 150 * num);
+            });*/
         }
-        
-        //Actions Additional Data
-        ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
-        
-        AddPerformedActionsToAction("Go To", (agent) =>
+
+        //Actions Additional Data Usages
+        public static ActionAdditionalData GetActionAdditionalData(string key)
         {
-            ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target));
-            //Debug.Log("Estado actual: " + GoapDataInstance.actualState);
-        });
-        
-        /*AddEffectsToAction("Buy Stone", (ws) =>
+            if (!GoapDataInstance.ActionAdditionalDatas.ContainsKey(key)) return null;
+            return GoapDataInstance.ActionAdditionalDatas[key];
+        }
+
+        public static void AddConditionsToAction(string key, Action<PropertyList, object>.Condition condition)
         {
-            var initialGold = (float)ws.Get(GoldCount.ToString());
-            var initialStone = (int)ws.Get(StoneCount.ToString());
-            var num = (int)initialGold / 70;
-            float mod = initialGold % 70;
-            ws.Set(GoldCount.ToString(), mod);
-            ws.Set(StoneCount.ToString(), initialStone + 200 * num);
-        });
-                
-        AddEffectsToAction("Chop Trees", (ws) =>
+            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
+            aad.conditions += condition;
+            SaveAdditionalData(key, aad);
+        }
+
+        public static void AddEffectsToAction(string key, Action<PropertyList, object>.Effect effect)
         {
-            var initialStone = (int)ws.Get(StoneCount.ToString());
-            var initialWood = (int)ws.Get(WoodCount.ToString());
-            var num = initialStone / 500;
-            var mod = initialStone % 500;
-            ws.Set(StoneCount.ToString(), mod);
-            ws.Set(WoodCount.ToString(), initialWood + 150 * num);
-        });*/
-    }
+            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
+            aad.effects += effect;
+            SaveAdditionalData(key, aad);
+        }
 
-    //Actions Additional Data Usages
-    public static ActionAdditionalData GetActionAdditionalData(string key)
-    {
-        if (!GoapDataInstance.ActionAdditionalDatas.ContainsKey(key)) return null;
-        return GoapDataInstance.ActionAdditionalDatas[key];
-    }
+        public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.PerformedAction action)
+        {
+            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
+            aad.actions += action;
+            SaveAdditionalData(key, aad);
+        }
 
-    public static void AddConditionsToAction(string key, Action<PropertyList, object>.Condition condition)
-    {
-        ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
-        aad.conditions += condition;
-        SaveAdditionalData(key, aad);
-    }
+        private static ActionAdditionalData CreateAdditionalDataIfNeeded(string key)
+        {
+            ActionAdditionalData aad;
+            bool hasdata = GoapDataInstance.ActionAdditionalDatas.TryGetValue(key, out aad);
+            if (!hasdata) aad = new ActionAdditionalData();
+            return aad;
+        }
 
-    public static void AddEffectsToAction(string key, Action<PropertyList, object>.Effect effect)
-    {
-        ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
-        aad.effects += effect;
-        SaveAdditionalData(key, aad);
-    }
-
-    public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.PerformedAction action)
-    {
-        ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
-        aad.actions += action;
-        SaveAdditionalData(key, aad);
-    }
-
-    private static ActionAdditionalData CreateAdditionalDataIfNeeded(string key)
-    {
-        ActionAdditionalData aad; 
-        bool hasdata = GoapDataInstance.ActionAdditionalDatas.TryGetValue(key, out aad);
-        if (!hasdata) aad = new ActionAdditionalData();
-        return aad;
-    }
-    
-    private static void SaveAdditionalData(string key, ActionAdditionalData data)
-    {
-        GoapDataInstance.ActionAdditionalDatas[key] = data;
+        private static void SaveAdditionalData(string key, ActionAdditionalData data)
+        {
+            GoapDataInstance.ActionAdditionalDatas[key] = data;
+        }
     }
 }

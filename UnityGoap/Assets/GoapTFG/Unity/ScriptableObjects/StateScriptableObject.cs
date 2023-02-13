@@ -4,7 +4,7 @@ using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
-namespace GoapTFG.Unity
+namespace GoapTFG.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class StateScriptableObject : ScriptableObject
