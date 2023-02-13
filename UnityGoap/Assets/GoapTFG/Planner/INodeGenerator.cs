@@ -11,10 +11,9 @@ namespace GoapTFG.Planner
         /// Peforms the main planning cycle from the start to the end.
         /// </summary>
         /// <param name="currentState">Initial state of the world</param>
-        /// <param name="goal">Objective to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <returns>Stack of actions for the agent.</returns>
-        Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
+        Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState,
             List<Base.Action<TA, TB>> actions);
 
         /// <summary>
@@ -27,8 +26,7 @@ namespace GoapTFG.Planner
         /// Expands the and replaces the current node of the generator.
         /// </summary>
         /// <param name="actions">Actions</param>
-        /// <param name="goal">Objective</param>
-        void ExpandCurrentNode(List<Base.Action<TA, TB>> actions, Goal<TA, TB> goal);
+        void ExpandCurrentNode(List<Base.Action<TA, TB>> actions);
         
         /// <summary>
         /// Gets the final plan that the researcher has found.

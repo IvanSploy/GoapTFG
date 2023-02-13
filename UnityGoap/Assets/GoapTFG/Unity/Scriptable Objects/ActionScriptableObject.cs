@@ -14,17 +14,11 @@ namespace GoapTFG.Unity
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
         [HideInInspector] public int cost;
-    
-        private void Awake()
-        {
-            actionName = name;
-            cost = 1;
-        }
 
         private void OnValidate()
         {
-            cost = Math.Max(1, cost);
-            if(actionName.Equals(""))actionName = name;
+            cost = Math.Max(0, cost);
+            if(actionName is "") actionName = name;
         }
     
         public Base.Action<PropertyList, object> Create(IAgent<PropertyList, object> agent)

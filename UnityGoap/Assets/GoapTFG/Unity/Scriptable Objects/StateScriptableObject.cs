@@ -11,11 +11,6 @@ namespace GoapTFG.Unity
     {
         [HideInInspector] public string stateName;
         [HideInInspector] public List<Property> stateProperties;
-    
-        private void Awake()
-        {
-            stateName = name;
-        }
 
         private void OnValidate()
         {

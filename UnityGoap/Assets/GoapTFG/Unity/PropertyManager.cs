@@ -10,7 +10,7 @@ namespace GoapTFG.Unity
     public static class PropertyManager
     {
         //CONFIGURACIÓN DE LAS PROPIEDADES DEL EJEMPLO
-        [System.Serializable]
+        [Serializable]
         public enum PropertyList {
             WoodCount,
             StoneCount,
@@ -28,13 +28,22 @@ namespace GoapTFG.Unity
             { PropertyList.InTarget, PropertyType.Boolean }
         };
         
+        [Serializable]
+        private enum PropertyType
+        {
+            Boolean = 0,
+            Integer = 1,
+            Float = 2,
+            String = 3
+        }
+        
         /// <summary>
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
         public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            return (goal, worldState) =>
+            /*return (goal, worldState) =>
             {
                 var heuristic = 0;
                 foreach (var name in goal.GetState().GetKeys())
@@ -59,7 +68,7 @@ namespace GoapTFG.Unity
                     }
                 }
                 return heuristic;
-            };
+            };*/
             return null;
         }
         
@@ -134,16 +143,7 @@ namespace GoapTFG.Unity
         #endregion
         
         #region Parsers
-        
-        [Serializable]
-        private enum PropertyType
-        {
-            Boolean = 0,
-            Integer = 1,
-            Float = 2,
-            String = 3
-        }
-        
+
         private static object ParseValue(Property prop)
         {
             object result;

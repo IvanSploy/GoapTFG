@@ -11,11 +11,6 @@ namespace GoapTFG.Unity
     {
         [HideInInspector] public string goalName;
         [HideInInspector] public List<ConditionProperty> goalProperties;
-    
-        private void Awake()
-        {
-            goalName = name;
-        }
         
         private void OnValidate()
         {

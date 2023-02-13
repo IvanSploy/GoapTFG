@@ -8,15 +8,17 @@ namespace GoapTFG.Planner
 {
     public class AStar<TA, TB> : INodeGenerator<TA, TB>
     {
-        private const int ACTION_LIMIT = 150;
+        private const int ACTION_LIMIT = -1;
         
         private Node<TA, TB> _current;
+        private readonly Goal<TA, TB> _goal;
         private readonly SortedSet<Node<TA, TB>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TA, TB>> _expandedNodes;
         private readonly Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
 
-        private AStar(Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic)
+        private AStar(Goal<TA, TB> goal, Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic)
         {
+            _goal = goal;
             _openList = new SortedSet<Node<TA, TB>>();
             _expandedNodes = new HashSet<Node<TA, TB>>();
             _customHeuristic = newHeuristic;
@@ -34,24 +36,24 @@ namespace GoapTFG.Planner
             List<Base.Action<TA, TB>> actions, Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
         {
             if (goal.IsReached(currentState)) return null;
-            AStar<TA, TB> planner = new AStar<TA, TB>(newHeuristic);
-            return planner.DoCreatePlan(currentState, goal, actions);
+            AStar<TA, TB> planner = new AStar<TA, TB>(goal, newHeuristic);
+            return planner.DoCreatePlan(currentState, actions);
         }
 
-        public Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
+        public Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState,
             List<Base.Action<TA, TB>> actions)
         {
-            if (currentState == null || goal == null || actions == null) throw new ArgumentNullException();
+            if (currentState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
             
-            _current = new Node<TA, TB>(currentState, this);
-            var initialHeuristic = _current.GetHeuristic(goal);
+            _current = new Node<TA, TB>(currentState, _goal, this);
+            var initialHeuristic = _current.GetHeuristic();
             _current.EstimatedCost = initialHeuristic;
             _current.TotalCost = initialHeuristic;
             
             while (_current != null && !_current.IsGoal)
             {
-                ExpandCurrentNode(actions, goal);
+                ExpandCurrentNode(actions);
                 _current = Pop(); //Get next node.
                 if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
             }
@@ -71,12 +73,12 @@ namespace GoapTFG.Planner
             return node;
         }
 
-        public void ExpandCurrentNode(List<Base.Action<TA, TB>> actions, Goal<TA, TB> goal)
+        public void ExpandCurrentNode(List<Base.Action<TA, TB>> actions)
         {
             _expandedNodes.Add(_current);
             foreach (var action in actions)
             {
-                Node<TA, TB> newNode = _current.ApplyAction(action, goal);
+                Node<TA, TB> newNode = _current.ApplyAction(action);
                 if(newNode == null) continue;
                 
                 if (_expandedNodes.Contains(newNode))
@@ -86,8 +88,8 @@ namespace GoapTFG.Planner
                     //se actualiza el nodo original con la nueva información.
                     if (newNode.TotalCost < original.TotalCost)
                     {
-                        original.Update(_current, action, goal);
-                        UpdateOrder(original);
+                        original.Update(_current, action);
+                        UpdateChildren(original);
                     }
                 }
                 else if (_openList.Contains(newNode))
@@ -98,7 +100,7 @@ namespace GoapTFG.Planner
                     if (newNode.TotalCost < original.TotalCost)
                     {
                         _openList.Remove(original);
-                        original.Update(_current, action, goal);
+                        original.Update(_current, action);
                         _openList.Add(original);
                     }
                 }
@@ -107,24 +109,26 @@ namespace GoapTFG.Planner
         }
 
         /// <summary>
-        /// Fixes the SortedSet problem of not allowing changing the values inside the Set.
+        /// Update all the children of a node after a change of the parent.
         /// </summary>
-        /// <param name="node"></param>
-        private void UpdateOrder(Node<TA, TB> node)
+        /// <param name="node">Parent Node</param>
+        private void UpdateChildren(Node<TA, TB> node)
         {
-            if (node.GetChildren().Count != 0)
+            if (node.GetChildren().Count == 0) return;
+            
+            foreach (var child in node.GetChildren())
             {
-                foreach (var child in node.GetChildren())
+                if (child.GetChildren().Count != 0)
                 {
-                    UpdateOrder(child);
+                    child.Update(node);
+                    UpdateChildren(child);
                 }
-            }
-            else
-            {
-
-                if (_openList.Remove(node))
+                else
                 {
-                    _openList.Add(node);
+                    if (!_openList.Remove(child)) continue;
+                    
+                    child.Update(node);
+                    _openList.Add(child);
                 }
             }
         }

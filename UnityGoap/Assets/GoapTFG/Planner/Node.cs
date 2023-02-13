@@ -24,12 +24,14 @@ namespace GoapTFG.Planner
         //Fields
         private readonly PropertyGroup<TA, TB> _propertyGroup;
         private readonly List<Node<TA, TB>> _children;
-        private INodeGenerator<TA, TB> _generator;
+        private readonly INodeGenerator<TA, TB> _generator;
+        private readonly Goal<TA, TB> _goal;
         
         //Constructor
-        public Node(PropertyGroup<TA, TB> propertyGroup, INodeGenerator<TA, TB> generator)
+        public Node(PropertyGroup<TA, TB> propertyGroup, Goal<TA, TB> goal, INodeGenerator<TA, TB> generator)
         {
             _propertyGroup = propertyGroup;
+            _goal = goal;
             _generator = generator;
             _children = new List<Node<TA, TB>>();
             TotalCost = 0;
@@ -40,40 +42,40 @@ namespace GoapTFG.Planner
         }
 
         //AStar
-        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action, Goal<TA, TB> goal)
+        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
         {
             PropertyGroup<TA, TB> pg = action.ApplyAction(_propertyGroup);
             if (pg == null) return null;
             
-            Node<TA,TB> node = new Node<TA, TB>(pg, _generator);
-            node.Update(this, action, goal);
+            Node<TA,TB> node = new Node<TA, TB>(pg, _goal, _generator);
+            node.Update(this, action);
             AddChild(node);
             return node;
         }
         
-        public void Update(Node<TA, TB> parent, Base.Action<TA, TB> action, Goal<TA, TB> goal)
+        public void Update(Node<TA, TB> parent, Base.Action<TA, TB> action)
+        {
+            //Se actualiza la accion de origen.
+            Action = action;
+            Update(parent);
+        }
+        
+        public void Update(Node<TA, TB> parent)
         {
             //Se define la relación padre hijo.
-            Action = action;
             Parent = parent;
             
-            //Se definen los costes
-            EstimatedCost = GetHeuristic(goal);
+            //Se actualizan los costes
+            EstimatedCost = GetHeuristic();
             IsGoal = EstimatedCost == 0;
             RealCost = Action.Cost + parent.RealCost;
             TotalCost = EstimatedCost + RealCost;
             ActionCount = parent.ActionCount + 1;
-            
-            //En caso de que tenga hijos se actualizan.
-            foreach (var child in _children)
-            {
-                child.Update(this, child.Action, goal);
-            }
         }
 
-        public int GetHeuristic(Goal<TA, TB> goal)
+        public int GetHeuristic()
         {
-            return _generator.GetCustomHeuristic()?.Invoke(goal, _propertyGroup) ?? goal.CountConflicts(_propertyGroup);
+            return _generator.GetCustomHeuristic()?.Invoke(_goal, _propertyGroup) ?? _goal.CountConflicts(_propertyGroup);
         }
         
         //Planner structure
