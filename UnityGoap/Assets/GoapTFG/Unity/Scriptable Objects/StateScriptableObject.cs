@@ -14,7 +14,7 @@ namespace GoapTFG.Unity
 
         private void OnValidate()
         {
-            if(stateName.Equals(""))stateName = name;
+            if(stateName is "") stateName = name;
         }
 
         public PropertyGroup<PropertyList, object> Create()

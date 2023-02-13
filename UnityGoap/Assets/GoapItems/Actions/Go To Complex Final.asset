@@ -12,7 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
   m_Name: Go To Complex Final
   m_EditorClassIdentifier: 
-  actionName: 
-  preconditions: []
-  effects: []
-  cost: 0
+  actionName: Go To Complex Final
+  preconditions:
+  - name: 3
+    value: '
+
+'
+    condition: 1
+  - name: 4
+    value: 1
+    condition: 0
+  effects:
+  - name: 4
+    value: 0
+    effect: 0
+  cost: 2

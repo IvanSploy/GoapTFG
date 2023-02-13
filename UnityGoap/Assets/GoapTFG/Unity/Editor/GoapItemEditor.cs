@@ -1,6 +1,11 @@
+using System;
+using System.Globalization;
 using UnityEditor;
 using UnityEngine;
 using static GoapTFG.Unity.GoapItemEditor;
+using static GoapTFG.Unity.PropertyManager;
+
+
 
 
 namespace GoapTFG.Unity
@@ -86,7 +91,7 @@ namespace GoapTFG.Unity
     
     #region PropertyDrawers
 
-    [CustomPropertyDrawer(typeof(PropertyManager.Property))]
+    [CustomPropertyDrawer(typeof(Property))]
     public class StatePropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -124,7 +129,34 @@ namespace GoapTFG.Unity
             EditorGUI.LabelField(labelNameRect, "Name");
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
-            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
+            
+            SerializedProperty value = property.FindPropertyRelative("value");
+            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            var typeValue = PropertyManager.GetType(name);
+            
+            switch (typeValue)
+            {
+                case PropertyType.Boolean:
+                    value.stringValue = EditorGUI.Toggle(valueRect, (bool)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Integer:
+                    value.stringValue = EditorGUI.IntField(valueRect, (int)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Float:
+                    value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
+                        .ToString(CultureInfo.InvariantCulture);
+                    break;
+                case PropertyType.TargetState:
+                    value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
+                        TargetStateNames, new[]{0,1,2}).ToString();
+                    break;
+                case PropertyType.String:
+                default:
+                    value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
+                    break;
+            }
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -138,7 +170,7 @@ namespace GoapTFG.Unity
         }
     }
     
-    [CustomPropertyDrawer(typeof(PropertyManager.ConditionProperty))]
+    [CustomPropertyDrawer(typeof(ConditionProperty))]
     public class ConditionPropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -182,7 +214,34 @@ namespace GoapTFG.Unity
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
             EditorGUI.PropertyField(conditionRect, property.FindPropertyRelative("condition"), GUIContent.none);
-            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
+            
+            SerializedProperty value = property.FindPropertyRelative("value");
+            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            var typeValue = PropertyManager.GetType(name);
+            
+            switch (typeValue)
+            {
+                case PropertyType.Boolean:
+                    value.stringValue = EditorGUI.Toggle(valueRect, (bool)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Integer:
+                    value.stringValue = EditorGUI.IntField(valueRect, (int)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Float:
+                    value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
+                        .ToString(CultureInfo.InvariantCulture);
+                    break;
+                case PropertyType.TargetState:
+                    value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
+                        TargetStateNames, new[]{0,1,2}).ToString();
+                    break;
+                case PropertyType.String:
+                default:
+                    value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
+                    break;
+            }
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -196,7 +255,7 @@ namespace GoapTFG.Unity
         }
     }
     
-    [CustomPropertyDrawer(typeof(PropertyManager.EffectProperty))]
+    [CustomPropertyDrawer(typeof(EffectProperty))]
     public class EffectPropertyDrawer : PropertyDrawer
     {
         public static float LABEL_SIZE = 50f;
@@ -240,7 +299,34 @@ namespace GoapTFG.Unity
             EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
             EditorGUI.LabelField(labelValueRect, "Value");
             EditorGUI.PropertyField(effectRect, property.FindPropertyRelative("effect"), GUIContent.none);
-            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("value"), GUIContent.none);
+            
+            SerializedProperty value = property.FindPropertyRelative("value");
+            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            var typeValue = PropertyManager.GetType(name);
+            
+            switch (typeValue)
+            {
+                case PropertyType.Boolean:
+                    value.stringValue = EditorGUI.Toggle(valueRect, (bool)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Integer:
+                    value.stringValue = EditorGUI.IntField(valueRect, (int)ParseValue(name, value.stringValue))
+                        .ToString();
+                    break;
+                case PropertyType.Float:
+                    value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
+                        .ToString(CultureInfo.InvariantCulture);
+                    break;
+                case PropertyType.TargetState:
+                    value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
+                        TargetStateNames, new[]{0,1,2}).ToString();
+                    break;
+                case PropertyType.String:
+                default:
+                    value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
+                    break;
+            }
 
             // Set indent back to what it was
             EditorGUI.indentLevel = indent;
@@ -253,6 +339,6 @@ namespace GoapTFG.Unity
             return EditorGUI.GetPropertyHeight(property) * 2.5f;
         }
     }
-    
+
     #endregion
 }

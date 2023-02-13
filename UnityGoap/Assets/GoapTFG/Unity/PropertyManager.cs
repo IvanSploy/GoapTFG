@@ -16,7 +16,7 @@ namespace GoapTFG.Unity
             StoneCount,
             GoldCount,
             Target,
-            InTarget
+            StateOfTarget
         }
 
         private static readonly Dictionary<PropertyList, PropertyType> ProperTypes = new()
@@ -25,25 +25,33 @@ namespace GoapTFG.Unity
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
             { PropertyList.Target, PropertyType.String },
-            { PropertyList.InTarget, PropertyType.Boolean }
+            { PropertyList.StateOfTarget, PropertyType.TargetState }
         };
         
         [Serializable]
-        private enum PropertyType
+        public enum PropertyType
         {
             Boolean = 0,
             Integer = 1,
             Float = 2,
-            String = 3
+            String = 3,
+            TargetState = 4
         }
-        
+
+        public static string[] TargetStateNames = 
+            { 
+                "Reached",
+                "Going",
+                "Ready" 
+            };
+
         /// <summary>
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
         public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            /*return (goal, worldState) =>
+            return (goal, worldState) =>
             {
                 var heuristic = 0;
                 foreach (var name in goal.GetState().GetKeys())
@@ -68,7 +76,7 @@ namespace GoapTFG.Unity
                     }
                 }
                 return heuristic;
-            };*/
+            };
             return null;
         }
         
@@ -79,7 +87,7 @@ namespace GoapTFG.Unity
             return ProperTypes[property.name];
         }
         
-        private static PropertyType GetType(PropertyList property)
+        public static PropertyType GetType(PropertyList property)
         {
             return ProperTypes[property];
         }
@@ -144,11 +152,11 @@ namespace GoapTFG.Unity
         
         #region Parsers
 
-        private static object ParseValue(Property prop)
+        // ReSharper disable Unity.PerformanceAnalysis
+        public static object ParseValue(PropertyList name, string value)
         {
             object result;
-            var type = GetType(prop);
-            var value = prop.value;
+            var type = GetType(name);
             switch (type)
             {
                 case PropertyType.Boolean:
@@ -163,6 +171,7 @@ namespace GoapTFG.Unity
                     }
                     break;
                 case PropertyType.Integer:
+                case PropertyType.TargetState:
                     try
                     {
                         result = int.Parse(value);
@@ -190,6 +199,13 @@ namespace GoapTFG.Unity
                     break;
             }
             return result;
+        }
+        
+        private static object ParseValue(Property prop)
+        {
+            var name = prop.name;
+            var value = prop.value;
+            return ParseValue(name, value);
         }
         
         private static Func<object, object, bool> ParseCondition(ConditionProperty prop)

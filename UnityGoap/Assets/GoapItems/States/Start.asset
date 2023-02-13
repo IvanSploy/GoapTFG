@@ -21,6 +21,8 @@ MonoBehaviour:
   - name: 2
     value: 10
   - name: 3
-    value: 
+    value: '
+
+'
   - name: 4
-    value: true
+    value: 0
