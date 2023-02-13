@@ -33,9 +33,9 @@ namespace GoapTFG.Unity
         public float speed = 5;
 
         //Agent base related
-        private Stack<GoapTFG.Base.Action<PropertyList, object>> _currentPlan;
+        private Stack<Base.Action<PropertyList, object>> _currentPlan;
         private List<Goal<PropertyList, object>> _goals;
-        private List<GoapTFG.Base.Action<PropertyList, object>> _actions;
+        private List<Base.Action<PropertyList, object>> _actions;
 
         //Referencias
         public BlackboardData Blackboard;
@@ -124,9 +124,9 @@ namespace GoapTFG.Unity
             _actions.Add(action);
         }
 
-        public void AddActions(List<GoapTFG.Base.Action<PropertyList, object>> actions)
+        public void AddActions(List<GoapTFG.Base.Action<PropertyList, object>> actionList)
         {
-            _actions.AddRange(actions);
+            _actions.AddRange(actionList);
         }
 
         public void AddGoal(Goal<PropertyList, object> goal)
@@ -135,9 +135,9 @@ namespace GoapTFG.Unity
             OrderGoals();
         }
 
-        public void AddGoals(List<Goal<PropertyList, object>> goals)
+        public void AddGoals(List<Goal<PropertyList, object>> goalList)
         {
-            _goals.AddRange(goals);
+            _goals.AddRange(goalList);
             OrderGoals();
         }
 

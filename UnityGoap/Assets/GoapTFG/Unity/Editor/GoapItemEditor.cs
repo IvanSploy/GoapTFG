@@ -1,10 +1,8 @@
-using System;
 using System.Globalization;
 using GoapTFG.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
-
 
 namespace GoapTFG.Unity.Editor
 {

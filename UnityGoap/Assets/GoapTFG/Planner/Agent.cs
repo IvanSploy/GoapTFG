@@ -31,9 +31,9 @@ namespace GoapTFG.Planner
             _actions.Add(action);
         }
         
-        public void AddActions(List<Base.Action<TA,TB>> actions)
+        public void AddActions(List<Base.Action<TA,TB>> actionList)
         {
-            _actions.AddRange(actions);
+            _actions.AddRange(actionList);
         }
 
         public void AddGoal(Goal<TA, TB> goal)
@@ -42,9 +42,9 @@ namespace GoapTFG.Planner
             OrderGoals();
         }
         
-        public void AddGoals(List<Goal<TA, TB>> goals)
+        public void AddGoals(List<Goal<TA, TB>> goalList)
         {
-            _goals.AddRange(goals);
+            _goals.AddRange(goalList);
             OrderGoals();
         }
 

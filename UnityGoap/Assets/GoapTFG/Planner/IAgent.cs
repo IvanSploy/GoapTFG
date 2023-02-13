@@ -16,8 +16,8 @@ namespace GoapTFG.Planner
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
-        /// <param name="actions">Actions to be added</param>
-        public void AddActions(List<Base.Action<TA, TB>> actions);
+        /// <param name="actionList">Actions to be added</param>
+        public void AddActions(List<Base.Action<TA, TB>> actionList);
         
         /// <summary>
         /// Add goal to the agent.
@@ -28,8 +28,8 @@ namespace GoapTFG.Planner
         /// <summary>
         /// Add goals to the agent.
         /// </summary>
-        /// <param name="goals"></param>
-        public void AddGoals(List<Goal<TA, TB>> goals);
+        /// <param name="goalList"></param>
+        public void AddGoals(List<Goal<TA, TB>> goalList);
 
         /// <summary>
         /// Manages to create a new plan for the Agent.
