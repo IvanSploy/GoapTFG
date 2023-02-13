@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
   m_Name: Chop Trees
   m_EditorClassIdentifier: 
-  nameItem: Chop Trees
+  actionName: Chop Trees
   preconditions:
   - name: 3
     value: Cottage

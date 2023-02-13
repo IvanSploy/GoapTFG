@@ -12,11 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
   m_Name: Target Hall
   m_EditorClassIdentifier: 
-  nameItem: Target Hall
+  actionName: Target Hall
   preconditions:
   - name: 3
     value: Hall
     condition: 1
+  - name: 4
+    value: true
+    condition: 0
+  - name: 2
+    value: 70
+    condition: 5
   effects:
   - name: 3
     value: Hall

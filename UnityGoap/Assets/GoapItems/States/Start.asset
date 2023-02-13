@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
   m_Name: Start
   m_EditorClassIdentifier: 
-  nameItem: Start
+  stateName: Start
   stateProperties:
   - name: 0
     value: 100
@@ -23,4 +23,4 @@ MonoBehaviour:
   - name: 3
     value: 
   - name: 4
-    value: false
+    value: true

@@ -81,6 +81,11 @@ namespace GoapTFG.Planner
         {
             _children.Add(child);
         }
+        
+        public List<Node<TA, TB>> GetChildren()
+        {
+            return _children;
+        }
 
         public int CompareTo(object obj)
         {
@@ -88,7 +93,8 @@ namespace GoapTFG.Planner
             if (obj.GetType() != GetType()) return -1;
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
-            return TotalCost.CompareTo(objNode.TotalCost);
+            var comp = TotalCost.CompareTo(objNode.TotalCost);
+            return comp == 0 ? -1 : comp;
         }
 
         #region Overrides

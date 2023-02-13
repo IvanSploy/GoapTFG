@@ -36,17 +36,12 @@ namespace GoapTFG.Unity
         {
             return (goal, worldState) =>
             {
-                int heuristic = 0;
+                var heuristic = 0;
                 foreach (var name in goal.GetState().GetKeys())
                 {
                     if(!worldState.HasConflict(name, goal.GetState())) continue;
                     switch (GetType(name))
                     {
-                        case PropertyType.Boolean:
-                        case PropertyType.String:
-                            if (!worldState.HasKey(name) || !goal.GetState().Get(name).Equals(worldState.Get(name))) 
-                                heuristic += 1;
-                            break;
                         case PropertyType.Integer:
                             if (worldState.HasKey(name))
                                 heuristic += Math.Abs((int)goal.GetState().Get(name) - (int)worldState.Get(name));
@@ -56,6 +51,10 @@ namespace GoapTFG.Unity
                             if (worldState.HasKey(name))
                                 heuristic += (int)Mathf.Abs((float)goal.GetState().Get(name) - (float)worldState.Get(name));
                             else heuristic += (int)goal.GetState().Get(name);
+                            break;
+                        default:
+                            if (!worldState.HasKey(name) || !goal.GetState().Get(name).Equals(worldState.Get(name))) 
+                                heuristic += 1;
                             break;
                     }
                 }

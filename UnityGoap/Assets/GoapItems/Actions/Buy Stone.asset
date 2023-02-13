@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
   m_Name: Buy Stone
   m_EditorClassIdentifier: 
-  nameItem: Buy Stone
+  actionName: Buy Stone
   preconditions:
   - name: 3
     value: Hall
@@ -21,13 +21,13 @@ MonoBehaviour:
     value: true
     condition: 0
   - name: 2
-    value: 69
-    condition: 4
+    value: 70
+    condition: 5
   effects:
-  - name: 1
-    value: 200
-    effect: 1
   - name: 2
     value: 70
     effect: 2
+  - name: 1
+    value: 200
+    effect: 1
   cost: 1

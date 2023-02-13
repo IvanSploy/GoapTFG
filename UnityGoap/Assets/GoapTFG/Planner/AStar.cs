@@ -11,13 +11,13 @@ namespace GoapTFG.Planner
         private const int ACTION_LIMIT = -1;
         
         private Node<TA, TB> _current;
-        private readonly List<Node<TA, TB>> _openList;
+        private readonly SortedSet<Node<TA, TB>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TA, TB>> _expandedNodes;
         private readonly Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
 
         private AStar(Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic)
         {
-            _openList = new List<Node<TA, TB>>();
+            _openList = new SortedSet<Node<TA, TB>>();
             _expandedNodes = new HashSet<Node<TA, TB>>();
             _customHeuristic = newHeuristic;
         }
@@ -63,8 +63,8 @@ namespace GoapTFG.Planner
         public Node<TA, TB> Pop()
         {
             if (_openList.Count == 0) return null;
-            Node<TA, TB> node = _openList[0];
-            _openList.RemoveAt(0);
+            Node<TA, TB> node = _openList.Min;
+            _openList.Remove(node);
             Console.Out.WriteLine("Extracted node:\n" + node);
             return node;
         }
@@ -85,12 +85,32 @@ namespace GoapTFG.Planner
                     if (newNode.TotalCost < original.TotalCost)
                     {
                         original.Update(_current, action, goal);
+                        UpdateOrder(original);
                     }
                 }
                 else
                     _openList.Add(newNode);
             }
-            _openList.Sort();
+        }
+
+        /// <summary>
+        /// Fixes the SortedSet problem of not allowing changing the values inside the Set.
+        /// </summary>
+        /// <param name="node"></param>
+        private void UpdateOrder(Node<TA, TB> node)
+        {
+            if (node.GetChildren().Count != 0)
+            {
+                foreach (var child in node.GetChildren())
+                {
+                    UpdateOrder(child);
+                }
+            }
+
+            if (_openList.Remove(node))
+            {
+                _openList.Add(node);
+            }
         }
         
         private static Stack<Base.Action<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
