@@ -11,13 +11,11 @@ namespace GoapTFG.Base
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;
 
-        public delegate bool Condition(PropertyGroup<TA, TB> worldState);
-        public delegate void Effect(PropertyGroup<TA, TB> worldState);
-        
-        public delegate void PerformedAction(IAgent<TA, TB> agent);
+        public delegate bool Condition(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
+        public delegate void Effect(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
         public event Condition ProceduralConditions;
         public event Effect ProceduralEffects;
-        public event PerformedAction PerformedActions;
+        public event Effect PerformedActions;
 
         public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
@@ -35,7 +33,7 @@ namespace GoapTFG.Base
             {
                 if (ProceduralConditions != null)
                 {
-                    return ProceduralConditions.Invoke(worldState);
+                    return ProceduralConditions.Invoke(Agent, worldState);
                 }
                 return true;
             }
@@ -49,7 +47,7 @@ namespace GoapTFG.Base
             worldState += _effects;
             if (ProceduralEffects != null)
             {
-                ProceduralEffects.Invoke(worldState);
+                ProceduralEffects.Invoke(Agent, worldState);
             }
             return worldState;
         }
@@ -62,7 +60,7 @@ namespace GoapTFG.Base
         public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
         {
             worldState = ApplyAction(worldState);
-            PerformedActions?.Invoke(Agent);
+            PerformedActions?.Invoke(Agent, worldState);
             return worldState;
         }
 

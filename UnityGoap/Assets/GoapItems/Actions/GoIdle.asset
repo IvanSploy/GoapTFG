@@ -9,11 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
-  m_Name: Lot Of Gold
+  m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
+  m_Name: GoIdle
   m_EditorClassIdentifier: 
-  nameItem: Lot Of Gold
-  goalProperties:
-  - name: 2
-    value: 100
-    condition: 5
+  actionName: GoIdle
+  preconditions: []
+  effects:
+  - name: 5
+    value: True
+    effect: 0
+  cost: 0

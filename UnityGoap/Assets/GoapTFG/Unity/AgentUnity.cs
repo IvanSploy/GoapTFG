@@ -7,6 +7,7 @@ using GoapTFG.Unity.ScriptableObjects;
 using UnityEngine;
 using static GoapTFG.Unity.GoapData;
 using static GoapTFG.Unity.PropertyManager;
+using Random = UnityEngine.Random;
 
 namespace GoapTFG.Unity
 {
@@ -27,6 +28,7 @@ namespace GoapTFG.Unity
 
         [SerializeField] private List<GoalObject> goals;
         public List<ActionScriptableObject> actions;
+        
         public bool active = true;
         public bool hasPlan;
         public bool performingAction = false;
@@ -36,6 +38,7 @@ namespace GoapTFG.Unity
         private Stack<Base.Action<PropertyList, object>> _currentPlan;
         private List<Goal<PropertyList, object>> _goals;
         private List<Base.Action<PropertyList, object>> _actions;
+        private Goal<PropertyList, object> _currentGoal;
 
         //Referencias
         public BlackboardData Blackboard;
@@ -153,12 +156,18 @@ namespace GoapTFG.Unity
             var created = false;
             while (i < _goals.Count && _currentPlan.Count == 0)
             {
-                created = CreatePlan(initialState, _goals[i], GetCustomHeuristic());
+                _currentGoal = _goals[i];
+                created = CreatePlan(initialState, _currentGoal, GetCustomHeuristic());
                 i++;
             }
 
             if (!created) return -1;
             return i - 1;
+        }
+
+        public Goal<PropertyList, object> GetCurrentGoal()
+        {
+            return _currentGoal;
         }
 
         public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
@@ -220,6 +229,39 @@ namespace GoapTFG.Unity
                 yield return new WaitForFixedUpdate();
             }
 
+            performingAction = false;
+        }
+
+        public void GoIdleling(float radius)
+        {
+            performingAction = true;
+            speed = 4;
+            StartCoroutine(Idleling(radius));
+        }
+        
+        IEnumerator Idleling(float radius)
+        {
+            float rotation = Random.Range(-270f, 270f);
+            var newRot = transform.rotation.eulerAngles;
+            newRot.y += rotation;
+            newRot.y = Mathf.Clamp(newRot.y, -180, 180);
+            transform.rotation = Quaternion.Euler(newRot);
+            Vector3 finalPos = Random.Range(0, radius) * transform.forward;
+            bool reached = false;
+            while (!reached)
+            {
+                var position = transform.position;
+                finalPos.y = position.y;
+                position = Vector3.MoveTowards(position, finalPos,
+                    Time.deltaTime * speed);
+                transform.position = position;
+                Vector3 aux = finalPos;
+                aux.y = position.y;
+                if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
+                yield return new WaitForFixedUpdate();
+            }
+            yield return new WaitForSeconds(2);
+            speed = 10;
             performingAction = false;
         }
     }

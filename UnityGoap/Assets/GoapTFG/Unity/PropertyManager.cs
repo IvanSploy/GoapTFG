@@ -14,7 +14,8 @@ namespace GoapTFG.Unity
             StoneCount,
             GoldCount,
             Target,
-            StateOfTarget
+            StateOfTarget,
+            IsIdle
         }
 
         private static readonly Dictionary<PropertyList, PropertyType> ProperTypes = new()
@@ -23,7 +24,8 @@ namespace GoapTFG.Unity
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
             { PropertyList.Target, PropertyType.String },
-            { PropertyList.StateOfTarget, PropertyType.TargetState }
+            { PropertyList.StateOfTarget, PropertyType.TargetState },
+            { PropertyList.IsIdle, PropertyType.Boolean }
         };
         
         [Serializable]
@@ -49,7 +51,7 @@ namespace GoapTFG.Unity
         /// <returns></returns>
         public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            return (goal, worldState) =>
+            /*return (goal, worldState) =>
             {
                 var heuristic = 0;
                 foreach (var name in goal.GetState().GetKeys())
@@ -74,7 +76,7 @@ namespace GoapTFG.Unity
                     }
                 }
                 return heuristic;
-            };
+            };*/
             return null;
         }
         

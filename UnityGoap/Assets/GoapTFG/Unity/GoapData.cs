@@ -13,7 +13,7 @@ namespace GoapTFG.Unity
         {
             public Action<PropertyList, object>.Condition conditions;
             public Action<PropertyList, object>.Effect effects;
-            public Action<PropertyList, object>.PerformedAction actions;
+            public Action<PropertyList, object>.Effect actions;
         }
 
         //Singleton
@@ -33,6 +33,7 @@ namespace GoapTFG.Unity
         public PropertyGroup<PropertyList, object> actualState;
 
 
+        [ContextMenu("Reset State")]
         void Awake()
         {
             //Singletone
@@ -54,11 +55,21 @@ namespace GoapTFG.Unity
             //Actions Additional Data
             ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
 
-            AddPerformedActionsToAction("Go To", (agent) =>
+            AddPerformedActionsToAction("GoTo", (agent, ws) =>
             {
                 ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target));
                 //Debug.Log("Estado actual: " + GoapDataInstance.actualState);
             });
+            
+            AddConditionsToAction("GoIdle", (agent, ws) =>
+                ((AgentUnity)agent).GetCurrentGoal().Name.Equals("Idleling"));
+            
+            AddPerformedActionsToAction("GoIdle", (agent, ws) =>
+            {
+                ((AgentUnity)agent).GoIdleling(10);
+                ws.Set(IsIdle, false);
+            });
+            
 
             /*AddEffectsToAction("Buy Stone", (ws) =>
             {
@@ -102,7 +113,7 @@ namespace GoapTFG.Unity
             SaveAdditionalData(key, aad);
         }
 
-        public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.PerformedAction action)
+        public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.Effect action)
         {
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
             aad.actions += action;

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
-  m_Name: Pick Mine Gold
+  m_Name: GoTo
   m_EditorClassIdentifier: 
-  actionName: Pick Mine Gold
+  actionName: Go To
   preconditions:
   - name: 3
-    value: Mine
-    condition: 0
+    value: 
+    condition: 1
   - name: 4
-    value: 0
+    value: 2
     condition: 0
   effects:
-  - name: 2
-    value: 100
-    effect: 1
-  cost: 1
+  - name: 4
+    value: 0
+    effect: 0
+  cost: 5

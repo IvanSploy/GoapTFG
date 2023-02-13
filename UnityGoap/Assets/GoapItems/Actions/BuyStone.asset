@@ -10,20 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c401d4d087ab7844b992d090ddb55f34, type: 3}
-  m_Name: Go To Complex Final
+  m_Name: BuyStone
   m_EditorClassIdentifier: 
-  actionName: Go To Complex Final
+  actionName: Buy Stone
   preconditions:
   - name: 3
-    value: '
-
-'
-    condition: 1
-  - name: 4
-    value: 1
+    value: Hall
     condition: 0
-  effects:
   - name: 4
     value: 0
-    effect: 0
-  cost: 2
+    condition: 0
+  - name: 2
+    value: 70
+    condition: 5
+  effects:
+  - name: 2
+    value: 70
+    effect: 2
+  - name: 1
+    value: 200
+    effect: 1
+  cost: 1
