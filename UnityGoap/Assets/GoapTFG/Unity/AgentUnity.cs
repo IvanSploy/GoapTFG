@@ -247,7 +247,7 @@ namespace GoapTFG.Unity
             newRot.y += rotation;
             newRot.y = Mathf.Clamp(newRot.y, -180, 180);
             transform.rotation = Quaternion.Euler(newRot);
-            Vector3 finalPos = Random.Range(0, radius) * transform.forward;
+            Vector3 finalPos = Random.Range(radius * 0.25f, radius) * transform.forward;
             bool reached = false;
             while (!reached)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
 using UnityEngine;
+using GoapTFG.Unity.CodeGenerator;
 using static GoapTFG.Unity.GoapData;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -11,9 +12,15 @@ namespace GoapTFG.Unity.ScriptableObjects
     [CreateAssetMenu(fileName = "Action", menuName = "Goap Items/Action", order = 3)]
     public class ActionScriptableObject : ScriptableObject
     {
+        public static bool GenerateActionNames;
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
         [HideInInspector] public int cost;
+
+        private void Awake()
+        {
+            if (GenerateActionNames) EnumGenerator.CreateActionEnum();
+        }
 
         private void OnValidate()
         {
