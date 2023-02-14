@@ -6,11 +6,18 @@ namespace GoapTFG.Base
     public class Action<TA, TB>
     {
         public IAgent<TA, TB> Agent;
-        public int Cost = 1;
         public string Name;
+
+        public int Cost
+        {
+            set => _cost = value;
+        }
+
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;
-
+        private int _cost = 1;
+        private Func<IAgent<TA, TB>, PropertyGroup<TA, TB>, int> _customCost;
+        
         public delegate bool Condition(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
         public delegate void Effect(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
         public event Condition ProceduralConditions;
@@ -19,11 +26,27 @@ namespace GoapTFG.Base
 
         public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
         {
-            this.Agent = agent;
+            Agent = agent;
             Name = name;
             _preconditions = preconditions != null ?
                 new PropertyGroup<TA, TB>(preconditions) : new PropertyGroup<TA, TB>();
             _effects = effects != null ? new PropertyGroup<TA, TB>(effects) : new PropertyGroup<TA, TB>();
+        }
+
+        //Cost related.
+        public void SetCustomCost(Func<IAgent<TA, TB>, PropertyGroup<TA, TB>, int> customCost)
+        {
+            _customCost = customCost;
+        }
+
+        public int GetCost()
+        {
+            return _cost;
+        }
+        
+        public int GetCost(PropertyGroup<TA, TB> currentState)
+        {
+            return _customCost?.Invoke(Agent, currentState) ?? _cost;
         }
         
         //GOAP utilities.

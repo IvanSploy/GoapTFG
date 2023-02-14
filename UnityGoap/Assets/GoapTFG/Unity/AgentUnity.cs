@@ -209,7 +209,7 @@ namespace GoapTFG.Unity
         public void GoToTarget(string target)
         {
             performingAction = true;
-            Blackboard.Target = WorkingMemoryManager.Get(target).Position.Value;
+            Blackboard.Target = WorkingMemoryManager.Get(target).Position;
             StartCoroutine(Movement());
         }
 
@@ -220,6 +220,7 @@ namespace GoapTFG.Unity
             while (!reached)
             {
                 var position = transform.position;
+                finalPos.y = position.y;
                 position = Vector3.MoveTowards(position, finalPos,
                     Time.deltaTime * speed);
                 transform.position = position;

@@ -3,60 +3,50 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using UnityEngine;
 
-public static class WorkingMemoryManager
+namespace GoapTFG.Unity
 {
-    public static WorkingMemory<Vector3, GameObject> WorkingMemory = new();
-    
-    //Blackboard Management
-    public static void Add(GameObject go)
+    public static class WorkingMemoryManager
     {
-        MemoryFact<Vector3, GameObject> mFact = new MemoryFact<Vector3, GameObject>
+        private static WorkingMemory<Vector3, GameObject> WMemory = new();
+        
+        //Blackboard Management
+        public static void Add(GameObject go)
         {
-            Name = go.name,
-            Position = new()
+            MemoryFact<Vector3, GameObject> mFact = new MemoryFact<Vector3, GameObject>
             {
-                Value = go.transform.position,
-                Confidence = 1
-            },
-            Direction = new()
-            {
-                Value = go.transform.forward,
-                Confidence = 1
-            },
-            Object = new()
-            {
-                Value = go,
-                Confidence = 1
-            },
-            UpdateTime = 0
-        };
-        WorkingMemory.Add(mFact);
-    }
+                Name = go.name,
+                Position = go.transform.position,
+                Direction = go.transform.forward,
+                Object = go
+            };
+            WMemory.Add(mFact);
+        }
 
-    public static MemoryFact<Vector3, GameObject> Get(string name)
-    {
-        return WorkingMemory.Find(name);
-    }
-    
-    public static MemoryFact<Vector3, GameObject> Get(GameObject go)
-    {
-        return WorkingMemory.Find(go);
-    }
-    
-    public static void Update(string name, GameObject go)
-    {
-        WorkingMemory.Remove(name);
-        Add(go);
-    }
-    
-    public static void Update(GameObject go)
-    {
-        WorkingMemory.Remove(go);
-        Add(go);
-    }
+        public static MemoryFact<Vector3, GameObject> Get(string name)
+        {
+            return WMemory.Find(name);
+        }
+        
+        public static MemoryFact<Vector3, GameObject> Get(GameObject go)
+        {
+            return WMemory.Find(go);
+        }
+        
+        public static void Update(string name, GameObject go)
+        {
+            WMemory.Remove(name);
+            Add(go);
+        }
+        
+        public static void Update(GameObject go)
+        {
+            WMemory.Remove(go);
+            Add(go);
+        }
 
-    public static void Remove(GameObject go)
-    {
-        WorkingMemory.Remove(go);
+        public static void Remove(GameObject go)
+        {
+            WMemory.Remove(go);
+        }
     }
 }

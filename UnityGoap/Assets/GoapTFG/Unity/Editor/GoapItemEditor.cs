@@ -21,9 +21,7 @@ namespace GoapTFG.Unity.Editor
             EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
             EditorGUI.indentLevel++;
-        
-            stateScriptableObject.stateName = EditorGUILayout.TextField("Name", stateScriptableObject.stateName);
-            
+
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("stateProperties"), true);
             serializedObject.ApplyModifiedProperties();
@@ -45,8 +43,6 @@ namespace GoapTFG.Unity.Editor
             EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
             EditorGUI.indentLevel++;
-        
-            goalScriptableObject.goalName = EditorGUILayout.TextField("Name", goalScriptableObject.goalName);
 
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("goalProperties"), true);
@@ -70,7 +66,6 @@ namespace GoapTFG.Unity.Editor
 
             EditorGUI.indentLevel++;
         
-            actionScriptableObject.actionName = EditorGUILayout.TextField("Name", actionScriptableObject.actionName);
             actionScriptableObject.cost = EditorGUILayout.IntField("Cost", actionScriptableObject.cost);
             EditorGUILayout.Space();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);

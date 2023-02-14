@@ -68,7 +68,7 @@ namespace GoapTFG.Planner
             //Se actualizan los costes
             EstimatedCost = GetHeuristic();
             IsGoal = EstimatedCost == 0;
-            RealCost = Action.Cost + parent.RealCost;
+            RealCost = Action.GetCost(_propertyGroup) + parent.RealCost;
             TotalCost = EstimatedCost + RealCost;
             ActionCount = parent.ActionCount + 1;
         }

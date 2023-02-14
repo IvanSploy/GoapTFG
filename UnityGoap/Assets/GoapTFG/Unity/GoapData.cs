@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.Planner;
 using GoapTFG.Unity.ScriptableObjects;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
@@ -11,9 +13,10 @@ namespace GoapTFG.Unity
     {
         public class ActionAdditionalData
         {
-            public Action<PropertyList, object>.Condition conditions;
-            public Action<PropertyList, object>.Effect effects;
-            public Action<PropertyList, object>.Effect actions;
+            public Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customCost;
+            public Base.Action<PropertyList, object>.Condition conditions;
+            public Base.Action<PropertyList, object>.Effect effects;
+            public Base.Action<PropertyList, object>.Effect actions;
         }
 
         //Singleton
@@ -55,12 +58,18 @@ namespace GoapTFG.Unity
             //Actions Additional Data
             ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
 
-            AddPerformedActionsToAction("GoTo", (agent, ws) =>
+            AddCustomCostToAction("GoTo", (agent, ws) =>
             {
-                ((AgentUnity)agent).GoToTarget((string)GoapDataInstance.actualState.Get(Target));
-                //Debug.Log("Estado actual: " + GoapDataInstance.actualState);
+                var agentPos = ((AgentUnity)agent).transform.position;
+                var targetPos = WorkingMemoryManager.Get((string)ws.Get(Target)).Position;
+                return (int)Vector3.Distance(agentPos, targetPos);
             });
             
+            AddPerformedActionsToAction("GoTo", (agent, ws) =>
+            {
+                ((AgentUnity)agent).GoToTarget((string)ws.Get(Target));
+            });
+
             AddConditionsToAction("GoIdle", (agent, ws) =>
                 ((AgentUnity)agent).GetCurrentGoal().Name.Equals("Idleling"));
             
@@ -99,21 +108,29 @@ namespace GoapTFG.Unity
             return GoapDataInstance.ActionAdditionalDatas[key];
         }
 
-        public static void AddConditionsToAction(string key, Action<PropertyList, object>.Condition condition)
+        public static void AddCustomCostToAction(string key,
+            Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customCost)
+        {
+            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
+            aad.customCost = customCost;
+            SaveAdditionalData(key, aad);
+        }
+        
+        public static void AddConditionsToAction(string key, Base.Action<PropertyList, object>.Condition condition)
         {
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
             aad.conditions += condition;
             SaveAdditionalData(key, aad);
         }
 
-        public static void AddEffectsToAction(string key, Action<PropertyList, object>.Effect effect)
+        public static void AddEffectsToAction(string key, Base.Action<PropertyList, object>.Effect effect)
         {
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
             aad.effects += effect;
             SaveAdditionalData(key, aad);
         }
 
-        public static void AddPerformedActionsToAction(string key, Action<PropertyList, object>.Effect action)
+        public static void AddPerformedActionsToAction(string key, Base.Action<PropertyList, object>.Effect action)
         {
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(key);
             aad.actions += action;

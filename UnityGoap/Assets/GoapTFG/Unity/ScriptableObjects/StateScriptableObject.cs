@@ -9,13 +9,7 @@ namespace GoapTFG.Unity.ScriptableObjects
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class StateScriptableObject : ScriptableObject
     {
-        [HideInInspector] public string stateName;
         [HideInInspector] public List<Property> stateProperties;
-
-        private void OnValidate()
-        {
-            if(stateName is "") stateName = name;
-        }
 
         public PropertyGroup<PropertyList, object> Create()
         {

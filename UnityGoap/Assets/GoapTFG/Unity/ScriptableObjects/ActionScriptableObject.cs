@@ -11,7 +11,6 @@ namespace GoapTFG.Unity.ScriptableObjects
     [CreateAssetMenu(fileName = "Action", menuName = "Goap Items/Action", order = 3)]
     public class ActionScriptableObject : ScriptableObject
     {
-        [HideInInspector] public string actionName;
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
         [HideInInspector] public int cost;
@@ -19,7 +18,6 @@ namespace GoapTFG.Unity.ScriptableObjects
         private void OnValidate()
         {
             cost = Math.Max(0, cost);
-            if(actionName is "") actionName = name;
         }
     
         public Base.Action<PropertyList, object> Create(IAgent<PropertyList, object> agent)
@@ -28,13 +26,14 @@ namespace GoapTFG.Unity.ScriptableObjects
             AddIntoPropertyGroup(preconditions, ref precsPg);
             PropertyGroup<PropertyList, object> effectsPg = new();
             AddIntoPropertyGroup(effects, ref effectsPg);
-            Base.Action<PropertyList, object> action = new(agent, actionName, precsPg, effectsPg)
+            Base.Action<PropertyList, object> action = new(agent, name, precsPg, effectsPg)
             {
                 Cost = cost
             };
-            ActionAdditionalData data = GetActionAdditionalData(actionName);
+            ActionAdditionalData data = GetActionAdditionalData(name);
             if (data != null)
             {
+                action.SetCustomCost(data.customCost);
                 action.ProceduralConditions += data.conditions;
                 action.ProceduralEffects += data.effects;
                 action.PerformedActions += data.actions;
