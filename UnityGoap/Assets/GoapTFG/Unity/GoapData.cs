@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using GoapTFG.Base;
 using GoapTFG.Planner;
-using GoapTFG.Unity.Enums;
 using GoapTFG.Unity.ScriptableObjects;
-using UnityEngine;
-using static GoapTFG.Unity.Enums.GoalName;
-using static GoapTFG.Unity.Enums.ActionName;
+using GoapTFG.Unity.CodeGenerator.Enums;
 using static GoapTFG.Unity.PropertyManager;
 using static GoapTFG.Unity.PropertyManager.PropertyList;
 using static GoapTFG.Unity.PropertyManager.PropertyType;
+using static GoapTFG.Unity.CodeGenerator.Enums.GoalName;
+using static GoapTFG.Unity.CodeGenerator.Enums.ActionName;
 
 namespace GoapTFG.Unity
 {

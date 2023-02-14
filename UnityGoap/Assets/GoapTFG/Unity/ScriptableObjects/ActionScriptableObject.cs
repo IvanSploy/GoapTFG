@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.Planner;
 using UnityEngine;
-using GoapTFG.Unity.CodeGenerator;
+using static GoapTFG.Unity.CodeGenerator.EnumGenerator;
 using static GoapTFG.Unity.GoapData;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -19,7 +19,7 @@ namespace GoapTFG.Unity.ScriptableObjects
 
         private void Awake()
         {
-            if (GenerateActionNames) EnumGenerator.CreateActionEnum();
+            if (GenerateActionNames) CreateActionEnum();
         }
 
         private void OnValidate()

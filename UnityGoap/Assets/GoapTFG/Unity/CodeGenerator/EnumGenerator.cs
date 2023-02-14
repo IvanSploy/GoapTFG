@@ -6,8 +6,8 @@ namespace GoapTFG.Unity.CodeGenerator
 {
     public static class EnumGenerator
     {
-        private const string GeneratedCodePath = "Assets/GoapTFG/Unity/Enums/";
-        private const string GeneratedNamespace = "GoapTFG.Unity.Enums";
+        private const string GeneratedCodePath = "Assets/GoapTFG/Unity/CodeGenerator/Enums/";
+        private const string GeneratedNamespace = "GoapTFG.Unity.CodeGenerator.Enums";
         private const string ScriptableObjectsPath = "Assets/GoapItems";
         
         [MenuItem("GoapTFG/GenerateGoals")]

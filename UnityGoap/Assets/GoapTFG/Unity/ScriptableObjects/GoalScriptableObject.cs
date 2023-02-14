@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
-using GoapTFG.Unity.CodeGenerator;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
+using static GoapTFG.Unity.CodeGenerator.EnumGenerator;
 
 namespace GoapTFG.Unity.ScriptableObjects
 {
@@ -22,7 +21,7 @@ namespace GoapTFG.Unity.ScriptableObjects
         
         private void Awake()
         {
-            if (GenerateGoalNames) EnumGenerator.CreateGoalEnum();
+            if (GenerateGoalNames) CreateGoalEnum();
         }
     }
 }

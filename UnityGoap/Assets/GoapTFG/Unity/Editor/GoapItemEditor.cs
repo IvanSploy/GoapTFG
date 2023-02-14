@@ -1,12 +1,8 @@
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using GoapTFG.Unity.CodeGenerator;
 using GoapTFG.Unity.ScriptableObjects;
 using UnityEditor;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
+using static GoapTFG.Unity.CodeGenerator.EnumGenerator;
 using static GoapTFG.Unity.PropertyManager;
 
 namespace GoapTFG.Unity.Editor
@@ -51,7 +47,7 @@ namespace GoapTFG.Unity.Editor
                 
                 if (GUILayout.Button("Generate Goal Names"))
                 {
-                    EnumGenerator.CreateGoalEnum();
+                    CreateGoalEnum();
                 }
 
                 EditorGUILayout.Space();
@@ -85,7 +81,7 @@ namespace GoapTFG.Unity.Editor
                 
                 if (GUILayout.Button("Generate Action Names"))
                 {
-                    EnumGenerator.CreateActionEnum();
+                    CreateActionEnum();
                 }
                 
                 EditorGUILayout.Space();

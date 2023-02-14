@@ -1,4 +1,4 @@
-namespace GoapTFG.Unity.Enums
+namespace GoapTFG.Unity.CodeGenerator.Enums
 {
 	public enum ActionName
 	{
