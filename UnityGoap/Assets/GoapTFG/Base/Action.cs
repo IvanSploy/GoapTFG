@@ -1,5 +1,4 @@
 using System;
-using GoapTFG.Planner;
 
 namespace GoapTFG.Base
 {
@@ -75,9 +74,31 @@ namespace GoapTFG.Base
             return worldState;
         }
         
+        public PropertyGroup<TA, TB> ApplyRegresiveAction(PropertyGroup<TA, TB> worldState, ref Goal<TA, TB> goal, out bool reached)
+        {
+            worldState = ForceAction(worldState);
+            Goal<TA, TB> auxGoal = goal + _preconditions;
+            //auxGoal.ProceduralConditions += ProceduralConditions;
+            var conflicts = auxGoal.GetConflicts(worldState);
+            if (conflicts != null)
+            {
+                goal = new Goal<TA, TB>(goal.Name, conflicts, goal.PriorityLevel);
+                reached = false;
+            }
+            //reached = goal.CheckProcedural(Agent, worldState);
+            reached = true;
+            return worldState;
+        }
+        
         public PropertyGroup<TA, TB> ForceAction(PropertyGroup<TA, TB> worldState)
         {
-            return worldState + _effects;
+            worldState += _effects;
+            if (ProceduralEffects != null)
+            {
+                ProceduralEffects.Invoke(Agent, worldState);
+            }
+
+            return worldState;
         }
 
         public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
