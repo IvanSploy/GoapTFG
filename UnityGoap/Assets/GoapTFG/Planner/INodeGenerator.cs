@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using GoapTFG.Base;
+﻿using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
@@ -10,44 +7,30 @@ namespace GoapTFG.Planner
         /// <summary>
         /// Peforms the main planning cycle from the start to the end.
         /// </summary>
-        /// <param name="currentState">Initial state of the world</param>
-        /// <param name="actions">Actions aviable for the agent.</param>
+        /// <param name="currentState">Initial state of the world.</param>
+        /// <param name="goal">Goal expected to reach.</param>
         /// <returns>Stack of actions for the agent.</returns>
-        Stack<Base.Action<TA, TB>> DoCreatePlan(PropertyGroup<TA, TB> currentState,
-            List<Base.Action<TA, TB>> actions);
+        Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal);
 
         /// <summary>
-        /// Extracts the next node to be expanded.
+        /// Retrieves the next node that has to be analyzed by the generator.
         /// </summary>
-        /// <returns>Node of the researcher.</returns>
-        Node<TA, TB> Pop();
+        /// <param name="current">The last node analized</param>
+        /// <returns></returns>
+        Node<TA, TB> GetNextNode(Node<TA, TB> current);
 
         /// <summary>
-        /// Expands the and replaces the current node of the generator.
+        /// Relations a parent with a child though an action.
         /// </summary>
-        /// <param name="actions">Actions</param>
-        void ExpandCurrentNode(List<Base.Action<TA, TB>> actions);
+        /// <param name="parent"></param>
+        /// <param name="child"></param>
+        /// <param name="action"></param>
+        void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, Action<TA, TB> action);
         
-        /// <summary>
-        /// Gets the final plan that the researcher has found.
-        /// </summary>
-        /// <param name="nodeGoal">Objective node</param>
-        /// <returns>Stack of actions.</returns>
-        static Stack<Base.Action<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
-        {
-            Stack<Base.Action<TA, TB>> plan = new Stack<Base.Action<TA, TB>>();
-            while (nodeGoal.Parent != null)
-            {
-                plan.Push(nodeGoal.Action);
-                nodeGoal = nodeGoal.Parent;
-            }
-            return plan;
-        }
-
         /// <summary>
         /// Retrieves the custom heuristic of the generator if exists.
         /// </summary>
         /// <returns>Custom heuristic.</returns>
-        Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic();
+        System.Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic();
     }
 }

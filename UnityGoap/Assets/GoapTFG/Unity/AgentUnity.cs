@@ -173,7 +173,7 @@ namespace GoapTFG.Unity
         public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
             Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
         {
-            var plan = AStar<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
+            var plan = Planner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

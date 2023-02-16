@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 namespace GoapTFG.Base
 {
@@ -71,21 +72,23 @@ namespace GoapTFG.Base
         
         private bool HasConflict(KeyValuePair<TA, GpValue> mainPair)
         {
-            TA key = mainPair.Key;
-            if (!HasKey(key)) return true;
-            //Se prioriza el predicado de condición de la clave en caso de que exista.
-            if(mainPair.Value.Condition != null) return !mainPair.Value.Condition(_values[key].Value,
-                mainPair.Value.Value);
-            return !_values[key].Value.Equals(mainPair.Value.Value);
+            return HasConflict(mainPair.Key, mainPair.Value);
         }
         
         public bool HasConflict(TA key, PropertyGroup<TA, TB> mainPg)
         {
-            if (!HasKey(key)) return true;
+            return HasConflict(key, mainPg._values[key]);
+        }
+        
+        private bool HasConflict(TA key, GpValue mainValue)
+        {
+            object defaultValue = mainValue.Value.GetType().Default();
+            TB myValue = !HasKey(key) ? (TB) defaultValue : _values[key].Value;
+                
             //Se prioriza el predicado de condición de la clave en caso de que exista.
-            if(mainPg._values[key].Condition != null) return !mainPg._values[key].Condition(_values[key].Value,
-                mainPg._values[key].Value);
-            return !_values[key].Value.Equals(mainPg._values[key].Value);
+            if(mainValue.Condition != null) return !mainValue.Condition(myValue, mainValue.Value);
+            if (myValue == null) return true; //Si el valor por defecto es nulo, hay conflicto.
+            return !myValue.Equals(mainValue.Value); //Si no son iguales, hay conflicto.
         }
 
         //Dictionary

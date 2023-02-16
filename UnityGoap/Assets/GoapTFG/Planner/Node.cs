@@ -1,92 +1,94 @@
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
-    public class Node<TA, TB> : IComparable
+    /// <summary>
+    /// Defines the Node used by the Planner Search.
+    /// </summary>
+    /// <typeparam name="TA">Key type</typeparam>
+    /// <typeparam name="TB">Value type</typeparam>
+    public abstract class Node<TA, TB> : System.IComparable
     {
         //Properties
         public Node<TA, TB> Parent { get; set; }
-
-        public Base.Action<TA, TB> Action { get; set; }
-
+        public Action<TA, TB> Action { get; set; }
         public int TotalCost { get; set; }
-
-        public int EstimatedCost { get; set; }
-        
-        public int RealCost { get; set; }
-
         public int ActionCount { get; set; }
-
         public bool IsGoal { get; set; }
-
+        public List<Node<TA, TB>> Children { get; }
+        public Goal<TA, TB> Goal { get; }
+        
         //Fields
-        private readonly PropertyGroup<TA, TB> _propertyGroup;
-        private readonly List<Node<TA, TB>> _children;
-        private readonly INodeGenerator<TA, TB> _generator;
-        private readonly Goal<TA, TB> _goal;
+        protected readonly PropertyGroup<TA, TB> PropertyGroup;
         
         //Constructor
-        public Node(PropertyGroup<TA, TB> propertyGroup, Goal<TA, TB> goal, INodeGenerator<TA, TB> generator)
+        protected Node(PropertyGroup<TA, TB> propertyGroup, Goal<TA, TB> goal)
         {
-            _propertyGroup = propertyGroup;
-            _goal = goal;
-            _generator = generator;
-            _children = new List<Node<TA, TB>>();
+            PropertyGroup = propertyGroup;
+            Goal = goal;
+            Children = new List<Node<TA, TB>>();
             TotalCost = 0;
-            RealCost = 0;
-            EstimatedCost = 0;
             ActionCount = 0;
             IsGoal = false;
         }
 
-        //AStar
-        public Node<TA, TB> ApplyAction(Base.Action<TA, TB> action)
+            //Used By Generator
+        /// <summary>
+        /// Applies an action to a Node and creates the Node that result.
+        /// </summary>
+        /// <param name="action">Action applied to the node.</param>
+        /// <returns>Node result.</returns>
+        public Node<TA, TB> ApplyAction(Action<TA, TB> action)
         {
-            PropertyGroup<TA, TB> pg = action.ApplyAction(_propertyGroup);
-            if (pg == null) return null;
-            
-            Node<TA,TB> node = new Node<TA, TB>(pg, _goal, _generator);
-            node.Update(this, action);
-            AddChild(node);
-            return node;
+            var pg = action.ApplyAction(PropertyGroup);
+            return pg == null ? null : CreateChildNode(pg, Goal, action);
         }
-        
-        public void Update(Node<TA, TB> parent, Base.Action<TA, TB> action)
+
+        /// <summary>
+        /// Do regressive apply for the current state and node.
+        /// </summary>
+        /// <param name="action">Action applied to the node.</param>
+        /// <param name="goal">Goal to be modified</param>
+        /// <param name="reached">If the node has no conflicts</param>
+        /// <returns>Node result.</returns>
+        public Node<TA, TB> ApplyRegressiveAction(Action<TA, TB> action, Goal<TA, TB> goal, out bool reached)
+        {
+            return CreateChildNode(action.ApplyRegresiveAction(PropertyGroup, ref goal, out reached), goal, action);
+        }
+
+        /// <summary>
+        /// Performs the creation of a new Node based on an existent PG.
+        /// </summary>
+        /// <param name="pg">Property Group</param>
+        /// <param name="goal"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        protected abstract Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, Goal<TA, TB> goal, Action<TA, TB> action);
+
+        /// <summary>
+        /// Update the info related to the parent and the action that leads to this node.
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="action">Action that leads to this node.</param>
+        public void Update(Node<TA, TB> parent, Action<TA, TB> action)
         {
             //Se actualiza la accion de origen.
             Action = action;
+            ActionCount = parent.ActionCount + 1;
             Update(parent);
         }
         
-        public void Update(Node<TA, TB> parent)
+        /// <summary>
+        /// Updates the Node to sets a new Parent and all the related info.
+        /// </summary>
+        /// <param name="parent"></param>
+        public virtual void Update(Node<TA, TB> parent)
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            
-            //Se actualizan los costes
-            EstimatedCost = GetHeuristic();
-            IsGoal = EstimatedCost == 0;
-            RealCost = Action.GetCost(_propertyGroup) + parent.RealCost;
-            TotalCost = EstimatedCost + RealCost;
+            TotalCost = Action.GetCost();
             ActionCount = parent.ActionCount + 1;
-        }
-
-        public int GetHeuristic()
-        {
-            return _generator.GetCustomHeuristic()?.Invoke(_goal, _propertyGroup) ?? _goal.CountConflicts(_propertyGroup);
-        }
-        
-        //Planner structure
-        private void AddChild(Node<TA, TB> child)
-        {
-            _children.Add(child);
-        }
-        
-        public List<Node<TA, TB>> GetChildren()
-        {
-            return _children;
         }
 
         public int CompareTo(object obj)
@@ -111,12 +113,12 @@ namespace GoapTFG.Planner
 
             Node<TA, TB> objNode = (Node<TA, TB>)obj;
             
-            return _propertyGroup.Equals(objNode._propertyGroup);
+            return PropertyGroup.Equals(objNode.PropertyGroup);
         }
 
         public override int GetHashCode()
         {
-            return _propertyGroup.GetHashCode();
+            return PropertyGroup.GetHashCode();
         }
 
         public override string ToString()
@@ -124,7 +126,7 @@ namespace GoapTFG.Planner
             string text = "";
             if (Action == null) text += "Initial Node";
             else text += Action.Name;
-            text += " | Costes: " + RealCost + " | " + EstimatedCost + " | " + TotalCost + "\n";
+            text += " | Costes: " + TotalCost + "\n";
             return text;
         }
         #endregion
