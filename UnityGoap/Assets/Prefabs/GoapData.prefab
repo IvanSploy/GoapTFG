@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1329233584919667090}
   - component: {fileID: 1329233584919667089}
-  - component: {fileID: 1329233584919667091}
   m_Layer: 0
   m_Name: GoapData
   m_TagString: Untagged
@@ -45,27 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ba8308c6e0e914197b0ec52092bb46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialState:
-  - name: 0
-    value: 500
-  - name: 1
-    value: 100
-  - name: 2
-    value: 0
-  - name: 3
-    value: true
-  - name: 4
-    value: Muerto de Hambre
-  blackboard: {fileID: 1329233584919667091}
---- !u!114 &1329233584919667091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1329233584919667088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d1981e0e71f354e911887be952cce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  BlackboardObjects: []
+  initialState: {fileID: 0}

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
   m_Name: ChopTrees
   m_EditorClassIdentifier: 
-  goalName: Chop Trees
   goalProperties:
   - name: 0
-    value: 750
+    value: 200
     condition: 5
