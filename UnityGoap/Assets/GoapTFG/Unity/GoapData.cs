@@ -64,7 +64,7 @@ namespace GoapTFG.Unity
 
             AddPerformedActionsToAction(GoTo, (agent, ws) =>
             {
-                ((AgentUnity)agent).GoToTarget((string)ws.Get(Target));
+                ((AgentUnity)agent).GoToTarget((string)ws.GetValue(Target));
             });
 
             AddConditionsToAction(GoIdle, (agent, ws) =>
@@ -101,7 +101,7 @@ namespace GoapTFG.Unity
             AddCustomCostToAction(GoTo, (agent, ws) =>
             {
                 var agentPos = ((AgentUnity)agent).transform.position;
-                var targetPos = WorkingMemoryManager.Get((string)ws.Get(Target)).Position;
+                var targetPos = WorkingMemoryManager.Get((string)ws.GetValue(Target)).Position;
                 return (int)Vector3.Distance(agentPos, targetPos);
             });
         }
@@ -169,23 +169,23 @@ namespace GoapTFG.Unity
             return (goal, worldState) =>
             {
                 var heuristic = 0;
-                foreach (var name in goal.GetState().GetKeys())
+                foreach (var key in goal.GetState().GetKeys())
                 {
-                    if(!worldState.HasConflict(name, goal.GetState())) continue;
-                    switch (PropertyManager.GetType(name))
+                    if(!worldState.HasConflict(key, goal.GetState())) continue;
+                    switch (PropertyManager.GetType(key))
                     {
                         case Integer:
-                            if (worldState.HasKey(name))
-                                heuristic += Math.Abs((int)goal.GetState().Get(name) - (int)worldState.Get(name));
-                            else heuristic += (int)goal.GetState().Get(name);
+                            if (worldState.HasKey(key))
+                                heuristic += Math.Abs((int)goal.GetState().GetValue(key) - (int)worldState.GetValue(key));
+                            else heuristic += (int)goal.GetState().GetValue(key);
                             break;
                         case Float:
-                            if (worldState.HasKey(name))
-                                heuristic += (int)Mathf.Abs((float)goal.GetState().Get(name) - (float)worldState.Get(name));
-                            else heuristic += (int)goal.GetState().Get(name);
+                            if (worldState.HasKey(key))
+                                heuristic += (int)Mathf.Abs((float)goal.GetState().GetValue(key) - (float)worldState.GetValue(key));
+                            else heuristic += (int)goal.GetState().GetValue(key);
                             break;
                         default:
-                            if (!worldState.HasKey(name) || !goal.GetState().Get(name).Equals(worldState.Get(name))) 
+                            if (!worldState.HasKey(key) || !goal.GetState().GetValue(key).Equals(worldState.GetValue(key))) 
                                 heuristic += 1;
                             break;
                     }

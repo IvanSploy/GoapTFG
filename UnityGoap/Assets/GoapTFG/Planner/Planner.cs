@@ -14,8 +14,8 @@ namespace GoapTFG.Planner
         private const int ACTION_LIMIT = 9999;
         
         private Node<TA, TB> _current;
-        private Goal<TA, TB> _goal;
-        private INodeGenerator<TA, TB> _nodeGenerator; 
+        private readonly Goal<TA, TB> _goal;
+        private readonly INodeGenerator<TA, TB> _nodeGenerator; 
 
         private Planner(Goal<TA, TB> goal, INodeGenerator<TA, TB> nodeGenerator)
         {
@@ -49,17 +49,17 @@ namespace GoapTFG.Planner
             
             while (_current != null)
             {
-                for (int i = 0; i < actions.Count; i++)
+                foreach (var action in actions)
                 {
-                    Node<TA, TB> child = _current.ApplyAction(actions[i]);
-                    _nodeGenerator.AddChildToParent(_current, child, actions[i]);
+                    Node<TA, TB> child = _current.ApplyAction(action);
+                    if(child == null) continue;
+                    if(child.IsGoal) return IPlanner<TA, TB>.GetPlan(child); //Fin de la búsqueda.
+                    _nodeGenerator.AddChildToParent(_current, child, action);
                 }
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
+                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
             }
-            
-            if (_current == null) return null; //Plan doesnt exist.
-            return IPlanner<TA, TB>.GetPlan(_current); //Gets the plan of the goal node.
+            return null; //Plan doesnt exist.
         }
     }
 }

@@ -14,13 +14,17 @@ namespace GoapTFG.Planner
         private const int ACTION_LIMIT = 9999;
         
         private Node<TA, TB> _current;
-        private Goal<TA, TB> _goal;
-        private INodeGenerator<TA, TB> _nodeGenerator; 
+        private readonly Goal<TA, TB> _goal;
+        private readonly INodeGenerator<TA, TB> _nodeGenerator; 
+        private readonly Dictionary<TA, List<Base.Action<TA, TB>>> _actions; 
+        private readonly HashSet<string> _actionsVisited; 
 
         private RegressivePlanner(Goal<TA, TB> goal, INodeGenerator<TA, TB> nodeGenerator)
         {
             _goal = goal;
             _nodeGenerator = nodeGenerator;
+            _actions = new Dictionary<TA, List<Base.Action<TA, TB>>>();
+            _actionsVisited = new HashSet<string>();
         }
 
         /// <summary>
@@ -35,7 +39,7 @@ namespace GoapTFG.Planner
             List<Base.Action<TA, TB>> actions, Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
         {
             if (goal.IsReached(currentState)) return null;
-            RegressivePlanner<TA, TB> regressivePlanner = new RegressivePlanner<TA, TB>(goal, new AStar<TA, TB>(newHeuristic));
+            var regressivePlanner = new RegressivePlanner<TA, TB>(goal, new AStar<TA, TB>(newHeuristic));
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
@@ -44,23 +48,48 @@ namespace GoapTFG.Planner
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
+
+            RegisterActions(actions);
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             
             while (_current != null)
             {
-                for (int i = 0; i < actions.Count; i++)
+                foreach (var key in _current.Goal.GetState().GetKeys())
                 {
-                    Node<TA, TB> child = _current.ApplyRegressiveAction(actions[i], _current.Goal, out bool reached);
-                    if (!reached) goto IsGoal;
-                    _nodeGenerator.AddChildToParent(_current, child, actions[i]);
+                    foreach (var action in _actions[key])
+                    {
+                        if(_actionsVisited.Contains(action.Name)) continue;
+                        _actionsVisited.Add(action.Name);
+                        var child = _current.ApplyRegressiveAction(action, _current.Goal, out var reached);
+                        if(child == null) continue;
+                        if (reached)
+                        {
+                            return IPlanner<TA, TB>.GetInvertedPlan(child);
+                        }
+                        _nodeGenerator.AddChildToParent(_current, child, action);
+                    }
                 }
+                _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
+                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
             }
             
-            if (_current == null) return null; //Plan doesnt exist.
-            IsGoal: return IPlanner<TA, TB>.GetPlan(_current); //Gets the plan of the goal node.
+            return null; //Plan doesnt exist.
+        }
+
+        private void RegisterActions(List<Base.Action<TA, TB>> actions)
+        {
+            foreach (var action in actions)
+            {
+                foreach (var key in action.GetEffects().GetKeys())
+                {
+                    if(!_actions.ContainsKey(key))
+                        _actions[key] = new List<Base.Action<TA, TB>>{action};
+                    else
+                        _actions[key].Add(action);
+                }
+            }
         }
     }
 }

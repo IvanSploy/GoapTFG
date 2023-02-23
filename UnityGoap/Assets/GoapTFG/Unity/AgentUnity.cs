@@ -26,19 +26,22 @@ namespace GoapTFG.Unity
             }
         }
 
-        [SerializeField] private List<GoalObject> goals;
-        public List<ActionScriptableObject> actions;
+        [SerializeField] private List<GoalObject> goalObjects;
+        [SerializeField] private List<ActionScriptableObject> actionObjects;
         
         public bool active = true;
         public bool hasPlan;
         public bool performingAction = false;
+        public bool regressivePlan = false;
         public float speed = 5;
+        
 
         //Agent base related
         private Stack<Base.Action<PropertyList, object>> _currentPlan;
         private List<Goal<PropertyList, object>> _goals;
         private List<Base.Action<PropertyList, object>> _actions;
         private Goal<PropertyList, object> _currentGoal;
+        private PropertyGroup<PropertyList, object> _currentState;
 
         //Referencias
         public BlackboardData Blackboard;
@@ -49,17 +52,18 @@ namespace GoapTFG.Unity
             _currentPlan = new();
             _goals = new();
             _actions = new();
+            _currentState = GoapDataInstance.actualState;
             List<Goal<PropertyList, object>> myGoals = new();
             List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
 
             //OBJETIVOS
-            foreach (var goal in goals)
+            foreach (var goal in goalObjects)
             {
                 _goals.Add(goal.Create());
             }
 
             //ACCION PRINCIPAL
-            foreach (var action in actions)
+            foreach (var action in actionObjects)
             {
                 _actions.Add(action.Create(this));
             }
@@ -70,7 +74,7 @@ namespace GoapTFG.Unity
             Blackboard = new BlackboardData();
 
             //Comienza la planificación
-            if (GoapDataInstance == null)
+            if (_currentState == null)
             {
                 Debug.LogError("GoapData necesario para utilizar Agentes de Goap");
                 throw new Exception();
@@ -84,8 +88,8 @@ namespace GoapTFG.Unity
         {
             while (true)
             {
-                Debug.Log("Estado actual: " + GoapDataInstance.actualState);
-                var id = CreateNewPlan(GoapDataInstance.actualState);
+                Debug.Log("Estado actual: " + _currentState);
+                var id = CreateNewPlan(_currentState);
                 if (id >= 0)
                 {
                     var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
@@ -104,7 +108,7 @@ namespace GoapTFG.Unity
             }
 
             Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
-                             GoapDataInstance.actualState);
+                             _currentState);
         }
 
         private IEnumerator ExecutePlan()
@@ -112,8 +116,8 @@ namespace GoapTFG.Unity
             PropertyGroup<PropertyList, object> result;
             do
             {
-                result = PlanStep(GoapDataInstance.actualState);
-                if (result != null) GoapDataInstance.actualState = result;
+                result = PlanStep(_currentState);
+                if (result != null) _currentState = result;
                 yield return new WaitWhile(() => performingAction);
             } while (result != null);
 
@@ -173,7 +177,9 @@ namespace GoapTFG.Unity
         public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
             Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
         {
-            var plan = Planner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
+            var plan = regressivePlan 
+                ? RegressivePlanner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic) 
+                : Planner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

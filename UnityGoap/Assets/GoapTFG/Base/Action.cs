@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 
 namespace GoapTFG.Base
 {
@@ -48,6 +49,17 @@ namespace GoapTFG.Base
             return _customCost?.Invoke(Agent, currentState) ?? _cost;
         }
         
+        //Getters
+        public PropertyGroup<TA, TB> GetPreconditions()
+        {
+            return _preconditions;
+        }
+        
+        public PropertyGroup<TA, TB> GetEffects()
+        {
+            return _effects;
+        }
+        
         //GOAP utilities.
         public bool CheckAction(PropertyGroup<TA, TB> worldState)
         {
@@ -74,20 +86,34 @@ namespace GoapTFG.Base
             return worldState;
         }
         
-        public PropertyGroup<TA, TB> ApplyRegresiveAction(PropertyGroup<TA, TB> worldState, ref Goal<TA, TB> goal, out bool reached)
+        public PropertyGroup<TA, TB> ApplyRegressiveAction(PropertyGroup<TA, TB> worldState, ref Goal<TA, TB> goal, out bool reached)
         {
-            worldState = ForceAction(worldState);
-            Goal<TA, TB> auxGoal = goal + _preconditions;
-            //auxGoal.ProceduralConditions += ProceduralConditions;
-            var conflicts = auxGoal.GetConflicts(worldState);
-            if (conflicts != null)
+            if (ProceduralConditions != null)
             {
-                goal = new Goal<TA, TB>(goal.Name, conflicts, goal.PriorityLevel);
-                reached = false;
+                if (!ProceduralConditions.Invoke(Agent, worldState))
+                {
+                    reached = false;
+                    return null;
+                }
             }
-            //reached = goal.CheckProcedural(Agent, worldState);
-            reached = true;
-            return worldState;
+            var ws = ForceAction(worldState);
+            var firstState = goal.GetConflicts(ws);
+            ws.CheckConflict(_preconditions, out var lastState);
+            if(firstState == null && lastState != null) goal = new Goal<TA, TB>(goal.Name, lastState, goal.PriorityLevel);
+            else if (firstState != null && lastState == null) goal = new Goal<TA, TB>(goal.Name, firstState, goal.PriorityLevel);
+            else if (firstState == null)
+            {
+                reached = true;
+                return ws;
+            }
+            else if (lastState.CheckConditionsConflict(firstState))
+            {
+                reached = false;
+                return null;
+            }
+            else goal = new Goal<TA, TB>(goal.Name, firstState + lastState, goal.PriorityLevel);
+            reached = false;
+            return ws;
         }
         
         public PropertyGroup<TA, TB> ForceAction(PropertyGroup<TA, TB> worldState)

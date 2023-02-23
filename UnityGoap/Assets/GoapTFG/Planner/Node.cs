@@ -54,7 +54,8 @@ namespace GoapTFG.Planner
         /// <returns>Node result.</returns>
         public Node<TA, TB> ApplyRegressiveAction(Action<TA, TB> action, Goal<TA, TB> goal, out bool reached)
         {
-            return CreateChildNode(action.ApplyRegresiveAction(PropertyGroup, ref goal, out reached), goal, action);
+            var pg = action.ApplyRegressiveAction(PropertyGroup, ref goal, out reached);
+            return pg == null ? null : CreateChildNode(pg, goal, action);
         }
 
         /// <summary>
