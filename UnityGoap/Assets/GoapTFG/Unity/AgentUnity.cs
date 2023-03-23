@@ -52,10 +52,10 @@ namespace GoapTFG.Unity
             _currentPlan = new();
             _goals = new();
             _actions = new();
-            _currentState = GoapDataInstance.actualState;
             List<Goal<PropertyList, object>> myGoals = new();
             List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
-
+            _currentState = new();
+            
             //OBJETIVOS
             foreach (var goal in goalObjects)
             {
@@ -72,14 +72,6 @@ namespace GoapTFG.Unity
 
             //Se crea el blackboard utilizado por las acciones de GOAP.
             Blackboard = new BlackboardData();
-
-            //Comienza la planificación
-            if (_currentState == null)
-            {
-                Debug.LogError("GoapData necesario para utilizar Agentes de Goap");
-                throw new Exception();
-            }
-
             StartCoroutine(Replan());
         }
 

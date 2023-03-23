@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
 using UnityEngine;
+using static GoapTFG.Base.BaseTypes;
 
 namespace GoapTFG.Unity
 {
@@ -61,27 +62,7 @@ namespace GoapTFG.Unity
 
         #region PropertyDefinitions
         
-        //CONFIGURACIÓN PREDICADOS 
-        [Serializable]
-        public enum ConditionList {
-            Eq,
-            Ne,
-            Lt,
-            Le,
-            Gt,
-            Ge
-        }
-        
-        [Serializable]
-        public enum EffectList {
-            Set,
-            Add,
-            Sub,
-            Mul,
-            Div,
-            Mod
-        }
-        
+        //CONFIGURACIÓN PROPIEDADES 
         [Serializable]
         public class Property {
             public PropertyList name;
@@ -96,9 +77,9 @@ namespace GoapTFG.Unity
 
         [Serializable]
         public class ConditionProperty : Property{
-            public ConditionList condition;
+            public ConditionType condition;
 
-            public ConditionProperty(PropertyList name, ConditionList condition, string value) : base(name, value)
+            public ConditionProperty(PropertyList name, ConditionType condition, string value) : base(name, value)
             {
                 this.condition = condition;
             }
@@ -106,9 +87,9 @@ namespace GoapTFG.Unity
         
         [Serializable]
         public class EffectProperty : Property {
-            public EffectList effect;
+            public EffectType effect;
 
-            public EffectProperty(PropertyList name, EffectList effect, string value) : base(name, value)
+            public EffectProperty(PropertyList name, EffectType effect, string value) : base(name, value)
             {
                 this.effect = effect;
             }
@@ -172,208 +153,7 @@ namespace GoapTFG.Unity
             var value = prop.value;
             return ParseValue(name, value);
         }
-        
-        private static Func<object, object, bool> ParseCondition(ConditionProperty prop)
-        {
-            Func<object, object, bool> result;
-            var condition = prop.condition;
-            var type = GetType(prop);
-            switch (condition)
-            {
-                case ConditionList.Eq:
-                default:
-                    //Por defecto no es necesario ningún predicado independiente del tipo.
-                    result = null;
-                    break;
-                case ConditionList.Ne:
-                    result = (a, b) => !a.Equals(b);
-                    break;
-                case ConditionList.Lt:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a < (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a < (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => String.Compare((string)a, (string)b, StringComparison.Ordinal) < 0;
-                            break;
-                    }
-                    break;
-                case ConditionList.Gt:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a > (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a > (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => String.Compare((string)a, (string)b, StringComparison.Ordinal) > 0;
-                            break;
-                    }
-                    break;
-                case ConditionList.Le:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a <= (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) =>
-                            {
-                                bool test = (float)a <= (float)b;
-                                return test;
-                            };
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => String.Compare((string)a, (string)b, StringComparison.Ordinal) <= 0;
-                            break;
-                    }
-                    break;
-                case ConditionList.Ge:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a >= (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a >= (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => String.Compare((string)a, (string)b, StringComparison.Ordinal) >= 0;
-                            break;
-                    }
-                    break;
-            }
-            return result;
-        }
-        
-        private static Func<object, object, object> ParseEffect(EffectProperty prop)
-        {
-            Func<object, object, object> result;
-            var effect = prop.effect;
-            var type = GetType(prop);
-            switch (effect)
-            {
-                case EffectList.Set:
-                default:
-                    //Por defecto no es necesario ningún predicado independiente del tipo.
-                    result = null;
-                    break;
-                case EffectList.Add:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a + (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a + (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => (string)a + "\n" + (string)b;
-                            break;
-                    }
-                    break;
-                case EffectList.Sub:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a - (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a - (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = (a, b) => ((string)a).Replace((string)b, "");
-                            break;
-                    }
-                    break;
-                case EffectList.Mul:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a * (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a * (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = null;
-                            break;
-                    }
-                    break;
-                case EffectList.Div:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a / (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a / (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = null;
-                            break;
-                    }
-                    break;
-                case EffectList.Mod:
-                    switch (type)
-                    {
-                        case PropertyType.Boolean:
-                        default:
-                            result = null;
-                            break;
-                        case PropertyType.Integer:
-                            result = (a, b) => (int)a % (int)b;
-                            break;
-                        case PropertyType.Float:
-                            result = (a, b) => (float)a % (float)b;
-                            break;
-                        case PropertyType.String:
-                            result = null;
-                            break;
-                    }
-                    break;
-            }
-            return result;
-        }
-        
+
         #endregion
 
         #region Usos externos
@@ -428,14 +208,12 @@ namespace GoapTFG.Unity
         
         private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
-            var predicate = ParseCondition(property);
-            pg.Set(property.name, ParseValue(property), predicate);
+            pg.Set(property.name, ParseValue(property), property.condition);
         }
 
         private static void ApplyProperty(EffectProperty property, ref PropertyGroup<PropertyList, object> pg)
         {
-            var predicate = ParseEffect(property);
-            pg.Set(property.name, ParseValue(property), predicate);
+            pg.Set(property.name, ParseValue(property), property.effect);
         } 
         #endregion
     }

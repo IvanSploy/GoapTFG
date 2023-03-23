@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using static GoapTFG.Base.BaseTypes;
 
 namespace GoapTFG.Base
 {
@@ -15,27 +15,27 @@ namespace GoapTFG.Base
         private struct PgData
         {
             public TB Value;
-            public readonly Func<TB, TB, bool> Condition;
-            public readonly Func<TB, TB, TB> Effect;
+            public readonly ConditionType Condition;
+            public readonly EffectType Effect;
 
             public PgData(TB value)
             {
                 Value = value;
-                Condition = null;
-                Effect = null;
+                Condition = default;
+                Effect = default;
             }
             
-            public PgData(TB value, Func<TB, TB, bool> condition)
+            public PgData(TB value, ConditionType condition)
             {
                 Value = value;
                 Condition = condition;
-                Effect = null;
+                Effect = default;
             }
             
-            public PgData(TB value, Func<TB, TB, TB> effect)
+            public PgData(TB value, EffectType effect)
             {
                 Value = value;
-                Condition = null;
+                Condition = default;
                 Effect = effect;
             }
             
@@ -89,13 +89,10 @@ namespace GoapTFG.Base
         
         private bool HasConflict(TA key, PgData mainData)
         {
-            object defaultValue = mainData.Value.GetType().Default();
+            object defaultValue = GetDefaultValue(mainData.Value);
             TB myValue = !HasKey(key) ? (TB) defaultValue : GetValue(key);
                 
-            //Se prioriza el predicado de condición de la clave en caso de que exista.
-            if (mainData.Condition != null) return !mainData.Condition(myValue, mainData.Value);
-            if (myValue == null) return true; //Si el valor por defecto es nulo, hay conflicto
-            return !myValue.Equals(mainData.Value); //Si no son iguales, hay conflicto.
+            return !EvaluateCondition(myValue, mainData.Value, mainData.Condition);
         }
         
         public bool CheckConditionsConflict(PropertyGroup<TA, TB> mainPg)
@@ -104,18 +101,7 @@ namespace GoapTFG.Base
             {
                 var key = pair.Key;
                 if (!HasKey(pair.Key)) continue;
-                if (pair.Value.Condition == null && GetCondition(key) == null)
-                {
-                    if (!pair.Value.Value.Equals(GetValue(key))) return true;
-                    continue;
-                }
-                if (pair.Value.Condition != null && GetCondition(key) != null)
-                {
-                    if (!pair.Value.Condition(GetValue(key), pair.Value.Value)) return true;
-                    continue;
-                }
-                   
-                return true;
+                if (!EvaluateCondition(GetValue(key), pair.Value.Value, pair.Value.Condition)) return true;
             }
 
             return false;
@@ -127,12 +113,12 @@ namespace GoapTFG.Base
             _values[key] = new PgData(value);
         }
 
-        public void Set(TA key, TB value, Func<TB, TB, bool> condition)
+        public void Set(TA key, TB value, ConditionType condition)
         {
             _values[key] = new PgData(value, condition);
         }
         
-        public void Set(TA key, TB value, Func<TB, TB, TB> effect)
+        public void Set(TA key, TB value, EffectType effect)
         {
             _values[key] = new PgData(value, effect);
         }
@@ -147,12 +133,12 @@ namespace GoapTFG.Base
             return _values[key].Value;
         }
         
-        public Func<TB, TB, bool> GetCondition(TA key)
+        public ConditionType GetCondition(TA key)
         {
             return _values[key].Condition;
         }
         
-        public Func<TB, TB, TB> GetEffect(TA key)
+        public EffectType GetEffect(TA key)
         {
             return _values[key].Effect;
         }
@@ -172,7 +158,7 @@ namespace GoapTFG.Base
             return _values.ContainsKey(key);
         }
 
-        public bool IsEmpty()
+        private bool IsEmpty()
         {
             return _values.Count == 0;
         }
@@ -183,15 +169,15 @@ namespace GoapTFG.Base
             var propertyGroup = new PropertyGroup<TA, TB>(a);
             foreach (var pair in b._values)
             {
-                if (pair.Value.Effect != null)
+                var aux = new PgData();
+                if (propertyGroup.HasKey(pair.Key))
+                    aux.Value = (TB)EvaluateEffect(propertyGroup.GetValue(pair.Key), pair.Value.Value, pair.Value.Effect);
+                else
                 {
-                    var aux = new PgData
-                    {
-                        Value = pair.Value.Effect(propertyGroup._values[pair.Key].Value, pair.Value.Value)
-                    };
-                    propertyGroup._values[pair.Key] = aux;
+                    object defValue = GetDefaultValue(pair.Value.Value);
+                    aux.Value = (TB)EvaluateEffect(defValue, pair.Value.Value, pair.Value.Effect);
                 }
-                else propertyGroup._values[pair.Key] = pair.Value;
+                propertyGroup._values[pair.Key] = aux;
             }
             
             return propertyGroup;
@@ -247,6 +233,11 @@ namespace GoapTFG.Base
         private int CountRelevantKeys()
         {
             return _values.Keys.Count(key => _values[key].GetHashCode() != 0);
+        }
+
+        private static object GetDefaultValue(object value)
+        {
+            return value is string ? "" : value.GetType().Default();
         }
     }
 }

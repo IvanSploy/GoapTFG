@@ -35,10 +35,6 @@ namespace GoapTFG.Unity
         //Acciones
         public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
 
-        //Datos
-        public StateScriptableObject initialState;
-        public PropertyGroup<PropertyList, object> actualState;
-
 
         [ContextMenu("Reset State")]
         void Awake()
@@ -51,8 +47,6 @@ namespace GoapTFG.Unity
             }
 
             GoapDataInstance = this;
-
-            actualState = initialState.Create();
 
             foreach (var go in BlackboardObjects)
             {
@@ -165,7 +159,7 @@ namespace GoapTFG.Unity
         /// <returns></returns>
         public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            //return null;
+            return null;
             return (goal, worldState) =>
             {
                 var heuristic = 0;
