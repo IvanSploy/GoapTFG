@@ -25,7 +25,7 @@ namespace GoapTFG.Unity
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
             { PropertyList.Target, PropertyType.String },
-            { PropertyList.StateOfTarget, PropertyType.TargetState },
+            { PropertyList.StateOfTarget, PropertyType.Enum },
             { PropertyList.IsIdle, PropertyType.Boolean }
         };
         
@@ -36,15 +36,13 @@ namespace GoapTFG.Unity
             Integer = 1,
             Float = 2,
             String = 3,
-            TargetState = 4
+            Enum = 4
         }
 
-        public static string[] TargetStateNames = 
-            { 
-                "Reached",
-                "Going",
-                "Ready" 
-            };
+        public static Dictionary<PropertyList, string[]> EnumStates = new()
+        {
+            { PropertyList.StateOfTarget, new [] { "Reached", "Going", "Ready" }} 
+        };
         
         #region Getters
         
@@ -117,7 +115,7 @@ namespace GoapTFG.Unity
                     }
                     break;
                 case PropertyType.Integer:
-                case PropertyType.TargetState:
+                case PropertyType.Enum:
                     try
                     {
                         result = int.Parse(value);

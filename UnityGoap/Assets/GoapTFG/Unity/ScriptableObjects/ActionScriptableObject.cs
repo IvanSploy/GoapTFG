@@ -40,10 +40,10 @@ namespace GoapTFG.Unity.ScriptableObjects
             ActionAdditionalData data = GetActionAdditionalData(name);
             if (data != null)
             {
-                action.SetCustomCost(data.customCost);
-                action.ProceduralConditions += data.conditions;
-                action.ProceduralEffects += data.effects;
-                action.PerformedActions += data.actions;
+                action.SetCustomCost(data.CustomCost);
+                action.ProceduralConditions += data.Conditions;
+                action.ProceduralEffects += data.Effects;
+                action.PerformedActions += data.Actions;
             }
             return action;
         }

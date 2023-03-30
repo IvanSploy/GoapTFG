@@ -9,17 +9,22 @@ namespace GoapTFG.Base
         private Stack<Action<TA, TB>> _currentPlan;
         private readonly List<Action<TA, TB>> _actions;
         private readonly List<Goal<TA, TB>> _goals;
+
+        public string Name { get; }
+        public PropertyGroup<TA, TB> CurrentState { get; set; }
         
-        public Agent(List<Goal<TA, TB>> goals, List<Action<TA, TB>> actions = null)
+        public Agent(string name, List<Goal<TA, TB>> goals, List<Action<TA, TB>> actions = null)
         {
+            Name = name;
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
             OrderGoals();
             _currentPlan = new Stack<Action<TA, TB>>();
         }
 
-        public Agent(Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
+        public Agent(string name, Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
         {
+            Name = name;
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>> { goal };
             _currentPlan = new Stack<Action<TA, TB>>();

@@ -1,52 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace GoapTFG.Unity
 {
     public static class WorkingMemoryManager
     {
-        private static WorkingMemory<Vector3, GameObject> WMemory = new();
+        private static WorkingMemory<Vector3, GoapEntity> WMemory = new();
         
         //Blackboard Management
-        public static void Add(GameObject go)
+        public static void Add(string name, GoapEntity ge)
         {
-            MemoryFact<Vector3, GameObject> mFact = new MemoryFact<Vector3, GameObject>
+            MemoryFact<Vector3, GoapEntity> mFact = new MemoryFact<Vector3, GoapEntity>
             {
-                Name = go.name,
-                Position = go.transform.position,
-                Direction = go.transform.forward,
-                Object = go
+                Name = name,
+                Position = ge.transform.position,
+                Direction = ge.transform.forward,
+                Object = ge
             };
             WMemory.Add(mFact);
         }
 
-        public static MemoryFact<Vector3, GameObject> Get(string name)
+        public static MemoryFact<Vector3, GoapEntity> Get(string name)
         {
             return WMemory.Find(name);
         }
         
-        public static MemoryFact<Vector3, GameObject> Get(GameObject go)
+        public static MemoryFact<Vector3, GoapEntity> Get(GoapEntity ge)
         {
-            return WMemory.Find(go);
+            return WMemory.Find(ge);
         }
         
-        public static void Update(string name, GameObject go)
+        public static void Update(string name, GoapEntity ge)
         {
             WMemory.Remove(name);
-            Add(go);
+            Add(name, ge);
         }
         
-        public static void Update(GameObject go)
+        public static void Update(GoapEntity ge)
         {
-            WMemory.Remove(go);
-            Add(go);
+            WMemory.Remove(ge);
+            Add(ge.Name, ge);
         }
 
-        public static void Remove(GameObject go)
+        public static void Remove(GoapEntity ge)
         {
-            WMemory.Remove(go);
+            WMemory.Remove(ge);
         }
     }
 }

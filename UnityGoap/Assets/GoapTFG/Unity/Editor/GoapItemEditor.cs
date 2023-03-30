@@ -301,9 +301,11 @@ namespace GoapTFG.Unity.Editor
                     value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
                         .ToString(CultureInfo.InvariantCulture);
                     break;
-                case PropertyType.TargetState:
+                case PropertyType.Enum:
+                    var rangeValues = new int[EnumStates[name].Length];
+                    for (var i = 0; i < rangeValues.Length; i++) { rangeValues[i] = i; }
                     value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
-                        TargetStateNames, new[] { 0, 1, 2 }).ToString();
+                        EnumStates[name], rangeValues).ToString();
                     break;
                 case PropertyType.String:
                 default:

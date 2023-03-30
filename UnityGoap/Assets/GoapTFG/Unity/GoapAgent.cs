@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 namespace GoapTFG.Unity
 {
-    public class AgentUnity : MonoBehaviour, IAgent<PropertyList, object>
+    public class GoapAgent : MonoBehaviour, IAgent<PropertyList, object>
     {
         [Serializable]
         private struct GoalObject
@@ -29,6 +29,8 @@ namespace GoapTFG.Unity
         [SerializeField] private List<GoalObject> goalObjects;
         [SerializeField] private List<ActionScriptableObject> actionObjects;
         
+        public string Name { get; set; }
+        
         public bool active = true;
         public bool hasPlan;
         public bool performingAction = false;
@@ -41,10 +43,8 @@ namespace GoapTFG.Unity
         private List<Goal<PropertyList, object>> _goals;
         private List<Base.Action<PropertyList, object>> _actions;
         private Goal<PropertyList, object> _currentGoal;
-        private PropertyGroup<PropertyList, object> _currentState;
-
-        //Referencias
-        public BlackboardData Blackboard;
+        
+        public PropertyGroup<PropertyList, object> CurrentState { get; set; }
 
         // Start is called before the first frame update
         void Start()
@@ -54,7 +54,7 @@ namespace GoapTFG.Unity
             _actions = new();
             List<Goal<PropertyList, object>> myGoals = new();
             List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
-            _currentState = new();
+            CurrentState = new();
             
             //OBJETIVOS
             foreach (var goal in goalObjects)
@@ -71,7 +71,6 @@ namespace GoapTFG.Unity
             OrderGoals();
 
             //Se crea el blackboard utilizado por las acciones de GOAP.
-            Blackboard = new BlackboardData();
             StartCoroutine(Replan());
         }
 
@@ -80,8 +79,8 @@ namespace GoapTFG.Unity
         {
             while (true)
             {
-                Debug.Log("Estado actual: " + _currentState);
-                var id = CreateNewPlan(_currentState);
+                Debug.Log("Estado actual: " + CurrentState);
+                var id = CreateNewPlan(CurrentState);
                 if (id >= 0)
                 {
                     var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
@@ -100,7 +99,7 @@ namespace GoapTFG.Unity
             }
 
             Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
-                             _currentState);
+                             CurrentState);
         }
 
         private IEnumerator ExecutePlan()
@@ -108,8 +107,8 @@ namespace GoapTFG.Unity
             PropertyGroup<PropertyList, object> result;
             do
             {
-                result = PlanStep(_currentState);
-                if (result != null) _currentState = result;
+                result = PlanStep(CurrentState);
+                if (result != null) CurrentState = result;
                 yield return new WaitWhile(() => performingAction);
             } while (result != null);
 
@@ -207,13 +206,11 @@ namespace GoapTFG.Unity
         public void GoToTarget(string target)
         {
             performingAction = true;
-            Blackboard.Target = WorkingMemoryManager.Get(target).Position;
-            StartCoroutine(Movement());
+            StartCoroutine(Movement(WorkingMemoryManager.Get(target).Position));
         }
 
-        IEnumerator Movement()
+        IEnumerator Movement(Vector3 finalPos)
         {
-            Vector3 finalPos = Blackboard.Target;
             bool reached = false;
             while (!reached)
             {

@@ -24,7 +24,8 @@ namespace GoapTFG.Base
         public event Effect ProceduralEffects;
         public event Effect PerformedActions;
 
-        public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, PropertyGroup<TA, TB> effects = null)
+        public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, 
+            PropertyGroup<TA, TB> effects = null)
         {
             Agent = agent;
             Name = name;

@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GoapTFG.Base;
-using GoapTFG.Planner;
-using GoapTFG.Unity.ScriptableObjects;
 using GoapTFG.Unity.CodeGenerator.Enums;
 using static GoapTFG.Unity.PropertyManager;
 using static GoapTFG.Unity.PropertyManager.PropertyList;
@@ -13,60 +11,36 @@ using static GoapTFG.Unity.CodeGenerator.Enums.ActionName;
 
 namespace GoapTFG.Unity
 {
-    public class GoapData : MonoBehaviour
+    public static class GoapData
     {
         public class ActionAdditionalData
         {
-            public Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customCost;
-            public Base.Action<PropertyList, object>.Condition conditions;
-            public Base.Action<PropertyList, object>.Effect effects;
-            public Base.Action<PropertyList, object>.Effect actions;
+            public Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> CustomCost;
+            public Base.Action<PropertyList, object>.Condition Conditions;
+            public Base.Action<PropertyList, object>.Effect Effects;
+            public Base.Action<PropertyList, object>.Effect Actions;
         }
-
-        //Singleton
-        public static GoapData GoapDataInstance;
-
-        //Propiedades
-        public GameObject[] BlackboardObjects;
-
-        //Evaluaciones de comparación.
-        //TO DO
-
+        
         //Acciones
-        public Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
+        public static Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
 
 
-        [ContextMenu("Reset State")]
-        void Awake()
+        public static void Initialize()
         {
-            //Singletone
-            if (GoapDataInstance && GoapDataInstance != this)
-            {
-                Destroy(this);
-                return;
-            }
-
-            GoapDataInstance = this;
-
-            foreach (var go in BlackboardObjects)
-            {
-                WorkingMemoryManager.Add(go);
-            }
-
             //Actions Additional Data
             ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
 
             AddPerformedActionsToAction(GoTo, (agent, ws) =>
             {
-                ((AgentUnity)agent).GoToTarget((string)ws.GetValue(Target));
+                ((GoapAgent)agent).GoToTarget((string)ws.GetValue(Target));
             });
 
             AddConditionsToAction(GoIdle, (agent, ws) =>
-                ((AgentUnity)agent).GetCurrentGoal().Name.Equals(Idleling.ToString()));
+                ((GoapAgent)agent).GetCurrentGoal().Name.Equals(Idleling.ToString()));
             
             AddPerformedActionsToAction(GoIdle, (agent, ws) =>
             {
-                ((AgentUnity)agent).GoIdleling(10);
+                ((GoapAgent)agent).GoIdleling(10);
                 ws.Set(IsIdle, false);
             });
             
@@ -94,7 +68,7 @@ namespace GoapTFG.Unity
             return;
             AddCustomCostToAction(GoTo, (agent, ws) =>
             {
-                var agentPos = ((AgentUnity)agent).transform.position;
+                var agentPos = ((GoapAgent)agent).transform.position;
                 var targetPos = WorkingMemoryManager.Get((string)ws.GetValue(Target)).Position;
                 return (int)Vector3.Distance(agentPos, targetPos);
             });
@@ -106,7 +80,7 @@ namespace GoapTFG.Unity
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.customCost = customCost;
+            aad.CustomCost = customCost;
             SaveAdditionalData(sKey, aad);
         }
         
@@ -114,7 +88,7 @@ namespace GoapTFG.Unity
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.conditions += condition;
+            aad.Conditions += condition;
             SaveAdditionalData(sKey, aad);
         }
 
@@ -122,7 +96,7 @@ namespace GoapTFG.Unity
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.effects += effect;
+            aad.Effects += effect;
             SaveAdditionalData(sKey, aad);
         }
 
@@ -130,27 +104,27 @@ namespace GoapTFG.Unity
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.actions += action;
+            aad.Actions += action;
             SaveAdditionalData(sKey, aad);
         }
         
         public static ActionAdditionalData GetActionAdditionalData(string key)
         {
-            if (!GoapDataInstance.ActionAdditionalDatas.ContainsKey(key)) return null;
-            return GoapDataInstance.ActionAdditionalDatas[key];
+            if (!ActionAdditionalDatas.ContainsKey(key)) return null;
+            return ActionAdditionalDatas[key];
         }
 
         private static ActionAdditionalData CreateAdditionalDataIfNeeded(string key)
         {
             ActionAdditionalData aad;
-            bool hasdata = GoapDataInstance.ActionAdditionalDatas.TryGetValue(key, out aad);
+            bool hasdata = ActionAdditionalDatas.TryGetValue(key, out aad);
             if (!hasdata) aad = new ActionAdditionalData();
             return aad;
         }
 
         private static void SaveAdditionalData(string key, ActionAdditionalData data)
         {
-            GoapDataInstance.ActionAdditionalDatas[key] = data;
+            ActionAdditionalDatas[key] = data;
         }
         
         /// <summary>

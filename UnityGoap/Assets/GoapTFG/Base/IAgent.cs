@@ -1,8 +1,14 @@
 ﻿using System.Collections.Generic;
+using GoapTFG.Unity;
 
 namespace GoapTFG.Base
 {
-    public interface IAgent<TA, TB>
+    /// <summary>
+    /// Represents a NPC with the hability to plan. Can also be treated as IEntity.
+    /// </summary>
+    /// <typeparam name="TA">Key type</typeparam>
+    /// <typeparam name="TB">Value type</typeparam>
+    public interface IAgent<TA, TB> : IEntity<TA, TB>
     {
         /// <summary>
         /// Add posible action to the agent.
