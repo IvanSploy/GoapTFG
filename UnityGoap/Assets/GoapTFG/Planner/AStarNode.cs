@@ -15,17 +15,17 @@ namespace GoapTFG.Planner
         
         //Constructor
         public AStarNode(PropertyGroup<TA, TB> propertyGroup,
-            Goal<TA, TB> goal, INodeGenerator<TA, TB> generator) : base(propertyGroup, goal)
+            GoapGoal<TA, TB> goapGoal, INodeGenerator<TA, TB> generator) : base(propertyGroup, goapGoal)
         {
             _generator = generator;
             GCost = 0;
             HCost = 0;
         }
 
-        protected override Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, Goal<TA, TB> goal, Base.Action<TA, TB> action)
+        protected override Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, GoapGoal<TA, TB> goapGoal, Base.GoapAction<TA, TB> goapAction)
         {
-            AStarNode<TA,TB> aStarNode = new AStarNode<TA, TB>(pg, goal, _generator);
-            aStarNode.Update(this, action);
+            AStarNode<TA,TB> aStarNode = new AStarNode<TA, TB>(pg, goapGoal, _generator);
+            aStarNode.Update(this, goapAction);
             Children.Add(aStarNode);
             return aStarNode;
         }
@@ -37,7 +37,7 @@ namespace GoapTFG.Planner
             AStarNode<TA, TB> asnParent = (AStarNode<TA, TB>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = Action.GetCost(PropertyGroup) + asnParent.GCost;
+            GCost = GoapAction.GetCost(PropertyGroup) + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 
@@ -47,7 +47,7 @@ namespace GoapTFG.Planner
         /// <returns>Heuristic cost.</returns>
         public int GetHeuristic()
         {
-            return _generator.GetCustomHeuristic()?.Invoke(Goal, PropertyGroup) ?? Goal.CountConflicts(PropertyGroup);
+            return _generator.GetCustomHeuristic()?.Invoke(GoapGoal, PropertyGroup) ?? GoapGoal.CountConflicts(PropertyGroup);
         }
 
         #region Overrides
@@ -55,8 +55,8 @@ namespace GoapTFG.Planner
         public override string ToString()
         {
             string text = "";
-            if (Action == null) text += "Initial Node";
-            else text += Action.Name;
+            if (GoapAction == null) text += "Initial Node";
+            else text += GoapAction.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
             return text;
         }

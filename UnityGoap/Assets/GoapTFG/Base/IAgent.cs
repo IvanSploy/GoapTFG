@@ -13,26 +13,26 @@ namespace GoapTFG.Base
         /// <summary>
         /// Add posible action to the agent.
         /// </summary>
-        /// <param name="action">Action to be added</param>
-        public void AddAction(Action<TA, TB> action);
+        /// <param name="goapAction">Action to be added</param>
+        public void AddAction(GoapAction<TA, TB> goapAction);
 
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
         /// <param name="actionList">Actions to be added</param>
-        public void AddActions(List<Action<TA, TB>> actionList);
+        public void AddActions(List<GoapAction<TA, TB>> actionList);
         
         /// <summary>
         /// Add goal to the agent.
         /// </summary>
-        /// <param name="goal"></param>
-        public void AddGoal(Goal<TA, TB> goal);
+        /// <param name="goapGoal"></param>
+        public void AddGoal(GoapGoal<TA, TB> goapGoal);
         
         /// <summary>
         /// Add goals to the agent.
         /// </summary>
         /// <param name="goalList"></param>
-        public void AddGoals(List<Goal<TA, TB>> goalList);
+        public void AddGoals(List<GoapGoal<TA, TB>> goalList);
 
         /// <summary>
         /// Manages to create a new plan for the Agent.

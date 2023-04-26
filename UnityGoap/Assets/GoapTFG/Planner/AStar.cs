@@ -7,18 +7,18 @@ namespace GoapTFG.Planner
     {
         private readonly SortedSet<Node<TA, TB>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TA, TB>> _expandedNodes;
-        private readonly System.Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
+        private readonly System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
 
-        public AStar(System.Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> customHeuristic = null)
+        public AStar(System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> customHeuristic = null)
         {
             _openList = new SortedSet<Node<TA, TB>>();
             _expandedNodes = new HashSet<Node<TA, TB>>();
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal)
+        public Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal)
         {
-            AStarNode<TA, TB> node = new AStarNode<TA, TB>(currentState, goal, this);
+            AStarNode<TA, TB> node = new AStarNode<TA, TB>(currentState, goapGoal, this);
             var initialHeuristic = node.GetHeuristic();
             node.HCost = initialHeuristic;
             node.TotalCost = initialHeuristic;
@@ -34,7 +34,7 @@ namespace GoapTFG.Planner
             return node;
         }
 
-        public void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, Action<TA, TB> action)
+        public void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, GoapAction<TA, TB> goapAction)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
@@ -44,7 +44,7 @@ namespace GoapTFG.Planner
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    original.Update(parent, action);
+                    original.Update(parent, goapAction);
                     UpdateChildren(original);
                 }
             }
@@ -57,7 +57,7 @@ namespace GoapTFG.Planner
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, action);
+                    original.Update(parent, goapAction);
                     _openList.Add(original);
                 }
             }
@@ -91,7 +91,7 @@ namespace GoapTFG.Planner
             }
         }
         
-        public System.Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic()
+        public System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

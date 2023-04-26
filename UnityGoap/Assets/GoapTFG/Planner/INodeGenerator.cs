@@ -8,9 +8,9 @@ namespace GoapTFG.Planner
         /// Peforms the main planning cycle from the start to the end.
         /// </summary>
         /// <param name="currentState">Initial state of the world.</param>
-        /// <param name="goal">Goal expected to reach.</param>
+        /// <param name="goapGoal">Goal expected to reach.</param>
         /// <returns>Stack of actions for the agent.</returns>
-        Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal);
+        Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal);
 
         /// <summary>
         /// Retrieves the next node that has to be analyzed by the generator.
@@ -24,13 +24,13 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="child"></param>
-        /// <param name="action"></param>
-        void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, Action<TA, TB> action);
+        /// <param name="goapAction"></param>
+        void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, GoapAction<TA, TB> goapAction);
         
         /// <summary>
         /// Retrieves the custom heuristic of the generator if exists.
         /// </summary>
         /// <returns>Custom heuristic.</returns>
-        System.Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic();
+        System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic();
     }
 }

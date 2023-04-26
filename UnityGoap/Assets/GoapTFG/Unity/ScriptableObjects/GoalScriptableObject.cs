@@ -12,11 +12,11 @@ namespace GoapTFG.Unity.ScriptableObjects
         public static bool GenerateGoalNames;
         [HideInInspector] public List<ConditionProperty> goalProperties;
         
-        public Goal<PropertyList, object> Create(int priority)
+        public GoapGoal<PropertyList, object> Create(int priority)
         {
             PropertyGroup<PropertyList, object> state = new();
             AddIntoPropertyGroup(goalProperties, ref state);
-            return new Goal<PropertyList, object>(name, state, priority);
+            return new GoapGoal<PropertyList, object>(name, state, priority);
         }
         
         private void Awake()

@@ -4,49 +4,49 @@ using GoapTFG.Planner;
 namespace GoapTFG.Base
 {
     //Handles the GOAP planification and is who realices the actions.
-    public class Agent<TA, TB> : IAgent<TA, TB>
+    public class BasicAgent<TA, TB> : IAgent<TA, TB>
     {
-        private Stack<Action<TA, TB>> _currentPlan;
-        private readonly List<Action<TA, TB>> _actions;
-        private readonly List<Goal<TA, TB>> _goals;
+        private Stack<GoapAction<TA, TB>> _currentPlan;
+        private readonly List<GoapAction<TA, TB>> _actions;
+        private readonly List<GoapGoal<TA, TB>> _goals;
 
         public string Name { get; }
         public PropertyGroup<TA, TB> CurrentState { get; set; }
         
-        public Agent(string name, List<Goal<TA, TB>> goals, List<Action<TA, TB>> actions = null)
+        public BasicAgent(string name, List<GoapGoal<TA, TB>> goals, List<GoapAction<TA, TB>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
-            _goals = new List<Goal<TA, TB>>(goals);
+            _actions = actions == null ? new List<GoapAction<TA, TB>>() : new List<GoapAction<TA, TB>>(actions);
+            _goals = new List<GoapGoal<TA, TB>>(goals);
             SortGoals();
-            _currentPlan = new Stack<Action<TA, TB>>();
+            _currentPlan = new Stack<GoapAction<TA, TB>>();
         }
 
-        public Agent(string name, Goal<TA, TB> goal, List<Action<TA, TB>> actions = null)
+        public BasicAgent(string name, GoapGoal<TA, TB> goapGoal, List<GoapAction<TA, TB>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
-            _goals = new List<Goal<TA, TB>> { goal };
-            _currentPlan = new Stack<Action<TA, TB>>();
+            _actions = actions == null ? new List<GoapAction<TA, TB>>() : new List<GoapAction<TA, TB>>(actions);
+            _goals = new List<GoapGoal<TA, TB>> { goapGoal };
+            _currentPlan = new Stack<GoapAction<TA, TB>>();
         }
 
-        public void AddAction(Action<TA,TB> action)
+        public void AddAction(GoapAction<TA,TB> goapAction)
         {
-            _actions.Add(action);
+            _actions.Add(goapAction);
         }
         
-        public void AddActions(List<Action<TA,TB>> actionList)
+        public void AddActions(List<GoapAction<TA,TB>> actionList)
         {
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(Goal<TA, TB> goal)
+        public void AddGoal(GoapGoal<TA, TB> goapGoal)
         {
-            _goals.Add(goal);
+            _goals.Add(goapGoal);
             SortGoals();
         }
         
-        public void AddGoals(List<Goal<TA, TB>> goalList)
+        public void AddGoals(List<GoapGoal<TA, TB>> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -72,9 +72,9 @@ namespace GoapTFG.Base
             return i-1;
         }
 
-        private bool CreatePlan(PropertyGroup<TA, TB> initialState, Goal<TA, TB> goal)
+        private bool CreatePlan(PropertyGroup<TA, TB> initialState, GoapGoal<TA, TB> goapGoal)
         {
-            var plan = RegressivePlanner<TA, TB>.CreatePlan(initialState, goal, _actions);
+            var plan = RegressivePlanner<TA, TB>.CreatePlan(initialState, goapGoal, _actions);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

@@ -1,6 +1,6 @@
 namespace GoapTFG.Base
 {
-    public class Goal<TA, TB>
+    public class GoapGoal<TA, TB>
     {
         //Fields
         private readonly PropertyGroup<TA, TB> _propertyGroup;
@@ -8,10 +8,10 @@ namespace GoapTFG.Base
         //Properties
         public string Name { get; set; }
         public int PriorityLevel { get; set; }
-        public event Action<TA, TB>.Condition ProceduralConditions; //Used in regressive Search.
+        public event GoapAction<TA, TB>.Condition ProceduralConditions; //Used in regressive Search.
         
         //Constructors
-        public Goal(string name, PropertyGroup<TA, TB> goal, int priorityLevel)
+        public GoapGoal(string name, PropertyGroup<TA, TB> goal, int priorityLevel)
         {
             _propertyGroup = new PropertyGroup<TA, TB>(goal) ;
             PriorityLevel = priorityLevel;
@@ -46,10 +46,10 @@ namespace GoapTFG.Base
         }
         
         //Operators
-        public static Goal<TA, TB> operator +(Goal<TA, TB> a, PropertyGroup<TA, TB> b)
+        public static GoapGoal<TA, TB> operator +(GoapGoal<TA, TB> a, PropertyGroup<TA, TB> b)
         {
             var propertyGroup = a._propertyGroup;
-            return new Goal<TA, TB>(a.Name, propertyGroup + b, a.PriorityLevel);
+            return new GoapGoal<TA, TB>(a.Name, propertyGroup + b, a.PriorityLevel);
         }
 
         //Overrides

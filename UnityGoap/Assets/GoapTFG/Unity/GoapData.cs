@@ -16,9 +16,9 @@ namespace GoapTFG.Unity
         public class ActionAdditionalData
         {
             public Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> CustomCost;
-            public Base.Action<PropertyList, object>.Condition Conditions;
-            public Base.Action<PropertyList, object>.Effect Effects;
-            public Base.Action<PropertyList, object>.Effect Actions;
+            public Base.GoapAction<PropertyList, object>.Condition Conditions;
+            public Base.GoapAction<PropertyList, object>.Effect Effects;
+            public Base.GoapAction<PropertyList, object>.Effect Actions;
         }
         
         //Acciones
@@ -84,7 +84,7 @@ namespace GoapTFG.Unity
             SaveAdditionalData(sKey, aad);
         }
         
-        public static void AddConditionsToAction(ActionName key, Base.Action<PropertyList, object>.Condition condition)
+        public static void AddConditionsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Condition condition)
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
@@ -92,7 +92,7 @@ namespace GoapTFG.Unity
             SaveAdditionalData(sKey, aad);
         }
 
-        public static void AddEffectsToAction(ActionName key, Base.Action<PropertyList, object>.Effect effect)
+        public static void AddEffectsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Effect effect)
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
@@ -100,7 +100,7 @@ namespace GoapTFG.Unity
             SaveAdditionalData(sKey, aad);
         }
 
-        public static void AddPerformedActionsToAction(ActionName key, Base.Action<PropertyList, object>.Effect action)
+        public static void AddPerformedActionsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Effect action)
         {
             string sKey = key.ToString();
             ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
@@ -131,7 +131,7 @@ namespace GoapTFG.Unity
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
+        public static Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
             return null;
             return (goal, worldState) =>

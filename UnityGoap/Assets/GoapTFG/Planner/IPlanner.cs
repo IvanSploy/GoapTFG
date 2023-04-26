@@ -12,20 +12,20 @@ namespace GoapTFG.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        Stack<Base.Action<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
-            List<Base.Action<TA, TB>> actions);
+        Stack<Base.GoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
+            List<Base.GoapAction<TA, TB>> actions);
         
         /// <summary>
         /// Gets the final plan that the researcher has found.
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public static Stack<Base.Action<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
+        public static Stack<Base.GoapAction<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
         {
-            Stack<Base.Action<TA, TB>> plan = new Stack<Base.Action<TA, TB>>();
+            Stack<Base.GoapAction<TA, TB>> plan = new Stack<Base.GoapAction<TA, TB>>();
             while (nodeGoal.Parent != null)
             {
-                plan.Push(nodeGoal.Action);
+                plan.Push(nodeGoal.GoapAction);
                 nodeGoal = nodeGoal.Parent;
             }
             return plan;
@@ -36,10 +36,10 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public static Stack<Base.Action<TA, TB>> GetInvertedPlan(Node<TA, TB> nodeGoal)
+        public static Stack<Base.GoapAction<TA, TB>> GetInvertedPlan(Node<TA, TB> nodeGoal)
         {
-            Stack<Base.Action<TA, TB>> plan = GetPlan(nodeGoal);
-            Stack<Base.Action<TA, TB>> invertedPlan = new Stack<Base.Action<TA, TB>>();
+            Stack<Base.GoapAction<TA, TB>> plan = GetPlan(nodeGoal);
+            Stack<Base.GoapAction<TA, TB>> invertedPlan = new Stack<Base.GoapAction<TA, TB>>();
             foreach (var action in plan)
             {
                 invertedPlan.Push(action);

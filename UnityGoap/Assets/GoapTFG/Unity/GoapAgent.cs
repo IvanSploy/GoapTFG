@@ -20,7 +20,7 @@ namespace GoapTFG.Unity
 
             [Range(0, 15)] [SerializeField] private int priority;
 
-            public Goal<PropertyList, object> Create()
+            public GoapGoal<PropertyList, object> Create()
             {
                 return goal.Create(priority);
             }
@@ -39,10 +39,10 @@ namespace GoapTFG.Unity
         
 
         //Agent base related
-        private Stack<Base.Action<PropertyList, object>> _currentPlan;
-        private List<Goal<PropertyList, object>> _goals;
-        private List<Base.Action<PropertyList, object>> _actions;
-        private Goal<PropertyList, object> _currentGoal;
+        private Stack<Base.GoapAction<PropertyList, object>> _currentPlan;
+        private List<GoapGoal<PropertyList, object>> _goals;
+        private List<Base.GoapAction<PropertyList, object>> _actions;
+        private GoapGoal<PropertyList, object> _currentGoapGoal;
         
         public PropertyGroup<PropertyList, object> CurrentState { get; set; }
 
@@ -52,8 +52,8 @@ namespace GoapTFG.Unity
             _currentPlan = new();
             _goals = new();
             _actions = new();
-            List<Goal<PropertyList, object>> myGoals = new();
-            List<GoapTFG.Base.Action<PropertyList, object>> myActions = new();
+            List<GoapGoal<PropertyList, object>> myGoals = new();
+            List<GoapTFG.Base.GoapAction<PropertyList, object>> myActions = new();
             CurrentState = new();
             
             //OBJETIVOS
@@ -117,23 +117,23 @@ namespace GoapTFG.Unity
 
         //INTERFACE CLASSES
 
-        public void AddAction(GoapTFG.Base.Action<PropertyList, object> action)
+        public void AddAction(GoapTFG.Base.GoapAction<PropertyList, object> goapAction)
         {
-            _actions.Add(action);
+            _actions.Add(goapAction);
         }
 
-        public void AddActions(List<GoapTFG.Base.Action<PropertyList, object>> actionList)
+        public void AddActions(List<GoapTFG.Base.GoapAction<PropertyList, object>> actionList)
         {
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(Goal<PropertyList, object> goal)
+        public void AddGoal(GoapGoal<PropertyList, object> goapGoal)
         {
-            _goals.Add(goal);
+            _goals.Add(goapGoal);
             SortGoals();
         }
 
-        public void AddGoals(List<Goal<PropertyList, object>> goalList)
+        public void AddGoals(List<GoapGoal<PropertyList, object>> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -151,8 +151,8 @@ namespace GoapTFG.Unity
             var created = false;
             while (i < _goals.Count && _currentPlan.Count == 0)
             {
-                _currentGoal = _goals[i];
-                created = CreatePlan(initialState, _currentGoal, GetCustomHeuristic());
+                _currentGoapGoal = _goals[i];
+                created = CreatePlan(initialState, _currentGoapGoal, GetCustomHeuristic());
                 i++;
             }
 
@@ -160,17 +160,17 @@ namespace GoapTFG.Unity
             return i - 1;
         }
 
-        public Goal<PropertyList, object> GetCurrentGoal()
+        public GoapGoal<PropertyList, object> GetCurrentGoal()
         {
-            return _currentGoal;
+            return _currentGoapGoal;
         }
 
-        public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, Goal<PropertyList, object> goal,
-            Func<Goal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
+        public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, GoapGoal<PropertyList, object> goapGoal,
+            Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
         {
             var plan = regressivePlan 
-                ? RegressivePlanner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic) 
-                : Planner<PropertyList, object>.CreatePlan(initialState, goal, _actions, customHeuristic);
+                ? RegressivePlanner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic) 
+                : Planner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

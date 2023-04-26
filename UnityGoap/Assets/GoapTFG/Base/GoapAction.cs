@@ -3,7 +3,7 @@ using System.Net;
 
 namespace GoapTFG.Base
 {
-    public class Action<TA, TB>
+    public class GoapAction<TA, TB>
     {
         public IAgent<TA, TB> Agent;
         public string Name;
@@ -24,7 +24,7 @@ namespace GoapTFG.Base
         public event Effect ProceduralEffects;
         public event Effect PerformedActions;
 
-        public Action(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, 
+        public GoapAction(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, 
             PropertyGroup<TA, TB> effects = null)
         {
             Agent = agent;
@@ -87,7 +87,7 @@ namespace GoapTFG.Base
             return worldState;
         }
         
-        public PropertyGroup<TA, TB> ApplyRegressiveAction(PropertyGroup<TA, TB> worldState, ref Goal<TA, TB> goal, out bool reached)
+        public PropertyGroup<TA, TB> ApplyRegressiveAction(PropertyGroup<TA, TB> worldState, ref GoapGoal<TA, TB> goapGoal, out bool reached)
         {
             if (ProceduralConditions != null)
             {
@@ -98,10 +98,10 @@ namespace GoapTFG.Base
                 }
             }
             var ws = ForceAction(worldState);
-            var firstState = goal.GetConflicts(ws);
+            var firstState = goapGoal.GetConflicts(ws);
             ws.CheckConflict(_preconditions, out var lastState);
-            if(firstState == null && lastState != null) goal = new Goal<TA, TB>(goal.Name, lastState, goal.PriorityLevel);
-            else if (firstState != null && lastState == null) goal = new Goal<TA, TB>(goal.Name, firstState, goal.PriorityLevel);
+            if(firstState == null && lastState != null) goapGoal = new GoapGoal<TA, TB>(goapGoal.Name, lastState, goapGoal.PriorityLevel);
+            else if (firstState != null && lastState == null) goapGoal = new GoapGoal<TA, TB>(goapGoal.Name, firstState, goapGoal.PriorityLevel);
             else if (firstState == null)
             {
                 reached = true;
@@ -112,7 +112,7 @@ namespace GoapTFG.Base
                 reached = false;
                 return null;
             }
-            else goal = new Goal<TA, TB>(goal.Name, firstState + lastState, goal.PriorityLevel);
+            else goapGoal = new GoapGoal<TA, TB>(goapGoal.Name, firstState + lastState, goapGoal.PriorityLevel);
             reached = false;
             return ws;
         }

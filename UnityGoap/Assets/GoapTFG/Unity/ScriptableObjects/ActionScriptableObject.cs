@@ -27,25 +27,25 @@ namespace GoapTFG.Unity.ScriptableObjects
             cost = Math.Max(0, cost);
         }
     
-        public Base.Action<PropertyList, object> Create(IAgent<PropertyList, object> agent)
+        public Base.GoapAction<PropertyList, object> Create(IAgent<PropertyList, object> agent)
         {
             PropertyGroup<PropertyList, object> precsPg = new();
             AddIntoPropertyGroup(preconditions, ref precsPg);
             PropertyGroup<PropertyList, object> effectsPg = new();
             AddIntoPropertyGroup(effects, ref effectsPg);
-            Base.Action<PropertyList, object> action = new(agent, name, precsPg, effectsPg)
+            Base.GoapAction<PropertyList, object> goapAction = new(agent, name, precsPg, effectsPg)
             {
                 Cost = cost
             };
             ActionAdditionalData data = GetActionAdditionalData(name);
             if (data != null)
             {
-                action.SetCustomCost(data.CustomCost);
-                action.ProceduralConditions += data.Conditions;
-                action.ProceduralEffects += data.Effects;
-                action.PerformedActions += data.Actions;
+                goapAction.SetCustomCost(data.CustomCost);
+                goapAction.ProceduralConditions += data.Conditions;
+                goapAction.ProceduralEffects += data.Effects;
+                goapAction.PerformedActions += data.Actions;
             }
-            return action;
+            return goapAction;
         }
     }
 }

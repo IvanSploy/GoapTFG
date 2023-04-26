@@ -14,12 +14,12 @@ namespace GoapTFG.Planner
         private const int ACTION_LIMIT = 9999;
         
         private Node<TA, TB> _current;
-        private readonly Goal<TA, TB> _goal;
+        private readonly GoapGoal<TA, TB> _goapGoal;
         private readonly INodeGenerator<TA, TB> _nodeGenerator; 
 
-        private Planner(Goal<TA, TB> goal, INodeGenerator<TA, TB> nodeGenerator)
+        private Planner(GoapGoal<TA, TB> goapGoal, INodeGenerator<TA, TB> nodeGenerator)
         {
-            _goal = goal;
+            _goapGoal = goapGoal;
             _nodeGenerator = nodeGenerator;
         }
 
@@ -27,25 +27,25 @@ namespace GoapTFG.Planner
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
         /// </summary>
         /// <param name="currentState">Current state of the world.</param>
-        /// <param name="goal">Goal that is going to be reached.</param>
+        /// <param name="goapGoal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<Base.Action<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, Goal<TA, TB> goal,
-            List<Base.Action<TA, TB>> actions, Func<Goal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
+        public static Stack<Base.GoapAction<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal,
+            List<Base.GoapAction<TA, TB>> actions, Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
         {
-            if (goal.IsReached(currentState)) return null;
-            Planner<TA, TB> regressivePlanner = new Planner<TA, TB>(goal, new AStar<TA, TB>(newHeuristic));
+            if (goapGoal.IsReached(currentState)) return null;
+            Planner<TA, TB> regressivePlanner = new Planner<TA, TB>(goapGoal, new AStar<TA, TB>(newHeuristic));
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
-        public Stack<Base.Action<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
-            List<Base.Action<TA, TB>> actions)
+        public Stack<Base.GoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
+            List<Base.GoapAction<TA, TB>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
             
-            _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
+            _current = _nodeGenerator.CreateInitialNode(initialState, _goapGoal);
             
             while (_current != null)
             {
