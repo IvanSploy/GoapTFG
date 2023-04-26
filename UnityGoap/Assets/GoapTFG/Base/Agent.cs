@@ -18,7 +18,7 @@ namespace GoapTFG.Base
             Name = name;
             _actions = actions == null ? new List<Action<TA, TB>>() : new List<Action<TA, TB>>(actions);
             _goals = new List<Goal<TA, TB>>(goals);
-            OrderGoals();
+            SortGoals();
             _currentPlan = new Stack<Action<TA, TB>>();
         }
 
@@ -43,16 +43,16 @@ namespace GoapTFG.Base
         public void AddGoal(Goal<TA, TB> goal)
         {
             _goals.Add(goal);
-            OrderGoals();
+            SortGoals();
         }
         
         public void AddGoals(List<Goal<TA, TB>> goalList)
         {
             _goals.AddRange(goalList);
-            OrderGoals();
+            SortGoals();
         }
 
-        private void OrderGoals()
+        private void SortGoals()
         {
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }

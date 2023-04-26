@@ -30,7 +30,7 @@ namespace GoapTFG.Unity
 
         private void OnValidate()
         {
-            if (nameEntity is null) nameEntity = gameObject.name;
+            nameEntity ??= gameObject.name;
         }
     }
 }

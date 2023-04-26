@@ -62,13 +62,13 @@ namespace GoapTFG.Unity
                 _goals.Add(goal.Create());
             }
 
-            //ACCION PRINCIPAL
+            //ACCIONES
             foreach (var action in actionObjects)
             {
                 _actions.Add(action.Create(this));
             }
 
-            OrderGoals();
+            SortGoals();
 
             //Se crea el blackboard utilizado por las acciones de GOAP.
             StartCoroutine(Replan());
@@ -130,16 +130,16 @@ namespace GoapTFG.Unity
         public void AddGoal(Goal<PropertyList, object> goal)
         {
             _goals.Add(goal);
-            OrderGoals();
+            SortGoals();
         }
 
         public void AddGoals(List<Goal<PropertyList, object>> goalList)
         {
             _goals.AddRange(goalList);
-            OrderGoals();
+            SortGoals();
         }
 
-        public void OrderGoals()
+        public void SortGoals()
         {
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }

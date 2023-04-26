@@ -45,12 +45,7 @@ namespace GoapTFG.Unity
         };
         
         #region Getters
-        
-        private static PropertyType GetType(Property property)
-        {
-            return ProperTypes[property.name];
-        }
-        
+
         public static PropertyType GetType(PropertyList property)
         {
             return ProperTypes[property];
