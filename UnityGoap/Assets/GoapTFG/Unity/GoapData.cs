@@ -10,15 +10,6 @@ namespace GoapTFG.Unity
 {
     public static class GoapData
     {
-        public static Dictionary<string, ActionScriptableObject> ActionScriptableObjects;
-
-        public static void Initialize()
-        {
-            ActionScriptableObjects = new Dictionary<string, ActionScriptableObject>();
-            
-            
-        }
-
         /// <summary>
         /// User defined heuristic for GOAP.
         /// </summary>

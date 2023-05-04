@@ -39,8 +39,10 @@ namespace GoapTFG.Unity
         }
 
         //Procedural related.
-        protected virtual bool ProceduralConditions(PropertyGroup<PropertyList, object> worldState) => true;
-        protected virtual PropertyGroup<PropertyList, object> ProceduralEffects(PropertyGroup<PropertyList, object> worldState) => null;
+        protected abstract bool ProceduralConditions(PropertyGroup<PropertyList, object> worldState);
+
+        protected abstract PropertyGroup<PropertyList, object> ProceduralEffects(
+            PropertyGroup<PropertyList, object> worldState);
         protected abstract void PerformedActions(PropertyGroup<PropertyList, object> worldState);
         
         //Cost related.

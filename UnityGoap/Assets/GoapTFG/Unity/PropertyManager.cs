@@ -15,6 +15,7 @@ namespace GoapTFG.Unity
             StoneCount,
             GoldCount,
             Target,
+            IsInTarget,
             StateOfTarget,
             IsIdle
         }
@@ -25,6 +26,7 @@ namespace GoapTFG.Unity
             { PropertyList.StoneCount, PropertyType.Integer },
             { PropertyList.GoldCount, PropertyType.Float },
             { PropertyList.Target, PropertyType.String },
+            { PropertyList.IsInTarget, PropertyType.Boolean },
             { PropertyList.StateOfTarget, PropertyType.Enum },
             { PropertyList.IsIdle, PropertyType.Boolean }
         };
@@ -103,7 +105,7 @@ namespace GoapTFG.Unity
                     {
                         result = bool.Parse(value);
                     }
-                    catch (FormatException e)
+                    catch (FormatException)
                     {
                         result = false;
                     }
@@ -114,7 +116,7 @@ namespace GoapTFG.Unity
                     {
                         result = int.Parse(value);
                     }
-                    catch (FormatException e)
+                    catch (FormatException)
                     {
                         result = 0;
                     }
@@ -124,7 +126,7 @@ namespace GoapTFG.Unity
                     {
                         result = float.Parse(value.Replace(".", ","));
                     }
-                    catch(FormatException e)
+                    catch(FormatException)
                     {
                         result = 0f;
                     }
