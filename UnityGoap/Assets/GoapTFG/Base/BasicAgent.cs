@@ -87,7 +87,7 @@ namespace GoapTFG.Base
 
             foreach (var action in _currentPlan)
             {
-                worldState = action.PerformAction(worldState);
+                worldState = action.Execute(worldState);
             }
             _currentPlan.Clear();
             return worldState;
@@ -97,7 +97,7 @@ namespace GoapTFG.Base
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().PerformAction(worldState);
+            worldState = _currentPlan.Pop().Execute(worldState);
             return worldState;
         }
 

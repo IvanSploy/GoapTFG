@@ -1,4 +1,5 @@
 using System.Globalization;
+using GoapTFG.Unity.Actions;
 using GoapTFG.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
@@ -63,33 +64,20 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(ActionScriptableObject))]
+        [CustomEditor(typeof(GoapActionSO), true)]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
 
-                ActionScriptableObject actionScriptableObject = (ActionScriptableObject)target;
+                GoapActionSO actionScriptableObject = (GoapActionSO)target;
 
-                EditorGUILayout.BeginHorizontal();
-
-                EditorGUILayout.LabelField("Auto Generate Names");
-                ActionScriptableObject.GenerateActionNames = EditorGUILayout.Toggle(ActionScriptableObject.GenerateActionNames);
-
-                EditorGUILayout.EndHorizontal();
-                
-                if (GUILayout.Button("Generate Action Names"))
-                {
-                    CreateActionEnum();
-                }
-                
-                EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
-                actionScriptableObject.cost = EditorGUILayout.IntField("Cost", actionScriptableObject.cost);
+                actionScriptableObject.SetCost(EditorGUILayout.IntField("Cost", actionScriptableObject.GetCost()));
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), true);

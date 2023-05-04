@@ -9,7 +9,6 @@ using static GoapTFG.Unity.PropertyManager;
 
 namespace GoapTFG.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Action", menuName = "Goap Items/Action", order = 3)]
     public class ActionScriptableObject : ScriptableObject
     {
         public static bool GenerateActionNames;
@@ -27,7 +26,7 @@ namespace GoapTFG.Unity.ScriptableObjects
             cost = Math.Max(0, cost);
         }
     
-        public Base.GoapAction<PropertyList, object> Create(IAgent<PropertyList, object> agent)
+        /*public Base.GoapAction<PropertyList, object> Create(IAgent<PropertyList, object> agent)
         {
             PropertyGroup<PropertyList, object> precsPg = new();
             AddIntoPropertyGroup(preconditions, ref precsPg);
@@ -46,6 +45,6 @@ namespace GoapTFG.Unity.ScriptableObjects
                 goapAction.PerformedActions += data.Actions;
             }
             return goapAction;
-        }
+        }*/
     }
 }

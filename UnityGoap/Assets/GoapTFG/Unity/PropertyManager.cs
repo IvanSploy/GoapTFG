@@ -105,7 +105,6 @@ namespace GoapTFG.Unity
                     }
                     catch (FormatException e)
                     {
-                        Debug.LogError(e.Message);
                         result = false;
                     }
                     break;
@@ -117,7 +116,6 @@ namespace GoapTFG.Unity
                     }
                     catch (FormatException e)
                     {
-                        Debug.LogError(e.Message);
                         result = 0;
                     }
                     break;
@@ -128,7 +126,6 @@ namespace GoapTFG.Unity
                     }
                     catch(FormatException e)
                     {
-                        Debug.LogError(e.Message);
                         result = 0f;
                     }
                     break;
@@ -156,11 +153,11 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, ref PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<Property> properties, in PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, ref state);
+                ApplyProperty(property, in state);
             }
         }
     
@@ -170,11 +167,11 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, ref PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, ref state);
+                ApplyProperty(property, in state);
             }
         }
     
@@ -183,28 +180,28 @@ namespace GoapTFG.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, ref PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in PropertyGroup<PropertyList, object> state)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, ref state);
+                ApplyProperty(property, in state);
             }
         }
         
         #endregion
 
         #region Converters
-        private static void ApplyProperty(Property property, ref PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(Property property, in PropertyGroup<PropertyList, object> pg)
         {
             pg.Set(property.name, ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, ref PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(ConditionProperty property, in PropertyGroup<PropertyList, object> pg)
         {
             pg.Set(property.name, ParseValue(property), property.condition);
         }
 
-        private static void ApplyProperty(EffectProperty property, ref PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(EffectProperty property, in PropertyGroup<PropertyList, object> pg)
         {
             pg.Set(property.name, ParseValue(property), property.effect);
         } 

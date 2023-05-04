@@ -18,7 +18,7 @@ namespace GoapTFG.Unity
             if (StateScriptableObject != null)
             {
                 PropertyGroup<PropertyManager.PropertyList, object> state = new ();
-                PropertyManager.AddIntoPropertyGroup(StateScriptableObject.stateProperties, ref state);
+                PropertyManager.AddIntoPropertyGroup(StateScriptableObject.stateProperties, in state);
                 CurrentState = state;
             }
             else

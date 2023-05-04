@@ -14,7 +14,7 @@ namespace GoapTFG.Unity.ScriptableObjects
         public PropertyGroup<PropertyList, object> Create()
         {
             PropertyGroup<PropertyList, object> state = new();
-            AddIntoPropertyGroup(stateProperties, ref state);
+            AddIntoPropertyGroup(stateProperties, in state);
             return state;
         }
     }

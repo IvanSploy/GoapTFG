@@ -2,131 +2,23 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GoapTFG.Base;
-using GoapTFG.Unity.CodeGenerator.Enums;
+using GoapTFG.Unity.ScriptableObjects;
 using static GoapTFG.Unity.PropertyManager;
-using static GoapTFG.Unity.PropertyManager.PropertyList;
 using static GoapTFG.Unity.PropertyManager.PropertyType;
-using static GoapTFG.Unity.CodeGenerator.Enums.GoalName;
-using static GoapTFG.Unity.CodeGenerator.Enums.ActionName;
 
 namespace GoapTFG.Unity
 {
     public static class GoapData
     {
-        public class ActionAdditionalData
-        {
-            public Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> CustomCost;
-            public Base.GoapAction<PropertyList, object>.Condition Conditions;
-            public Base.GoapAction<PropertyList, object>.Effect Effects;
-            public Base.GoapAction<PropertyList, object>.Effect Actions;
-        }
-        
-        //Acciones
-        public static Dictionary<string, ActionAdditionalData> ActionAdditionalDatas;
-
+        public static Dictionary<string, ActionScriptableObject> ActionScriptableObjects;
 
         public static void Initialize()
         {
-            //Actions Additional Data
-            ActionAdditionalDatas = new Dictionary<string, ActionAdditionalData>();
-
-            AddPerformedActionsToAction(GoTo, (agent, ws) =>
-            {
-                ((GoapAgent)agent).GoToTarget((string)ws.GetValue(Target));
-            });
-
-            AddConditionsToAction(GoIdle, (agent, ws) =>
-                ((GoapAgent)agent).GetCurrentGoal().Name.Equals(Idleling.ToString()));
+            ActionScriptableObjects = new Dictionary<string, ActionScriptableObject>();
             
-            AddPerformedActionsToAction(GoIdle, (agent, ws) =>
-            {
-                ((GoapAgent)agent).GoIdleling(10);
-                ws.Set(IsIdle, false);
-            });
             
-
-            /*AddEffectsToAction("Buy Stone", (ws) =>
-            {
-                var initialGold = (float)ws.Get(GoldCount.ToString());
-                var initialStone = (int)ws.Get(StoneCount.ToString());
-                var num = (int)initialGold / 70;
-                float mod = initialGold % 70;
-                ws.Set(GoldCount.ToString(), mod);
-                ws.Set(StoneCount.ToString(), initialStone + 200 * num);
-            });
-                    
-            AddEffectsToAction("Chop Trees", (ws) =>
-            {
-                var initialStone = (int)ws.Get(StoneCount.ToString());
-                var initialWood = (int)ws.Get(WoodCount.ToString());
-                var num = initialStone / 500;
-                var mod = initialStone % 500;
-                ws.Set(StoneCount.ToString(), mod);
-                ws.Set(WoodCount.ToString(), initialWood + 150 * num);
-            });*/
-
-            return;
-            AddCustomCostToAction(GoTo, (agent, ws) =>
-            {
-                var agentPos = ((GoapAgent)agent).transform.position;
-                var targetPos = WorkingMemoryManager.Get((string)ws.GetValue(Target)).Position;
-                return (int)Vector3.Distance(agentPos, targetPos);
-            });
         }
 
-        //Actions Additional Data Usages
-        public static void AddCustomCostToAction(ActionName key,
-            Func<IAgent<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customCost)
-        {
-            string sKey = key.ToString();
-            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.CustomCost = customCost;
-            SaveAdditionalData(sKey, aad);
-        }
-        
-        public static void AddConditionsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Condition condition)
-        {
-            string sKey = key.ToString();
-            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.Conditions += condition;
-            SaveAdditionalData(sKey, aad);
-        }
-
-        public static void AddEffectsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Effect effect)
-        {
-            string sKey = key.ToString();
-            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.Effects += effect;
-            SaveAdditionalData(sKey, aad);
-        }
-
-        public static void AddPerformedActionsToAction(ActionName key, Base.GoapAction<PropertyList, object>.Effect action)
-        {
-            string sKey = key.ToString();
-            ActionAdditionalData aad = CreateAdditionalDataIfNeeded(sKey);
-            aad.Actions += action;
-            SaveAdditionalData(sKey, aad);
-        }
-        
-        public static ActionAdditionalData GetActionAdditionalData(string key)
-        {
-            if (!ActionAdditionalDatas.ContainsKey(key)) return null;
-            return ActionAdditionalDatas[key];
-        }
-
-        private static ActionAdditionalData CreateAdditionalDataIfNeeded(string key)
-        {
-            ActionAdditionalData aad;
-            bool hasdata = ActionAdditionalDatas.TryGetValue(key, out aad);
-            if (!hasdata) aad = new ActionAdditionalData();
-            return aad;
-        }
-
-        private static void SaveAdditionalData(string key, ActionAdditionalData data)
-        {
-            ActionAdditionalDatas[key] = data;
-        }
-        
         /// <summary>
         /// User defined heuristic for GOAP.
         /// </summary>

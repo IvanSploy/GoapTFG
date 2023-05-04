@@ -1,103 +1,74 @@
-using System;
-using System.Net;
-
 namespace GoapTFG.Base
 {
-    public class GoapAction<TA, TB>
+    public abstract class GoapAction<TA, TB> : IGoapAction<TA, TB>
     {
-        public IAgent<TA, TB> Agent;
-        public string Name;
-
-        public int Cost
-        {
-            set => _cost = value;
-        }
-
+        public string Name { get; }
         private readonly PropertyGroup<TA, TB> _preconditions;
         private readonly PropertyGroup<TA, TB> _effects;
         private int _cost = 1;
-        private Func<IAgent<TA, TB>, PropertyGroup<TA, TB>, int> _customCost;
-        
-        public delegate bool Condition(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
-        public delegate void Effect(IAgent<TA, TB> agent, PropertyGroup<TA, TB> worldState);
-        public event Condition ProceduralConditions;
-        public event Effect ProceduralEffects;
-        public event Effect PerformedActions;
+        public bool IsCompleted { get; } = false;
 
-        public GoapAction(IAgent<TA, TB> agent, string name, PropertyGroup<TA, TB> preconditions = null, 
-            PropertyGroup<TA, TB> effects = null)
+        protected GoapAction(PropertyGroup<TA, TB> preconditions, PropertyGroup<TA, TB> effects)
         {
-            Agent = agent;
-            Name = name;
-            _preconditions = preconditions != null ?
-                new PropertyGroup<TA, TB>(preconditions) : new PropertyGroup<TA, TB>();
-            _effects = effects != null ? new PropertyGroup<TA, TB>(effects) : new PropertyGroup<TA, TB>();
+            _preconditions = preconditions;
+            _effects = effects;
         }
-
+        
+        //Procedural related.
+        protected virtual bool ProceduralConditions(PropertyGroup<TA, TB> worldState) => true;
+        protected virtual PropertyGroup<TA, TB> ProceduralEffects(PropertyGroup<TA, TB> worldState) => null;
+        protected abstract void PerformedActions(PropertyGroup<TA, TB> worldState);
+        
         //Cost related.
-        public void SetCustomCost(Func<IAgent<TA, TB>, PropertyGroup<TA, TB>, int> customCost)
-        {
-            _customCost = customCost;
-        }
-
-        public int GetCost()
-        {
-            return _cost;
-        }
-        
-        public int GetCost(PropertyGroup<TA, TB> currentState)
-        {
-            return _customCost?.Invoke(Agent, currentState) ?? _cost;
-        }
+        public virtual int GetCost() => _cost;
+        public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public PropertyGroup<TA, TB> GetPreconditions()
-        {
-            return _preconditions;
-        }
-        
-        public PropertyGroup<TA, TB> GetEffects()
-        {
-            return _effects;
-        }
-        
+        public PropertyGroup<TA, TB> GetPreconditions() => _preconditions;
+        public PropertyGroup<TA, TB> GetEffects() => _effects;
+
         //GOAP utilities.
-        public bool CheckAction(PropertyGroup<TA, TB> worldState)
+        public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> worldState)
+        {
+            if (!CheckAction(worldState)) return null;
+            return DoApplyAction(worldState);
+        }
+
+        public PropertyGroup<TA, TB> Execute(PropertyGroup<TA, TB> worldState)
+        {
+            worldState = ApplyAction(worldState);
+            PerformedActions(worldState);
+            return worldState;
+        }
+
+        //Internal methods.
+        private bool CheckAction(PropertyGroup<TA, TB> worldState)
         {
             if (!worldState.CheckConflict(_preconditions))
             {
-                if (ProceduralConditions != null)
-                {
-                    return ProceduralConditions.Invoke(Agent, worldState);
-                }
-                return true;
+                return ProceduralConditions(worldState);
             }
             return false;
         }
-
-        public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> worldState)
+        
+        private PropertyGroup<TA, TB> DoApplyAction(PropertyGroup<TA, TB> worldState)
         {
-            //Console.Out.WriteLine("Acción aplicada: " + this);
-            if (!CheckAction(worldState)) return null;
             worldState += _effects;
-            if (ProceduralEffects != null)
-            {
-                ProceduralEffects.Invoke(Agent, worldState);
-            }
+            var lastWorldState = ProceduralEffects(worldState);
+            if (lastWorldState != null) worldState = lastWorldState;
             return worldState;
         }
         
+        //to do
         public PropertyGroup<TA, TB> ApplyRegressiveAction(PropertyGroup<TA, TB> worldState, ref GoapGoal<TA, TB> goapGoal, out bool reached)
         {
-            if (ProceduralConditions != null)
+            if (!ProceduralConditions(worldState))
             {
-                if (!ProceduralConditions.Invoke(Agent, worldState))
-                {
-                    reached = false;
-                    return null;
-                }
+                reached = false;
+                return null;
             }
-            var ws = ForceAction(worldState);
+            
+            var ws = DoApplyAction(worldState);
             var firstState = goapGoal.GetConflicts(ws);
             ws.CheckConflict(_preconditions, out var lastState);
             if(firstState == null && lastState != null) goapGoal = new GoapGoal<TA, TB>(goapGoal.Name, lastState, goapGoal.PriorityLevel);
@@ -117,25 +88,6 @@ namespace GoapTFG.Base
             return ws;
         }
         
-        public PropertyGroup<TA, TB> ForceAction(PropertyGroup<TA, TB> worldState)
-        {
-            worldState += _effects;
-            if (ProceduralEffects != null)
-            {
-                ProceduralEffects.Invoke(Agent, worldState);
-            }
-
-            return worldState;
-        }
-
-        public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
-        {
-            worldState = ApplyAction(worldState);
-            PerformedActions?.Invoke(Agent, worldState);
-            return worldState;
-        }
-
-        //Overrides
         public override string ToString()
         {
             return Name 

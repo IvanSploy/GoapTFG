@@ -63,10 +63,10 @@ namespace GoapTFG.Unity
             }
 
             //ACCIONES
-            foreach (var action in actionObjects)
+            /*foreach (var action in actionObjects)
             {
-                _actions.Add(action.Create(this));
-            }
+                _actions.Add(action.Create());
+            }*/
 
             SortGoals();
 
@@ -182,7 +182,7 @@ namespace GoapTFG.Unity
 
             foreach (var action in _currentPlan)
             {
-                worldState = action.PerformAction(worldState);
+                worldState = action.Execute(worldState);
             }
 
             _currentPlan.Clear();
@@ -193,7 +193,7 @@ namespace GoapTFG.Unity
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().PerformAction(worldState);
+            worldState = _currentPlan.Pop().Execute(worldState);
             return worldState;
         }
 

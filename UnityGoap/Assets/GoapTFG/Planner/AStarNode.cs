@@ -37,7 +37,7 @@ namespace GoapTFG.Planner
             AStarNode<TA, TB> asnParent = (AStarNode<TA, TB>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = GoapAction.GetCost(PropertyGroup) + asnParent.GCost;
+            GCost = GoapAction.GetCost() + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 

@@ -15,7 +15,7 @@ namespace GoapTFG.Unity.ScriptableObjects
         public GoapGoal<PropertyList, object> Create(int priority)
         {
             PropertyGroup<PropertyList, object> state = new();
-            AddIntoPropertyGroup(goalProperties, ref state);
+            AddIntoPropertyGroup(goalProperties, in state);
             return new GoapGoal<PropertyList, object>(name, state, priority);
         }
         
