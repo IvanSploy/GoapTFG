@@ -40,6 +40,12 @@ namespace GoapTFG.Base
         }
         
         //Operators
+        public TB this[TA key]
+        {
+            get => GetState()[key];
+            set => GetState()[key] = value;
+        }
+        
         public static GoapGoal<TA, TB> operator +(GoapGoal<TA, TB> a, PropertyGroup<TA, TB> b)
         {
             var propertyGroup = a._goalConditions;

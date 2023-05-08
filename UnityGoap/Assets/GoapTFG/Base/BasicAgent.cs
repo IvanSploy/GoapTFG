@@ -6,36 +6,36 @@ namespace GoapTFG.Base
     //Handles the GOAP planification and is who realices the actions.
     public class BasicAgent<TA, TB> : IAgent<TA, TB>
     {
-        private Stack<GoapAction<TA, TB>> _currentPlan;
-        private readonly List<GoapAction<TA, TB>> _actions;
+        private Stack<IGoapAction<TA, TB>> _currentPlan;
+        private readonly List<IGoapAction<TA, TB>> _actions;
         private readonly List<GoapGoal<TA, TB>> _goals;
 
         public string Name { get; }
         public PropertyGroup<TA, TB> CurrentState { get; set; }
         
-        public BasicAgent(string name, List<GoapGoal<TA, TB>> goals, List<GoapAction<TA, TB>> actions = null)
+        public BasicAgent(string name, List<GoapGoal<TA, TB>> goals, List<IGoapAction<TA, TB>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<GoapAction<TA, TB>>() : new List<GoapAction<TA, TB>>(actions);
+            _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
             _goals = new List<GoapGoal<TA, TB>>(goals);
             SortGoals();
-            _currentPlan = new Stack<GoapAction<TA, TB>>();
+            _currentPlan = new Stack<IGoapAction<TA, TB>>();
         }
 
-        public BasicAgent(string name, GoapGoal<TA, TB> goapGoal, List<GoapAction<TA, TB>> actions = null)
+        public BasicAgent(string name, GoapGoal<TA, TB> goapGoal, List<IGoapAction<TA, TB>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<GoapAction<TA, TB>>() : new List<GoapAction<TA, TB>>(actions);
+            _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
             _goals = new List<GoapGoal<TA, TB>> { goapGoal };
-            _currentPlan = new Stack<GoapAction<TA, TB>>();
+            _currentPlan = new Stack<IGoapAction<TA, TB>>();
         }
 
-        public void AddAction(GoapAction<TA,TB> goapAction)
+        public void AddAction(IGoapAction<TA,TB> goapAction)
         {
             _actions.Add(goapAction);
         }
         
-        public void AddActions(List<GoapAction<TA,TB>> actionList)
+        public void AddActions(List<IGoapAction<TA,TB>> actionList)
         {
             _actions.AddRange(actionList);
         }

@@ -31,16 +31,16 @@ namespace GoapTFG.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<Base.GoapAction<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal,
-            List<Base.GoapAction<TA, TB>> actions, Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
+        public static Stack<IGoapAction<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal,
+            List<IGoapAction<TA, TB>> actions, Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
         {
             if (goapGoal.IsReached(currentState)) return null;
             Planner<TA, TB> regressivePlanner = new Planner<TA, TB>(goapGoal, new AStar<TA, TB>(newHeuristic));
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
-        public Stack<Base.GoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
-            List<Base.GoapAction<TA, TB>> actions)
+        public Stack<IGoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
+            List<IGoapAction<TA, TB>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;

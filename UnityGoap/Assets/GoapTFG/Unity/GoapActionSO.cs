@@ -54,6 +54,8 @@ namespace GoapTFG.Unity
         public PropertyGroup<PropertyList, object> GetEffects() => _effects;
 
         //GOAP utilities.
+        public abstract bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal);
+        
         public PropertyGroup<PropertyList, object> ApplyAction(PropertyGroup<PropertyList, object> worldState)
         {
             if (!CheckAction(worldState)) return null;

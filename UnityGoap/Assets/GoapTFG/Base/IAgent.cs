@@ -14,13 +14,13 @@ namespace GoapTFG.Base
         /// Add posible action to the agent.
         /// </summary>
         /// <param name="goapAction">Action to be added</param>
-        public void AddAction(GoapAction<TA, TB> goapAction);
+        public void AddAction(IGoapAction<TA, TB> goapAction);
 
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
         /// <param name="actionList">Actions to be added</param>
-        public void AddActions(List<GoapAction<TA, TB>> actionList);
+        public void AddActions(List<IGoapAction<TA, TB>> actionList);
         
         /// <summary>
         /// Add goal to the agent.

@@ -16,10 +16,17 @@ namespace GoapTFG.Unity.Actions
         {
             return null;
         }
-
+        
+        public override bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal)
+        {
+            currentGoal[PropertyList.Target].Equals("");
+            return true;
+        }
+        
         protected override void PerformedActions(PropertyGroup<PropertyList, object> worldState)
         {
             //GO TO target
+            
         }
     }
 }

@@ -25,7 +25,7 @@ namespace GoapTFG.Planner
         /// <param name="parent"></param>
         /// <param name="child"></param>
         /// <param name="goapAction"></param>
-        void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, GoapAction<TA, TB> goapAction);
+        void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, IGoapAction<TA, TB> goapAction);
         
         /// <summary>
         /// Retrieves the custom heuristic of the generator if exists.

@@ -28,6 +28,9 @@ namespace GoapTFG.Base
         public PropertyGroup<TA, TB> GetEffects() => _effects;
 
         //GOAP utilities.
+        
+        public bool CheckCustomParameters(GoapGoal<TA, TB> currentGoal) => true;
+        
         public PropertyGroup<TA, TB> ApplyAction(PropertyGroup<TA, TB> worldState)
         {
             if (!CheckAction(worldState)) return null;

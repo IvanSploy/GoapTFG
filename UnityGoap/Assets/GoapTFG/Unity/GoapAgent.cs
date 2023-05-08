@@ -36,12 +36,11 @@ namespace GoapTFG.Unity
         public bool performingAction = false;
         public bool regressivePlan = false;
         public float speed = 5;
-        
 
         //Agent base related
-        private Stack<Base.GoapAction<PropertyList, object>> _currentPlan;
+        private Stack<IGoapAction<PropertyList, object>> _currentPlan;
         private List<GoapGoal<PropertyList, object>> _goals;
-        private List<Base.GoapAction<PropertyList, object>> _actions;
+        private List<IGoapAction<PropertyList, object>> _actions;
         private GoapGoal<PropertyList, object> _currentGoapGoal;
         
         public PropertyGroup<PropertyList, object> CurrentState { get; set; }
@@ -53,7 +52,7 @@ namespace GoapTFG.Unity
             _goals = new();
             _actions = new();
             List<GoapGoal<PropertyList, object>> myGoals = new();
-            List<GoapTFG.Base.GoapAction<PropertyList, object>> myActions = new();
+            List<IGoapAction<PropertyList, object>> myActions = new();
             CurrentState = new();
             
             //OBJETIVOS
@@ -117,12 +116,12 @@ namespace GoapTFG.Unity
 
         //INTERFACE CLASSES
 
-        public void AddAction(GoapTFG.Base.GoapAction<PropertyList, object> goapAction)
+        public void AddAction(IGoapAction<PropertyList, object> goapAction)
         {
             _actions.Add(goapAction);
         }
 
-        public void AddActions(List<GoapTFG.Base.GoapAction<PropertyList, object>> actionList)
+        public void AddActions(List<IGoapAction<PropertyList, object>> actionList)
         {
             _actions.AddRange(actionList);
         }

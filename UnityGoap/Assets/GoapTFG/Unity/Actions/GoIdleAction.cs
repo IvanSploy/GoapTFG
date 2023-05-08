@@ -17,9 +17,12 @@ namespace GoapTFG.Unity.Actions
             return null;
         }
 
+        public override bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal) => true;
+        
         protected override void PerformedActions(PropertyGroup<PropertyList, object> worldState)
         {
             //GO IDLELING
         }
+
     }
 }

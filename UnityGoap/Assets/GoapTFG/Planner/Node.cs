@@ -12,7 +12,7 @@ namespace GoapTFG.Planner
     {
         //Properties
         public Node<TA, TB> Parent { get; set; }
-        public GoapAction<TA, TB> GoapAction { get; set; }
+        public IGoapAction<TA, TB> GoapAction { get; set; }
         public int TotalCost { get; set; }
         public int ActionCount { get; set; }
         public bool IsGoal { get; set; }
@@ -39,7 +39,7 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="goapAction">Action applied to the node.</param>
         /// <returns>Node result.</returns>
-        public Node<TA, TB> ApplyAction(GoapAction<TA, TB> goapAction)
+        public Node<TA, TB> ApplyAction(IGoapAction<TA, TB> goapAction)
         {
             var pg = goapAction.ApplyAction(PropertyGroup);
             return pg == null ? null : CreateChildNode(pg, GoapGoal, goapAction);
@@ -52,7 +52,7 @@ namespace GoapTFG.Planner
         /// <param name="goapGoal">Goal to be modified</param>
         /// <param name="reached">If the node has no conflicts</param>
         /// <returns>Node result.</returns>
-        public Node<TA, TB> ApplyRegressiveAction(GoapAction<TA, TB> goapAction, GoapGoal<TA, TB> goapGoal, out bool reached)
+        public Node<TA, TB> ApplyRegressiveAction(IGoapAction<TA, TB> goapAction, GoapGoal<TA, TB> goapGoal, out bool reached)
         {
             var pg = goapAction.ApplyRegressiveAction(PropertyGroup, ref goapGoal, out reached);
             return pg == null ? null : CreateChildNode(pg, goapGoal, goapAction);
@@ -65,14 +65,14 @@ namespace GoapTFG.Planner
         /// <param name="goapGoal"></param>
         /// <param name="goapAction"></param>
         /// <returns></returns>
-        protected abstract Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, GoapGoal<TA, TB> goapGoal, GoapAction<TA, TB> goapAction);
+        protected abstract Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, GoapGoal<TA, TB> goapGoal, IGoapAction<TA, TB> goapAction);
 
         /// <summary>
         /// Update the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">Action that leads to this node.</param>
-        public void Update(Node<TA, TB> parent, GoapAction<TA, TB> goapAction)
+        public void Update(Node<TA, TB> parent, IGoapAction<TA, TB> goapAction)
         {
             //Se actualiza la accion de origen.
             GoapAction = goapAction;

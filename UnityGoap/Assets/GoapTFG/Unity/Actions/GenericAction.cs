@@ -14,5 +14,6 @@ namespace GoapTFG.Unity.Actions
             ProceduralEffects(PropertyGroup<PropertyList, object> worldState) => null;
 
         protected override void PerformedActions(PropertyGroup<PropertyList, object> worldState) { }
+        public override bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal) => true;
     }
 }

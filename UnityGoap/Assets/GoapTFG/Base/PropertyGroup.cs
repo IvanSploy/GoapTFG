@@ -164,6 +164,12 @@ namespace GoapTFG.Base
         }
 
         //Operators
+        public TB this[TA key]
+        {
+            get => GetValue(key);
+            set => Set(key, value);
+        }
+        
         public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
         {
             var propertyGroup = new PropertyGroup<TA, TB>(a);

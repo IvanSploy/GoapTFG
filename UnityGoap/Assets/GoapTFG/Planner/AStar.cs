@@ -34,7 +34,7 @@ namespace GoapTFG.Planner
             return node;
         }
 
-        public void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, GoapAction<TA, TB> goapAction)
+        public void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, IGoapAction<TA, TB> goapAction)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
