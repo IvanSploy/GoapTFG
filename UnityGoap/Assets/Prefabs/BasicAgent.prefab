@@ -138,14 +138,11 @@ MonoBehaviour:
   - goal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
   actionObjects:
-  - {fileID: 11400000, guid: e2946d536bb452e4c92e46eef4f95dd3, type: 2}
-  - {fileID: 11400000, guid: 549b50fdb93d9e14a937e724578dba48, type: 2}
-  - {fileID: 11400000, guid: fca31c064e8842447bce94be4e0405e6, type: 2}
-  - {fileID: 11400000, guid: 08980453dd089df44b9b209efc8d3e64, type: 2}
-  - {fileID: 11400000, guid: f60b6f9d3f07da640b46ee99fc884baf, type: 2}
-  - {fileID: 11400000, guid: d7281bf4be329d84db62f8ca8ce74775, type: 2}
-  - {fileID: 11400000, guid: 0bc2d0bd62b289b4888f991d850a50b5, type: 2}
-  - {fileID: 11400000, guid: 6a8b6a8009fe7ca40bf4a5664fe2b32c, type: 2}
+  - {fileID: 11400000, guid: 0b2e0e21c3a8418439e00e2c60cc4400, type: 2}
+  - {fileID: 11400000, guid: d4dd602a06c264f4db5cfeea25c6ba99, type: 2}
+  - {fileID: 11400000, guid: 2bf280d48ce26bb44bbf1618a47d8b69, type: 2}
+  - {fileID: 11400000, guid: 0327dcdb5fd17de4292ac4ffa54e8c93, type: 2}
+  - {fileID: 11400000, guid: 3ce0277f50689b9438ff26db731103ca, type: 2}
   active: 1
   hasPlan: 0
   performingAction: 0

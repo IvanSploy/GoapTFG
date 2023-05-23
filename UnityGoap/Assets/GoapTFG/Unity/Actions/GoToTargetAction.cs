@@ -10,7 +10,13 @@ namespace GoapTFG.Unity.Actions
         private object _target;
         
         protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
-        {
+        { 
+            var state = stateInfo.WorldState;
+            var goal = stateInfo.CurrentGoal;
+            
+            if (!goal.Has(PropertyList.Target)) return false;
+            if (state.Has(PropertyList.Target)) return !stateInfo.WorldState[PropertyList.Target]
+                    .Equals(stateInfo.CurrentGoal[PropertyList.Target]);
             return true;
         }
 
