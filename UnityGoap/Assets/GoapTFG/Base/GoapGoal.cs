@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
+
 namespace GoapTFG.Base
 {
-    public class GoapGoal<TA, TB>
+    public class GoapGoal<TA, TB> : IEnumerable<TA>
     {
         //Fields
         private readonly PropertyGroup<TA, TB> _goalConditions;
@@ -33,6 +36,11 @@ namespace GoapTFG.Base
             return worldState.CountConflict(_goalConditions);
         }
 
+        public bool Has(TA key)
+        {
+            return _goalConditions.Has(key);
+        }
+
         //Getters
         public PropertyGroup<TA, TB> GetState()
         {
@@ -53,9 +61,20 @@ namespace GoapTFG.Base
         }
 
         //Overrides
+
         public override string ToString()
         {
             return "Objetivo: " + Name + "\n" + _goalConditions;
+        }
+
+        public IEnumerator<TA> GetEnumerator()
+        {
+            return GetState().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetState().GetEnumerator();
         }
     }
 }

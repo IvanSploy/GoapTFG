@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using Unity.VisualScripting;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -17,8 +18,8 @@ namespace GoapTFG.Unity
         public string Name { get; }
         private readonly PropertyGroup<PropertyList, object> _preconditions;
         private readonly PropertyGroup<PropertyList, object> _effects;
+        private PropertyGroup<PropertyList, object> _proceduralEffects;
         private int _cost = 1;
-        private IGoapAction<PropertyList, object> _goapActionImplementation;
         public bool IsCompleted { get; } = false;
 
         //Creation of the scriptable object
@@ -30,6 +31,14 @@ namespace GoapTFG.Unity
             _effects = new();
         }
 
+        public GoapActionSO Instantiate()
+        {
+            Type type = GetType(); // Get the type of the current class
+            ScriptableObject instance = CreateInstance(type); // Create an instance of the class
+
+            return (GoapActionSO)instance; // Cast the instance to the base class type
+        }
+
         //Updating data from the scriptable object.
         private void OnValidate()
         {
@@ -39,11 +48,9 @@ namespace GoapTFG.Unity
         }
 
         //Procedural related.
-        protected abstract bool ProceduralConditions(PropertyGroup<PropertyList, object> worldState);
-
-        protected abstract PropertyGroup<PropertyList, object> ProceduralEffects(
-            PropertyGroup<PropertyList, object> worldState);
-        protected abstract void PerformedActions(PropertyGroup<PropertyList, object> worldState);
+        protected abstract bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo);
+        protected abstract PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo);
+        protected abstract void PerformedActions(GoapAgent goapAgent);
         
         //Cost related.
         public virtual int GetCost() => _cost;
@@ -54,57 +61,61 @@ namespace GoapTFG.Unity
         public PropertyGroup<PropertyList, object> GetEffects() => _effects;
 
         //GOAP utilities.
-        public abstract bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal);
-        
-        public PropertyGroup<PropertyList, object> ApplyAction(PropertyGroup<PropertyList, object> worldState)
+        public PropertyGroup<PropertyList, object> ApplyAction(GoapStateInfo<PropertyList, object> stateInfo)
         {
-            if (!CheckAction(worldState)) return null;
-            return DoApplyAction(worldState);
+            if (!CheckAction(stateInfo)) return null;
+            return DoApplyAction(stateInfo);
         }
 
-        public PropertyGroup<PropertyList, object> Execute(PropertyGroup<PropertyList, object> worldState)
+        //Used only by the Agent.
+        public PropertyGroup<PropertyList, object> Execute(PropertyGroup<PropertyList, object> worldState,
+            IGoapAgent<PropertyList, object> goapAgent)
         {
-            worldState = ApplyAction(worldState);
-            PerformedActions(worldState);
+            worldState += _effects;
+            worldState += _proceduralEffects;
+            PerformedActions((GoapAgent) goapAgent);
             return worldState;
         }
 
         //Internal methods.
-        private bool CheckAction(PropertyGroup<PropertyList, object> worldState)
+        private bool CheckAction(GoapStateInfo<PropertyList, object> stateInfo)
         {
-            if (!worldState.CheckConflict(_preconditions))
+            if (!stateInfo.WorldState.CheckConflict(_preconditions))
             {
-                return ProceduralConditions(worldState);
+                return ProceduralConditions(stateInfo);
             }
             return false;
         }
         
-        private PropertyGroup<PropertyList, object> DoApplyAction(PropertyGroup<PropertyList, object> worldState)
+        private PropertyGroup<PropertyList, object> DoApplyAction(GoapStateInfo<PropertyList, object> stateInfo)
         {
-            worldState += _effects;
-            var lastWorldState = ProceduralEffects(worldState);
-            if (lastWorldState != null) worldState = lastWorldState;
+            var worldState = stateInfo.WorldState + _effects;
+            _proceduralEffects = GetProceduralEffects(new GoapStateInfo<PropertyList, object>
+                (worldState, stateInfo.CurrentGoal));
+            if (_proceduralEffects != null) worldState += _proceduralEffects;
             return worldState;
         }
         
-        //to do
-        public PropertyGroup<PropertyList, object> ApplyRegressiveAction(PropertyGroup<PropertyList, object> worldState, ref GoapGoal<PropertyList, object> goapGoal, out bool reached)
+        public GoapStateInfo<PropertyList, object> ApplyRegressiveAction(GoapStateInfo<PropertyList, object> stateInfo, out bool reached)
         {
-            if (!ProceduralConditions(worldState))
+            if (!ProceduralConditions(stateInfo))
             {
                 reached = false;
                 return null;
             }
             
-            var ws = DoApplyAction(worldState);
-            var firstState = goapGoal.GetConflicts(ws);
-            ws.CheckConflict(_preconditions, out var lastState);
+            var worldState = DoApplyAction(stateInfo);
+            var goapGoal = stateInfo.CurrentGoal;
+            
+            var firstState = goapGoal.GetConflicts(worldState);
+            worldState.CheckConflict(_preconditions, out var lastState);
+            
             if(firstState == null && lastState != null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, lastState, goapGoal.PriorityLevel);
             else if (firstState != null && lastState == null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, firstState, goapGoal.PriorityLevel);
             else if (firstState == null)
             {
                 reached = true;
-                return ws;
+                return new GoapStateInfo<PropertyList, object>(worldState);
             }
             else if (lastState.CheckConditionsConflict(firstState))
             {
@@ -113,9 +124,9 @@ namespace GoapTFG.Unity
             }
             else goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, firstState + lastState, goapGoal.PriorityLevel);
             reached = false;
-            return ws;
+            return new GoapStateInfo<PropertyList, object>(worldState, goapGoal);
         }
-        
+
         public override string ToString()
         {
             return Name 

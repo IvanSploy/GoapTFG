@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using static GoapTFG.Base.BaseTypes;
@@ -10,7 +11,7 @@ namespace GoapTFG.Base
     /// </summary>
     /// <typeparam name="TA">Key type</typeparam>
     /// <typeparam name="TB">Value type</typeparam>
-    public class PropertyGroup<TA, TB>
+    public class PropertyGroup<TA, TB> : IEnumerable<TA>
     {
         private struct PgData
         {
@@ -90,7 +91,7 @@ namespace GoapTFG.Base
         private bool HasConflict(TA key, PgData mainData)
         {
             object defaultValue = GetDefaultValue(mainData.Value);
-            TB myValue = !HasKey(key) ? (TB) defaultValue : GetValue(key);
+            TB myValue = !Has(key) ? (TB) defaultValue : GetValue(key);
                 
             return !EvaluateCondition(myValue, mainData.Value, mainData.Condition);
         }
@@ -100,10 +101,9 @@ namespace GoapTFG.Base
             foreach (var pair in mainPg._values)
             {
                 var key = pair.Key;
-                if (!HasKey(pair.Key)) continue;
+                if (!Has(pair.Key)) continue;
                 if (!EvaluateCondition(GetValue(key), pair.Value.Value, pair.Value.Condition)) return true;
             }
-
             return false;
         }
 
@@ -153,7 +153,7 @@ namespace GoapTFG.Base
             _values.Remove(key);
         }
 
-        public bool HasKey(TA key)
+        public bool Has(TA key)
         {
             return _values.ContainsKey(key);
         }
@@ -176,7 +176,7 @@ namespace GoapTFG.Base
             foreach (var pair in b._values)
             {
                 var aux = new PgData();
-                if (propertyGroup.HasKey(pair.Key))
+                if (propertyGroup.Has(pair.Key))
                     aux.Value = (TB)EvaluateEffect(propertyGroup.GetValue(pair.Key), pair.Value.Value, pair.Value.Effect);
                 else
                 {
@@ -213,7 +213,7 @@ namespace GoapTFG.Base
             if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
             foreach (var key in _values.Keys)
             {
-                if (!otherPg.HasKey(key)) return false;
+                if (!otherPg.Has(key)) return false;
                 if(!GetValue(key).Equals(otherPg.GetValue(key))) return false;
             }
             return true;
@@ -244,6 +244,16 @@ namespace GoapTFG.Base
         private static object GetDefaultValue(object value)
         {
             return value is string ? "" : value.GetType().Default();
+        }
+        
+        public IEnumerator<TA> GetEnumerator()
+        {
+            return _values.Keys.GetEnumerator();
+        }
+        
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

@@ -11,23 +11,10 @@ using Random = UnityEngine.Random;
 
 namespace GoapTFG.Unity
 {
-    public class GoapAgent : MonoBehaviour, IAgent<PropertyList, object>
+    public class GoapAgent : MonoBehaviour, IGoapAgent<PropertyList, object>
     {
-        [Serializable]
-        private struct GoalObject
-        {
-            [SerializeField] private GoalScriptableObject goal;
-
-            [Range(0, 15)] [SerializeField] private int priority;
-
-            public GoapGoal<PropertyList, object> Create()
-            {
-                return goal.Create(priority);
-            }
-        }
-
-        [SerializeField] private List<GoalObject> goalObjects;
-        [SerializeField] private List<ActionScriptableObject> actionObjects;
+        [SerializeField] private List<GoapPriorityGoalSO> goalObjects;
+        [SerializeField] private List<GoapActionSO> actionObjects;
         
         public string Name { get; set; }
         
@@ -62,10 +49,10 @@ namespace GoapTFG.Unity
             }
 
             //ACCIONES
-            /*foreach (var action in actionObjects)
+            foreach (var action in actionObjects)
             {
-                _actions.Add(action.Create());
-            }*/
+                _actions.Add(action.Instantiate());
+            }
 
             SortGoals();
 
@@ -181,7 +168,7 @@ namespace GoapTFG.Unity
 
             foreach (var action in _currentPlan)
             {
-                worldState = action.Execute(worldState);
+                worldState = action.Execute(worldState, this);
             }
 
             _currentPlan.Clear();
@@ -192,7 +179,7 @@ namespace GoapTFG.Unity
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().Execute(worldState);
+            worldState = _currentPlan.Pop().Execute(worldState, this);
             return worldState;
         }
 

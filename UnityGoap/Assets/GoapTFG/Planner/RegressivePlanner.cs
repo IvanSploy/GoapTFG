@@ -55,7 +55,7 @@ namespace GoapTFG.Planner
             
             while (_current != null)
             {
-                foreach (var key in _current.GoapGoal.GetState().GetKeys())
+                foreach (var key in _current.GoapGoal)
                 {
                     foreach (var action in _actions[key])
                     {

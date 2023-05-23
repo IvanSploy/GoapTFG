@@ -24,7 +24,7 @@ namespace GoapTFG.Planner
 
         protected override Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, GoapGoal<TA, TB> goapGoal, IGoapAction<TA, TB> goapAction)
         {
-            AStarNode<TA,TB> aStarNode = new AStarNode<TA, TB>(pg, goapGoal, _generator);
+            var aStarNode = new AStarNode<TA, TB>(pg, goapGoal, _generator);
             aStarNode.Update(this, goapAction);
             Children.Add(aStarNode);
             return aStarNode;

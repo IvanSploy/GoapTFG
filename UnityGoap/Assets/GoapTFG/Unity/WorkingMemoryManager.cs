@@ -8,12 +8,12 @@ namespace GoapTFG.Unity
 {
     public static class WorkingMemoryManager
     {
-        private static WorkingMemory<Vector3, GoapEntity> WMemory = new();
+        private static WorkingMemory<Vector3, GoapGoapEntity> WMemory = new();
         
         //Blackboard Management
-        public static void Add(string name, GoapEntity ge)
+        public static void Add(string name, GoapGoapEntity ge)
         {
-            MemoryFact<Vector3, GoapEntity> mFact = new MemoryFact<Vector3, GoapEntity>
+            MemoryFact<Vector3, GoapGoapEntity> mFact = new MemoryFact<Vector3, GoapGoapEntity>
             {
                 Name = name,
                 Position = ge.transform.position,
@@ -23,29 +23,29 @@ namespace GoapTFG.Unity
             WMemory.Add(mFact);
         }
 
-        public static MemoryFact<Vector3, GoapEntity> Get(string name)
+        public static MemoryFact<Vector3, GoapGoapEntity> Get(string name)
         {
             return WMemory.Find(name);
         }
         
-        public static MemoryFact<Vector3, GoapEntity> Get(GoapEntity ge)
+        public static MemoryFact<Vector3, GoapGoapEntity> Get(GoapGoapEntity ge)
         {
             return WMemory.Find(ge);
         }
         
-        public static void Update(string name, GoapEntity ge)
+        public static void Update(string name, GoapGoapEntity ge)
         {
             WMemory.Remove(name);
             Add(name, ge);
         }
         
-        public static void Update(GoapEntity ge)
+        public static void Update(GoapGoapEntity ge)
         {
             WMemory.Remove(ge);
             Add(ge.Name, ge);
         }
 
-        public static void Remove(GoapEntity ge)
+        public static void Remove(GoapGoapEntity ge)
         {
             WMemory.Remove(ge);
         }

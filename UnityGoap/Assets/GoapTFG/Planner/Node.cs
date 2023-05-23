@@ -41,7 +41,7 @@ namespace GoapTFG.Planner
         /// <returns>Node result.</returns>
         public Node<TA, TB> ApplyAction(IGoapAction<TA, TB> goapAction)
         {
-            var pg = goapAction.ApplyAction(PropertyGroup);
+            var pg = goapAction.ApplyAction(new GoapStateInfo<TA, TB>(PropertyGroup, GoapGoal));
             return pg == null ? null : CreateChildNode(pg, GoapGoal, goapAction);
         }
 
@@ -54,8 +54,8 @@ namespace GoapTFG.Planner
         /// <returns>Node result.</returns>
         public Node<TA, TB> ApplyRegressiveAction(IGoapAction<TA, TB> goapAction, GoapGoal<TA, TB> goapGoal, out bool reached)
         {
-            var pg = goapAction.ApplyRegressiveAction(PropertyGroup, ref goapGoal, out reached);
-            return pg == null ? null : CreateChildNode(pg, goapGoal, goapAction);
+            var stateCreated = goapAction.ApplyRegressiveAction(new GoapStateInfo<TA, TB>(PropertyGroup, goapGoal), out reached);
+            return stateCreated == null ? null : CreateChildNode(stateCreated.WorldState, stateCreated.CurrentGoal, goapAction);
         }
 
         /// <summary>

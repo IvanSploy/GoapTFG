@@ -8,7 +8,7 @@ namespace GoapTFG.Base
     /// </summary>
     /// <typeparam name="TA">Key type</typeparam>
     /// <typeparam name="TB">Value type</typeparam>
-    public interface IAgent<TA, TB> : IEntity<TA, TB>
+    public interface IGoapAgent<TA, TB> : IGoapEntity<TA, TB>
     {
         /// <summary>
         /// Add posible action to the agent.

@@ -7,21 +7,20 @@ namespace GoapTFG.Unity.Actions
     [CreateAssetMenu(fileName = "GoIdle", menuName = "Goap Items/Actions/GoIdle", order = 3)]
     public class GoIdleAction : GoapActionSO
     {
-        protected override bool ProceduralConditions(PropertyGroup<PropertyList, object> worldState)
+        protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
         {
             return true;
         }
 
-        protected override PropertyGroup<PropertyList, object> ProceduralEffects(PropertyGroup<PropertyList, object> worldState)
+        protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
         {
             return null;
         }
 
-        public override bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal) => true;
-        
-        protected override void PerformedActions(PropertyGroup<PropertyList, object> worldState)
+        protected override void PerformedActions(GoapAgent goapAgent)
         {
             //GO IDLELING
+            goapAgent.GoIdleling(goapAgent.speed);
         }
 
     }

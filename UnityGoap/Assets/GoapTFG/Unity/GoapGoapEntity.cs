@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GoapTFG.Unity
 {
-    public class GoapEntity : MonoBehaviour, IEntity<PropertyManager.PropertyList, object>
+    public class GoapGoapEntity : MonoBehaviour, IGoapEntity<PropertyManager.PropertyList, object>
     {
         public string nameEntity;
         public StateScriptableObject StateScriptableObject;

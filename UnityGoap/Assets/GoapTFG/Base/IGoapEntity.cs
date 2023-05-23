@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TA"></typeparam>
     /// <typeparam name="TB"></typeparam>
-    public interface IEntity<TA, TB>
+    public interface IGoapEntity<TA, TB>
     {
         public string Name { get; }
         

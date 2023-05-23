@@ -4,7 +4,7 @@ using GoapTFG.Planner;
 namespace GoapTFG.Base
 {
     //Handles the GOAP planification and is who realices the actions.
-    public class BasicAgent<TA, TB> : IAgent<TA, TB>
+    public class BasicGoapAgent<TA, TB> : IGoapAgent<TA, TB>
     {
         private Stack<IGoapAction<TA, TB>> _currentPlan;
         private readonly List<IGoapAction<TA, TB>> _actions;
@@ -13,7 +13,7 @@ namespace GoapTFG.Base
         public string Name { get; }
         public PropertyGroup<TA, TB> CurrentState { get; set; }
         
-        public BasicAgent(string name, List<GoapGoal<TA, TB>> goals, List<IGoapAction<TA, TB>> actions = null)
+        public BasicGoapAgent(string name, List<GoapGoal<TA, TB>> goals, List<IGoapAction<TA, TB>> actions = null)
         {
             Name = name;
             _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
@@ -22,7 +22,7 @@ namespace GoapTFG.Base
             _currentPlan = new Stack<IGoapAction<TA, TB>>();
         }
 
-        public BasicAgent(string name, GoapGoal<TA, TB> goapGoal, List<IGoapAction<TA, TB>> actions = null)
+        public BasicGoapAgent(string name, GoapGoal<TA, TB> goapGoal, List<IGoapAction<TA, TB>> actions = null)
         {
             Name = name;
             _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
@@ -87,7 +87,7 @@ namespace GoapTFG.Base
 
             foreach (var action in _currentPlan)
             {
-                worldState = action.Execute(worldState);
+                worldState = action.Execute(worldState, this);
             }
             _currentPlan.Clear();
             return worldState;
@@ -97,7 +97,7 @@ namespace GoapTFG.Base
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().Execute(worldState);
+            worldState = _currentPlan.Pop().Execute(worldState, this);
             return worldState;
         }
 

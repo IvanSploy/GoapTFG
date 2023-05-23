@@ -7,26 +7,30 @@ namespace GoapTFG.Unity.Actions
     [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
     public class GoToTargetAction : GoapActionSO
     {
-        protected override bool ProceduralConditions(PropertyGroup<PropertyList, object> worldState)
+        private object _target;
+        
+        protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
         {
             return true;
         }
 
-        protected override PropertyGroup<PropertyList, object> ProceduralEffects(PropertyGroup<PropertyList, object> worldState)
+        protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
         {
+            PropertyGroup<PropertyList, object> proceduralEffects = new PropertyGroup<PropertyList, object>();
+            var goal = stateInfo.CurrentGoal;
+            if (goal.Has(PropertyList.Target))
+            {
+                _target = goal[PropertyList.Target];
+                proceduralEffects[PropertyList.Target] = _target;
+                return proceduralEffects;
+            }
             return null;
         }
         
-        public override bool CheckCustomParameters(GoapGoal<PropertyList, object> currentGoal)
-        {
-            currentGoal[PropertyList.Target].Equals("");
-            return true;
-        }
-        
-        protected override void PerformedActions(PropertyGroup<PropertyList, object> worldState)
+        protected override void PerformedActions(GoapAgent goapAgent)
         {
             //GO TO target
-            
+            goapAgent.GoToTarget((string)_target);
         }
     }
 }
