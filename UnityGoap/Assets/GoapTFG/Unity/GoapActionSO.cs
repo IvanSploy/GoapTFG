@@ -15,9 +15,9 @@ namespace GoapTFG.Unity
         [HideInInspector] public List<EffectProperty> effects;
         
         //Fields
-        public string Name { get; }
-        private readonly PropertyGroup<PropertyList, object> _preconditions;
-        private readonly PropertyGroup<PropertyList, object> _effects;
+        public string Name { get; private set; }
+        private PropertyGroup<PropertyList, object> _preconditions;
+        private PropertyGroup<PropertyList, object> _effects;
         private PropertyGroup<PropertyList, object> _proceduralEffects;
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
@@ -31,17 +31,20 @@ namespace GoapTFG.Unity
             _effects = new();
         }
 
-        public GoapActionSO Instantiate()
+        public GoapActionSO Clone()
         {
-            Type type = GetType(); // Get the type of the current class
-            ScriptableObject instance = CreateInstance(type); // Create an instance of the class
-
-            return (GoapActionSO)instance; // Cast the instance to the base class type
+            Type type = GetType();
+            GoapActionSO instance = (GoapActionSO) CreateInstance(type);
+            instance.Name = Name;
+            instance._preconditions += _preconditions;
+            instance._effects += _effects;
+            return instance;
         }
 
         //Updating data from the scriptable object.
         private void OnValidate()
         {
+            Name = name;
             _cost = Math.Max(0, _cost);
             AddIntoPropertyGroup(preconditions, in _preconditions);
             AddIntoPropertyGroup(effects, in _effects);

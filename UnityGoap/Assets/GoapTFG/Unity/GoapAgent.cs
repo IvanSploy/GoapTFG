@@ -51,7 +51,7 @@ namespace GoapTFG.Unity
             //ACCIONES
             foreach (var action in actionObjects)
             {
-                _actions.Add(action.Instantiate());
+                _actions.Add(action.Clone());
             }
 
             SortGoals();

@@ -146,5 +146,5 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  regressivePlan: 1
   speed: 5
