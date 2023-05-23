@@ -364,7 +364,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279653, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
@@ -798,6 +798,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279582, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
+      propertyPath: goalObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
+      propertyPath: goalObjects.Array.data[1].goal
+      value: 
+      objectReference: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
+    - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
+      propertyPath: goalObjects.Array.data[2].goal
+      value: 
+      objectReference: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
+    - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
+      propertyPath: goalObjects.Array.data[1].priority
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
+      propertyPath: goalObjects.Array.data[2].priority
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279653, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}

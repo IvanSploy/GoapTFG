@@ -16,9 +16,6 @@ MonoBehaviour:
   - name: 3
     value: Hall
     condition: 0
-  - name: 4
-    value: True
-    condition: 0
   - name: 2
     value: 70
     condition: 5

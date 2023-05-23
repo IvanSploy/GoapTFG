@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
   m_Name: Idleling
   m_EditorClassIdentifier: 
-  goalName: Idleling
   goalProperties:
-  - name: 5
+  - name: 6
     value: True
     condition: 0

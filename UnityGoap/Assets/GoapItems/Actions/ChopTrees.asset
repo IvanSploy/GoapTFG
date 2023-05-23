@@ -16,9 +16,6 @@ MonoBehaviour:
   - name: 3
     value: Cottage
     condition: 0
-  - name: 4
-    value: True
-    condition: 0
   - name: 1
     value: 500
     condition: 5

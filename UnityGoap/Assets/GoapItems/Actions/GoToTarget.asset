@@ -12,14 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96d321a40074ace91634645e047ee56, type: 3}
   m_Name: GoToTarget
   m_EditorClassIdentifier: 
-  preconditions:
-  - name: 3
-    value: 
-    condition: 1
-  - name: 4
-    value: False
-    condition: 0
+  preconditions: []
   effects:
-  - name: 4
-    value: True
+  - name: 3
+    value: '
+
+'
     effect: 0
