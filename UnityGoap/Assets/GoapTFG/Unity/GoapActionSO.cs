@@ -75,7 +75,7 @@ namespace GoapTFG.Unity
             IGoapAgent<PropertyList, object> goapAgent)
         {
             worldState += _effects;
-            worldState += _proceduralEffects;
+            if(_proceduralEffects != null) worldState += _proceduralEffects;
             PerformedActions((GoapAgent) goapAgent);
             return worldState;
         }
@@ -118,7 +118,9 @@ namespace GoapTFG.Unity
             else if (firstState == null)
             {
                 reached = true;
-                return new GoapStateInfo<PropertyList, object>(worldState);
+                return new GoapStateInfo<PropertyList, object>(worldState,
+                    new GoapGoal<PropertyList, object>("Victory",
+                        new PropertyGroup<PropertyList, object>(), 1));
             }
             else if (lastState.CheckConditionsConflict(firstState))
             {

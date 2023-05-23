@@ -16,8 +16,8 @@ namespace GoapTFG.Base
         private struct PgData
         {
             public TB Value;
-            public readonly ConditionType Condition;
-            public readonly EffectType Effect;
+            public ConditionType Condition;
+            public EffectType Effect;
 
             public PgData(TB value)
             {
@@ -70,7 +70,10 @@ namespace GoapTFG.Base
                 if (HasConflict(pair))
                     mismatches.Set(pair.Key, pair.Value);
             }
-            return !mismatches.IsEmpty();
+
+            var thereIsConflict = !mismatches.IsEmpty();
+            if (!thereIsConflict) mismatches = null;
+            return thereIsConflict;
         }
 
         public int CountConflict(PropertyGroup<TA, TB> mainPg)
@@ -183,6 +186,8 @@ namespace GoapTFG.Base
                     object defValue = GetDefaultValue(pair.Value.Value);
                     aux.Value = (TB)EvaluateEffect(defValue, pair.Value.Value, pair.Value.Effect);
                 }
+                aux.Condition = pair.Value.Condition;
+                aux.Effect = pair.Value.Effect;
                 propertyGroup._values[pair.Key] = aux;
             }
             
