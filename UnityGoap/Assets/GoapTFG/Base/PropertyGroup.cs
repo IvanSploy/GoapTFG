@@ -75,6 +75,22 @@ namespace GoapTFG.Base
             if (!thereIsConflict) mismatches = null;
             return thereIsConflict;
         }
+        
+        public bool CheckFilteredConflicts(PropertyGroup<TA, TB> mainPg, out PropertyGroup<TA, TB> mismatches,
+            PropertyGroup<TA, TB> filter)
+        {
+            mismatches = new PropertyGroup<TA, TB>();
+            foreach (var pair in mainPg._values)
+            {
+                if(!filter.Has(pair.Key)) mismatches.Set(pair.Key, pair.Value);
+                if (HasConflict(pair))
+                    mismatches.Set(pair.Key, pair.Value);
+            }
+
+            var thereIsConflict = !mismatches.IsEmpty();
+            if (!thereIsConflict) mismatches = null;
+            return thereIsConflict;
+        }
 
         public int CountConflict(PropertyGroup<TA, TB> mainPg)
         {
@@ -105,7 +121,7 @@ namespace GoapTFG.Base
             {
                 var key = pair.Key;
                 if (!Has(pair.Key)) continue;
-                if (!EvaluateCondition(GetValue(key), pair.Value.Value, pair.Value.Condition)) return true;
+                if (!(GetValue(key).Equals(pair.Value.Value) && GetCondition(key).Equals(pair.Value.Condition))) return true;
             }
             return false;
         }
@@ -129,6 +145,14 @@ namespace GoapTFG.Base
         private void Set(TA key, PgData data)
         {
             _values[key] = new PgData(data);
+        }
+        
+        public void Set(PropertyGroup<TA, TB> otherPg)
+        {
+            foreach (var pair in otherPg._values)
+            {   
+                Set(pair.Key, pair.Value);
+            }
         }
         
         public TB GetValue(TA key)

@@ -88,7 +88,7 @@ namespace GoapTFG.Planner
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            TotalCost = GoapAction.GetCost();
+            TotalCost = GoapAction.GetCost(new GoapStateInfo<TA, TB>(PropertyGroup, GoapGoal));
             ActionCount = parent.ActionCount + 1;
         }
 

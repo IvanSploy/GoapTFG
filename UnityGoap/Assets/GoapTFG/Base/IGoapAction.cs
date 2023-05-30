@@ -6,6 +6,7 @@
         bool IsCompleted { get; }
 
         //Cost related.
+        int GetCost(GoapStateInfo<TA, TB> stateInfo); 
         int GetCost(); 
         int SetCost(int cost);
         

@@ -13,7 +13,7 @@ namespace GoapTFG.Unity
 
         public PropertyGroup<PropertyManager.PropertyList, object> CurrentState { get; set; }
 
-        private void Start()
+        private void Awake()
         {
             if (StateScriptableObject != null)
             {

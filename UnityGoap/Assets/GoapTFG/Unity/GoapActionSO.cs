@@ -36,8 +36,8 @@ namespace GoapTFG.Unity
             Type type = GetType();
             GoapActionSO instance = (GoapActionSO) CreateInstance(type);
             instance.Name = Name;
-            instance._preconditions += _preconditions;
-            instance._effects += _effects;
+            instance._preconditions.Set(_preconditions);
+            instance._effects.Set(_effects);
             return instance;
         }
 
@@ -56,7 +56,8 @@ namespace GoapTFG.Unity
         protected abstract void PerformedActions(GoapAgent goapAgent);
         
         //Cost related.
-        public virtual int GetCost() => _cost;
+        public int GetCost() => _cost;        
+        public virtual int GetCost(GoapStateInfo<PropertyList, object> stateInfo) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
@@ -109,25 +110,30 @@ namespace GoapTFG.Unity
             
             var worldState = DoApplyAction(stateInfo);
             var goapGoal = stateInfo.CurrentGoal;
-            
-            var firstState = goapGoal.GetConflicts(worldState);
-            worldState.CheckConflict(_preconditions, out var lastState);
-            
-            if(firstState == null && lastState != null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, lastState, goapGoal.PriorityLevel);
-            else if (firstState != null && lastState == null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, firstState, goapGoal.PriorityLevel);
-            else if (firstState == null)
+
+            //Al aplicar un filtro solo se tienen en cuenta los efectos de la acción actual,
+            //es decir, efectos anteriores son ignorados aunque si que suman en conjunto si
+            //el valor se actualiza.
+            var filter = _effects;
+            if (_proceduralEffects is not null) filter += _proceduralEffects;
+            var remainingGoalConditions = goapGoal.GetFilteredConflicts(worldState, filter);
+            worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
+
+            if(remainingGoalConditions == null && newGoalConditions != null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, newGoalConditions, goapGoal.PriorityLevel);
+            else if (remainingGoalConditions != null && newGoalConditions == null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, remainingGoalConditions, goapGoal.PriorityLevel);
+            else if (remainingGoalConditions == null)
             {
                 reached = true;
                 return new GoapStateInfo<PropertyList, object>(worldState,
                     new GoapGoal<PropertyList, object>("Victory",
                         new PropertyGroup<PropertyList, object>(), 1));
             }
-            else if (lastState.CheckConditionsConflict(firstState))
+            else if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
             {
                 reached = false;
                 return null;
             }
-            else goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, firstState + lastState, goapGoal.PriorityLevel);
+            else goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, remainingGoalConditions + newGoalConditions, goapGoal.PriorityLevel);
             reached = false;
             return new GoapStateInfo<PropertyList, object>(worldState, goapGoal);
         }

@@ -195,8 +195,9 @@ namespace GoapTFG.Unity
             StartCoroutine(Movement(WorkingMemoryManager.Get(target).Position));
         }
 
-        IEnumerator Movement(Vector3 finalPos)
+        private IEnumerator Movement(Vector3 finalPos)
         {
+            Debug.Log("Moviendo a " + finalPos);
             bool reached = false;
             while (!reached)
             {
@@ -208,9 +209,10 @@ namespace GoapTFG.Unity
                 Vector3 aux = finalPos;
                 aux.y = position.y;
                 if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
-                yield return new WaitForFixedUpdate();
+                yield return null;
             }
 
+            Debug.Log("Llegado a " + finalPos);
             performingAction = false;
         }
 
@@ -240,7 +242,7 @@ namespace GoapTFG.Unity
                 Vector3 aux = finalPos;
                 aux.y = position.y;
                 if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
-                yield return new WaitForFixedUpdate();
+                yield return null;
             }
             yield return new WaitForSeconds(2);
             speed = 10;

@@ -1,4 +1,5 @@
-﻿using GoapTFG.Base;
+﻿using System;
+using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -7,6 +8,8 @@ namespace GoapTFG.Unity.Actions
     [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
     public class GoToTargetAction : GoapActionSO
     {
+        //TODO No independiente del nodo, debe ser almacenado una capa por encima
+        //(posibles metodos get y set usados por node)
         private object _target;
         
         protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
@@ -37,6 +40,22 @@ namespace GoapTFG.Unity.Actions
         {
             //GO TO target
             goapAgent.GoToTarget((string)_target);
+        }
+
+        public override int GetCost(GoapStateInfo<PropertyList, object> stateInfo)
+        {
+            var ws = stateInfo.WorldState;
+            var goal = stateInfo.CurrentGoal;
+
+            var target1 = ws.Has(PropertyList.Target) ? (string) ws[PropertyList.Target] : null;
+            var target2 = goal.Has(PropertyList.Target) ? (string) goal[PropertyList.Target] : null;
+
+            if (target1 == null || target2 == null) return 999;
+            
+            var pos1 = WorkingMemoryManager.Get(target1).Position;
+            var pos2 = WorkingMemoryManager.Get(target2).Position;
+
+            return Math.Max(5, (int)Vector3.Distance(pos1, pos2));
         }
     }
 }

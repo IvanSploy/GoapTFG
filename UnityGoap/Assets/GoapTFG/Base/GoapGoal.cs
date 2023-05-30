@@ -31,6 +31,11 @@ namespace GoapTFG.Base
             return worldState.CheckConflict(_goalConditions, out var mismatches) ? mismatches : null;
         }
         
+        public PropertyGroup<TA, TB> GetFilteredConflicts (PropertyGroup<TA, TB> worldState, PropertyGroup<TA, TB> filter)
+        {
+            return worldState.CheckFilteredConflicts(_goalConditions, out var mismatches, filter) ? mismatches : null;
+        }
+        
         public int CountConflicts (PropertyGroup<TA, TB> worldState)
         {
             return worldState.CountConflict(_goalConditions);

@@ -16,7 +16,7 @@ namespace GoapTFG.Unity
         /// <returns></returns>
         public static Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
-            return null;
+            //return null;
             return (goal, worldState) =>
             {
                 var heuristic = 0;
