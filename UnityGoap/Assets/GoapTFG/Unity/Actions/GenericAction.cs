@@ -1,4 +1,5 @@
-﻿using GoapTFG.Base;
+﻿using System.Collections.Generic;
+using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -13,6 +14,11 @@ namespace GoapTFG.Unity.Actions
         }
 
         protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
+        {
+            return null;
+        }
+
+        protected override HashSet<PropertyList> GetAffectedPropertyLists()
         {
             return null;
         }

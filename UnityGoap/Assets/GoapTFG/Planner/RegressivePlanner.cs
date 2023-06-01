@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using Unity.VisualScripting;
 
 namespace GoapTFG.Planner
 {
@@ -59,15 +60,16 @@ namespace GoapTFG.Planner
                 {
                     foreach (var action in _actions[key])
                     {
-                        if(_actionsVisited.Contains(action.Name)) continue;
-                        _actionsVisited.Add(action.Name);
-                        var child = _current.ApplyRegressiveAction(action, _current.GoapGoal, out var reached);
+                        var clonedAction = action.Clone();
+                        if(_actionsVisited.Contains(clonedAction.Name)) continue;
+                        _actionsVisited.Add(clonedAction.Name);
+                        var child = _current.ApplyRegressiveAction(clonedAction, _current.GoapGoal, out var reached);
                         if(child == null) continue;
                         if (reached)
                         {
                             return IPlanner<TA, TB>.GetInvertedPlan(child);
                         }
-                        _nodeGenerator.AddChildToParent(_current, child, action);
+                        _nodeGenerator.AddChildToParent(_current, child, clonedAction);
                     }
                 }
                 _actionsVisited.Clear();
@@ -82,7 +84,7 @@ namespace GoapTFG.Planner
         {
             foreach (var action in actions)
             {
-                foreach (var key in action.GetEffects().GetKeys())
+                foreach (var key in action.GetAffectedEffects())
                 {
                     if(!_actions.ContainsKey(key))
                         _actions[key] = new List<IGoapAction<TA, TB>>{action};

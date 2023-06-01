@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
@@ -8,8 +9,6 @@ namespace GoapTFG.Unity.Actions
     [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
     public class GoToTargetAction : GoapActionSO
     {
-        //TODO No independiente del nodo, debe ser almacenado una capa por encima
-        //(posibles metodos get y set usados por node)
         private object _target;
         
         protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
@@ -22,7 +21,7 @@ namespace GoapTFG.Unity.Actions
                     .Equals(stateInfo.CurrentGoal[PropertyList.Target]);
             return true;
         }
-
+        
         protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
         {
             PropertyGroup<PropertyList, object> proceduralEffects = new PropertyGroup<PropertyList, object>();
@@ -35,7 +34,12 @@ namespace GoapTFG.Unity.Actions
             }
             return null;
         }
-        
+
+        protected override HashSet<PropertyList> GetAffectedPropertyLists()
+        {
+            return new HashSet<PropertyList> { PropertyList.Target };
+        }
+
         protected override void PerformedActions(GoapAgent goapAgent)
         {
             //GO TO target

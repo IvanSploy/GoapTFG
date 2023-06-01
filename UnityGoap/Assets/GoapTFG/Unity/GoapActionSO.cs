@@ -10,7 +10,6 @@ namespace GoapTFG.Unity
     public abstract class GoapActionSO : ScriptableObject, IGoapAction<PropertyList, object>
     {
         //Scriptable Object
-        public static bool GenerateActionNames;
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
         
@@ -31,7 +30,7 @@ namespace GoapTFG.Unity
             _effects = new();
         }
 
-        public GoapActionSO Clone()
+        public IGoapAction<PropertyList, object> Clone()
         {
             Type type = GetType();
             GoapActionSO instance = (GoapActionSO) CreateInstance(type);
@@ -53,6 +52,7 @@ namespace GoapTFG.Unity
         //Procedural related.
         protected abstract bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo);
         protected abstract PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo);
+        protected abstract HashSet<PropertyList> GetAffectedPropertyLists();
         protected abstract void PerformedActions(GoapAgent goapAgent);
         
         //Cost related.
@@ -63,6 +63,15 @@ namespace GoapTFG.Unity
         //Getters
         public PropertyGroup<PropertyList, object> GetPreconditions() => _preconditions;
         public PropertyGroup<PropertyList, object> GetEffects() => _effects;
+        public HashSet<PropertyList> GetAffectedEffects()
+        {
+            HashSet<PropertyList> affectedPropertyLists = new HashSet<PropertyList>();
+            affectedPropertyLists.AddRange(_effects.GetKeys());
+            var procedural = GetAffectedPropertyLists();
+            procedural ??= new HashSet<PropertyList>();
+            affectedPropertyLists.AddRange(procedural);
+            return affectedPropertyLists;
+        }
 
         //GOAP utilities.
         public PropertyGroup<PropertyList, object> ApplyAction(GoapStateInfo<PropertyList, object> stateInfo)

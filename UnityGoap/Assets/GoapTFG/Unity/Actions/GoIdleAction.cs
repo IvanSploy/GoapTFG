@@ -1,4 +1,5 @@
-﻿using GoapTFG.Base;
+﻿using System.Collections.Generic;
+using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -17,6 +18,10 @@ namespace GoapTFG.Unity.Actions
             return null;
         }
 
+        protected override HashSet<PropertyList> GetAffectedPropertyLists()
+        {
+            return null;
+        }
         protected override void PerformedActions(GoapAgent goapAgent)
         {
             //GO IDLELING

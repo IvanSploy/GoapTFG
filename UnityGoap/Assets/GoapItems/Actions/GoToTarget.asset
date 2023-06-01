@@ -13,9 +13,4 @@ MonoBehaviour:
   m_Name: GoToTarget
   m_EditorClassIdentifier: 
   preconditions: []
-  effects:
-  - name: 3
-    value: '
-
-'
-    effect: 0
+  effects: []
