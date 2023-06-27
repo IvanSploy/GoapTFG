@@ -9,31 +9,31 @@ namespace GoapTFG.Base
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="TA">Key type</typeparam>
-    /// <typeparam name="TB">Value type</typeparam>
-    public class PropertyGroup<TA, TB> : IEnumerable<TA>
+    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="TValue">Value type</typeparam>
+    public class PropertyGroup<TKey, TValue> : IEnumerable<TKey>
     {
         private struct PgData
         {
-            public TB Value;
+            public TValue Value;
             public ConditionType Condition;
             public EffectType Effect;
 
-            public PgData(TB value)
+            public PgData(TValue value)
             {
                 Value = value;
                 Condition = default;
                 Effect = default;
             }
             
-            public PgData(TB value, ConditionType condition)
+            public PgData(TValue value, ConditionType condition)
             {
                 Value = value;
                 Condition = condition;
                 Effect = default;
             }
             
-            public PgData(TB value, EffectType effect)
+            public PgData(TValue value, EffectType effect)
             {
                 Value = value;
                 Condition = default;
@@ -48,23 +48,23 @@ namespace GoapTFG.Base
             }
         }
 
-        private readonly SortedDictionary<TA, PgData> _values;
+        private readonly SortedDictionary<TKey, PgData> _values;
         
-        public PropertyGroup(PropertyGroup<TA, TB> propertyGroup = null)
+        public PropertyGroup(PropertyGroup<TKey, TValue> propertyGroup = null)
         {
-            _values = propertyGroup == null ? new SortedDictionary<TA, PgData>()
-                : new SortedDictionary<TA, PgData>(propertyGroup._values);
+            _values = propertyGroup == null ? new SortedDictionary<TKey, PgData>()
+                : new SortedDictionary<TKey, PgData>(propertyGroup._values);
         }
         
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(PropertyGroup<TA, TB> mainPg)
+        public bool CheckConflict(PropertyGroup<TKey, TValue> mainPg)
         {
             return mainPg._values.Any(HasConflict);
         }
         
-        public bool CheckConflict(PropertyGroup<TA, TB> mainPg, out PropertyGroup<TA, TB> mismatches)
+        public bool CheckConflict(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches)
         {
-            mismatches = new PropertyGroup<TA, TB>();
+            mismatches = new PropertyGroup<TKey, TValue>();
             foreach (var pair in mainPg._values)
             {
                 if (HasConflict(pair))
@@ -76,10 +76,10 @@ namespace GoapTFG.Base
             return thereIsConflict;
         }
         
-        public bool CheckFilteredConflicts(PropertyGroup<TA, TB> mainPg, out PropertyGroup<TA, TB> mismatches,
-            PropertyGroup<TA, TB> filter)
+        public bool CheckFilteredConflicts(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches,
+            PropertyGroup<TKey, TValue> filter)
         {
-            mismatches = new PropertyGroup<TA, TB>();
+            mismatches = new PropertyGroup<TKey, TValue>();
             foreach (var pair in mainPg._values)
             {
                 if(!filter.Has(pair.Key)) mismatches.Set(pair.Key, pair.Value);
@@ -92,30 +92,30 @@ namespace GoapTFG.Base
             return thereIsConflict;
         }
 
-        public int CountConflict(PropertyGroup<TA, TB> mainPg)
+        public int CountConflict(PropertyGroup<TKey, TValue> mainPg)
         {
             return mainPg._values.Count(HasConflict);
         }
         
-        private bool HasConflict(KeyValuePair<TA, PgData> mainPair)
+        private bool HasConflict(KeyValuePair<TKey, PgData> mainPair)
         {
             return HasConflict(mainPair.Key, mainPair.Value);
         }
         
-        public bool HasConflict(TA key, PropertyGroup<TA, TB> mainPg)
+        public bool HasConflict(TKey key, PropertyGroup<TKey, TValue> mainPg)
         {
             return HasConflict(key, mainPg._values[key]);
         }
         
-        private bool HasConflict(TA key, PgData mainData)
+        private bool HasConflict(TKey key, PgData mainData)
         {
             object defaultValue = GetDefaultValue(mainData.Value);
-            TB myValue = !Has(key) ? (TB) defaultValue : GetValue(key);
+            TValue myValue = !Has(key) ? (TValue) defaultValue : GetValue(key);
                 
             return !EvaluateCondition(myValue, mainData.Value, mainData.Condition);
         }
         
-        public bool CheckConditionsConflict(PropertyGroup<TA, TB> mainPg)
+        public bool CheckConditionsConflict(PropertyGroup<TKey, TValue> mainPg)
         {
             foreach (var pair in mainPg._values)
             {
@@ -127,27 +127,27 @@ namespace GoapTFG.Base
         }
 
         //Dictionary
-        public void Set(TA key, TB value)
+        public void Set(TKey key, TValue value)
         {
             _values[key] = new PgData(value);
         }
 
-        public void Set(TA key, TB value, ConditionType condition)
+        public void Set(TKey key, TValue value, ConditionType condition)
         {
             _values[key] = new PgData(value, condition);
         }
         
-        public void Set(TA key, TB value, EffectType effect)
+        public void Set(TKey key, TValue value, EffectType effect)
         {
             _values[key] = new PgData(value, effect);
         }
         
-        private void Set(TA key, PgData data)
+        private void Set(TKey key, PgData data)
         {
             _values[key] = new PgData(data);
         }
         
-        public void Set(PropertyGroup<TA, TB> otherPg)
+        public void Set(PropertyGroup<TKey, TValue> otherPg)
         {
             foreach (var pair in otherPg._values)
             {   
@@ -155,32 +155,32 @@ namespace GoapTFG.Base
             }
         }
         
-        public TB GetValue(TA key)
+        public TValue GetValue(TKey key)
         {
             return _values[key].Value;
         }
         
-        public ConditionType GetCondition(TA key)
+        public ConditionType GetCondition(TKey key)
         {
             return _values[key].Condition;
         }
         
-        public EffectType GetEffect(TA key)
+        public EffectType GetEffect(TKey key)
         {
             return _values[key].Effect;
         }
         
-        public List<TA> GetKeys()
+        public List<TKey> GetKeys()
         {
-            return new List<TA>(_values.Keys);
+            return new List<TKey>(_values.Keys);
         }
         
-        public void Remove(TA key)
+        public void Remove(TKey key)
         {
             _values.Remove(key);
         }
 
-        public bool Has(TA key)
+        public bool Has(TKey key)
         {
             return _values.ContainsKey(key);
         }
@@ -191,24 +191,24 @@ namespace GoapTFG.Base
         }
 
         //Operators
-        public TB this[TA key]
+        public TValue this[TKey key]
         {
             get => GetValue(key);
             set => Set(key, value);
         }
         
-        public static PropertyGroup<TA, TB> operator +(PropertyGroup<TA, TB> a, PropertyGroup<TA, TB> b)
+        public static PropertyGroup<TKey, TValue> operator +(PropertyGroup<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
         {
-            var propertyGroup = new PropertyGroup<TA, TB>(a);
+            var propertyGroup = new PropertyGroup<TKey, TValue>(a);
             foreach (var pair in b._values)
             {
                 var aux = new PgData();
                 if (propertyGroup.Has(pair.Key))
-                    aux.Value = (TB)EvaluateEffect(propertyGroup.GetValue(pair.Key), pair.Value.Value, pair.Value.Effect);
+                    aux.Value = (TValue)EvaluateEffect(propertyGroup.GetValue(pair.Key), pair.Value.Value, pair.Value.Effect);
                 else
                 {
                     object defValue = GetDefaultValue(pair.Value.Value);
-                    aux.Value = (TB)EvaluateEffect(defValue, pair.Value.Value, pair.Value.Effect);
+                    aux.Value = (TValue)EvaluateEffect(defValue, pair.Value.Value, pair.Value.Effect);
                 }
                 aux.Condition = pair.Value.Condition;
                 aux.Effect = pair.Value.Effect;
@@ -237,7 +237,7 @@ namespace GoapTFG.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            PropertyGroup<TA, TB> otherPg = (PropertyGroup<TA, TB>)obj;
+            PropertyGroup<TKey, TValue> otherPg = (PropertyGroup<TKey, TValue>)obj;
             
             if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
             foreach (var key in _values.Keys)
@@ -255,7 +255,7 @@ namespace GoapTFG.Base
         public override int GetHashCode()
         {
             int hash = 18;
-            foreach(KeyValuePair<TA, PgData> kvp in _values)
+            foreach(KeyValuePair<TKey, PgData> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
                 if (kvp.Value.Value.GetHashCode() == 0) continue;
@@ -275,7 +275,7 @@ namespace GoapTFG.Base
             return value is string ? "" : value.GetType().Default();
         }
         
-        public IEnumerator<TA> GetEnumerator()
+        public IEnumerator<TKey> GetEnumerator()
         {
             return _values.Keys.GetEnumerator();
         }

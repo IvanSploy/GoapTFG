@@ -1,8 +1,8 @@
 using System.Globalization;
-using GoapTFG.Unity.Actions;
 using GoapTFG.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using static GoapTFG.Base.BaseTypes;
 using static GoapTFG.Unity.CodeGenerator.EnumGenerator;
 using static GoapTFG.Unity.PropertyManager;
 
@@ -192,7 +192,21 @@ namespace GoapTFG.Unity.Editor
                 EditorGUI.LabelField(labelNameRect, "Name");
                 EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
                 EditorGUI.LabelField(labelValueRect, "Value");
-                EditorGUI.PropertyField(conditionRect, property.FindPropertyRelative("condition"), GUIContent.none);
+                
+                SerializedProperty conditionProperty = property.FindPropertyRelative("condition");
+                ConditionType conditionType = (ConditionType)conditionProperty.enumValueIndex;
+                string[] conditionTexts =
+                {
+                    "=",
+                    "!=",
+                    "<",
+                    "<=",
+                    ">",
+                    ">="
+                };
+
+                int selected = EditorGUI.Popup(conditionRect, (int)conditionType, conditionTexts);
+                conditionProperty.enumValueIndex = selected;
                 
                 DrawValue(property, valueRect);
 
@@ -235,26 +249,44 @@ namespace GoapTFG.Unity.Editor
 
                 //Second row
                 var labelValueWidth = LABEL_SIZE;
-                var effectWidth = 50f;
+                var effectWidth = 35f;
                 var valueWidth = position.width - effectWidth - labelValueWidth;
 
                 //Rects creation
                 var labelNameRect = new Rect(position.x, position.y + PADDING, labelNameWidth, height);
-                var nameRect = new Rect(position.x + labelNameWidth, position.y + PADDING, nameWidth, height);
+                var nameRect = new Rect(position.x + labelNameWidth, position.y + PADDING,
+                    nameWidth, height);
 
                 var labelValueRect = new Rect(position.x, position.y + PADDING + height, labelValueWidth, height);
-                var effectRect = new Rect(position.x + labelValueWidth, position.y + PADDING + height, effectWidth,
-                    height);
-                var valueRect = new Rect(position.x + labelValueWidth + effectWidth + PADDING,
-                    position.y + PADDING + height,
+                var effectRect = new Rect(position.x + labelValueWidth, position.y + PADDING + height,
+                    effectWidth, height);
+                var valueRect = new Rect(position.x + labelValueWidth + effectWidth + PADDING, position.y + PADDING + height,
                     valueWidth - PADDING, height);
 
                 //      Draw fields
                 EditorGUI.LabelField(labelNameRect, "Name");
                 EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
                 EditorGUI.LabelField(labelValueRect, "Value");
-                EditorGUI.PropertyField(effectRect, property.FindPropertyRelative("effect"), GUIContent.none);
+                
+                SerializedProperty effectProperty = property.FindPropertyRelative("effect");
+                EffectType effectType = (EffectType)effectProperty.enumValueIndex;
+                string[] effectTexts =
+                {
+                    "=",
+                    "+",
+                    "-",
+                    "×",
+                    "÷",
+                    "%"
+                };
 
+                var style = new GUIStyle(EditorStyles.popup)
+                {
+                    fontSize = 17
+                };
+
+                int selected = EditorGUI.Popup(effectRect, (int)effectType, effectTexts, style);
+                effectProperty.enumValueIndex = selected;
                 DrawValue(property, valueRect);
                 
                 // Set indent back to what it was

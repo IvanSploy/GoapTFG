@@ -8,12 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GoapTFG/Base/Blackboard.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/GoapTFG/Base/MemoryFact.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/Node.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/GoapTFG/Planner/IPlanner.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/GoapTFG/Planner/IPlanner.cs.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,6 +90,7 @@
       <workItem from="1674649352061" duration="598000" />
       <workItem from="1674678875826" duration="6663000" />
       <workItem from="1675636873668" duration="4112000" />
+      <workItem from="1687823256313" duration="1354000" />
     </task>
     <task id="LOCAL-00001" summary="Refractor">
       <created>1674678988420</created>

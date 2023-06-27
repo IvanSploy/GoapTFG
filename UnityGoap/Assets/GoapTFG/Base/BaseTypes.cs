@@ -6,22 +6,22 @@ namespace GoapTFG.Base
     {
         [Serializable]
         public enum ConditionType {
-            Eq,
-            Ne,
-            Lt,
-            Le,
-            Gt,
-            Ge
+            Equal,
+            NotEqual,
+            LessThan,
+            LessOrEqual,
+            GreaterThan,
+            GreaterOrEqual
         }
         
         [Serializable]
         public enum EffectType {
             Set,
             Add,
-            Sub,
-            Mul,
-            Div,
-            Mod
+            Subtract,
+            Multiply,
+            Divide,
+            Modulo
         }
         
         public static bool EvaluateCondition(object a, object b, ConditionType condition)
@@ -31,14 +31,14 @@ namespace GoapTFG.Base
             bool result;
             switch (condition)
             {
-                case ConditionType.Eq:
+                case ConditionType.Equal:
                 default:
                     result = a.Equals(b);
                     break;
-                case ConditionType.Ne:
+                case ConditionType.NotEqual:
                     result = !a.Equals(b);
                     break;
-                case ConditionType.Lt:
+                case ConditionType.LessThan:
                     result = a switch
                     {
                         int i => i < (int)b,
@@ -47,7 +47,7 @@ namespace GoapTFG.Base
                         _ => a.Equals(b)
                     };
                     break;
-                case ConditionType.Gt:
+                case ConditionType.GreaterThan:
                     result = a switch
                     {
                         int i => i > (int)b,
@@ -56,7 +56,7 @@ namespace GoapTFG.Base
                         _ => a.Equals(b)
                     };
                     break;
-                case ConditionType.Le:
+                case ConditionType.LessOrEqual:
                     result = a switch
                     {
                         int i => i <= (int)b,
@@ -65,7 +65,7 @@ namespace GoapTFG.Base
                         _ => a.Equals(b)
                     };
                     break;
-                case ConditionType.Ge:
+                case ConditionType.GreaterOrEqual:
                     result = a switch
                     {
                         int i => i >= (int)b,
@@ -98,7 +98,7 @@ namespace GoapTFG.Base
                         _ => b
                     };
                     break;
-                case EffectType.Sub:
+                case EffectType.Subtract:
                     result = a switch
                     {
                         int i => i - (int)b,
@@ -107,7 +107,7 @@ namespace GoapTFG.Base
                         _ => b
                     };
                     break;
-                case EffectType.Mul:
+                case EffectType.Multiply:
                     result = a switch
                     {
                         int i => i * (int)b,
@@ -115,7 +115,7 @@ namespace GoapTFG.Base
                         _ => b
                     };
                     break;
-                case EffectType.Div:
+                case EffectType.Divide:
                     result = a switch
                     {
                         int i => i / (int)b,
@@ -123,7 +123,7 @@ namespace GoapTFG.Base
                         _ => b
                     };
                     break;
-                case EffectType.Mod:
+                case EffectType.Modulo:
                     result = a switch
                     {
                         int i => i % (int)b,

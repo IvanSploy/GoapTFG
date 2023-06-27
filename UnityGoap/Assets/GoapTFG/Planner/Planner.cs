@@ -11,7 +11,7 @@ namespace GoapTFG.Planner
     /// <typeparam name="TB">String type</typeparam>
     public class Planner<TA, TB> : IPlanner<TA, TB>
     {
-        private const int ACTION_LIMIT = 9999;
+        private const int ACTION_LIMIT = 500;
         
         private Node<TA, TB> _current;
         private readonly GoapGoal<TA, TB> _goapGoal;
