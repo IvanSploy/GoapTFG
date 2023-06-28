@@ -84,7 +84,7 @@ namespace GoapTFG.UGoap
 
         #region Getters
 
-        public static PropertyType GetType(PropertyList property)
+        public static PropertyType GetPropertyType(PropertyList property)
         {
             return PropertyTypes[property];
         }
@@ -97,7 +97,7 @@ namespace GoapTFG.UGoap
         public static object ParseValue(PropertyList name, string value)
         {
             object result;
-            var type = GetType(name);
+            var type = GetPropertyType(name);
             switch (type)
             {
                 case PropertyType.Boolean:

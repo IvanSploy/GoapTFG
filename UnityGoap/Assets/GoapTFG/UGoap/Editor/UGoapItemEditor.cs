@@ -93,7 +93,7 @@ namespace GoapTFG.UGoap.Editor
 
         #region PropertyDrawers
 
-        [CustomPropertyDrawer(typeof(UGoapPropertyManager.Property))]
+        [CustomPropertyDrawer(typeof(Property))]
         public class StatePropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -147,7 +147,7 @@ namespace GoapTFG.UGoap.Editor
             }
         }
 
-        [CustomPropertyDrawer(typeof(UGoapPropertyManager.ConditionProperty))]
+        [CustomPropertyDrawer(typeof(ConditionProperty))]
         public class ConditionPropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -222,7 +222,7 @@ namespace GoapTFG.UGoap.Editor
             }
         }
 
-        [CustomPropertyDrawer(typeof(UGoapPropertyManager.EffectProperty))]
+        [CustomPropertyDrawer(typeof(EffectProperty))]
         public class EffectPropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -304,30 +304,30 @@ namespace GoapTFG.UGoap.Editor
         public static void DrawValue(SerializedProperty property, Rect valueRect)
         {
             SerializedProperty value = property.FindPropertyRelative("value");
-            UGoapPropertyManager.PropertyList name = (UGoapPropertyManager.PropertyList)property.FindPropertyRelative("name").enumValueIndex;
-            var typeValue = UGoapPropertyManager.GetType(name);
+            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            var typeValue = GetPropertyType(name);
 
             switch (typeValue)
             {
-                case UGoapPropertyManager.PropertyType.Boolean:
+                case PropertyType.Boolean:
                     value.stringValue = EditorGUI.Toggle(valueRect, (bool)ParseValue(name, value.stringValue))
                         .ToString();
                     break;
-                case UGoapPropertyManager.PropertyType.Integer:
+                case PropertyType.Integer:
                     value.stringValue = EditorGUI.IntField(valueRect, (int)ParseValue(name, value.stringValue))
                         .ToString();
                     break;
-                case UGoapPropertyManager.PropertyType.Float:
+                case PropertyType.Float:
                     value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
                         .ToString(CultureInfo.InvariantCulture);
                     break;
-                case UGoapPropertyManager.PropertyType.Enum:
+                case PropertyType.Enum:
                     var rangeValues = new int[EnumNames[name].Length];
                     for (var i = 0; i < rangeValues.Length; i++) { rangeValues[i] = i; }
                     value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
                         EnumNames[name], rangeValues).ToString();
                     break;
-                case UGoapPropertyManager.PropertyType.String:
+                case PropertyType.String:
                 default:
                     value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
                     break;

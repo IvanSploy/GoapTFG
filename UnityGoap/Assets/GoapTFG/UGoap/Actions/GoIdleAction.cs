@@ -8,17 +8,17 @@ namespace GoapTFG.UGoap.Actions
     [CreateAssetMenu(fileName = "GoIdle", menuName = "Goap Items/Actions/GoIdle", order = 3)]
     public class GoIdleAction : UGoapActionBase
     {
-        protected override bool ProceduralConditions(GoapStateInfo<UGoapPropertyManager.PropertyList, object> stateInfo)
+        protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
         {
             return true;
         }
 
-        protected override PropertyGroup<UGoapPropertyManager.PropertyList, object> GetProceduralEffects(GoapStateInfo<UGoapPropertyManager.PropertyList, object> stateInfo)
+        protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
         {
             return null;
         }
 
-        protected override HashSet<UGoapPropertyManager.PropertyList> GetAffectedPropertyLists()
+        protected override HashSet<PropertyList> GetAffectedPropertyLists()
         {
             return null;
         }

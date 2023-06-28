@@ -11,13 +11,13 @@ namespace GoapTFG.UGoap.ScriptableObjects
     public class UGoapGoal : ScriptableObject
     {
         public static bool GenerateGoalNames;
-        [HideInInspector] public List<UGoapPropertyManager.ConditionProperty> goalProperties;
+        [HideInInspector] public List<ConditionProperty> goalProperties;
         
-        public GoapGoal<UGoapPropertyManager.PropertyList, object> Create(int priority)
+        public GoapGoal<PropertyList, object> Create(int priority)
         {
-            PropertyGroup<UGoapPropertyManager.PropertyList, object> state = new();
+            PropertyGroup<PropertyList, object> state = new();
             AddIntoPropertyGroup(goalProperties, in state);
-            return new GoapGoal<UGoapPropertyManager.PropertyList, object>(name, state, priority);
+            return new GoapGoal<PropertyList, object>(name, state, priority);
         }
         
         private void Awake()
@@ -29,13 +29,13 @@ namespace GoapTFG.UGoap.ScriptableObjects
     [Serializable]
     public struct GoapPriorityGoal
     {
-        [SerializeField] private UGoapGoal uGoapGoal;
+        [SerializeField] private UGoapGoal goal;
 
         [Range(0, 15)] [SerializeField] private int priority;
 
-        public GoapGoal<UGoapPropertyManager.PropertyList, object> Create()
+        public GoapGoal<PropertyList, object> Create()
         {
-            return uGoapGoal.Create(priority);
+            return goal.Create(priority);
         }
     }
 }

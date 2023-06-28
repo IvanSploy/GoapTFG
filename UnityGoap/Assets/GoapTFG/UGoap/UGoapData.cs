@@ -21,7 +21,7 @@ namespace GoapTFG.UGoap
                 foreach (var key in goal.GetState().GetKeys())
                 {
                     if(!worldState.HasConflict(key, goal.GetState())) continue;
-                    switch (UGoapPropertyManager.GetType(key))
+                    switch (UGoapPropertyManager.GetPropertyType(key))
                     {
                         case Integer:
                             if (worldState.Has(key))

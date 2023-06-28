@@ -11,33 +11,33 @@ namespace GoapTFG.UGoap.Actions
     {
         private object _target;
         
-        protected override bool ProceduralConditions(GoapStateInfo<UGoapPropertyManager.PropertyList, object> stateInfo)
+        protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
         { 
             var state = stateInfo.WorldState;
             var goal = stateInfo.CurrentGoal;
             
-            if (!goal.Has(UGoapPropertyManager.PropertyList.Target)) return false;
-            if (state.Has(UGoapPropertyManager.PropertyList.Target)) return !stateInfo.WorldState[UGoapPropertyManager.PropertyList.Target]
-                    .Equals(stateInfo.CurrentGoal[UGoapPropertyManager.PropertyList.Target]);
+            if (!goal.Has(PropertyList.Target)) return false;
+            if (state.Has(PropertyList.Target)) return !stateInfo.WorldState[PropertyList.Target]
+                    .Equals(stateInfo.CurrentGoal[PropertyList.Target]);
             return true;
         }
         
-        protected override PropertyGroup<UGoapPropertyManager.PropertyList, object> GetProceduralEffects(GoapStateInfo<UGoapPropertyManager.PropertyList, object> stateInfo)
+        protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
         {
-            PropertyGroup<UGoapPropertyManager.PropertyList, object> proceduralEffects = new PropertyGroup<UGoapPropertyManager.PropertyList, object>();
+            PropertyGroup<PropertyList, object> proceduralEffects = new PropertyGroup<PropertyList, object>();
             var goal = stateInfo.CurrentGoal;
-            if (goal.Has(UGoapPropertyManager.PropertyList.Target))
+            if (goal.Has(PropertyList.Target))
             {
-                _target = goal[UGoapPropertyManager.PropertyList.Target];
-                proceduralEffects[UGoapPropertyManager.PropertyList.Target] = _target;
+                _target = goal[PropertyList.Target];
+                proceduralEffects[PropertyList.Target] = _target;
                 return proceduralEffects;
             }
             return null;
         }
 
-        protected override HashSet<UGoapPropertyManager.PropertyList> GetAffectedPropertyLists()
+        protected override HashSet<PropertyList> GetAffectedPropertyLists()
         {
-            return new HashSet<UGoapPropertyManager.PropertyList> { UGoapPropertyManager.PropertyList.Target };
+            return new HashSet<PropertyList> { PropertyList.Target };
         }
 
         protected override void PerformedActions(UGoapAgent agent)
@@ -46,13 +46,13 @@ namespace GoapTFG.UGoap.Actions
             agent.GoToTarget((string)_target);
         }
 
-        public override int GetCost(GoapStateInfo<UGoapPropertyManager.PropertyList, object> stateInfo)
+        public override int GetCost(GoapStateInfo<PropertyList, object> stateInfo)
         {
             var ws = stateInfo.WorldState;
             var goal = stateInfo.CurrentGoal;
 
-            var target1 = ws.Has(UGoapPropertyManager.PropertyList.Target) ? (string) ws[UGoapPropertyManager.PropertyList.Target] : null;
-            var target2 = goal.Has(UGoapPropertyManager.PropertyList.Target) ? (string) goal[UGoapPropertyManager.PropertyList.Target] : null;
+            var target1 = ws.Has(PropertyList.Target) ? (string) ws[PropertyList.Target] : null;
+            var target2 = goal.Has(PropertyList.Target) ? (string) goal[PropertyList.Target] : null;
 
             if (target1 == null || target2 == null) return 999;
             
