@@ -4,49 +4,49 @@ using GoapTFG.Planner;
 namespace GoapTFG.Base
 {
     //Handles the GOAP planification and is who realices the actions.
-    public class BasicGoapAgent<TA, TB> : IGoapAgent<TA, TB>
+    public class BasicGoapAgent<TKey, TValue> : IGoapAgent<TKey, TValue>
     {
-        private Stack<IGoapAction<TA, TB>> _currentPlan;
-        private readonly List<IGoapAction<TA, TB>> _actions;
-        private readonly List<GoapGoal<TA, TB>> _goals;
+        private Stack<IGoapAction<TKey, TValue>> _currentPlan;
+        private readonly List<IGoapAction<TKey, TValue>> _actions;
+        private readonly List<GoapGoal<TKey, TValue>> _goals;
 
         public string Name { get; }
-        public PropertyGroup<TA, TB> CurrentState { get; set; }
+        public PropertyGroup<TKey, TValue> CurrentState { get; set; }
         
-        public BasicGoapAgent(string name, List<GoapGoal<TA, TB>> goals, List<IGoapAction<TA, TB>> actions = null)
+        public BasicGoapAgent(string name, List<GoapGoal<TKey, TValue>> goals, List<IGoapAction<TKey, TValue>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
-            _goals = new List<GoapGoal<TA, TB>>(goals);
+            _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);
+            _goals = new List<GoapGoal<TKey, TValue>>(goals);
             SortGoals();
-            _currentPlan = new Stack<IGoapAction<TA, TB>>();
+            _currentPlan = new Stack<IGoapAction<TKey, TValue>>();
         }
 
-        public BasicGoapAgent(string name, GoapGoal<TA, TB> goapGoal, List<IGoapAction<TA, TB>> actions = null)
+        public BasicGoapAgent(string name, GoapGoal<TKey, TValue> goapGoal, List<IGoapAction<TKey, TValue>> actions = null)
         {
             Name = name;
-            _actions = actions == null ? new List<IGoapAction<TA, TB>>() : new List<IGoapAction<TA, TB>>(actions);
-            _goals = new List<GoapGoal<TA, TB>> { goapGoal };
-            _currentPlan = new Stack<IGoapAction<TA, TB>>();
+            _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);
+            _goals = new List<GoapGoal<TKey, TValue>> { goapGoal };
+            _currentPlan = new Stack<IGoapAction<TKey, TValue>>();
         }
 
-        public void AddAction(IGoapAction<TA,TB> goapAction)
+        public void AddAction(IGoapAction<TKey,TValue> goapAction)
         {
             _actions.Add(goapAction);
         }
         
-        public void AddActions(List<IGoapAction<TA,TB>> actionList)
+        public void AddActions(List<IGoapAction<TKey,TValue>> actionList)
         {
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(GoapGoal<TA, TB> goapGoal)
+        public void AddGoal(GoapGoal<TKey, TValue> goapGoal)
         {
             _goals.Add(goapGoal);
             SortGoals();
         }
         
-        public void AddGoals(List<GoapGoal<TA, TB>> goalList)
+        public void AddGoals(List<GoapGoal<TKey, TValue>> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -57,7 +57,7 @@ namespace GoapTFG.Base
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
         
-        public int CreateNewPlan(PropertyGroup<TA, TB> initialState)
+        public int CreateNewPlan(PropertyGroup<TKey, TValue> initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;
@@ -72,16 +72,16 @@ namespace GoapTFG.Base
             return i-1;
         }
 
-        private bool CreatePlan(PropertyGroup<TA, TB> initialState, GoapGoal<TA, TB> goapGoal)
+        private bool CreatePlan(PropertyGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal)
         {
-            var plan = RegressivePlanner<TA, TB>.CreatePlan(initialState, goapGoal, _actions);
+            var plan = RegressivePlanner<TKey, TValue>.CreatePlan(initialState, goapGoal, _actions);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
         }
         
         //Plan follower
-        public PropertyGroup<TA, TB> DoPlan(PropertyGroup<TA, TB> worldState)
+        public PropertyGroup<TKey, TValue> DoPlan(PropertyGroup<TKey, TValue> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 
@@ -93,7 +93,7 @@ namespace GoapTFG.Base
             return worldState;
         }
 
-        public PropertyGroup<TA, TB> PlanStep(PropertyGroup<TA, TB> worldState)
+        public PropertyGroup<TKey, TValue> PlanStep(PropertyGroup<TKey, TValue> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 

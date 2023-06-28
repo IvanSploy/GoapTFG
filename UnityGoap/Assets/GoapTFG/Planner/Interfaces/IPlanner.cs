@@ -4,7 +4,7 @@ using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
-    public interface IPlanner<TA, TB>
+    public interface IPlanner<TKey, TValue>
     {
         /// <summary>
         /// Generates the plan using the generator and the actions provided.
@@ -12,17 +12,17 @@ namespace GoapTFG.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        Stack<IGoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
-            List<IGoapAction<TA, TB>> actions);
+        Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+            List<IGoapAction<TKey, TValue>> actions);
         
         /// <summary>
         /// Gets the final plan that the researcher has found.
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public static Stack<IGoapAction<TA, TB>> GetPlan(Node<TA, TB> nodeGoal)
+        public static Stack<IGoapAction<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
         {
-            Stack<IGoapAction<TA, TB>> plan = new Stack<IGoapAction<TA, TB>>();
+            Stack<IGoapAction<TKey, TValue>> plan = new Stack<IGoapAction<TKey, TValue>>();
             while (nodeGoal.Parent != null)
             {
                 plan.Push(nodeGoal.GoapAction);
@@ -36,10 +36,10 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public static Stack<IGoapAction<TA, TB>> GetInvertedPlan(Node<TA, TB> nodeGoal)
+        public static Stack<IGoapAction<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
         {
-            Stack<IGoapAction<TA, TB>> plan = GetPlan(nodeGoal);
-            Stack<IGoapAction<TA, TB>> invertedPlan = new Stack<IGoapAction<TA, TB>>();
+            Stack<IGoapAction<TKey, TValue>> plan = GetPlan(nodeGoal);
+            Stack<IGoapAction<TKey, TValue>> invertedPlan = new Stack<IGoapAction<TKey, TValue>>();
             foreach (var action in plan)
             {
                 invertedPlan.Push(action);

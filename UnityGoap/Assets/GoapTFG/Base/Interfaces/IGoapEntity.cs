@@ -3,15 +3,15 @@
     /// <summary>
     /// Represents an Enitity with an state.
     /// </summary>
-    /// <typeparam name="TA"></typeparam>
-    /// <typeparam name="TB"></typeparam>
-    public interface IGoapEntity<TA, TB>
+    /// <typeparam name="TKey"></typeparam>
+    /// <typeparam name="TValue"></typeparam>
+    public interface IGoapEntity<TKey, TValue>
     {
         public string Name { get; }
         
         /// <summary>
         /// Represents the state associated with the current entity.
         /// </summary>
-        public PropertyGroup<TA, TB> CurrentState { get; set; }
+        public PropertyGroup<TKey, TValue> CurrentState { get; set; }
     }
 }

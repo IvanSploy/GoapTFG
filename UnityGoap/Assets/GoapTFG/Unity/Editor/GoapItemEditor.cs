@@ -64,14 +64,14 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(GoapActionSO), true)]
+        [CustomEditor(typeof(BaseGoapAction), true)]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
 
-                GoapActionSO actionScriptableObject = (GoapActionSO)target;
+                BaseGoapAction actionScriptableObject = (BaseGoapAction)target;
 
                 EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
 

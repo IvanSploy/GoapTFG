@@ -97,16 +97,16 @@ namespace GoapTFG.Base
             return mainPg._values.Count(HasConflict);
         }
         
-        private bool HasConflict(KeyValuePair<TKey, PgData> mainPair)
-        {
-            return HasConflict(mainPair.Key, mainPair.Value);
-        }
-        
         public bool HasConflict(TKey key, PropertyGroup<TKey, TValue> mainPg)
         {
             return HasConflict(key, mainPg._values[key]);
         }
-        
+
+        private bool HasConflict(KeyValuePair<TKey, PgData> mainPair)
+        {
+            return HasConflict(mainPair.Key, mainPair.Value);
+        }
+
         private bool HasConflict(TKey key, PgData mainData)
         {
             object defaultValue = GetDefaultValue(mainData.Value);

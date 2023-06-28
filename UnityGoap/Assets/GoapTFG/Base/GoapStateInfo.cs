@@ -1,11 +1,11 @@
 ﻿namespace GoapTFG.Base
 {
-    public class GoapStateInfo<TA, TB>
+    public class GoapStateInfo<TKey, TValue>
     {
-        public PropertyGroup<TA, TB> WorldState;
-        public GoapGoal<TA, TB> CurrentGoal;
+        public PropertyGroup<TKey, TValue> WorldState;
+        public GoapGoal<TKey, TValue> CurrentGoal;
 
-        public GoapStateInfo(PropertyGroup<TA, TB> worldState, GoapGoal<TA, TB> currentGoal = null)
+        public GoapStateInfo(PropertyGroup<TKey, TValue> worldState, GoapGoal<TKey, TValue> currentGoal = null)
         {
             WorldState = worldState;
             CurrentGoal = currentGoal;

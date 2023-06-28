@@ -5,12 +5,12 @@ namespace GoapTFG.Base
     /// <summary>
     /// Represents the info recollected by the sensors.
     /// </summary>
-    /// <typeparam name="TA">Vector3 class</typeparam>
-    /// <typeparam name="TB">Object class</typeparam>
-    public class WorkingMemory<TA, TB>
+    /// <typeparam name="TVector">Vector3 class</typeparam>
+    /// <typeparam name="TObject">Object class</typeparam>
+    public class WorkingMemory<TVector, TObject>
     {
         //Datos
-        private List<MemoryFact<TA, TB>> _facts;
+        private List<MemoryFact<TVector, TObject>> _facts;
         
         //Constructor
         public WorkingMemory()
@@ -19,12 +19,12 @@ namespace GoapTFG.Base
         }
 
         //Getters and Setters
-        public void Add(MemoryFact<TA, TB> fact)
+        public void Add(MemoryFact<TVector, TObject> fact)
         {
             _facts.Add(fact);
         }
         
-        public void Remove(MemoryFact<TA, TB> fact)
+        public void Remove(MemoryFact<TVector, TObject> fact)
         {
             _facts.Remove(fact);
         }
@@ -34,28 +34,28 @@ namespace GoapTFG.Base
             _facts.RemoveAll(fact => fact.Name.Equals(name));
         }
         
-        public void Remove(TB obj)
+        public void Remove(TObject obj)
         {
             _facts.RemoveAll(fact => fact.Object.Equals(obj));
         }
         
         //Finders
-        public MemoryFact<TA, TB> Find(string name)
+        public MemoryFact<TVector, TObject> Find(string name)
         {
             return _facts.Find(fact => fact.Name.Equals(name));
         }
         
-        public MemoryFact<TA, TB> Find(TB obj)
+        public MemoryFact<TVector, TObject> Find(TObject obj)
         {
             return _facts.Find(fact => fact.Object.Equals(obj));
         }
         
-        public List<MemoryFact<TA, TB>> FindAll(string name)
+        public List<MemoryFact<TVector, TObject>> FindAll(string name)
         {
             return _facts.FindAll(fact => fact.Name.Equals(name));
         }
         
-        public List<MemoryFact<TA, TB>> FindAll(TB obj)
+        public List<MemoryFact<TVector, TObject>> FindAll(TObject obj)
         {
             return _facts.FindAll(fact => fact.Object.Equals(obj));
         }

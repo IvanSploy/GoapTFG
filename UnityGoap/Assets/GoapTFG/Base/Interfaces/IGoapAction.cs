@@ -2,25 +2,26 @@
 
 namespace GoapTFG.Base
 {
-    public interface IGoapAction<TA, TB>
+    public interface IGoapAction<TKey, TValue>
     {
         string Name { get; }
         bool IsCompleted { get; }
-        IGoapAction<TA, TB> Clone();
+        
+        IGoapAction<TKey, TValue> Clone();
 
         //Cost related.
-        int GetCost(GoapStateInfo<TA, TB> stateInfo); 
+        int GetCost(GoapStateInfo<TKey, TValue> stateInfo); 
         int GetCost(); 
         int SetCost(int cost);
         
         //Getters
-        PropertyGroup<TA, TB> GetPreconditions();
-        PropertyGroup<TA, TB> GetEffects();
-        HashSet<TA> GetAffectedEffects();
+        PropertyGroup<TKey, TValue> GetPreconditions();
+        PropertyGroup<TKey, TValue> GetEffects();
+        HashSet<TKey> GetAffectedKeys();
 
         //GOAP utilities.
-        PropertyGroup<TA, TB> ApplyAction(GoapStateInfo<TA, TB> stateInfo);
-        GoapStateInfo<TA, TB> ApplyRegressiveAction(GoapStateInfo<TA, TB> stateInfo, out bool reached);
-        PropertyGroup<TA, TB> Execute(PropertyGroup<TA, TB> worldState, IGoapAgent<TA, TB> agent);
+        PropertyGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
+        GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached);
+        PropertyGroup<TKey, TValue> Execute(PropertyGroup<TKey, TValue> worldState, IGoapAgent<TKey, TValue> agent);
     }
 }

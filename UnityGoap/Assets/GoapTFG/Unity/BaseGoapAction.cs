@@ -7,7 +7,7 @@ using static GoapTFG.Unity.PropertyManager;
 
 namespace GoapTFG.Unity
 {
-    public abstract class GoapActionSO : ScriptableObject, IGoapAction<PropertyList, object>
+    public abstract class BaseGoapAction : ScriptableObject, IGoapAction<PropertyList, object>
     {
         //Scriptable Object
         [HideInInspector] public List<ConditionProperty> preconditions;
@@ -22,7 +22,7 @@ namespace GoapTFG.Unity
         public bool IsCompleted { get; } = false;
 
         //Creation of the scriptable object
-        protected GoapActionSO()
+        protected BaseGoapAction()
         {
             preconditions = new();
             effects = new();
@@ -33,7 +33,7 @@ namespace GoapTFG.Unity
         public IGoapAction<PropertyList, object> Clone()
         {
             Type type = GetType();
-            GoapActionSO instance = (GoapActionSO) CreateInstance(type);
+            BaseGoapAction instance = (BaseGoapAction) CreateInstance(type);
             instance.Name = Name;
             instance._preconditions.Set(_preconditions);
             instance._effects.Set(_effects);
@@ -63,7 +63,7 @@ namespace GoapTFG.Unity
         //Getters
         public PropertyGroup<PropertyList, object> GetPreconditions() => _preconditions;
         public PropertyGroup<PropertyList, object> GetEffects() => _effects;
-        public HashSet<PropertyList> GetAffectedEffects()
+        public HashSet<PropertyList> GetAffectedKeys()
         {
             HashSet<PropertyList> affectedPropertyLists = new HashSet<PropertyList>();
             affectedPropertyLists.AddRange(_effects.GetKeys());

@@ -14,7 +14,7 @@ namespace GoapTFG.Unity
     public class GoapAgent : MonoBehaviour, IGoapAgent<PropertyList, object>
     {
         [SerializeField] private List<GoapPriorityGoalSO> goalObjects;
-        [SerializeField] private List<GoapActionSO> actionObjects;
+        [SerializeField] private List<BaseGoapAction> actionObjects;
         
         public string Name { get; set; }
         

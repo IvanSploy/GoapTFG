@@ -6,7 +6,7 @@ using static GoapTFG.Unity.PropertyManager;
 namespace GoapTFG.Unity.Actions
 {
     [CreateAssetMenu(fileName = "GoIdle", menuName = "Goap Items/Actions/GoIdle", order = 3)]
-    public class GoIdleAction : GoapActionSO
+    public class GoIdleAction : BaseGoapAction
     {
         protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
         {

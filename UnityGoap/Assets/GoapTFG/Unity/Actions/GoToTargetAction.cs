@@ -7,7 +7,7 @@ using static GoapTFG.Unity.PropertyManager;
 namespace GoapTFG.Unity.Actions
 {
     [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
-    public class GoToTargetAction : GoapActionSO
+    public class GoToTargetAction : BaseGoapAction
     {
         private object _target;
         

@@ -3,38 +3,38 @@ using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
-    public class AStar<TA, TB> : INodeGenerator<TA, TB>
+    public class AStar<TKey, TValue> : INodeGenerator<TKey, TValue>
     {
-        private readonly SortedSet<Node<TA, TB>> _openList; //Para acceder más rapidamente al elemento prioritario.
-        private readonly HashSet<Node<TA, TB>> _expandedNodes;
-        private readonly System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> _customHeuristic;
+        private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
+        private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
+        private readonly System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> _customHeuristic;
 
-        public AStar(System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> customHeuristic = null)
+        public AStar(System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
         {
-            _openList = new SortedSet<Node<TA, TB>>();
-            _expandedNodes = new HashSet<Node<TA, TB>>();
+            _openList = new SortedSet<Node<TKey, TValue>>();
+            _expandedNodes = new HashSet<Node<TKey, TValue>>();
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TA, TB> CreateInitialNode(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal)
+        public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal)
         {
-            AStarNode<TA, TB> node = new AStarNode<TA, TB>(currentState, goapGoal, this);
+            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goapGoal, this);
             var initialHeuristic = node.GetHeuristic();
             node.HCost = initialHeuristic;
             node.TotalCost = initialHeuristic;
             return node;
         }
         
-        public Node<TA, TB> GetNextNode(Node<TA, TB> current)
+        public Node<TKey, TValue> GetNextNode(Node<TKey, TValue> current)
         {
             _expandedNodes.Add(current);
             if (_openList.Count == 0) return null;
-            Node<TA, TB> node = _openList.Min;
+            Node<TKey, TValue> node = _openList.Min;
             _openList.Remove(node);
             return node;
         }
 
-        public void AddChildToParent(Node<TA, TB> parent, Node<TA, TB> child, IGoapAction<TA, TB> goapAction)
+        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child, IGoapAction<TKey, TValue> goapAction)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
@@ -70,7 +70,7 @@ namespace GoapTFG.Planner
         /// It could change the order of the nodes in the Open List.
         /// </summary>
         /// <param name="node">Parent Node</param>
-        private void UpdateChildren(Node<TA, TB> node)
+        private void UpdateChildren(Node<TKey, TValue> node)
         {
             if (node.Children.Count == 0) return;
             
@@ -91,7 +91,7 @@ namespace GoapTFG.Planner
             }
         }
         
-        public System.Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> GetCustomHeuristic()
+        public System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

@@ -4,40 +4,40 @@ using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
-    public class AStarNode<TA, TB> : Node<TA, TB>
+    public class AStarNode<TKey, TValue> : Node<TKey, TValue>
     {
         //Properties
         public int HCost { get; set; }
         public int GCost { get; set; }
         
         //Fields
-        private readonly INodeGenerator<TA, TB> _generator;
+        private readonly INodeGenerator<TKey, TValue> _generator;
         
         //Constructor
-        public AStarNode(PropertyGroup<TA, TB> propertyGroup,
-            GoapGoal<TA, TB> goapGoal, INodeGenerator<TA, TB> generator) : base(propertyGroup, goapGoal)
+        public AStarNode(PropertyGroup<TKey, TValue> propertyGroup,
+            GoapGoal<TKey, TValue> goapGoal, INodeGenerator<TKey, TValue> generator) : base(propertyGroup, goapGoal)
         {
             _generator = generator;
             GCost = 0;
             HCost = 0;
         }
 
-        protected override Node<TA, TB> CreateChildNode(PropertyGroup<TA, TB> pg, GoapGoal<TA, TB> goapGoal, IGoapAction<TA, TB> goapAction)
+        protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> pg, GoapGoal<TKey, TValue> goapGoal, IGoapAction<TKey, TValue> goapAction)
         {
-            var aStarNode = new AStarNode<TA, TB>(pg, goapGoal, _generator);
+            var aStarNode = new AStarNode<TKey, TValue>(pg, goapGoal, _generator);
             aStarNode.Update(this, goapAction);
             Children.Add(aStarNode);
             return aStarNode;
         }
 
-        public override void Update(Node<TA, TB> parent)
+        public override void Update(Node<TKey, TValue> parent)
         {
             base.Update(parent);
             
-            AStarNode<TA, TB> asnParent = (AStarNode<TA, TB>) parent;
+            AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = GoapAction.GetCost(new GoapStateInfo<TA, TB>(PropertyGroup, GoapGoal)) + asnParent.GCost;
+            GCost = GoapAction.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, GoapGoal)) + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 

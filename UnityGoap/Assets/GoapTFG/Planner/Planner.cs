@@ -7,17 +7,17 @@ namespace GoapTFG.Planner
     /// <summary>
     /// Planner used to find the plan required.
     /// </summary>
-    /// <typeparam name="TA">Key type</typeparam>
-    /// <typeparam name="TB">String type</typeparam>
-    public class Planner<TA, TB> : IPlanner<TA, TB>
+    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="TValue">String type</typeparam>
+    public class Planner<TKey, TValue> : IPlanner<TKey, TValue>
     {
         private const int ACTION_LIMIT = 500;
         
-        private Node<TA, TB> _current;
-        private readonly GoapGoal<TA, TB> _goapGoal;
-        private readonly INodeGenerator<TA, TB> _nodeGenerator; 
+        private Node<TKey, TValue> _current;
+        private readonly GoapGoal<TKey, TValue> _goapGoal;
+        private readonly INodeGenerator<TKey, TValue> _nodeGenerator; 
 
-        private Planner(GoapGoal<TA, TB> goapGoal, INodeGenerator<TA, TB> nodeGenerator)
+        private Planner(GoapGoal<TKey, TValue> goapGoal, INodeGenerator<TKey, TValue> nodeGenerator)
         {
             _goapGoal = goapGoal;
             _nodeGenerator = nodeGenerator;
@@ -31,16 +31,16 @@ namespace GoapTFG.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<IGoapAction<TA, TB>> CreatePlan(PropertyGroup<TA, TB> currentState, GoapGoal<TA, TB> goapGoal,
-            List<IGoapAction<TA, TB>> actions, Func<GoapGoal<TA, TB>, PropertyGroup<TA, TB>, int> newHeuristic = null)
+        public static Stack<IGoapAction<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
+            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null)
         {
             if (goapGoal.IsReached(currentState)) return null;
-            Planner<TA, TB> regressivePlanner = new Planner<TA, TB>(goapGoal, new AStar<TA, TB>(newHeuristic));
+            Planner<TKey, TValue> regressivePlanner = new Planner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(newHeuristic));
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
-        public Stack<IGoapAction<TA, TB>> GeneratePlan(PropertyGroup<TA, TB> initialState,
-            List<IGoapAction<TA, TB>> actions)
+        public Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+            List<IGoapAction<TKey, TValue>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
@@ -51,9 +51,9 @@ namespace GoapTFG.Planner
             {
                 foreach (var action in actions)
                 {
-                    Node<TA, TB> child = _current.ApplyAction(action);
+                    Node<TKey, TValue> child = _current.ApplyAction(action);
                     if(child == null) continue;
-                    if(child.IsGoal) return IPlanner<TA, TB>.GetPlan(child); //Fin de la búsqueda.
+                    if(child.IsGoal) return IPlanner<TKey, TValue>.GetPlan(child); //Fin de la búsqueda.
                     _nodeGenerator.AddChildToParent(_current, child, action);
                 }
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
