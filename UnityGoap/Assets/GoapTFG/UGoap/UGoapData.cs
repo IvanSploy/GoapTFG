@@ -2,19 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GoapTFG.Base;
-using GoapTFG.Unity.ScriptableObjects;
-using static GoapTFG.Unity.PropertyManager;
-using static GoapTFG.Unity.PropertyManager.PropertyType;
+using GoapTFG.UGoap.ScriptableObjects;
+using static GoapTFG.UGoap.UGoapPropertyManager;
+using static GoapTFG.UGoap.UGoapPropertyManager.PropertyType;
 
-namespace GoapTFG.Unity
+namespace GoapTFG.UGoap
 {
-    public static class GoapData
+    public static class UGoapData
     {
         /// <summary>
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
+        public static Func<GoapGoal<UGoapPropertyManager.PropertyList, object>, PropertyGroup<UGoapPropertyManager.PropertyList, object>, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>
@@ -23,7 +23,7 @@ namespace GoapTFG.Unity
                 foreach (var key in goal.GetState().GetKeys())
                 {
                     if(!worldState.HasConflict(key, goal.GetState())) continue;
-                    switch (PropertyManager.GetType(key))
+                    switch (UGoapPropertyManager.GetType(key))
                     {
                         case Integer:
                             if (worldState.Has(key))

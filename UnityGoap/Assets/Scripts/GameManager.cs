@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using GoapTFG.Unity;
+using GoapTFG.UGoap;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour

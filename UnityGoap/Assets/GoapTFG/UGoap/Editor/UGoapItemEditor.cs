@@ -1,18 +1,18 @@
 using System.Globalization;
-using GoapTFG.Unity.ScriptableObjects;
+using GoapTFG.UGoap.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
-using static GoapTFG.Unity.CodeGenerator.EnumGenerator;
-using static GoapTFG.Unity.PropertyManager;
+using static GoapTFG.UGoap.CodeGenerator.EnumGenerator;
+using static GoapTFG.UGoap.UGoapPropertyManager;
 
-namespace GoapTFG.Unity.Editor
+namespace GoapTFG.UGoap.Editor
 {
     #region ScriptableObjects
 
-    public static class GoapItemEditor
+    public static class UGoapItemEditor
     {
-        [CustomEditor(typeof(StateScriptableObject))]
+        [CustomEditor(typeof(UGoapState))]
         public class StateEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
@@ -32,7 +32,7 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(GoalScriptableObject))]
+        [CustomEditor(typeof(UGoapGoal))]
         public class GoalEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
@@ -42,7 +42,7 @@ namespace GoapTFG.Unity.Editor
                 EditorGUILayout.BeginHorizontal();
 
                 EditorGUILayout.LabelField("Auto Generate Names");
-                GoalScriptableObject.GenerateGoalNames = EditorGUILayout.Toggle(GoalScriptableObject.GenerateGoalNames);
+                UGoapGoal.GenerateGoalNames = EditorGUILayout.Toggle(UGoapGoal.GenerateGoalNames);
 
                 EditorGUILayout.EndHorizontal();
                 
@@ -64,14 +64,14 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(BaseGoapAction), true)]
+        [CustomEditor(typeof(UGoapActionBase), true)]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
 
-                BaseGoapAction actionScriptableObject = (BaseGoapAction)target;
+                UGoapActionBase actionScriptableObject = (UGoapActionBase)target;
 
                 EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
 
@@ -93,7 +93,7 @@ namespace GoapTFG.Unity.Editor
 
         #region PropertyDrawers
 
-        [CustomPropertyDrawer(typeof(Property))]
+        [CustomPropertyDrawer(typeof(UGoapPropertyManager.Property))]
         public class StatePropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -147,7 +147,7 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomPropertyDrawer(typeof(ConditionProperty))]
+        [CustomPropertyDrawer(typeof(UGoapPropertyManager.ConditionProperty))]
         public class ConditionPropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -222,7 +222,7 @@ namespace GoapTFG.Unity.Editor
             }
         }
 
-        [CustomPropertyDrawer(typeof(EffectProperty))]
+        [CustomPropertyDrawer(typeof(UGoapPropertyManager.EffectProperty))]
         public class EffectPropertyDrawer : PropertyDrawer
         {
             public static float LABEL_SIZE = 50f;
@@ -304,30 +304,30 @@ namespace GoapTFG.Unity.Editor
         public static void DrawValue(SerializedProperty property, Rect valueRect)
         {
             SerializedProperty value = property.FindPropertyRelative("value");
-            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
-            var typeValue = PropertyManager.GetType(name);
+            UGoapPropertyManager.PropertyList name = (UGoapPropertyManager.PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            var typeValue = UGoapPropertyManager.GetType(name);
 
             switch (typeValue)
             {
-                case PropertyType.Boolean:
+                case UGoapPropertyManager.PropertyType.Boolean:
                     value.stringValue = EditorGUI.Toggle(valueRect, (bool)ParseValue(name, value.stringValue))
                         .ToString();
                     break;
-                case PropertyType.Integer:
+                case UGoapPropertyManager.PropertyType.Integer:
                     value.stringValue = EditorGUI.IntField(valueRect, (int)ParseValue(name, value.stringValue))
                         .ToString();
                     break;
-                case PropertyType.Float:
+                case UGoapPropertyManager.PropertyType.Float:
                     value.stringValue = EditorGUI.FloatField(valueRect, (float)ParseValue(name, value.stringValue))
                         .ToString(CultureInfo.InvariantCulture);
                     break;
-                case PropertyType.Enum:
+                case UGoapPropertyManager.PropertyType.Enum:
                     var rangeValues = new int[EnumStates[name].Length];
                     for (var i = 0; i < rangeValues.Length; i++) { rangeValues[i] = i; }
                     value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
                         EnumStates[name], rangeValues).ToString();
                     break;
-                case PropertyType.String:
+                case UGoapPropertyManager.PropertyType.String:
                 default:
                     value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
                     break;

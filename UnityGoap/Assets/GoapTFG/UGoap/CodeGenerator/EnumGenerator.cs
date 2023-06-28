@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using GoapTFG.Unity.ScriptableObjects;
+using GoapTFG.UGoap.ScriptableObjects;
 using UnityEditor;
 
-namespace GoapTFG.Unity.CodeGenerator
+namespace GoapTFG.UGoap.CodeGenerator
 {
     public static class EnumGenerator
     {
@@ -19,26 +19,11 @@ namespace GoapTFG.Unity.CodeGenerator
             {
                 var guid = guids[i];
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                GoalScriptableObject obj = AssetDatabase.LoadAssetAtPath<GoalScriptableObject>(path);
+                UGoapGoal obj = AssetDatabase.LoadAssetAtPath<UGoapGoal>(path);
                 guids[i] = obj.name.Replace(" ", "");
             }
 
             GenerateEnum("GoalName", guids);
-        }
-        
-        [MenuItem("GoapTFG/GenerateActions")]
-        public static void CreateActionEnum()
-        {
-            var guids = AssetDatabase.FindAssets("t: actionscriptableobject", new[]{ ScriptableObjectsPath });
-
-            for (var i = 0; i < guids.Length; i++)
-            {
-                var guid = guids[i];
-                var path = AssetDatabase.GUIDToAssetPath(guid);
-                ActionScriptableObject obj = AssetDatabase.LoadAssetAtPath<ActionScriptableObject>(path);
-                guids[i] = obj.name.Replace(" ", "");
-            }
-            GenerateEnum("ActionName", guids);
         }
         
         private static void GenerateEnum(string enumName, string[] enumEntries)

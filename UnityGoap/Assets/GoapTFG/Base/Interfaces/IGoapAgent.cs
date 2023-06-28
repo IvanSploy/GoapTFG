@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GoapTFG.Unity;
+using GoapTFG.UGoap;
 
 namespace GoapTFG.Base
 {

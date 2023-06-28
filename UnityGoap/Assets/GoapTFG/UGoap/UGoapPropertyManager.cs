@@ -4,9 +4,9 @@ using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
 
-namespace GoapTFG.Unity
+namespace GoapTFG.UGoap
 {
-    public static class PropertyManager
+    public static class UGoapPropertyManager
     {
         //CONFIGURACIÓN DE LAS PROPIEDADES DEL EJEMPLO
         [Serializable]
