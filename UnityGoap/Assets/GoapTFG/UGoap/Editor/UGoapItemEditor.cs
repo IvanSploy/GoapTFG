@@ -322,10 +322,10 @@ namespace GoapTFG.UGoap.Editor
                         .ToString(CultureInfo.InvariantCulture);
                     break;
                 case UGoapPropertyManager.PropertyType.Enum:
-                    var rangeValues = new int[EnumStates[name].Length];
+                    var rangeValues = new int[EnumNames[name].Length];
                     for (var i = 0; i < rangeValues.Length; i++) { rangeValues[i] = i; }
                     value.stringValue = EditorGUI.IntPopup(valueRect, (int)ParseValue(name, value.stringValue),
-                        EnumStates[name], rangeValues).ToString();
+                        EnumNames[name], rangeValues).ToString();
                     break;
                 case UGoapPropertyManager.PropertyType.String:
                 default:

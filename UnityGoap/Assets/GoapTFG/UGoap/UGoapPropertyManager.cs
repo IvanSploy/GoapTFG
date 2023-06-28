@@ -19,17 +19,6 @@ namespace GoapTFG.UGoap
             StateOfTarget,
             IsIdle
         }
-
-        private static readonly Dictionary<PropertyList, PropertyType> ProperTypes = new()
-        {
-            { PropertyList.WoodCount, PropertyType.Integer },
-            { PropertyList.StoneCount, PropertyType.Integer },
-            { PropertyList.GoldCount, PropertyType.Float },
-            { PropertyList.Target, PropertyType.String },
-            { PropertyList.IsInTarget, PropertyType.Boolean },
-            { PropertyList.StateOfTarget, PropertyType.Enum },
-            { PropertyList.IsIdle, PropertyType.Boolean }
-        };
         
         [Serializable]
         public enum PropertyType
@@ -41,19 +30,21 @@ namespace GoapTFG.UGoap
             Enum = 4
         }
 
-        public static Dictionary<PropertyList, string[]> EnumStates = new()
+        private static readonly Dictionary<PropertyList, PropertyType> PropertyTypes = new()
+        {
+            { PropertyList.WoodCount, PropertyType.Integer },
+            { PropertyList.StoneCount, PropertyType.Integer },
+            { PropertyList.GoldCount, PropertyType.Float },
+            { PropertyList.Target, PropertyType.String },
+            { PropertyList.IsInTarget, PropertyType.Boolean },
+            { PropertyList.StateOfTarget, PropertyType.Enum },
+            { PropertyList.IsIdle, PropertyType.Boolean }
+        };
+
+        public static Dictionary<PropertyList, string[]> EnumNames = new()
         {
             { PropertyList.StateOfTarget, new [] { "Reached", "Going", "Ready" }} 
         };
-        
-        #region Getters
-
-        public static PropertyType GetType(PropertyList property)
-        {
-            return ProperTypes[property];
-        }
-        
-        #endregion
 
         #region PropertyDefinitions
         
@@ -89,6 +80,15 @@ namespace GoapTFG.UGoap
                 this.effect = effect;
             }
         }
+        #endregion
+
+        #region Getters
+
+        public static PropertyType GetType(PropertyList property)
+        {
+            return PropertyTypes[property];
+        }
+        
         #endregion
         
         #region Parsers

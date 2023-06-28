@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using GoapTFG.Base;
-using GoapTFG.UGoap.ScriptableObjects;
 using static GoapTFG.UGoap.UGoapPropertyManager;
 using static GoapTFG.UGoap.UGoapPropertyManager.PropertyType;
 
@@ -14,7 +12,7 @@ namespace GoapTFG.UGoap
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapGoal<UGoapPropertyManager.PropertyList, object>, PropertyGroup<UGoapPropertyManager.PropertyList, object>, int> GetCustomHeuristic()
+        public static Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>

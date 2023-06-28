@@ -9,11 +9,11 @@ namespace GoapTFG.UGoap.ScriptableObjects
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class UGoapState : ScriptableObject
     {
-        [HideInInspector] public List<UGoapPropertyManager.Property> stateProperties;
+        [HideInInspector] public List<Property> stateProperties;
 
-        public PropertyGroup<UGoapPropertyManager.PropertyList, object> Create()
+        public PropertyGroup<PropertyList, object> Create()
         {
-            PropertyGroup<UGoapPropertyManager.PropertyList, object> state = new();
+            PropertyGroup<PropertyList, object> state = new();
             AddIntoPropertyGroup(stateProperties, in state);
             return state;
         }

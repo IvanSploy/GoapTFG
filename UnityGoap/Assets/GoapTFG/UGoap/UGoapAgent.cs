@@ -6,11 +6,12 @@ using GoapTFG.Planner;
 using GoapTFG.UGoap.ScriptableObjects;
 using UnityEngine;
 using static GoapTFG.UGoap.UGoapData;
+using static GoapTFG.UGoap.UGoapPropertyManager;
 using Random = UnityEngine.Random;
 
 namespace GoapTFG.UGoap
 {
-    public class UGoapAgent : MonoBehaviour, IGoapAgent<UGoapPropertyManager.PropertyList, object>
+    public class UGoapAgent : MonoBehaviour, IGoapAgent<PropertyList, object>
     {
         [SerializeField] private UGoapState initialState;
         [SerializeField] private List<GoapPriorityGoal> goalObjects;
@@ -25,12 +26,12 @@ namespace GoapTFG.UGoap
         public float speed = 5;
 
         //Agent base related
-        private Stack<IGoapAction<UGoapPropertyManager.PropertyList, object>> _currentPlan;
-        private List<GoapGoal<UGoapPropertyManager.PropertyList, object>> _goals;
-        private List<IGoapAction<UGoapPropertyManager.PropertyList, object>> _actions;
-        private GoapGoal<UGoapPropertyManager.PropertyList, object> _currentGoapGoal;
+        private Stack<IGoapAction<PropertyList, object>> _currentPlan;
+        private List<GoapGoal<PropertyList, object>> _goals;
+        private List<IGoapAction<PropertyList, object>> _actions;
+        private GoapGoal<PropertyList, object> _currentGoapGoal;
         
-        public PropertyGroup<UGoapPropertyManager.PropertyList, object> CurrentState { get; set; }
+        public PropertyGroup<PropertyList, object> CurrentState { get; set; }
 
         // Start is called before the first frame update
         void Start()
@@ -38,8 +39,8 @@ namespace GoapTFG.UGoap
             _currentPlan = new();
             _goals = new();
             _actions = new();
-            List<GoapGoal<UGoapPropertyManager.PropertyList, object>> myGoals = new();
-            List<IGoapAction<UGoapPropertyManager.PropertyList, object>> myActions = new();
+            List<GoapGoal<PropertyList, object>> myGoals = new();
+            List<IGoapAction<PropertyList, object>> myActions = new();
             CurrentState = initialState != null ? initialState.Create() : new();
             
             //OBJETIVOS
@@ -90,7 +91,7 @@ namespace GoapTFG.UGoap
 
         private IEnumerator ExecutePlan()
         {
-            PropertyGroup<UGoapPropertyManager.PropertyList, object> result;
+            PropertyGroup<PropertyList, object> result;
             do
             {
                 result = PlanStep(CurrentState);
@@ -103,23 +104,23 @@ namespace GoapTFG.UGoap
 
         //INTERFACE CLASSES
 
-        public void AddAction(IGoapAction<UGoapPropertyManager.PropertyList, object> action)
+        public void AddAction(IGoapAction<PropertyList, object> action)
         {
             _actions.Add(action);
         }
 
-        public void AddActions(List<IGoapAction<UGoapPropertyManager.PropertyList, object>> actionList)
+        public void AddActions(List<IGoapAction<PropertyList, object>> actionList)
         {
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(GoapGoal<UGoapPropertyManager.PropertyList, object> goal)
+        public void AddGoal(GoapGoal<PropertyList, object> goal)
         {
             _goals.Add(goal);
             SortGoals();
         }
 
-        public void AddGoals(List<GoapGoal<UGoapPropertyManager.PropertyList, object>> goalList)
+        public void AddGoals(List<GoapGoal<PropertyList, object>> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -130,7 +131,7 @@ namespace GoapTFG.UGoap
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
 
-        public int CreateNewPlan(PropertyGroup<UGoapPropertyManager.PropertyList, object> initialState)
+        public int CreateNewPlan(PropertyGroup<PropertyList, object> initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             var i = 0;
@@ -146,23 +147,23 @@ namespace GoapTFG.UGoap
             return i - 1;
         }
 
-        public GoapGoal<UGoapPropertyManager.PropertyList, object> GetCurrentGoal()
+        public GoapGoal<PropertyList, object> GetCurrentGoal()
         {
             return _currentGoapGoal;
         }
 
-        public bool CreatePlan(PropertyGroup<UGoapPropertyManager.PropertyList, object> initialState, GoapGoal<UGoapPropertyManager.PropertyList, object> goapGoal,
-            Func<GoapGoal<UGoapPropertyManager.PropertyList, object>, PropertyGroup<UGoapPropertyManager.PropertyList, object>, int> customHeuristic)
+        public bool CreatePlan(PropertyGroup<PropertyList, object> initialState, GoapGoal<PropertyList, object> goapGoal,
+            Func<GoapGoal<PropertyList, object>, PropertyGroup<PropertyList, object>, int> customHeuristic)
         {
             var plan = regressivePlan 
-                ? RegressivePlanner<UGoapPropertyManager.PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic) 
-                : ForwardPlanner<UGoapPropertyManager.PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
+                ? RegressivePlanner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic) 
+                : ForwardPlanner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
         }
 
-        public PropertyGroup<UGoapPropertyManager.PropertyList, object> DoPlan(PropertyGroup<UGoapPropertyManager.PropertyList, object> worldState)
+        public PropertyGroup<PropertyList, object> DoPlan(PropertyGroup<PropertyList, object> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 
@@ -175,7 +176,7 @@ namespace GoapTFG.UGoap
             return worldState;
         }
 
-        public PropertyGroup<UGoapPropertyManager.PropertyList, object> PlanStep(PropertyGroup<UGoapPropertyManager.PropertyList, object> worldState)
+        public PropertyGroup<PropertyList, object> PlanStep(PropertyGroup<PropertyList, object> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 
