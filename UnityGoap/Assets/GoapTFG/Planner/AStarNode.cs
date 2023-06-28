@@ -9,22 +9,18 @@ namespace GoapTFG.Planner
         //Properties
         public int HCost { get; set; }
         public int GCost { get; set; }
-        
-        //Fields
-        private readonly INodeGenerator<TKey, TValue> _generator;
-        
+
         //Constructor
         public AStarNode(PropertyGroup<TKey, TValue> propertyGroup,
-            GoapGoal<TKey, TValue> goapGoal, INodeGenerator<TKey, TValue> generator) : base(propertyGroup, goapGoal)
+            GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(propertyGroup, goal, generator)
         {
-            _generator = generator;
             GCost = 0;
             HCost = 0;
         }
 
         protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> pg, GoapGoal<TKey, TValue> goapGoal, IGoapAction<TKey, TValue> goapAction)
         {
-            var aStarNode = new AStarNode<TKey, TValue>(pg, goapGoal, _generator);
+            var aStarNode = new AStarNode<TKey, TValue>(pg, goapGoal, Generator);
             aStarNode.Update(this, goapAction);
             Children.Add(aStarNode);
             return aStarNode;
@@ -37,7 +33,7 @@ namespace GoapTFG.Planner
             AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = GoapAction.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, GoapGoal)) + asnParent.GCost;
+            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, Goal)) + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 
@@ -47,7 +43,7 @@ namespace GoapTFG.Planner
         /// <returns>Heuristic cost.</returns>
         public int GetHeuristic()
         {
-            return _generator.GetCustomHeuristic()?.Invoke(GoapGoal, PropertyGroup) ?? GoapGoal.CountConflicts(PropertyGroup);
+            return Generator.GetCustomHeuristic()?.Invoke(Goal, PropertyGroup) ?? Goal.CountConflicts(PropertyGroup);
         }
 
         #region Overrides
@@ -55,8 +51,8 @@ namespace GoapTFG.Planner
         public override string ToString()
         {
             string text = "";
-            if (GoapAction == null) text += "Initial Node";
-            else text += GoapAction.Name;
+            if (Action == null) text += "Initial Node";
+            else text += Action.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
             return text;
         }

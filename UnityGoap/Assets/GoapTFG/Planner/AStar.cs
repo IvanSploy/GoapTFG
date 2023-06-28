@@ -16,9 +16,9 @@ namespace GoapTFG.Planner
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal)
+        public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
         {
-            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goapGoal, this);
+            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goal, this);
             var initialHeuristic = node.GetHeuristic();
             node.HCost = initialHeuristic;
             node.TotalCost = initialHeuristic;
@@ -34,7 +34,7 @@ namespace GoapTFG.Planner
             return node;
         }
 
-        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child, IGoapAction<TKey, TValue> goapAction)
+        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child, IGoapAction<TKey, TValue> action)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
@@ -44,7 +44,7 @@ namespace GoapTFG.Planner
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    original.Update(parent, goapAction);
+                    original.Update(parent, action);
                     UpdateChildren(original);
                 }
             }
@@ -57,7 +57,7 @@ namespace GoapTFG.Planner
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, goapAction);
+                    original.Update(parent, action);
                     _openList.Add(original);
                 }
             }

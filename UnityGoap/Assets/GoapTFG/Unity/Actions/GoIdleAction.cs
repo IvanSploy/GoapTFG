@@ -22,10 +22,10 @@ namespace GoapTFG.Unity.Actions
         {
             return null;
         }
-        protected override void PerformedActions(GoapAgent goapAgent)
+        protected override void PerformedActions(GoapAgent agent)
         {
             //GO IDLELING
-            goapAgent.GoIdleling(goapAgent.speed);
+            agent.GoIdleling(agent.speed);
         }
 
     }

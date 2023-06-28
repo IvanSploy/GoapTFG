@@ -40,10 +40,10 @@ namespace GoapTFG.Unity.Actions
             return new HashSet<PropertyList> { PropertyList.Target };
         }
 
-        protected override void PerformedActions(GoapAgent goapAgent)
+        protected override void PerformedActions(GoapAgent agent)
         {
             //GO TO target
-            goapAgent.GoToTarget((string)_target);
+            agent.GoToTarget((string)_target);
         }
 
         public override int GetCost(GoapStateInfo<PropertyList, object> stateInfo)

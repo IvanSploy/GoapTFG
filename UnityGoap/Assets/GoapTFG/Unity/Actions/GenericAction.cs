@@ -23,6 +23,6 @@ namespace GoapTFG.Unity.Actions
             return null;
         }
 
-        protected override void PerformedActions(GoapAgent goapAgent) { }
+        protected override void PerformedActions(GoapAgent agent) { }
     }
 }

@@ -4,62 +4,58 @@ using GoapTFG.Base;
 
 namespace GoapTFG.Planner
 {
-    /// <summary>
-    /// Planner used to find the plan required.
-    /// </summary>
-    /// <typeparam name="TKey">Key type</typeparam>
-    /// <typeparam name="TValue">String type</typeparam>
-    public class Planner<TKey, TValue> : IPlanner<TKey, TValue>
+    public abstract class Planner<TKey, TValue>
     {
-        private const int ACTION_LIMIT = 500;
-        
-        private Node<TKey, TValue> _current;
-        private readonly GoapGoal<TKey, TValue> _goapGoal;
-        private readonly INodeGenerator<TKey, TValue> _nodeGenerator; 
+        protected Node<TKey, TValue> _current;
+        protected GoapGoal<TKey, TValue> _goal;
+        protected INodeGenerator<TKey, TValue> _nodeGenerator;
 
-        private Planner(GoapGoal<TKey, TValue> goapGoal, INodeGenerator<TKey, TValue> nodeGenerator)
+        protected Planner(GoapGoal<TKey, TValue> goal,
+            INodeGenerator<TKey, TValue> nodeGenerator)
         {
-            _goapGoal = goapGoal;
+            _goal = goal;
             _nodeGenerator = nodeGenerator;
         }
 
         /// <summary>
-        /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
+        /// Generates the plan using the generator and the actions provided.
         /// </summary>
-        /// <param name="currentState">Current state of the world.</param>
-        /// <param name="goapGoal">Goal that is going to be reached.</param>
-        /// <param name="actions">Actions aviable for the agent.</param>
-        /// <param name="newHeuristic">Custom heuristic if needed</param>
-        /// <returns>Stack of the plan actions.</returns>
-        public static Stack<IGoapAction<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
-            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null)
+        /// <param name="initialState"></param>
+        /// <param name="actions"></param>
+        /// <returns></returns>
+        public abstract Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+            List<IGoapAction<TKey, TValue>> actions);
+        
+        /// <summary>
+        /// Gets the final plan that the researcher has found.
+        /// </summary>
+        /// <param name="nodeGoal">Objective node</param>
+        /// <returns>Stack of actions.</returns>
+        public static Stack<IGoapAction<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
         {
-            if (goapGoal.IsReached(currentState)) return null;
-            Planner<TKey, TValue> regressivePlanner = new Planner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(newHeuristic));
-            return regressivePlanner.GeneratePlan(currentState, actions);
-        }
-
-        public Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
-            List<IGoapAction<TKey, TValue>> actions)
-        {
-            if (initialState == null || actions == null) throw new ArgumentNullException();
-            if (actions.Count == 0) return null;
-            
-            _current = _nodeGenerator.CreateInitialNode(initialState, _goapGoal);
-            
-            while (_current != null)
+            Stack<IGoapAction<TKey, TValue>> plan = new Stack<IGoapAction<TKey, TValue>>();
+            while (nodeGoal.Parent != null)
             {
-                foreach (var action in actions)
-                {
-                    Node<TKey, TValue> child = _current.ApplyAction(action);
-                    if(child == null) continue;
-                    if(child.IsGoal) return IPlanner<TKey, TValue>.GetPlan(child); //Fin de la búsqueda.
-                    _nodeGenerator.AddChildToParent(_current, child, action);
-                }
-                _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
+                plan.Push(nodeGoal.Action);
+                nodeGoal = nodeGoal.Parent;
             }
-            return null; //Plan doesnt exist.
+            return plan;
+        }
+        
+        /// <summary>
+        /// Gets the final inverted plan that the researcher has found.
+        /// </summary>
+        /// <param name="nodeGoal"></param>
+        /// <returns></returns>
+        public static Stack<IGoapAction<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
+        {
+            Stack<IGoapAction<TKey, TValue>> plan = GetPlan(nodeGoal);
+            Stack<IGoapAction<TKey, TValue>> invertedPlan = new Stack<IGoapAction<TKey, TValue>>();
+            foreach (var action in plan)
+            {
+                invertedPlan.Push(action);
+            }
+            return invertedPlan;
         }
     }
 }

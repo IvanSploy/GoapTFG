@@ -53,7 +53,7 @@ namespace GoapTFG.Unity
         protected abstract bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo);
         protected abstract PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo);
         protected abstract HashSet<PropertyList> GetAffectedPropertyLists();
-        protected abstract void PerformedActions(GoapAgent goapAgent);
+        protected abstract void PerformedActions(GoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        
@@ -118,18 +118,18 @@ namespace GoapTFG.Unity
             }
             
             var worldState = DoApplyAction(stateInfo);
-            var goapGoal = stateInfo.CurrentGoal;
+            var goal = stateInfo.CurrentGoal;
 
             //Al aplicar un filtro solo se tienen en cuenta los efectos de la acción actual,
             //es decir, efectos anteriores son ignorados aunque si que suman en conjunto si
             //el valor se actualiza.
             var filter = _effects;
             if (_proceduralEffects is not null) filter += _proceduralEffects;
-            var remainingGoalConditions = goapGoal.GetFilteredConflicts(worldState, filter);
+            var remainingGoalConditions = goal.GetFilteredConflicts(worldState, filter);
             worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
 
-            if(remainingGoalConditions == null && newGoalConditions != null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, newGoalConditions, goapGoal.PriorityLevel);
-            else if (remainingGoalConditions != null && newGoalConditions == null) goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, remainingGoalConditions, goapGoal.PriorityLevel);
+            if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<PropertyList, object>(goal.Name, newGoalConditions, goal.PriorityLevel);
+            else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<PropertyList, object>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions == null)
             {
                 reached = true;
@@ -142,9 +142,9 @@ namespace GoapTFG.Unity
                 reached = false;
                 return null;
             }
-            else goapGoal = new GoapGoal<PropertyList, object>(goapGoal.Name, remainingGoalConditions + newGoalConditions, goapGoal.PriorityLevel);
+            else goal = new GoapGoal<PropertyList, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
             reached = false;
-            return new GoapStateInfo<PropertyList, object>(worldState, goapGoal);
+            return new GoapStateInfo<PropertyList, object>(worldState, goal);
         }
 
         public override string ToString()

@@ -10,20 +10,15 @@ namespace GoapTFG.Planner
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">String type</typeparam>
-    public class RegressivePlanner<TKey, TValue> : IPlanner<TKey, TValue>
+    public class RegressivePlanner<TKey, TValue> : Planner<TKey, TValue>
     {
         private const int ACTION_LIMIT = 500;
-        
-        private Node<TKey, TValue> _current;
-        private readonly GoapGoal<TKey, TValue> _goapGoal;
-        private readonly INodeGenerator<TKey, TValue> _nodeGenerator; 
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
         private readonly HashSet<string> _actionsVisited; 
 
-        private RegressivePlanner(GoapGoal<TKey, TValue> goapGoal, INodeGenerator<TKey, TValue> nodeGenerator)
+        private RegressivePlanner(GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> nodeGenerator)
+            : base(goal, nodeGenerator)
         {
-            _goapGoal = goapGoal;
-            _nodeGenerator = nodeGenerator;
             _actions = new Dictionary<TKey, List<IGoapAction<TKey, TValue>>>();
             _actionsVisited = new HashSet<string>();
         }
@@ -44,7 +39,7 @@ namespace GoapTFG.Planner
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
-        public Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public override Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
@@ -52,22 +47,22 @@ namespace GoapTFG.Planner
 
             RegisterActions(actions);
             
-            _current = _nodeGenerator.CreateInitialNode(initialState, _goapGoal);
+            _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             
             while (_current != null)
             {
-                foreach (var key in _current.GoapGoal)
+                foreach (var key in _current.Goal)
                 {
                     foreach (var action in _actions[key])
                     {
                         var clonedAction = action.Clone();
                         if(_actionsVisited.Contains(clonedAction.Name)) continue;
                         _actionsVisited.Add(clonedAction.Name);
-                        var child = _current.ApplyRegressiveAction(clonedAction, _current.GoapGoal, out var reached);
+                        var child = _current.ApplyRegressiveAction(clonedAction, _current.Goal, out var reached);
                         if(child == null) continue;
                         if (reached)
                         {
-                            return IPlanner<TKey, TValue>.GetInvertedPlan(child);
+                            return Planner<TKey, TValue>.GetInvertedPlan(child);
                         }
                         _nodeGenerator.AddChildToParent(_current, child, clonedAction);
                     }

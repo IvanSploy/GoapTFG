@@ -103,9 +103,9 @@ namespace GoapTFG.Unity
 
         //INTERFACE CLASSES
 
-        public void AddAction(IGoapAction<PropertyList, object> goapAction)
+        public void AddAction(IGoapAction<PropertyList, object> action)
         {
-            _actions.Add(goapAction);
+            _actions.Add(action);
         }
 
         public void AddActions(List<IGoapAction<PropertyList, object>> actionList)
@@ -113,9 +113,9 @@ namespace GoapTFG.Unity
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(GoapGoal<PropertyList, object> goapGoal)
+        public void AddGoal(GoapGoal<PropertyList, object> goal)
         {
-            _goals.Add(goapGoal);
+            _goals.Add(goal);
             SortGoals();
         }
 
@@ -156,7 +156,7 @@ namespace GoapTFG.Unity
         {
             var plan = regressivePlan 
                 ? RegressivePlanner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic) 
-                : Planner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
+                : ForwardPlanner<PropertyList, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

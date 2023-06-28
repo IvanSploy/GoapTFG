@@ -13,7 +13,7 @@ namespace GoapTFG.Base
         private List<MemoryFact<TVector, TObject>> _facts;
         
         //Constructor
-        public WorkingMemory()
+        public WorkingMemory()  
         {
             _facts = new();
         }

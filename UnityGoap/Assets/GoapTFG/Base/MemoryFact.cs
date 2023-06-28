@@ -11,4 +11,4 @@ namespace GoapTFG.Base{
             public TVector Direction;
             public TObject Object;
         }
-}
+}   

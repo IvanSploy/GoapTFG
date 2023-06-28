@@ -13,8 +13,8 @@ namespace GoapTFG.Base
         /// <summary>
         /// Add posible action to the agent.
         /// </summary>
-        /// <param name="goapAction">Action to be added</param>
-        public void AddAction(IGoapAction<TKey, TValue> goapAction);
+        /// <param name="action">Action to be added</param>
+        public void AddAction(IGoapAction<TKey, TValue> action);
 
         /// <summary>
         /// Add posible actions to the agent.
@@ -25,8 +25,8 @@ namespace GoapTFG.Base
         /// <summary>
         /// Add goal to the agent.
         /// </summary>
-        /// <param name="goapGoal"></param>
-        public void AddGoal(GoapGoal<TKey, TValue> goapGoal);
+        /// <param name="goal"></param>
+        public void AddGoal(GoapGoal<TKey, TValue> goal);
         
         /// <summary>
         /// Add goals to the agent.

@@ -11,22 +11,24 @@ namespace GoapTFG.Planner
     public abstract class Node<TKey, TValue> : System.IComparable
     {
         //Properties
-        public Node<TKey, TValue> Parent { get; set; }
-        public IGoapAction<TKey, TValue> GoapAction { get; set; }
+        public Node<TKey, TValue> Parent { get; set; }      
+        public List<Node<TKey, TValue>> Children { get; }
+        public IGoapAction<TKey, TValue> Action { get; set; }
+        public GoapGoal<TKey, TValue> Goal { get; }
         public int TotalCost { get; set; }
         public int ActionCount { get; set; }
         public bool IsGoal { get; set; }
-        public List<Node<TKey, TValue>> Children { get; }
-        public GoapGoal<TKey, TValue> GoapGoal { get; }
         
         //Fields
         protected readonly PropertyGroup<TKey, TValue> PropertyGroup;
+        protected readonly INodeGenerator<TKey, TValue> Generator;
         
         //Constructor
-        protected Node(PropertyGroup<TKey, TValue> propertyGroup, GoapGoal<TKey, TValue> goapGoal)
+        protected Node(PropertyGroup<TKey, TValue> propertyGroup, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
         {
             PropertyGroup = propertyGroup;
-            GoapGoal = goapGoal;
+            Goal = goal;
+            Generator = generator;
             Children = new List<Node<TKey, TValue>>();
             TotalCost = 0;
             ActionCount = 0;
@@ -41,8 +43,8 @@ namespace GoapTFG.Planner
         /// <returns>Node result.</returns>
         public Node<TKey, TValue> ApplyAction(IGoapAction<TKey, TValue> goapAction)
         {
-            var pg = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(PropertyGroup, GoapGoal));
-            return pg == null ? null : CreateChildNode(pg, GoapGoal, goapAction);
+            var pg = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(PropertyGroup, Goal));
+            return pg == null ? null : CreateChildNode(pg, Goal, goapAction);
         }
 
         /// <summary>
@@ -75,7 +77,7 @@ namespace GoapTFG.Planner
         public void Update(Node<TKey, TValue> parent, IGoapAction<TKey, TValue> goapAction)
         {
             //Se actualiza la accion de origen.
-            GoapAction = goapAction;
+            Action = goapAction;
             ActionCount = parent.ActionCount + 1;
             Update(parent);
         }
@@ -88,7 +90,7 @@ namespace GoapTFG.Planner
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            TotalCost = GoapAction.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, GoapGoal));
+            TotalCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, Goal));
             ActionCount = parent.ActionCount + 1;
         }
 
@@ -125,8 +127,8 @@ namespace GoapTFG.Planner
         public override string ToString()
         {
             string text = "";
-            if (GoapAction == null) text += "Initial Node";
-            else text += GoapAction.Name;
+            if (Action == null) text += "Initial Node";
+            else text += Action.Name;
             text += " | Costes: " + TotalCost + "\n";
             return text;
         }
