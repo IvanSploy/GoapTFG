@@ -13,11 +13,12 @@ namespace GoapTFG.UGoap
         //Blackboard Management
         public static void Add(string name, UGoapEntity ge)
         {
+            var transform = ge.transform;
             MemoryFact<Vector3, UGoapEntity> mFact = new MemoryFact<Vector3, UGoapEntity>
             {
                 Name = name,
-                Position = ge.transform.position,
-                Direction = ge.transform.forward,
+                Position = transform.position,
+                Direction = transform.forward,
                 Object = ge
             };
             WMemory.Add(mFact);

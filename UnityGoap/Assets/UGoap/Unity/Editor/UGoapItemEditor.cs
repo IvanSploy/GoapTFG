@@ -25,7 +25,7 @@ namespace GoapTFG.UGoap.Editor
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("stateProperties"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("properties"), true);
                 serializedObject.ApplyModifiedProperties();
 
                 EditorGUI.indentLevel--;
@@ -38,13 +38,6 @@ namespace GoapTFG.UGoap.Editor
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
-
-                EditorGUILayout.BeginHorizontal();
-
-                EditorGUILayout.LabelField("Auto Generate Names");
-                UGoapGoal.GenerateGoalNames = EditorGUILayout.Toggle(UGoapGoal.GenerateGoalNames);
-
-                EditorGUILayout.EndHorizontal();
                 
                 if (GUILayout.Button("Generate Goal Names"))
                 {
@@ -57,21 +50,21 @@ namespace GoapTFG.UGoap.Editor
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("goalProperties"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("properties"), true);
                 serializedObject.ApplyModifiedProperties();
 
                 EditorGUI.indentLevel--;
             }
         }
 
-        [CustomEditor(typeof(UGoapActionBase), true)]
+        [CustomEditor(typeof(UGoapAction), true)]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
 
-                UGoapActionBase actionScriptableObject = (UGoapActionBase)target;
+                UGoapAction actionScriptableObject = (UGoapAction)target;
 
                 EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
 
@@ -304,7 +297,7 @@ namespace GoapTFG.UGoap.Editor
         public static void DrawValue(SerializedProperty property, Rect valueRect)
         {
             SerializedProperty value = property.FindPropertyRelative("value");
-            PropertyList name = (PropertyList)property.FindPropertyRelative("name").enumValueIndex;
+            PropertyKey name = (PropertyKey)property.FindPropertyRelative("name").enumValueIndex;
             var typeValue = GetPropertyType(name);
 
             switch (typeValue)

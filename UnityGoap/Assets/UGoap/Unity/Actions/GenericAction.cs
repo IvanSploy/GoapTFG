@@ -6,19 +6,19 @@ using static GoapTFG.UGoap.UGoapPropertyManager;
 namespace GoapTFG.UGoap.Actions
 {
     [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 1)]
-    public class GenericAction : UGoapActionBase
+    public class GenericAction : UGoapAction
     {
-        protected override bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo)
+        protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return true;
         }
 
-        protected override PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo)
+        protected override PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return null;
         }
 
-        protected override HashSet<PropertyList> GetAffectedPropertyLists()
+        protected override HashSet<PropertyKey> GetAffectedPropertyKeys()
         {
             return null;
         }

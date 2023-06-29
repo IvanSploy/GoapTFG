@@ -1,0 +1,41 @@
+﻿using GoapTFG.Base;
+using GoapTFG.UGoap.ScriptableObjects;
+using UnityEngine;
+
+namespace GoapTFG.UGoap
+{
+    public class UGoapEntity : MonoBehaviour, IGoapEntity<UGoapPropertyManager.PropertyKey, object>
+    {
+        [SerializeField] private string nameEntity;
+        [SerializeField] private UGoapState initialState;
+
+        public string Name => nameEntity;
+
+        public PropertyGroup<UGoapPropertyManager.PropertyKey, object> CurrentState { get; set; }
+
+        private void Awake()
+        {
+            AddToWorkingMemoryManager();
+        }
+
+        private void OnValidate()
+        {
+            nameEntity ??= gameObject.name;
+        }
+
+        private void AddToWorkingMemoryManager()
+        {
+            if (initialState != null)
+            {
+                PropertyGroup<UGoapPropertyManager.PropertyKey, object> state = new ();
+                UGoapPropertyManager.AddIntoPropertyGroup(this.initialState.properties, in state);
+                CurrentState = state;
+            }
+            else
+            {
+                CurrentState = new PropertyGroup<UGoapPropertyManager.PropertyKey, object>();
+            }
+            UGoapWMM.Add(Name, this);
+        }
+    }
+}

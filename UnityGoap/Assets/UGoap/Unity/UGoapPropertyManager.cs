@@ -10,7 +10,7 @@ namespace GoapTFG.UGoap
     {
         //CONFIGURACIÓN DE LAS PROPIEDADES DEL EJEMPLO
         [Serializable]
-        public enum PropertyList {
+        public enum PropertyKey {
             WoodCount,
             StoneCount,
             GoldCount,
@@ -30,20 +30,20 @@ namespace GoapTFG.UGoap
             Enum = 4
         }
 
-        private static readonly Dictionary<PropertyList, PropertyType> PropertyTypes = new()
+        private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
         {
-            { PropertyList.WoodCount, PropertyType.Integer },
-            { PropertyList.StoneCount, PropertyType.Integer },
-            { PropertyList.GoldCount, PropertyType.Float },
-            { PropertyList.Target, PropertyType.String },
-            { PropertyList.IsInTarget, PropertyType.Boolean },
-            { PropertyList.StateOfTarget, PropertyType.Enum },
-            { PropertyList.IsIdle, PropertyType.Boolean }
+            { PropertyKey.WoodCount, PropertyType.Integer },
+            { PropertyKey.StoneCount, PropertyType.Integer },
+            { PropertyKey.GoldCount, PropertyType.Float },
+            { PropertyKey.Target, PropertyType.String },
+            { PropertyKey.IsInTarget, PropertyType.Boolean },
+            { PropertyKey.StateOfTarget, PropertyType.Enum },
+            { PropertyKey.IsIdle, PropertyType.Boolean }
         };
 
-        public static Dictionary<PropertyList, string[]> EnumNames = new()
+        public static Dictionary<PropertyKey, string[]> EnumNames = new()
         {
-            { PropertyList.StateOfTarget, new [] { "Reached", "Going", "Ready" }} 
+            { PropertyKey.StateOfTarget, new [] { "Reached", "Going", "Ready" }} 
         };
 
         #region PropertyDefinitions
@@ -51,10 +51,10 @@ namespace GoapTFG.UGoap
         //CONFIGURACIÓN PROPIEDADES 
         [Serializable]
         public class Property {
-            public PropertyList name;
+            public PropertyKey name;
             public string value;
 
-            public Property(PropertyList name, string value)
+            public Property(PropertyKey name, string value)
             {
                 this.name = name;
                 this.value = value;
@@ -65,7 +65,7 @@ namespace GoapTFG.UGoap
         public class ConditionProperty : Property{
             public ConditionType condition;
 
-            public ConditionProperty(PropertyList name, ConditionType condition, string value) : base(name, value)
+            public ConditionProperty(PropertyKey name, ConditionType condition, string value) : base(name, value)
             {
                 this.condition = condition;
             }
@@ -75,7 +75,7 @@ namespace GoapTFG.UGoap
         public class EffectProperty : Property {
             public EffectType effect;
 
-            public EffectProperty(PropertyList name, EffectType effect, string value) : base(name, value)
+            public EffectProperty(PropertyKey name, EffectType effect, string value) : base(name, value)
             {
                 this.effect = effect;
             }
@@ -84,7 +84,7 @@ namespace GoapTFG.UGoap
 
         #region Getters
 
-        public static PropertyType GetPropertyType(PropertyList property)
+        public static PropertyType GetPropertyType(PropertyKey property)
         {
             return PropertyTypes[property];
         }
@@ -94,7 +94,7 @@ namespace GoapTFG.UGoap
         #region Parsers
 
         // ReSharper disable Unity.PerformanceAnalysis
-        public static object ParseValue(PropertyList name, string value)
+        public static object ParseValue(PropertyKey name, string value)
         {
             object result;
             var type = GetPropertyType(name);
@@ -155,7 +155,7 @@ namespace GoapTFG.UGoap
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, in PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<Property> properties, in PropertyGroup<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -169,7 +169,7 @@ namespace GoapTFG.UGoap
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in PropertyGroup<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -182,7 +182,7 @@ namespace GoapTFG.UGoap
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in PropertyGroup<PropertyList, object> state)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in PropertyGroup<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -193,17 +193,17 @@ namespace GoapTFG.UGoap
         #endregion
 
         #region Converters
-        private static void ApplyProperty(Property property, in PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(Property property, in PropertyGroup<PropertyKey, object> pg)
         {
             pg.Set(property.name, ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, in PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(ConditionProperty property, in PropertyGroup<PropertyKey, object> pg)
         {
             pg.Set(property.name, ParseValue(property), property.condition);
         }
 
-        private static void ApplyProperty(EffectProperty property, in PropertyGroup<PropertyList, object> pg)
+        private static void ApplyProperty(EffectProperty property, in PropertyGroup<PropertyKey, object> pg)
         {
             pg.Set(property.name, ParseValue(property), property.effect);
         } 

@@ -7,7 +7,7 @@ using static GoapTFG.UGoap.UGoapPropertyManager;
 
 namespace GoapTFG.UGoap
 {
-    public abstract class UGoapActionBase : ScriptableObject, IGoapAction<PropertyList, object>
+    public abstract class UGoapAction : ScriptableObject, IGoapAction<PropertyKey, object>
     {
         //Scriptable 
         [HideInInspector] public List<ConditionProperty> preconditions;
@@ -15,14 +15,14 @@ namespace GoapTFG.UGoap
         
         //Fields
         public string Name { get; private set; }
-        private PropertyGroup<PropertyList, object> _preconditions;
-        private PropertyGroup<PropertyList, object> _effects;
-        private PropertyGroup<PropertyList, object> _proceduralEffects;
+        private PropertyGroup<PropertyKey, object> _preconditions;
+        private PropertyGroup<PropertyKey, object> _effects;
+        private PropertyGroup<PropertyKey, object> _proceduralEffects;
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
 
         //Creation of the scriptable object
-        protected UGoapActionBase()
+        protected UGoapAction()
         {
             preconditions = new();
             effects = new();
@@ -30,10 +30,10 @@ namespace GoapTFG.UGoap
             _effects = new();
         }
 
-        public IGoapAction<PropertyList, object> Clone()
+        public IGoapAction<PropertyKey, object> Clone()
         {
             Type type = GetType();
-            UGoapActionBase instance = (UGoapActionBase) CreateInstance(type);
+            UGoapAction instance = (UGoapAction) CreateInstance(type);
             instance.Name = Name;
             instance._preconditions.Set(_preconditions);
             instance._effects.Set(_effects);
@@ -50,39 +50,39 @@ namespace GoapTFG.UGoap
         }
 
         //Procedural related.
-        protected abstract bool ProceduralConditions(GoapStateInfo<PropertyList, object> stateInfo);
-        protected abstract PropertyGroup<PropertyList, object> GetProceduralEffects(GoapStateInfo<PropertyList, object> stateInfo);
-        protected abstract HashSet<PropertyList> GetAffectedPropertyLists();
+        protected abstract bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo);
+        protected abstract PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo);
+        protected abstract HashSet<PropertyKey> GetAffectedPropertyKeys();
         protected abstract void PerformedActions(UGoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        
-        public virtual int GetCost(GoapStateInfo<PropertyList, object> stateInfo) => _cost;
+        public virtual int GetCost(GoapStateInfo<PropertyKey, object> stateInfo) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public PropertyGroup<PropertyList, object> GetPreconditions() => _preconditions;
-        public PropertyGroup<PropertyList, object> GetEffects() => _effects;
-        public HashSet<PropertyList> GetAffectedKeys()
+        public PropertyGroup<PropertyKey, object> GetPreconditions() => _preconditions;
+        public PropertyGroup<PropertyKey, object> GetEffects() => _effects;
+        public HashSet<PropertyKey> GetAffectedKeys()
         {
-            HashSet<PropertyList> affectedPropertyLists = new HashSet<PropertyList>();
+            HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
             affectedPropertyLists.AddRange(_effects.GetKeys());
-            var procedural = GetAffectedPropertyLists();
-            procedural ??= new HashSet<PropertyList>();
+            var procedural = GetAffectedPropertyKeys();
+            procedural ??= new HashSet<PropertyKey>();
             affectedPropertyLists.AddRange(procedural);
             return affectedPropertyLists;
         }
 
         //GOAP utilities.
-        public PropertyGroup<PropertyList, object> ApplyAction(GoapStateInfo<PropertyList, object> stateInfo)
+        public PropertyGroup<PropertyKey, object> ApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             if (!CheckAction(stateInfo)) return null;
             return DoApplyAction(stateInfo);
         }
 
         //Used only by the Agent.
-        public PropertyGroup<PropertyList, object> Execute(PropertyGroup<PropertyList, object> worldState,
-            IGoapAgent<PropertyList, object> goapAgent)
+        public PropertyGroup<PropertyKey, object> Execute(PropertyGroup<PropertyKey, object> worldState,
+            IGoapAgent<PropertyKey, object> goapAgent)
         {
             worldState += _effects;
             if(_proceduralEffects != null) worldState += _proceduralEffects;
@@ -91,7 +91,7 @@ namespace GoapTFG.UGoap
         }
 
         //Internal methods.
-        private bool CheckAction(GoapStateInfo<PropertyList, object> stateInfo)
+        private bool CheckAction(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             if (!stateInfo.WorldState.CheckConflict(_preconditions))
             {
@@ -100,16 +100,16 @@ namespace GoapTFG.UGoap
             return false;
         }
         
-        private PropertyGroup<PropertyList, object> DoApplyAction(GoapStateInfo<PropertyList, object> stateInfo)
+        private PropertyGroup<PropertyKey, object> DoApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             var worldState = stateInfo.WorldState + _effects;
-            _proceduralEffects = GetProceduralEffects(new GoapStateInfo<PropertyList, object>
+            _proceduralEffects = GetProceduralEffects(new GoapStateInfo<PropertyKey, object>
                 (worldState, stateInfo.CurrentGoal));
             if (_proceduralEffects != null) worldState += _proceduralEffects;
             return worldState;
         }
         
-        public GoapStateInfo<PropertyList, object> ApplyRegressiveAction(GoapStateInfo<PropertyList, object> stateInfo, out bool reached)
+        public GoapStateInfo<PropertyKey, object> ApplyRegressiveAction(GoapStateInfo<PropertyKey, object> stateInfo, out bool reached)
         {
             if (!ProceduralConditions(stateInfo))
             {
@@ -128,23 +128,23 @@ namespace GoapTFG.UGoap
             var remainingGoalConditions = goal.GetFilteredConflicts(worldState, filter);
             worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
 
-            if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<PropertyList, object>(goal.Name, newGoalConditions, goal.PriorityLevel);
-            else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<PropertyList, object>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
+            if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<PropertyKey, object>(goal.Name, newGoalConditions, goal.PriorityLevel);
+            else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions == null)
             {
                 reached = true;
-                return new GoapStateInfo<PropertyList, object>(worldState,
-                    new GoapGoal<PropertyList, object>("Victory",
-                        new PropertyGroup<PropertyList, object>(), 1));
+                return new GoapStateInfo<PropertyKey, object>(worldState,
+                    new GoapGoal<PropertyKey, object>("Victory",
+                        new PropertyGroup<PropertyKey, object>(), 1));
             }
             else if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
             {
                 reached = false;
                 return null;
             }
-            else goal = new GoapGoal<PropertyList, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
+            else goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
             reached = false;
-            return new GoapStateInfo<PropertyList, object>(worldState, goal);
+            return new GoapStateInfo<PropertyKey, object>(worldState, goal);
         }
 
         public override string ToString()

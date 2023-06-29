@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static GoapTFG.UGoap.UGoapPropertyManager;
 
 namespace GoapTFG.UGoap.ScriptableObjects
@@ -9,12 +10,12 @@ namespace GoapTFG.UGoap.ScriptableObjects
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class UGoapState : ScriptableObject
     {
-        [HideInInspector] public List<Property> stateProperties;
+        [FormerlySerializedAs("stateProperties")] [HideInInspector] public List<Property> properties;
 
-        public PropertyGroup<PropertyList, object> Create()
+        public PropertyGroup<PropertyKey, object> Create()
         {
-            PropertyGroup<PropertyList, object> state = new();
-            AddIntoPropertyGroup(stateProperties, in state);
+            PropertyGroup<PropertyKey, object> state = new();
+            AddIntoPropertyGroup(properties, in state);
             return state;
         }
     }
