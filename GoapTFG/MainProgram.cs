@@ -18,9 +18,6 @@ namespace GoapTFG
                 case 1:
                     ProgramHanoi.Execute(4,3);
                     break;
-                case 2:
-                    ProgramSettlers.Execute();
-                    break;
             }
 
             return 0;

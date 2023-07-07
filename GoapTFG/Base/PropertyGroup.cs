@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -99,7 +99,8 @@ namespace GoapTFG.Base
         //Overrides
         public override string ToString()
         {
-            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " + pair.Value + "\n");
+            string a = _values.Where((pair) => !pair.Value.Equals(GetDefaultValue(pair.Value))).Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " + pair.Value + "\n");
+            return a;
             /*var text = ""; Equivalente a la función Linq.
             foreach (var pair in _values)
             {
@@ -117,6 +118,18 @@ namespace GoapTFG.Base
             PropertyGroup<TA, TB> objPg = (PropertyGroup<TA, TB>)obj;
             return GetHashCode()==objPg.GetHashCode();
         }
+        
+        private static object GetDefaultValue(object value)
+        {
+            return value switch
+            {
+                bool b => false,
+                int i => 0,
+                float f => 0,
+                double d => 0,
+                _ => null
+            };
+        }
 
         
         /// <summary>
@@ -130,7 +143,7 @@ namespace GoapTFG.Base
             foreach(KeyValuePair<TA, TB> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (kvp.Value.GetHashCode() == 0) continue;
+                if (kvp.Value.Equals(GetDefaultValue(kvp.Value))) continue;
                 
                 hash ^= (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode()) * i;
                 i++;

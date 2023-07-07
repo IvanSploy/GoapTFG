@@ -21,7 +21,7 @@ namespace GoapTFG.Base
             _id = id;
             _preconditions = preconditions ?? new PropertyGroup<TA, TB>();
             _effects = effects ?? new PropertyGroup<TA, TB>();
-            PerformedActions += () => Console.Out.WriteLine("Acción ejecutada: " + this);
+            PerformedActions += () => Console.Out.WriteLine(this);
         }
         
         //GOAP utilities.
@@ -53,7 +53,7 @@ namespace GoapTFG.Base
         public PropertyGroup<TA, TB> PerformAction(PropertyGroup<TA, TB> worldState)
         {
             var state = ApplyAction(worldState);
-            ProceduralEffects?.Invoke();
+            PerformedActions?.Invoke();
             return state;
         }
         

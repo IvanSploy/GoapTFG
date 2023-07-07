@@ -9,7 +9,44 @@
   <component name="ChangeListManager">
     <list default="true" id="9a3ee75a-49d6-4052-9464-6391f69108e9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.GoapTFG/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/GoapTFG/Planner/IPlanner.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/GoapTFG/Planner/IPlanner.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/Action.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Base/PropertyGroup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/GoapTFG.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/MainProgram.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/MainProgram.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GoapTFG/Planner/NodeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GoapTFG/ProgramSettlers.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/Prefabs/BasicAgent.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/Prefabs/BasicAgent.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/Scenes/Main.unity" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/Scenes/Main.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Base/GoapAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Base/GoapAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Base/PropertyGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Base/PropertyGroup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/Actions/GoToTarget.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/Actions/GoToTarget.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/Action.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/Action.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/BuyStone.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/BuyStone.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/ChopTrees.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/ChopTrees.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/GoIdle.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/GoIdle.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/GoTo.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/GoTo.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/PickMineGold.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/PickMineGold.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetCottage.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetCottage.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetHall.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetHall.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetMine.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/OldActions/TargetMine.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/States/DescopedStart.asset" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/GoapItems/States/DescopedStart.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GenericAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GenericAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GoIdleAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GoIdleAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GoToTargetAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Actions/GoToTargetAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Editor/UGoapItemEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/Editor/UGoapItemEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/ScriptableObjects/UGoapAction.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/ScriptableObjects/UGoapAction.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/UGoapAgent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/UGoapAgent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/UGoapData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/UnityGoap/Assets/UGoap/Unity/UGoapData.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,8 +55,11 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a962703268874edc9774216522be7d07a4000/44/1d5cacb4/HashSet`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/a962703268874edc9774216522be7d07a4000/a4/5b837580/Enumerable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/96/57a8e6d1/ThrowHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/dc94e429cd794112b2092f5dda57956045d000/ae/222f3aaa/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/ddc6e88db85042aeb6955c12ada6a5ce46e000/b8/a72f1e41/List`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/UnityGoap/Assets/UGoap/Base/PropertyGroup.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -32,20 +72,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.27480915&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.18181819",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="GoapHanoi" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/GoapTFG/bin/Debug/GoapTFG.exe" />
@@ -91,6 +131,7 @@
       <workItem from="1674678875826" duration="6663000" />
       <workItem from="1675636873668" duration="4112000" />
       <workItem from="1687823256313" duration="1354000" />
+      <workItem from="1688659053838" duration="5045000" />
     </task>
     <task id="LOCAL-00001" summary="Refractor">
       <created>1674678988420</created>
@@ -124,6 +165,36 @@
     <option name="LAST_COMMIT_MESSAGE" value="Refractor" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/GoapTFG/Base/Action.cs</url>
+          <line>23</line>
+          <properties documentPath="D:\Documentos\Proyectos Rider\GoapTFG\GoapTFG\Base\Action.cs" initialLine="23" containingFunctionPresentation="constructor 'Action'">
+            <startOffsets>
+              <option value="814" />
+            </startOffsets>
+            <endOffsets>
+              <option value="868" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/GoapTFG/ProgramHanoi.cs</url>
+          <line>95</line>
+          <properties documentPath="D:\Documentos\Proyectos Rider\GoapTFG\GoapTFG\ProgramHanoi.cs" initialLine="95" containingFunctionPresentation="method 'Execute'">
+            <startOffsets>
+              <option value="4548" />
+            </startOffsets>
+            <endOffsets>
+              <option value="4619" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#GoapTFG.Planner.NodeGenerator`2" memberName="ExpandedNodes" />

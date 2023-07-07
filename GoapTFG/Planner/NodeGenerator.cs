@@ -57,7 +57,7 @@ namespace GoapTFG.Planner
             if (_openList.Count == 0) return null;
             Node<TA, TB> node = _openList[0];
             _openList.RemoveAt(0);
-            Console.Out.WriteLine("Nodo extraido:\n" + node);
+            //Console.Out.WriteLine("Nodo extraido:\n" + node);
             return node;
         }
 
