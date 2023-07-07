@@ -12,14 +12,16 @@ namespace GoapTFG.UGoap
         //Scriptable 
         [HideInInspector] public List<ConditionProperty> preconditions;
         [HideInInspector] public List<EffectProperty> effects;
+        [HideInInspector] public List<PropertyKey> affectedKeys;
         
         //Fields
         public string Name { get; private set; }
         private PropertyGroup<PropertyKey, object> _preconditions;
         private PropertyGroup<PropertyKey, object> _effects;
-        private PropertyGroup<PropertyKey, object> _proceduralEffects;
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
+        private PropertyGroup<PropertyKey, object> _proceduralEffects;
+        private HashSet<PropertyKey> _affectedKeys;
 
         //Creation of the scriptable object
         protected UGoapAction()
@@ -37,6 +39,7 @@ namespace GoapTFG.UGoap
             instance.Name = Name;
             instance._preconditions.Set(_preconditions);
             instance._effects.Set(_effects);
+            instance._affectedKeys = new HashSet<PropertyKey>(_affectedKeys);
             return instance;
         }
 
@@ -47,12 +50,12 @@ namespace GoapTFG.UGoap
             _cost = Math.Max(0, _cost);
             AddIntoPropertyGroup(preconditions, in _preconditions);
             AddIntoPropertyGroup(effects, in _effects);
+            _affectedKeys = InitializeAffectedKeys(affectedKeys.ToHashSet());
         }
 
         //Procedural related.
         protected abstract bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo);
         protected abstract PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo);
-        protected abstract HashSet<PropertyKey> GetAffectedPropertyKeys();
         protected abstract void PerformedActions(UGoapAgent agent);
         
         //Cost related.
@@ -63,13 +66,13 @@ namespace GoapTFG.UGoap
         //Getters
         public PropertyGroup<PropertyKey, object> GetPreconditions() => _preconditions;
         public PropertyGroup<PropertyKey, object> GetEffects() => _effects;
-        public HashSet<PropertyKey> GetAffectedKeys()
+        public HashSet<PropertyKey> GetAffectedKeys() => _affectedKeys;
+        
+        private HashSet<PropertyKey> InitializeAffectedKeys(HashSet<PropertyKey> affectedPropertyKeys = null)
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
             affectedPropertyLists.AddRange(_effects.GetKeys());
-            var procedural = GetAffectedPropertyKeys();
-            procedural ??= new HashSet<PropertyKey>();
-            affectedPropertyLists.AddRange(procedural);
+            if(affectedPropertyKeys != null) affectedPropertyLists.AddRange(affectedPropertyKeys);
             return affectedPropertyLists;
         }
 

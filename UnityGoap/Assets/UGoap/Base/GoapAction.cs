@@ -9,15 +9,19 @@ namespace GoapTFG.Base
         public string Name { get; private set; }
         private PropertyGroup<TKey, TValue> _preconditions;
         private PropertyGroup<TKey, TValue> _effects;
-        private PropertyGroup<TKey, TValue> _proceduralEffects;
+        private HashSet<TKey> _affectedKeys;
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
+        private PropertyGroup<TKey, TValue> _proceduralEffects;
 
         //Creation of the scriptable TValue
-        protected GoapAction()
+        protected GoapAction(PropertyGroup<TKey, TValue> preconditions,
+            PropertyGroup<TKey, TValue> effects,
+            HashSet<TKey> affectedKeys = null)
         {
-            _preconditions = new();
-            _effects = new();
+            _preconditions = preconditions;
+            _effects = effects;
+            _affectedKeys = InitializeAffectedKeys(affectedKeys);
         }
 
         //Procedural related.
@@ -35,10 +39,13 @@ namespace GoapTFG.Base
         //Getters
         public PropertyGroup<TKey, TValue> GetPreconditions() => _preconditions;
         public PropertyGroup<TKey, TValue> GetEffects() => _effects;
-        public HashSet<TKey> GetAffectedKeys()
+        public HashSet<TKey> GetAffectedKeys() => _affectedKeys;
+        
+        private HashSet<TKey> InitializeAffectedKeys(HashSet<TKey> affectedKeys = null)
         {
             HashSet<TKey> affectedPropertyLists = new HashSet<TKey>();
             affectedPropertyLists.AddRange(_effects.GetKeys());
+            if(affectedKeys != null) affectedPropertyLists.AddRange(affectedKeys);
             return affectedPropertyLists;
         }
 

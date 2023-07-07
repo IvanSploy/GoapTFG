@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.UGoap.UGoapPropertyManager;
@@ -13,31 +12,17 @@ namespace GoapTFG.UGoap.Actions
         
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         { 
-            var state = stateInfo.WorldState;
-            var goal = stateInfo.CurrentGoal;
-            
-            if (!goal.Has(PropertyKey.Target)) return false;
-            if (state.Has(PropertyKey.Target)) return !stateInfo.WorldState[PropertyKey.Target]
-                    .Equals(stateInfo.CurrentGoal[PropertyKey.Target]);
             return true;
         }
         
-        protected override PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override PropertyGroup<PropertyKey, object>
+            GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             PropertyGroup<PropertyKey, object> proceduralEffects = new PropertyGroup<PropertyKey, object>();
-            var goal = stateInfo.CurrentGoal;
-            if (goal.Has(PropertyKey.Target))
-            {
-                _target = goal[PropertyKey.Target];
-                proceduralEffects[PropertyKey.Target] = _target;
-                return proceduralEffects;
-            }
-            return null;
-        }
-
-        protected override HashSet<PropertyKey> GetAffectedPropertyKeys()
-        {
-            return new HashSet<PropertyKey> { PropertyKey.Target };
+            
+            _target = stateInfo.CurrentGoal[PropertyKey.Target];
+            proceduralEffects[PropertyKey.Target] = _target;
+            return proceduralEffects;
         }
 
         protected override void PerformedActions(UGoapAgent agent)

@@ -1,13 +1,16 @@
-﻿using GoapTFG.Base;
+﻿using System;
+using GoapTFG.Base;
 using GoapTFG.UGoap.ScriptableObjects;
 using UnityEngine;
 
 namespace GoapTFG.UGoap
 {
+    [RequireComponent(typeof(Collider))]
     public class UGoapEntity : MonoBehaviour, IGoapEntity<UGoapPropertyManager.PropertyKey, object>
     {
         [SerializeField] private string nameEntity;
         [SerializeField] private UGoapState initialState;
+        [SerializeField] private Collider _collider;
 
         public string Name => nameEntity;
 
@@ -15,6 +18,9 @@ namespace GoapTFG.UGoap
 
         private void Awake()
         {
+            _collider ??= GetComponent<Collider>();
+            gameObject.layer = LayerMask.NameToLayer("Entity");
+            
             AddToWorkingMemoryManager();
         }
 

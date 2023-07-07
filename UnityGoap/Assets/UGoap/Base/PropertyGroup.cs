@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -249,7 +250,7 @@ namespace GoapTFG.Base
         }
 
         /// <summary>
-        /// Evauate hash code of the dictionary with sort order and xor exlclusion.
+        /// Evaluate hash code of the dictionary with sort order and xor exclusion.
         /// </summary>
         /// <returns>Hash Number</returns>
         public override int GetHashCode()
@@ -258,22 +259,31 @@ namespace GoapTFG.Base
             foreach(KeyValuePair<TKey, PgData> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (kvp.Value.Value.GetHashCode() == 0) continue;
+                if (!IsRelevantKey(kvp.Key)) continue;
                 
                 hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode());
+                hash %= int.MaxValue;
             }
             return hash;
         }
         
+        #region DefaultValues
         private int CountRelevantKeys()
         {
-            return _values.Keys.Count(key => _values[key].GetHashCode() != 0);
+            //Posible error pero debería funcionar.
+            return _values.Keys.Count(IsRelevantKey);
+        }
+
+        private bool IsRelevantKey(TKey key)
+        {
+            return _values[key].GetHashCode() != GetDefaultValue(_values[key]).GetHashCode();
         }
 
         private static object GetDefaultValue(object value)
         {
             return value is string ? "" : value.GetType().Default();
         }
+        #endregion
         
         public IEnumerator<TKey> GetEnumerator()
         {

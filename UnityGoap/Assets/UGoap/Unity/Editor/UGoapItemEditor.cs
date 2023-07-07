@@ -39,12 +39,12 @@ namespace GoapTFG.UGoap.Editor
             {
                 base.OnInspectorGUI();
                 
-                if (GUILayout.Button("Generate Goal Names"))
+                /*if (GUILayout.Button("Generate Goal Names"))
                 {
                     CreateGoalEnum();
                 }
-
-                EditorGUILayout.Space();
+                EditorGUILayout.Space();*/
+                
                 EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
@@ -74,6 +74,7 @@ namespace GoapTFG.UGoap.Editor
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("affectedKeys"), true);
 
                 //Guarda los cambios realizados en los property fields.
                 serializedObject.ApplyModifiedProperties();

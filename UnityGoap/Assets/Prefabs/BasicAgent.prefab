@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 332048527092279579}
   - component: {fileID: 332048527092279578}
   - component: {fileID: 332048527092279583}
+  - component: {fileID: 5371051809900903284}
   m_Layer: 0
   m_Name: BasicAgent
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  initialState: {fileID: 0}
   goalObjects:
   - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 3
@@ -147,4 +149,16 @@ MonoBehaviour:
   hasPlan: 0
   performingAction: 0
   regressivePlan: 1
-  speed: 5
+  speed: 10
+--- !u!114 &5371051809900903284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332048527092279653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0334a17f8fe0d5648983bf23c9d8e1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

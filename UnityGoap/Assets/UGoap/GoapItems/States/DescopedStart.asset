@@ -20,8 +20,6 @@ MonoBehaviour:
   - name: 2
     value: 10
   - name: 3
-    value: '
-
-'
+    value: Mine
   - name: 4
-    value: False
+    value: True

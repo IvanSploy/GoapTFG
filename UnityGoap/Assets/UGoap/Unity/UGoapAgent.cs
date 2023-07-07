@@ -11,18 +11,20 @@ using Random = UnityEngine.Random;
 
 namespace GoapTFG.UGoap
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent<PropertyKey, object>
     {
         [SerializeField] private UGoapState initialState;
         [SerializeField] private List<UGoapPriorityGoal> goalObjects;
         [SerializeField] private List<UGoapAction> actionObjects;
+        [SerializeField] private Rigidbody _rigidbody;
         
         public string Name { get; set; }
         
         public bool active = true;
         public bool hasPlan;
         public bool performingAction = false;
-        public bool regressivePlan = false;
+        public bool regressivePlan = true;
         public float speed = 5;
 
         //Agent base related
@@ -34,6 +36,13 @@ namespace GoapTFG.UGoap
         public PropertyGroup<PropertyKey, object> CurrentState { get; set; }
 
         // Start is called before the first frame update
+
+        private void Awake()
+        {
+            _rigidbody ??= GetComponent<Rigidbody>(); 
+            gameObject.layer = LayerMask.NameToLayer("Agent");
+        }
+
         void Start()
         {
             _currentPlan = new();
@@ -248,6 +257,7 @@ namespace GoapTFG.UGoap
             yield return new WaitForSeconds(2);
             speed = 10;
             performingAction = false;
+            CurrentState.Set(PropertyKey.IsIdle, false);
         }
     }
 }

@@ -17,11 +17,7 @@ namespace GoapTFG.UGoap.Actions
         {
             return null;
         }
-
-        protected override HashSet<PropertyKey> GetAffectedPropertyKeys()
-        {
-            return null;
-        }
+        
         protected override void PerformedActions(UGoapAgent agent)
         {
             //GO IDLELING
