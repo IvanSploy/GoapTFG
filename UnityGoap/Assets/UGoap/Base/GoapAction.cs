@@ -56,7 +56,8 @@ namespace GoapTFG.Base
             return DoApplyAction(stateInfo);
         }
         
-        public GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached)
+        public GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo,
+            PropertyGroup<TKey, TValue> initialState, out bool reached)
         {
             if (!ProceduralConditions(stateInfo))
             {
@@ -65,43 +66,57 @@ namespace GoapTFG.Base
             }
             
             var worldState = DoApplyAction(stateInfo);
-            var goapGoal = stateInfo.CurrentGoal;
+            var goal = stateInfo.CurrentGoal;
 
             //Al aplicar un filtro solo se tienen en cuenta los efectos de la acción actual,
             //es decir, efectos anteriores son ignorados aunque si que suman en conjunto si
             //el valor se actualiza.
             var filter = _effects;
             if (_proceduralEffects is not null) filter += _proceduralEffects;
-            var remainingGoalConditions = goapGoal.GetFilteredConflicts(worldState, filter);
+            var remainingGoalConditions = goal.ResolveGoal(worldState, filter);
             worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
 
-            if(remainingGoalConditions == null && newGoalConditions != null) goapGoal = new GoapGoal<TKey, TValue>(goapGoal.Name, newGoalConditions, goapGoal.PriorityLevel);
-            else if (remainingGoalConditions != null && newGoalConditions == null) goapGoal = new GoapGoal<TKey, TValue>(goapGoal.Name, remainingGoalConditions, goapGoal.PriorityLevel);
+            if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<TKey, TValue>(goal.Name, newGoalConditions, goal.PriorityLevel);
+            else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions == null)
             {
                 reached = true;
-                return new GoapStateInfo<TKey, TValue>(worldState,
-                    new GoapGoal<TKey, TValue>("Victory",
-                        new PropertyGroup<TKey, TValue>(), 1));
+                return GetVictoryGoal(worldState);
             }
             else if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
             {
                 reached = false;
                 return null;
             }
-            else goapGoal = new GoapGoal<TKey, TValue>(goapGoal.Name, remainingGoalConditions + newGoalConditions, goapGoal.PriorityLevel);
+            else goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
+
+            //Si las condiciones faltantes coinciden con la del estado inicial entonces se considera objetivo.
+            if (goal.CountConflicts(initialState) == 0)
+            {
+                reached = true;
+                return GetVictoryGoal(worldState);
+            }
+            
             reached = false;
-            return new GoapStateInfo<TKey, TValue>(worldState, goapGoal);
+            return new GoapStateInfo<TKey, TValue>(worldState, goal);
+        }
+        
+        private GoapStateInfo<TKey, TValue> GetVictoryGoal(PropertyGroup<TKey, TValue> worldState)
+        {
+            return new GoapStateInfo<TKey, TValue>(worldState,
+                new GoapGoal<TKey, TValue>("Victory",
+                    new PropertyGroup<TKey, TValue>(), 1));
         }
 
         //Used only by the Agent.
-        public PropertyGroup<TKey, TValue> Execute(PropertyGroup<TKey, TValue> worldState,
+        public PropertyGroup<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo,
             IGoapAgent<TKey, TValue> goapAgent)
         {
-            worldState += _effects;
-            if(_proceduralEffects != null) worldState += _proceduralEffects;
+            if (!CheckAction(stateInfo)) return null;
+            var state = stateInfo.WorldState + _effects;
+            if(_proceduralEffects != null) state += _proceduralEffects;
             PerformedActions(goapAgent);
-            return worldState;
+            return state;
         }
 
         //Internal methods.

@@ -84,13 +84,14 @@ namespace GoapTFG.UGoap
         }
 
         //Used only by the Agent.
-        public PropertyGroup<PropertyKey, object> Execute(PropertyGroup<PropertyKey, object> worldState,
+        public PropertyGroup<PropertyKey, object> Execute(GoapStateInfo<PropertyKey, object> stateInfo,
             IGoapAgent<PropertyKey, object> goapAgent)
         {
-            worldState += _effects;
-            if(_proceduralEffects != null) worldState += _proceduralEffects;
+            if (!CheckAction(stateInfo)) return null;
+            var state = stateInfo.WorldState + _effects;
+            if(_proceduralEffects != null) state += _proceduralEffects;
             PerformedActions((UGoapAgent) goapAgent);
-            return worldState;
+            return state;
         }
 
         //Internal methods.
@@ -112,7 +113,8 @@ namespace GoapTFG.UGoap
             return worldState;
         }
         
-        public GoapStateInfo<PropertyKey, object> ApplyRegressiveAction(GoapStateInfo<PropertyKey, object> stateInfo, out bool reached)
+        public GoapStateInfo<PropertyKey, object> ApplyRegressiveAction(GoapStateInfo<PropertyKey, object> stateInfo,
+            PropertyGroup<PropertyKey, object> initialState, out bool reached)
         {
             if (!ProceduralConditions(stateInfo))
             {
@@ -128,26 +130,43 @@ namespace GoapTFG.UGoap
             //el valor se actualiza.
             var filter = _effects;
             if (_proceduralEffects is not null) filter += _proceduralEffects;
-            var remainingGoalConditions = goal.GetFilteredConflicts(worldState, filter);
+            var remainingGoalConditions = goal.ResolveGoal(worldState, filter);
             worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
-
             if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<PropertyKey, object>(goal.Name, newGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions == null)
             {
                 reached = true;
-                return new GoapStateInfo<PropertyKey, object>(worldState,
-                    new GoapGoal<PropertyKey, object>("Victory",
-                        new PropertyGroup<PropertyKey, object>(), 1));
+                return GetVictoryGoal(worldState);
             }
-            else if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
+            else
             {
-                reached = false;
-                return null;
+                if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
+                {
+                    reached = false;
+                    return null;
+                }
+                goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
             }
-            else goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
+            
+            
+
+            //Si las condiciones faltantes coinciden con la del estado inicial entonces se considera objetivo.
+            if (goal.CountConflicts(initialState) == 0)
+            {
+                reached = true;
+                return GetVictoryGoal(worldState);
+            }
+            
             reached = false;
             return new GoapStateInfo<PropertyKey, object>(worldState, goal);
+        }
+
+        private GoapStateInfo<PropertyKey, object> GetVictoryGoal(PropertyGroup<PropertyKey, object> worldState)
+        {
+            return new GoapStateInfo<PropertyKey, object>(worldState,
+                new GoapGoal<PropertyKey, object>("Victory",
+                    new PropertyGroup<PropertyKey, object>(), 1));
         }
 
         public override string ToString()

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.UGoap;
 using Unity.VisualScripting;
+using UnityEngine;
+using static GoapTFG.Base.BaseTypes;
 
 namespace GoapTFG.Planner
 {
@@ -48,28 +51,37 @@ namespace GoapTFG.Planner
             RegisterActions(actions);
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
-            
             while (_current != null)
             {
                 foreach (var key in _current.Goal)
                 {
                     foreach (var action in _actions[key])
                     {
+                        if(_current.State.Has(key) && action.GetEffects().Has(key))
+                            if(!CheckEffectCompatibility(_current[key], _current.Goal[key],
+                                   action.GetEffects().GetEffect(key))) continue;
+
                         var clonedAction = action.Clone();
                         if(_actionsVisited.Contains(clonedAction.Name)) continue;
                         _actionsVisited.Add(clonedAction.Name);
-                        var child = _current.ApplyRegressiveAction(clonedAction, _current.Goal, out var reached);
+                        
+                        var child = _current.ApplyRegressiveAction(clonedAction, initialState,
+                            _current.Goal, out var reached);
+                        
                         if(child == null) continue;
+                        
                         if (reached)
                         {
-                            return Planner<TKey, TValue>.GetInvertedPlan(child);
+                            return GetInvertedPlan(child);
                         }
+                        
                         _nodeGenerator.AddChildToParent(_current, child, clonedAction);
                     }
                 }
                 _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)  _current.IsGoal = true; //To avoid recursive loop behaviour.
+                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT) 
+                    _current.IsGoal = true; //To avoid recursive loop behaviour.
             }
             
             return null; //Plan doesnt exist.
@@ -87,6 +99,36 @@ namespace GoapTFG.Planner
                         _actions[key].Add(action);
                 }
             }
+        }
+        
+        public static bool CheckEffectCompatibility(object currentValue, object valueDesired, EffectType effectType)
+        {
+            bool compatible;
+            switch (effectType)
+            {
+                case EffectType.Add:
+                case EffectType.Multiply:
+                    compatible = currentValue switch
+                    {
+                        float floatValue => floatValue < (float)valueDesired,
+                        int intValue => intValue < (int)valueDesired,
+                        _ => true
+                    };
+                    break;
+                case EffectType.Subtract:
+                case EffectType.Divide:
+                    compatible = currentValue switch
+                    {
+                        float floatValue => floatValue > (float)valueDesired,
+                        int intValue => intValue > (int)valueDesired,
+                        _ => true
+                    };
+                    break;
+                default:
+                    compatible = true;
+                    break;
+                }
+                return compatible;
         }
     }
 }

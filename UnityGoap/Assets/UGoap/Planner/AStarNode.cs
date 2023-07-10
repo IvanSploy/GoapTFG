@@ -11,8 +11,8 @@ namespace GoapTFG.Planner
         public int GCost { get; set; }
 
         //Constructor
-        public AStarNode(PropertyGroup<TKey, TValue> propertyGroup,
-            GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(propertyGroup, goal, generator)
+        public AStarNode(PropertyGroup<TKey, TValue> state,
+            GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(state, goal, generator)
         {
             GCost = 0;
             HCost = 0;
@@ -33,7 +33,7 @@ namespace GoapTFG.Planner
             AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(PropertyGroup, Goal)) + asnParent.GCost;
+            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(State, Goal)) + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 
@@ -43,7 +43,7 @@ namespace GoapTFG.Planner
         /// <returns>Heuristic cost.</returns>
         public int GetHeuristic()
         {
-            return Generator.GetCustomHeuristic()?.Invoke(Goal, PropertyGroup) ?? Goal.CountConflicts(PropertyGroup);
+            return Generator.GetCustomHeuristic()?.Invoke(Goal, State) ?? Goal.CountConflicts(State);
         }
 
         #region Overrides

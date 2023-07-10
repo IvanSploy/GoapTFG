@@ -18,7 +18,9 @@ namespace GoapTFG.Planner
 
         public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
         {
-            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goal, this);
+            var initialGoalState = goal.GetConflicts(currentState);
+            var initialGoal = new GoapGoal<TKey, TValue>(goal.Name, initialGoalState, goal.PriorityLevel);
+            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, initialGoal, this);
             var initialHeuristic = node.GetHeuristic();
             node.HCost = initialHeuristic;
             node.TotalCost = initialHeuristic;
@@ -40,10 +42,19 @@ namespace GoapTFG.Planner
             if (_expandedNodes.Contains(child))
             {
                 _expandedNodes.TryGetValue(child, out var original);
+
                 //Se actualiza el nodo original con la nueva información y sus hijos respectivamente
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
+                    //Sin embargo si el nodo ya ha sido expandido y los objetivos no coindiden es mejor dejar dos ramas
+                    //abiertas debido a que habría que eliminar toda la descendencia pues no se puede actualizar a los hijos.
+                    if (!child.Goal.Equals(original.Goal))
+                    {
+                        _openList.Add(child);
+                        return;
+                    }
+                    
                     original.Update(parent, action);
                     UpdateChildren(original);
                 }
@@ -57,7 +68,7 @@ namespace GoapTFG.Planner
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, action);
+                    original.Update(parent, child.Goal, action);
                     _openList.Add(original);
                 }
             }

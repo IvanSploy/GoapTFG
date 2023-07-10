@@ -12,6 +12,7 @@ namespace GoapTFG.Base
 
         public string Name { get; }
         public PropertyGroup<TKey, TValue> CurrentState { get; set; }
+        public GoapGoal<TKey, TValue> CurrentGoal { get; set; }
         
         public BasicGoapAgent(string name, List<GoapGoal<TKey, TValue>> goals, List<IGoapAction<TKey, TValue>> actions = null)
         {
@@ -85,9 +86,10 @@ namespace GoapTFG.Base
         {
             if (_currentPlan.Count == 0) return null;
 
+            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
             foreach (var action in _currentPlan)
             {
-                worldState = action.Execute(worldState, this);
+                worldState = action.Execute(stateInfo, this);
             }
             _currentPlan.Clear();
             return worldState;
@@ -97,7 +99,8 @@ namespace GoapTFG.Base
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().Execute(worldState, this);
+            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
+            worldState = _currentPlan.Pop().Execute(stateInfo, this);
             return worldState;
         }
 

@@ -104,7 +104,7 @@ namespace GoapTFG.UGoap
             do
             {
                 result = PlanStep(CurrentState);
-                if (result != null) CurrentState = result;
+                if (result != null){ CurrentState = result;}
                 yield return new WaitWhile(() => performingAction);
             } while (result != null);
 
@@ -145,7 +145,7 @@ namespace GoapTFG.UGoap
             if (_goals == null || _actions.Count == 0) return -1;
             var i = 0;
             var created = false;
-            while (i < _goals.Count && _currentPlan.Count == 0)
+            while (i < _goals.Count && !created)
             {
                 _currentGoal = _goals[i];
                 created = CreatePlan(initialState, _currentGoal, GetCustomHeuristic());
@@ -176,9 +176,10 @@ namespace GoapTFG.UGoap
         {
             if (_currentPlan.Count == 0) return null;
 
+            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, _currentGoal);
             foreach (var action in _currentPlan)
             {
-                worldState = action.Execute(worldState, this);
+                worldState = action.Execute(stateInfo, this);
             }
 
             _currentPlan.Clear();
@@ -189,7 +190,8 @@ namespace GoapTFG.UGoap
         {
             if (_currentPlan.Count == 0) return null;
 
-            worldState = _currentPlan.Pop().Execute(worldState, this);
+            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, _currentGoal);
+            worldState = _currentPlan.Pop().Execute(stateInfo, this);
             return worldState;
         }
 
@@ -202,10 +204,10 @@ namespace GoapTFG.UGoap
         public void GoToTarget(string target)
         {
             performingAction = true;
-            StartCoroutine(Movement(UGoapWMM.Get(target).Position));
+            StartCoroutine(Movement(speed, UGoapWMM.Get(target).Position));
         }
 
-        private IEnumerator Movement(Vector3 finalPos)
+        private IEnumerator Movement(float vel, Vector3 finalPos)
         {
             Debug.Log("Moviendo a " + finalPos);
             bool reached = false;
@@ -214,7 +216,7 @@ namespace GoapTFG.UGoap
                 var position = transform.position;
                 finalPos.y = position.y;
                 position = Vector3.MoveTowards(position, finalPos,
-                    Time.deltaTime * speed);
+                    Time.deltaTime * vel);
                 transform.position = position;
                 Vector3 aux = finalPos;
                 aux.y = position.y;
@@ -229,11 +231,10 @@ namespace GoapTFG.UGoap
         public void GoIdleling(float radius)
         {
             performingAction = true;
-            speed = 4;
-            StartCoroutine(Idleling(radius));
+            StartCoroutine(Idleling(speed * 0.5f, radius));
         }
         
-        IEnumerator Idleling(float radius)
+        IEnumerator Idleling(float vel, float radius)
         {
             float rotation = Random.Range(-270f, 270f);
             var newRot = transform.rotation.eulerAngles;
@@ -247,7 +248,7 @@ namespace GoapTFG.UGoap
                 var position = transform.position;
                 finalPos.y = position.y;
                 position = Vector3.MoveTowards(position, finalPos,
-                    Time.deltaTime * speed);
+                    Time.deltaTime * vel);
                 transform.position = position;
                 Vector3 aux = finalPos;
                 aux.y = position.y;
@@ -255,7 +256,6 @@ namespace GoapTFG.UGoap
                 yield return null;
             }
             yield return new WaitForSeconds(2);
-            speed = 10;
             performingAction = false;
             CurrentState.Set(PropertyKey.IsIdle, false);
         }

@@ -84,7 +84,7 @@ namespace GoapTFG.Base
             foreach (var pair in mainPg._values)
             {
                 if(!filter.Has(pair.Key)) mismatches.Set(pair.Key, pair.Value);
-                if (HasConflict(pair))
+                else if (HasConflict(pair))
                     mismatches.Set(pair.Key, pair.Value);
             }
 
@@ -219,6 +219,18 @@ namespace GoapTFG.Base
             return propertyGroup;
         }
         
+        public static PropertyGroup<TKey, TValue> operator -(PropertyGroup<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
+        {
+            var propertyGroup = new PropertyGroup<TKey, TValue>(a);
+            if (b is null) return propertyGroup;
+            foreach (var pair in b._values)
+            {
+                if(a.Has(pair.Key)) propertyGroup.Remove(pair.Key);
+            }
+            
+            return propertyGroup;
+        }
+        
         //Overrides
         public override string ToString()
         {
@@ -279,7 +291,7 @@ namespace GoapTFG.Base
             return _values[key].GetHashCode() != GetDefaultValue(_values[key]).GetHashCode();
         }
 
-        private static object GetDefaultValue(object value)
+        public static object GetDefaultValue(object value)
         {
             return value is string ? "" : value.GetType().Default();
         }

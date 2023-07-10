@@ -3,66 +3,73 @@ using System.Collections.Generic;
 
 namespace GoapTFG.Base
 {
-    public class GoapGoal<TValue, TKey> : IEnumerable<TValue>
+    public class GoapGoal<TKey, TValue> : IEnumerable<TKey>
     {
         //Fields
-        private readonly PropertyGroup<TValue, TKey> _conditions;
+        private readonly PropertyGroup<TKey, TValue> _conditions;
 
         //Properties
         public string Name { get; }
         public int PriorityLevel { get; }
         
         //Constructors
-        public GoapGoal(string name, PropertyGroup<TValue, TKey> goal, int priorityLevel)
+        public GoapGoal(string name, PropertyGroup<TKey, TValue> goal, int priorityLevel)
         {
-            _conditions = new PropertyGroup<TValue, TKey>(goal) ;
+            _conditions = new PropertyGroup<TKey, TValue>(goal) ;
             PriorityLevel = priorityLevel;
             Name = name;
         }
+        
+        public GoapGoal(GoapGoal<TKey, TValue> goapGoal)
+        {
+            _conditions = new PropertyGroup<TKey, TValue>(goapGoal._conditions) ;
+            PriorityLevel = goapGoal.PriorityLevel;
+            Name = goapGoal.Name;
+        }
 
         //Getters
-        public PropertyGroup<TValue, TKey> GetState()
+        public PropertyGroup<TKey, TValue> GetState()
         {
             return _conditions;
         }
         
         //GOAP Utilites
-        public bool IsReached (PropertyGroup<TValue, TKey> worldState)
+        public bool IsReached (PropertyGroup<TKey, TValue> worldState)
         {
             return !worldState.CheckConflict(_conditions);
         }
         
-        public PropertyGroup<TValue, TKey> GetConflicts (PropertyGroup<TValue, TKey> worldState)
+        public PropertyGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
         {
             return worldState.CheckConflict(_conditions, out var mismatches) ? mismatches : null;
         }
         
-        public PropertyGroup<TValue, TKey> GetFilteredConflicts (PropertyGroup<TValue, TKey> worldState, PropertyGroup<TValue, TKey> filter)
+        public PropertyGroup<TKey, TValue> ResolveGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
         {
             return worldState.CheckFilteredConflicts(_conditions, out var mismatches, filter) ? mismatches : null;
         }
         
-        public int CountConflicts (PropertyGroup<TValue, TKey> worldState)
+        public int CountConflicts (PropertyGroup<TKey, TValue> worldState)
         {
             return worldState.CountConflict(_conditions);
         }
 
-        public bool Has(TValue key)
+        public bool Has(TKey key)
         {
             return _conditions.Has(key);
         }
         
         //Operators
-        public TKey this[TValue key]
+        public TValue this[TKey key]
         {
             get => GetState()[key];
             set => GetState()[key] = value;
         }
         
-        public static GoapGoal<TValue, TKey> operator +(GoapGoal<TValue, TKey> a, PropertyGroup<TValue, TKey> b)
+        public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
         {
             var propertyGroup = a._conditions;
-            return new GoapGoal<TValue, TKey>(a.Name, propertyGroup + b, a.PriorityLevel);
+            return new GoapGoal<TKey, TValue>(a.Name, propertyGroup + b, a.PriorityLevel);
         }
 
         //Overrides
@@ -72,7 +79,7 @@ namespace GoapTFG.Base
             return "Objetivo: " + Name + "\n" + _conditions;
         }
 
-        public IEnumerator<TValue> GetEnumerator()
+        public IEnumerator<TKey> GetEnumerator()
         {
             return GetState().GetEnumerator();
         }

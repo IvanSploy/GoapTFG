@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Unity.VisualScripting;
 
 namespace GoapTFG.Base
 {
@@ -21,7 +22,8 @@ namespace GoapTFG.Base
 
         //GOAP utilities.
         PropertyGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
-        GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached);
-        PropertyGroup<TKey, TValue> Execute(PropertyGroup<TKey, TValue> worldState, IGoapAgent<TKey, TValue> agent);
+        GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo,
+            PropertyGroup<TKey, TValue> initialState, out bool reached);
+        PropertyGroup<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo, IGoapAgent<TKey, TValue> agent);
     }
 }
