@@ -18,6 +18,9 @@ namespace GoapTFG.UGoap.Actions
             return null;
         }
 
-        protected override void PerformedActions(UGoapAgent agent) { }
+        protected override void PerformedActions(UGoapAgent agent)
+        {
+            agent.GoGenericAction(GetCost());
+        }
     }
 }

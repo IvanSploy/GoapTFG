@@ -26,7 +26,7 @@ namespace GoapTFG.UGoap.ScriptableObjects
     {
         [SerializeField] private UGoapGoal goal;
 
-        [Range(0, 99)] [SerializeField] private int priority;
+        [Range(0, 10)] [SerializeField] private int priority;
 
         public GoapGoal<PropertyKey, object> Create()
         {

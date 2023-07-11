@@ -58,14 +58,14 @@ namespace GoapTFG.Base
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
         
-        public int CreateNewPlan(PropertyGroup<TKey, TValue> initialState)
+        public int CreateNewPlan(PropertyGroup<TKey, TValue> worldState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;
             bool created = false;
             while (i < _goals.Count && _currentPlan.Count == 0)
             {
-                created = CreatePlan(initialState, _goals[i]);
+                created = CreatePlan(worldState, _goals[i]);
                 i++;
             }
 

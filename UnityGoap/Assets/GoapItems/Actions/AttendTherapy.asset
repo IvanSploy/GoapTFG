@@ -10,19 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: ChopTrees
+  m_Name: AttendTherapy
   m_EditorClassIdentifier: 
   preconditions:
-  - name: 3
-    value: Cottage
-    condition: 0
-  - name: 1
-    value: 500
-    condition: 5
-  effects:
   - name: 0
-    value: 150
+    value: Hospital
+    condition: 0
+  - name: 6
+    value: 2
+    condition: 0
+  - name: 5
+    value: 100
+    condition: 2
+  effects:
+  - name: 4
+    value: 5
     effect: 1
-  - name: 1
-    value: 500
-    effect: 2
+  - name: 5
+    value: 2
+    effect: 4
+  - name: 6
+    value: 0
+    effect: 0
+  affectedKeys: 

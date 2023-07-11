@@ -13,6 +13,7 @@ namespace GoapTFG.UGoap
         [SerializeField] private Collider _collider;
 
         public string Name => nameEntity;
+        public Collider Collider => _collider;
 
         public PropertyGroup<UGoapPropertyManager.PropertyKey, object> CurrentState { get; set; }
 

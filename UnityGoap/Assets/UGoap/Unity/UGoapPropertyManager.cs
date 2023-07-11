@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
-using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
 
 namespace GoapTFG.UGoap
@@ -11,13 +10,13 @@ namespace GoapTFG.UGoap
         //CONFIGURACIÓN DE LAS PROPIEDADES DEL EJEMPLO
         [Serializable]
         public enum PropertyKey {
-            WoodCount,
-            StoneCount,
-            GoldCount,
             Target,
-            IsInTarget,
-            StateOfTarget,
-            IsIdle
+            Seeds,
+            Fish,
+            Money,
+            Happiness,
+            Fatigue,
+            MentalState
         }
         
         [Serializable]
@@ -32,18 +31,18 @@ namespace GoapTFG.UGoap
 
         private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
         {
-            { PropertyKey.WoodCount, PropertyType.Integer },
-            { PropertyKey.StoneCount, PropertyType.Integer },
-            { PropertyKey.GoldCount, PropertyType.Float },
             { PropertyKey.Target, PropertyType.String },
-            { PropertyKey.IsInTarget, PropertyType.Boolean },
-            { PropertyKey.StateOfTarget, PropertyType.Enum },
-            { PropertyKey.IsIdle, PropertyType.Boolean }
+            { PropertyKey.Seeds, PropertyType.Integer },
+            { PropertyKey.Fish, PropertyType.Integer },
+            { PropertyKey.Money, PropertyType.Float },
+            { PropertyKey.Happiness, PropertyType.Float },
+            { PropertyKey.Fatigue, PropertyType.Float },
+            { PropertyKey.MentalState, PropertyType.Enum }        
         };
 
         public static Dictionary<PropertyKey, string[]> EnumNames = new()
         {
-            { PropertyKey.StateOfTarget, new [] { "Reached", "Going", "Ready" }} 
+            { PropertyKey.MentalState, new [] { "Good", "Tired", "Burnout" }} 
         };
 
         #region PropertyDefinitions

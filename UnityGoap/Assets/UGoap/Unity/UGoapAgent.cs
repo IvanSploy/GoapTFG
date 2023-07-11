@@ -140,7 +140,7 @@ namespace GoapTFG.UGoap
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
 
-        public int CreateNewPlan(PropertyGroup<PropertyKey, object> initialState)
+        public int CreateNewPlan(PropertyGroup<PropertyKey, object> worldState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             var i = 0;
@@ -148,7 +148,7 @@ namespace GoapTFG.UGoap
             while (i < _goals.Count && !created)
             {
                 _currentGoal = _goals[i];
-                created = CreatePlan(initialState, _currentGoal, GetCustomHeuristic());
+                created = CreatePlan(worldState, _currentGoal, GetCustomHeuristic());
                 i++;
             }
 
@@ -161,12 +161,12 @@ namespace GoapTFG.UGoap
             return _currentGoal;
         }
 
-        public bool CreatePlan(PropertyGroup<PropertyKey, object> initialState, GoapGoal<PropertyKey, object> goapGoal,
+        public bool CreatePlan(PropertyGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
             Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> customHeuristic)
         {
             var plan = regressivePlan 
-                ? RegressivePlanner<PropertyKey, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic) 
-                : ForwardPlanner<PropertyKey, object>.CreatePlan(initialState, goapGoal, _actions, customHeuristic);
+                ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic) 
+                : ForwardPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
@@ -200,15 +200,26 @@ namespace GoapTFG.UGoap
             return _currentPlan.Count;
         }
 
-        //MOVEMENT RELATED
-        public void GoToTarget(string target)
+        //ACTIONS
+        public void GoToTargetWalking(string target)
         {
-            performingAction = true;
-            StartCoroutine(Movement(speed, UGoapWMM.Get(target).Position));
+            StartCoroutine(Movement(speed * 0.5f, UGoapWMM.Get(target).Position));
         }
 
+        public void GoToTargetRunning(string target)
+        {
+            StartCoroutine(Movement(speed, UGoapWMM.Get(target).Position));
+        }
+        
+        public void GoGenericAction(float seconds)
+        {
+            StartCoroutine(Wait(seconds));
+        }
+        
+        //COROUTINES
         private IEnumerator Movement(float vel, Vector3 finalPos)
         {
+            performingAction = true;
             Debug.Log("Moviendo a " + finalPos);
             bool reached = false;
             while (!reached)
@@ -224,40 +235,15 @@ namespace GoapTFG.UGoap
                 yield return null;
             }
 
-            Debug.Log("Llegado a " + finalPos);
             performingAction = false;
         }
 
-        public void GoIdleling(float radius)
+        
+        IEnumerator Wait(float seconds)
         {
             performingAction = true;
-            StartCoroutine(Idleling(speed * 0.5f, radius));
-        }
-        
-        IEnumerator Idleling(float vel, float radius)
-        {
-            float rotation = Random.Range(-270f, 270f);
-            var newRot = transform.rotation.eulerAngles;
-            newRot.y += rotation;
-            newRot.y = Mathf.Clamp(newRot.y, -180, 180);
-            transform.rotation = Quaternion.Euler(newRot);
-            Vector3 finalPos = Random.Range(radius * 0.25f, radius) * transform.forward;
-            bool reached = false;
-            while (!reached)
-            {
-                var position = transform.position;
-                finalPos.y = position.y;
-                position = Vector3.MoveTowards(position, finalPos,
-                    Time.deltaTime * vel);
-                transform.position = position;
-                Vector3 aux = finalPos;
-                aux.y = position.y;
-                if (Vector3.Distance(transform.position, aux) < Single.Epsilon) reached = true;
-                yield return null;
-            }
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(seconds);
             performingAction = false;
-            CurrentState.Set(PropertyKey.IsIdle, false);
         }
     }
 }

@@ -9,9 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f96d321a40074ace91634645e047ee56, type: 3}
-  m_Name: GoToTarget
+  m_Script: {fileID: 11500000, guid: 61a67950ecf146feaa2b517ba71cec6b, type: 3}
+  m_Name: SellAllSeeds
   m_EditorClassIdentifier: 
-  preconditions: []
+  preconditions:
+  - name: 0
+    value: TownHall
+    condition: 0
+  - name: 1
+    value: 5
+    condition: 5
   effects: []
-  affectedKeys: 03000000
+  affectedKeys: 0100000003000000

@@ -2,11 +2,12 @@
 using GoapTFG.Base;
 using UnityEngine;
 using static GoapTFG.UGoap.UGoapPropertyManager;
+using static GoapTFG.UGoap.UGoapPropertyManager.PropertyKey;
 
 namespace GoapTFG.UGoap.Actions
 {
-    [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
-    public class GoToTargetAction : UGoapAction
+    [CreateAssetMenu(fileName = "WalkToTarget", menuName = "Goap Items/Actions/WalkToTarget", order = 3)]
+    public class WalkToTarget : UGoapAction
     {
         private object _target;
         
@@ -20,15 +21,15 @@ namespace GoapTFG.UGoap.Actions
         {
             PropertyGroup<PropertyKey, object> proceduralEffects = new PropertyGroup<PropertyKey, object>();
             
-            _target = stateInfo.CurrentGoal[PropertyKey.Target];
-            proceduralEffects[PropertyKey.Target] = _target;
+            _target = stateInfo.CurrentGoal[Target];
+            proceduralEffects[Target] = _target;
             return proceduralEffects;
         }
 
         protected override void PerformedActions(UGoapAgent agent)
         {
             //GO TO target
-            agent.GoToTarget((string)_target);
+            agent.GoToTargetWalking((string)_target);
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)
@@ -36,15 +37,15 @@ namespace GoapTFG.UGoap.Actions
             var ws = stateInfo.WorldState;
             var goal = stateInfo.CurrentGoal;
 
-            var target1 = ws.Has(PropertyKey.Target) ? (string) ws[PropertyKey.Target] : null;
-            var target2 = goal.Has(PropertyKey.Target) ? (string) goal[PropertyKey.Target] : null;
-
-            if (target1 == null || target2 == null) return 999;
+            if (!ws.Has(Target) || !goal.Has(Target)) return 50;
+            
+            var target1 = (string) ws[Target];
+            var target2 = (string) goal[Target];
             
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;
 
-            return Math.Max(5, (int)Vector3.Distance(pos1, pos2));
+            return Math.Max(5, (int)(Vector3.Distance(pos1, pos2)));
         }
     }
 }

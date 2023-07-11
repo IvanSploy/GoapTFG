@@ -37,9 +37,9 @@ namespace GoapTFG.Base
         /// <summary>
         /// Manages to create a new plan for the Agent.
         /// </summary>
-        /// <param name="initialState"></param>
+        /// <param name="worldState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int CreateNewPlan(PropertyGroup<TKey, TValue> initialState);
+        public int CreateNewPlan(PropertyGroup<TKey, TValue> worldState);
         /// <summary>
         /// Performs all of the actions in the actual plan all at once.
         /// </summary>

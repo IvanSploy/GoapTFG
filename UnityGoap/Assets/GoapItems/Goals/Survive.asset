@@ -9,20 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: BuyStone
+  m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
+  m_Name: Survive
   m_EditorClassIdentifier: 
-  preconditions:
-  - name: 3
-    value: Hall
-    condition: 0
-  - name: 2
-    value: 70
-    condition: 5
-  effects:
-  - name: 2
-    value: 70
-    effect: 2
-  - name: 1
-    value: 200
-    effect: 1
+  properties:
+  - name: 6
+    value: 2
+    condition: 1
+  - name: 5
+    value: 50
+    condition: 3
