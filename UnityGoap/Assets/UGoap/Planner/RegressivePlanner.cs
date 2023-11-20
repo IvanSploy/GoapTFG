@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
-using GoapTFG.UGoap;
-using Unity.VisualScripting;
 using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
 
@@ -15,7 +13,7 @@ namespace GoapTFG.Planner
     /// <typeparam name="TValue">String type</typeparam>
     public class RegressivePlanner<TKey, TValue> : Planner<TKey, TValue>
     {
-        private const int ACTION_LIMIT = 500;
+        private const int ACTION_LIMIT = 50000;
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
         private readonly HashSet<string> _actionsVisited; 
 
@@ -57,7 +55,7 @@ namespace GoapTFG.Planner
                 {
                     foreach (var action in _actions[key])
                     {
-                        if(_current.State.Has(key) && action.GetEffects().Has(key))
+                        if(_current.State.HasKey(key) && action.GetEffects().HasKey(key))
                             if(!CheckEffectCompatibility(_current[key], _current.Goal[key],
                                    action.GetEffects().GetEffect(key))) continue;
 
@@ -80,8 +78,10 @@ namespace GoapTFG.Planner
                 }
                 _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT) 
+                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
+                {
                     _current.IsGoal = true; //To avoid recursive loop behaviour.
+                }
             }
             
             return null; //Plan doesnt exist.

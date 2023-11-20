@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace GoapTFG.Base
 {
@@ -56,7 +57,7 @@ namespace GoapTFG.Base
 
         public bool Has(TKey key)
         {
-            return _conditions.Has(key);
+            return _conditions.HasKey(key);
         }
         
         //Operators

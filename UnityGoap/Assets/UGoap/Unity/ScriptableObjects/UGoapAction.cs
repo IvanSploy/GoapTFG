@@ -87,7 +87,11 @@ namespace GoapTFG.UGoap
         public PropertyGroup<PropertyKey, object> Execute(GoapStateInfo<PropertyKey, object> stateInfo,
             IGoapAgent<PropertyKey, object> goapAgent)
         {
-            if (!CheckAction(stateInfo)) return null;
+            if (!CheckAction(stateInfo))
+            {
+                Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
+                return null;
+            }
             var state = stateInfo.WorldState + _effects;
             if(_proceduralEffects != null) state += _proceduralEffects;
             PerformedActions((UGoapAgent) goapAgent);
@@ -101,6 +105,7 @@ namespace GoapTFG.UGoap
             {
                 return ProceduralConditions(stateInfo);
             }
+            //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
             return false;
         }
         
@@ -149,10 +154,9 @@ namespace GoapTFG.UGoap
                 goal = new GoapGoal<PropertyKey, object>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
             }
             
-            
-
+            //TODO Comprobar si esto tiene sentido
             //Si las condiciones faltantes coinciden con la del estado inicial entonces se considera objetivo.
-            if (goal.CountConflicts(initialState) == 0)
+            if (goal.GetState().CountConflict(initialState) == 0)
             {
                 reached = true;
                 return GetVictoryGoal(worldState);

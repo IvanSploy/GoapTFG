@@ -14,7 +14,7 @@ namespace GoapTFG.Base
     /// <typeparam name="TValue">Value type</typeparam>
     public class PropertyGroup<TKey, TValue> : IEnumerable<TKey>
     {
-        private struct PgData
+        public struct PgData
         {
             public TValue Value;
             public ConditionType Condition;
@@ -60,7 +60,7 @@ namespace GoapTFG.Base
         //GOAP Utilities, A* addons.
         public bool CheckConflict(PropertyGroup<TKey, TValue> mainPg)
         {
-            return mainPg._values.Any(HasConflict);
+            return mainPg._values.Any((pg) => HasConflict(pg.Key, pg.Value));
         }
         
         public bool CheckConflict(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches)
@@ -68,7 +68,7 @@ namespace GoapTFG.Base
             mismatches = new PropertyGroup<TKey, TValue>();
             foreach (var pair in mainPg._values)
             {
-                if (HasConflict(pair))
+                if (HasConflict(pair.Key, pair.Value))
                     mismatches.Set(pair.Key, pair.Value);
             }
 
@@ -83,8 +83,8 @@ namespace GoapTFG.Base
             mismatches = new PropertyGroup<TKey, TValue>();
             foreach (var pair in mainPg._values)
             {
-                if(!filter.Has(pair.Key)) mismatches.Set(pair.Key, pair.Value);
-                else if (HasConflict(pair))
+                if(!filter.HasKey(pair.Key)) mismatches.Set(pair.Key, pair.Value);
+                else if (HasConflict(pair.Key, pair.Value))
                     mismatches.Set(pair.Key, pair.Value);
             }
 
@@ -95,23 +95,18 @@ namespace GoapTFG.Base
 
         public int CountConflict(PropertyGroup<TKey, TValue> mainPg)
         {
-            return mainPg._values.Count(HasConflict);
+            return mainPg._values.Count((pg) => HasConflict(pg.Key, pg.Value));
         }
-        
+
         public bool HasConflict(TKey key, PropertyGroup<TKey, TValue> mainPg)
         {
             return HasConflict(key, mainPg._values[key]);
         }
 
-        private bool HasConflict(KeyValuePair<TKey, PgData> mainPair)
-        {
-            return HasConflict(mainPair.Key, mainPair.Value);
-        }
-
         private bool HasConflict(TKey key, PgData mainData)
         {
             object defaultValue = GetDefaultValue(mainData.Value);
-            TValue myValue = !Has(key) ? (TValue) defaultValue : GetValue(key);
+            TValue myValue = !HasKey(key) ? (TValue) defaultValue : GetValue(key);
                 
             return !EvaluateCondition(myValue, mainData.Value, mainData.Condition);
         }
@@ -121,7 +116,7 @@ namespace GoapTFG.Base
             foreach (var pair in mainPg._values)
             {
                 var key = pair.Key;
-                if (!Has(pair.Key)) continue;
+                if (!HasKey(pair.Key)) continue;
                 if (!(GetValue(key).Equals(pair.Value.Value) && GetCondition(key).Equals(pair.Value.Condition))) return true;
             }
             return false;
@@ -176,12 +171,12 @@ namespace GoapTFG.Base
             return new List<TKey>(_values.Keys);
         }
         
-        public void Remove(TKey key)
+        public void RemoveKey(TKey key)
         {
             _values.Remove(key);
         }
 
-        public bool Has(TKey key)
+        public bool HasKey(TKey key)
         {
             return _values.ContainsKey(key);
         }
@@ -204,7 +199,7 @@ namespace GoapTFG.Base
             foreach (var pair in b._values)
             {
                 var aux = new PgData();
-                if (propertyGroup.Has(pair.Key))
+                if (propertyGroup.HasKey(pair.Key))
                     aux.Value = (TValue)EvaluateEffect(propertyGroup.GetValue(pair.Key), pair.Value.Value, pair.Value.Effect);
                 else
                 {
@@ -225,7 +220,7 @@ namespace GoapTFG.Base
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
-                if(a.Has(pair.Key)) propertyGroup.Remove(pair.Key);
+                if(a.HasKey(pair.Key)) propertyGroup.RemoveKey(pair.Key);
             }
             
             return propertyGroup;
@@ -235,13 +230,7 @@ namespace GoapTFG.Base
         public override string ToString()
         {
             return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
-                                                            pair.Value.Value + "\n");
-            /*var text = ""; Equivalente a la función Linq.
-            foreach (var pair in _values)
-            {
-                text += "Key: " + pair.Key + " | Valor: " + pair.Value + "\n";
-            }
-            return text;*/
+                                                            pair.Value.Value + "\n" + pair.Value.Condition + "\n");
         }
 
         public override bool Equals(object obj)
@@ -255,7 +244,7 @@ namespace GoapTFG.Base
             if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
             foreach (var key in _values.Keys)
             {
-                if (!otherPg.Has(key)) return false;
+                if (!otherPg.HasKey(key)) return false;
                 if(!GetValue(key).Equals(otherPg.GetValue(key))) return false;
             }
             return true;

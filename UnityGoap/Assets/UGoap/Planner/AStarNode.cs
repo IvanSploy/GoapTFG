@@ -54,6 +54,7 @@ namespace GoapTFG.Planner
             if (Action == null) text += "Initial Node";
             else text += Action.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
+            text += " | Objetivo: " + Goal + "\n";
             return text;
         }
         #endregion

@@ -37,7 +37,7 @@ namespace GoapTFG.UGoap.Actions
             var ws = stateInfo.WorldState;
             var goal = stateInfo.CurrentGoal;
 
-            if (!ws.Has(Target) || !goal.Has(Target)) return 50;
+            if (!ws.HasKey(Target) || !goal.Has(Target)) return 50;
             
             var target1 = (string) ws[Target];
             var target2 = (string) goal[Target];

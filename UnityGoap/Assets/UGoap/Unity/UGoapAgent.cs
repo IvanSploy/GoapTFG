@@ -192,6 +192,7 @@ namespace GoapTFG.UGoap
 
             var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, _currentGoal);
             worldState = _currentPlan.Pop().Execute(stateInfo, this);
+            Debug.Log(worldState);
             return worldState;
         }
 
@@ -220,7 +221,6 @@ namespace GoapTFG.UGoap
         private IEnumerator Movement(float vel, Vector3 finalPos)
         {
             performingAction = true;
-            Debug.Log("Moviendo a " + finalPos);
             bool reached = false;
             while (!reached)
             {

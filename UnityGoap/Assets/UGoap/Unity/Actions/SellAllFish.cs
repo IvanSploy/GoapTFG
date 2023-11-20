@@ -18,7 +18,7 @@ namespace GoapTFG.UGoap.Actions
         {
             var proceduralEffects = new PropertyGroup<PropertyKey, object>();
             var fish = 100;
-            if(stateInfo.WorldState.Has(Fish)) fish = (int) stateInfo.WorldState[Fish];
+            if(stateInfo.WorldState.HasKey(Fish)) fish = (int) stateInfo.WorldState[Fish];
             proceduralEffects.Set(Fish, 0, BaseTypes.EffectType.Set);
             proceduralEffects.Set(Money, fish * GetCost() * 0.25f, BaseTypes.EffectType.Add);
             

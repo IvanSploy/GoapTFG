@@ -143,15 +143,6 @@ namespace GoapTFG.Planner
         {
             return State.GetHashCode();
         }
-
-        public override string ToString()
-        {
-            string text = "";
-            if (Action == null) text += "Initial Node";
-            else text += Action.Name;
-            text += " | Costes: " + TotalCost + "\n";
-            return text;
-        }
         #endregion
     }
 }

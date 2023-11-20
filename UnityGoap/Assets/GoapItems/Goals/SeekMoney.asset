@@ -15,4 +15,4 @@ MonoBehaviour:
   properties:
   - name: 3
     value: 100
-    condition: 5
+    condition: 4

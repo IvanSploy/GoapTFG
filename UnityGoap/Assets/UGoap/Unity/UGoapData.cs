@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using UnityEngine;
 using GoapTFG.Base;
 using static GoapTFG.UGoap.UGoapPropertyManager;
@@ -25,17 +24,17 @@ namespace GoapTFG.UGoap
                     switch (GetPropertyType(key))
                     {
                         case Integer:
-                            if (worldState.Has(key))
+                            if (worldState.HasKey(key))
                                 heuristic += Math.Abs((int)goal.GetState().GetValue(key) - (int)worldState.GetValue(key));
                             else heuristic += (int)goal.GetState().GetValue(key);
                             break;
                         case Float:
-                            if (worldState.Has(key))
+                            if (worldState.HasKey(key))
                                 heuristic += (int)Mathf.Abs((float)goal.GetState().GetValue(key) - (float)worldState.GetValue(key));
                             else heuristic += (int)goal.GetState().GetValue(key);
                             break;
                         default:
-                            if (!worldState.Has(key) || !goal.GetState().GetValue(key).Equals(worldState.GetValue(key))) 
+                            if (!worldState.HasKey(key) || !goal.GetState().GetValue(key).Equals(worldState.GetValue(key))) 
                                 heuristic += 1;
                             break;
                     }

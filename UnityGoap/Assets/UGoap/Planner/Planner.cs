@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using UnityEngine;
 
 namespace GoapTFG.Planner
 {
@@ -36,6 +37,8 @@ namespace GoapTFG.Planner
             Stack<IGoapAction<TKey, TValue>> plan = new Stack<IGoapAction<TKey, TValue>>();
             while (nodeGoal.Parent != null)
             {
+                
+                Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
                 plan.Push(nodeGoal.Action);
                 nodeGoal = nodeGoal.Parent;
             }
