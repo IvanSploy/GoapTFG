@@ -156,11 +156,11 @@ namespace GoapTFG.UGoap
             
             //TODO Comprobar si esto tiene sentido
             //Si las condiciones faltantes coinciden con la del estado inicial entonces se considera objetivo.
-            if (goal.GetState().CountConflict(initialState) == 0)
+            /*if (goal.GetState().CountConflict(initialState) == 0)
             {
                 reached = true;
                 return GetVictoryGoal(worldState);
-            }
+            }*/
             
             reached = false;
             return new GoapStateInfo<PropertyKey, object>(worldState, goal);

@@ -17,7 +17,7 @@ MonoBehaviour:
     value: Theatres
     condition: 0
   - name: 3
-    value: 40
+    value: 0
     condition: 5
   effects:
   - name: 4
