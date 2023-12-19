@@ -35,6 +35,11 @@ namespace GoapTFG.Base
         }
         
         //GOAP Utilites
+        public bool IsEmpty()
+        {
+            return _conditions.IsEmpty();
+        }
+        
         public bool IsReached (PropertyGroup<TKey, TValue> worldState)
         {
             return !worldState.CheckConflict(_conditions);
@@ -42,12 +47,12 @@ namespace GoapTFG.Base
         
         public PropertyGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
         {
-            return worldState.CheckConflict(_conditions, out var mismatches) ? mismatches : null;
+            return worldState.GetConflict(_conditions);
         }
         
-        public PropertyGroup<TKey, TValue> ResolveGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
+        public PropertyGroup<TKey, TValue> ResolveFilteredGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
         {
-            return worldState.CheckFilteredConflicts(_conditions, out var mismatches, filter) ? mismatches : null;
+            return worldState.CheckFilteredConflict(_conditions, out var mismatches, filter) ? mismatches : null;
         }
         
         public int CountConflicts (PropertyGroup<TKey, TValue> worldState)

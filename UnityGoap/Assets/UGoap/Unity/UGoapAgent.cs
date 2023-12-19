@@ -15,7 +15,7 @@ namespace GoapTFG.UGoap
     public class UGoapAgent : MonoBehaviour, IGoapAgent<PropertyKey, object>
     {
         [SerializeField] private UGoapState initialState;
-        [SerializeField] private List<UGoapPriorityGoal> goalObjects;
+        [SerializeField] private List<PriorityGoal> goalObjects;
         [SerializeField] private List<UGoapAction> actionObjects;
         [SerializeField] private Rigidbody _rigidbody;
         
@@ -24,7 +24,8 @@ namespace GoapTFG.UGoap
         public bool active = true;
         public bool hasPlan;
         public bool performingAction = false;
-        public bool regressivePlan = true;
+        public bool mixedPlan = true;
+        public bool greedy = false;
         public float speed = 5;
 
         //Agent base related
@@ -164,9 +165,9 @@ namespace GoapTFG.UGoap
         public bool CreatePlan(PropertyGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
             Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> customHeuristic)
         {
-            var plan = regressivePlan 
-                ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic) 
-                : ForwardPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic);
+            var plan = mixedPlan
+                ? MixedPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic, greedy)
+                : RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

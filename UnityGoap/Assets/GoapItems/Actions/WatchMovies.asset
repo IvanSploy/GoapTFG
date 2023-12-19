@@ -17,7 +17,7 @@ MonoBehaviour:
     value: Theatres
     condition: 0
   - name: 3
-    value: 0
+    value: 40
     condition: 5
   effects:
   - name: 4
@@ -30,3 +30,4 @@ MonoBehaviour:
     value: 40
     effect: 2
   affectedKeys: 
+  WaitSeconds: 5

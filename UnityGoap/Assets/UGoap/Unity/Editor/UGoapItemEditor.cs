@@ -32,7 +32,7 @@ namespace GoapTFG.UGoap.Editor
             }
         }
 
-        [CustomEditor(typeof(UGoapGoal))]
+        [CustomEditor(typeof(UGoapPriorityGoal))]
         public class GoalEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()

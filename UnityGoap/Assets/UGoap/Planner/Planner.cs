@@ -38,7 +38,7 @@ namespace GoapTFG.Planner
             while (nodeGoal.Parent != null)
             {
                 
-                Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
+                //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
                 plan.Push(nodeGoal.Action);
                 nodeGoal = nodeGoal.Parent;
             }

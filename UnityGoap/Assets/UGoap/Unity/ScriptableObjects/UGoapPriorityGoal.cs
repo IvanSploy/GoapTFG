@@ -9,7 +9,7 @@ using static GoapTFG.UGoap.CodeGenerator.EnumGenerator;
 namespace GoapTFG.UGoap.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Goal", menuName = "Goap Items/Goal", order = 2)]
-    public class UGoapGoal : ScriptableObject
+    public class UGoapPriorityGoal : ScriptableObject
     {
         [FormerlySerializedAs("goalProperties")] [HideInInspector] public List<ConditionProperty> properties;
         
@@ -22,15 +22,15 @@ namespace GoapTFG.UGoap.ScriptableObjects
     }
     
     [Serializable]
-    public struct UGoapPriorityGoal
+    public struct PriorityGoal
     {
-        [SerializeField] private UGoapGoal goal;
+        [FormerlySerializedAs("goalSo")] [FormerlySerializedAs("goal")] [SerializeField] private UGoapPriorityGoal priorityGoal;
 
         [Range(0, 10)] [SerializeField] private int priority;
 
         public GoapGoal<PropertyKey, object> Create()
         {
-            return goal.Create(priority);
+            return priorityGoal.Create(priority);
         }
     }
 }

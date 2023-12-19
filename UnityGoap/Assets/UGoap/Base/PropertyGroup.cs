@@ -63,21 +63,20 @@ namespace GoapTFG.Base
             return mainPg._values.Any((pg) => HasConflict(pg.Key, pg.Value));
         }
         
-        public bool CheckConflict(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches)
+        public PropertyGroup<TKey, TValue> GetConflict(PropertyGroup<TKey, TValue> mainPg)
         {
-            mismatches = new PropertyGroup<TKey, TValue>();
+            PropertyGroup<TKey, TValue> mismatches = new PropertyGroup<TKey, TValue>();
             foreach (var pair in mainPg._values)
             {
                 if (HasConflict(pair.Key, pair.Value))
                     mismatches.Set(pair.Key, pair.Value);
             }
 
-            var thereIsConflict = !mismatches.IsEmpty();
-            if (!thereIsConflict) mismatches = null;
-            return thereIsConflict;
+            if (mismatches.IsEmpty()) mismatches = null;
+            return mismatches;
         }
         
-        public bool CheckFilteredConflicts(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches,
+        public bool CheckFilteredConflict(PropertyGroup<TKey, TValue> mainPg, out PropertyGroup<TKey, TValue> mismatches,
             PropertyGroup<TKey, TValue> filter)
         {
             mismatches = new PropertyGroup<TKey, TValue>();
@@ -121,6 +120,22 @@ namespace GoapTFG.Base
             }
             return false;
         }
+        
+        public static PropertyGroup<TKey, TValue> Merge(PropertyGroup<TKey, TValue> pg, PropertyGroup<TKey, TValue> newPg)
+        {
+            if (pg == null) return newPg;
+            if (newPg == null) return pg;
+            
+            foreach (var pair in pg._values)
+            {
+                var data = pair.Value;
+                if (!newPg.HasKey(pair.Key)) continue;
+                var newData = newPg.Get(pair.Key);
+                if (!(newData.Value.Equals(data.Value) && newData.Condition.Equals(data.Condition)))
+                    return null;
+            }
+            return pg + newPg;
+        }
 
         //Dictionary
         public void Set(TKey key, TValue value)
@@ -149,6 +164,11 @@ namespace GoapTFG.Base
             {   
                 Set(pair.Key, pair.Value);
             }
+        }
+        
+        public PgData Get(TKey key)
+        {
+            return _values[key];
         }
         
         public TValue GetValue(TKey key)
@@ -181,7 +201,7 @@ namespace GoapTFG.Base
             return _values.ContainsKey(key);
         }
 
-        private bool IsEmpty()
+        public bool IsEmpty()
         {
             return _values.Count == 0;
         }

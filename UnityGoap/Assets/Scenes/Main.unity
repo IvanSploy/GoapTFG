@@ -817,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &406799088
 Transform:
   m_ObjectHideFlags: 0
@@ -859,9 +859,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
   goalObjects:
-  - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
-  - goal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
@@ -876,7 +876,7 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 1
+  regressivePlan: 0
   speed: 60
 --- !u!54 &406799091
 Rigidbody:
@@ -1122,7 +1122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &637611282
 Transform:
   m_ObjectHideFlags: 0
@@ -1264,9 +1264,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
   goalObjects:
-  - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
-  - goal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 1
+  regressivePlan: 0
   speed: 60
 --- !u!1001 &675069943
 PrefabInstance:
@@ -2844,9 +2844,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
   goalObjects:
-  - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
-  - goal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
@@ -2861,7 +2861,7 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 1
+  regressivePlan: 0
   speed: 60
 --- !u!1001 &1239231084
 PrefabInstance:
@@ -4150,7 +4150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1707259719
 Transform:
   m_ObjectHideFlags: 0
@@ -4292,9 +4292,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
   goalObjects:
-  - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
-  - goal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
@@ -4309,7 +4309,7 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 1
+  regressivePlan: 0
   speed: 70
 --- !u!1 &1782238542
 GameObject:
@@ -5883,9 +5883,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
   goalObjects:
-  - goal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
-  - goal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
+  - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
@@ -5900,7 +5900,7 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 1
+  regressivePlan: 0
   speed: 70
 --- !u!4 &8709107423552666157
 Transform:
@@ -5938,7 +5938,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

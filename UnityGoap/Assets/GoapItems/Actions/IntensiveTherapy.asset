@@ -27,9 +27,10 @@ MonoBehaviour:
     value: 20
     effect: 0
   - name: 5
-    value: 0
+    value: -100
     effect: 0
   - name: 6
     value: 0
     effect: 0
   affectedKeys: 
+  WaitSeconds: 20

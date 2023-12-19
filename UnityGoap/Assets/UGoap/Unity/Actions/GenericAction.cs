@@ -8,6 +8,9 @@ namespace GoapTFG.UGoap.Actions
     [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 1)]
     public class GenericAction : UGoapAction
     {
+        [Header("Custom Data")]
+        [SerializeField] private int _waitSeconds = 1;
+        
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return true;
@@ -20,7 +23,7 @@ namespace GoapTFG.UGoap.Actions
 
         protected override void PerformedActions(UGoapAgent agent)
         {
-            agent.GoGenericAction(GetCost());
+            agent.GoGenericAction(_waitSeconds);
         }
     }
 }

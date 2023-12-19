@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using GoapTFG.Base;
-using UnityEngine;
 
 namespace GoapTFG.Planner
 {
@@ -55,11 +56,73 @@ namespace GoapTFG.Planner
         /// <param name="goapGoal">Goal to be modified</param>
         /// <param name="reached">If the node has no conflicts</param>
         /// <returns>Node result.</returns>
-        public Node<TKey, TValue> ApplyRegressiveAction(IGoapAction<TKey, TValue> goapAction, PropertyGroup<TKey, TValue> initialState,
+        public Node<TKey, TValue> ApplyRegressiveAction(IGoapAction<TKey, TValue> goapAction,
             GoapGoal<TKey, TValue> goapGoal, out bool reached)
         {
-            var stateCreated = goapAction.ApplyRegressiveAction(new GoapStateInfo<TKey, TValue>(State, goapGoal), initialState, out reached);
+            var stateCreated = goapAction.ApplyRegressiveAction(new GoapStateInfo<TKey, TValue>(State, goapGoal), out reached);
             return stateCreated == null ? null : CreateChildNode(stateCreated.WorldState, stateCreated.CurrentGoal, goapAction);
+        }
+
+        /// <summary>
+        /// Do regressive apply for the current state and node.
+        /// </summary>
+        /// <param name="currentState">The current state of the research.</param>
+        /// <param name="goapAction">Action applied to the node.</param>
+        /// <returns>Node result and unchecked conditions.</returns>
+        public Node<TKey, TValue> ApplyMixedAction(PropertyGroup<TKey, TValue> currentState,
+            IGoapAction<TKey, TValue> goapAction)
+        {
+            var recursiveResult = CheckMixedGoal(currentState, goapAction);
+            Node<TKey, TValue> child = null;
+            if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal, goapAction);
+            if (child != null && !recursiveResult.goal.IsEmpty()) child.IsGoal = false;
+            if (child is { IsGoal: true } && !recursiveResult.valid) return null;
+            return child;
+        }
+        
+        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) CheckMixedGoal(
+            PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        {
+            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) result;
+            var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
+
+            PropertyGroup<TKey, TValue> mergeConditions;
+            
+            //Nodes
+            if (Parent != null)
+            {
+                var parentResult = Parent.CheckMixedGoal(actionResult.state, Action);
+
+                //Action invalid, path not valid.
+                if (parentResult.goal == null) 
+                    return (null, null, false);
+                
+                mergeConditions = PropertyGroup<TKey, TValue>.Merge(
+                    actionResult.goal.GetState(), parentResult.goal.GetState());
+                
+                result.finalState = parentResult.finalState;
+                result.valid = parentResult.valid && actionResult.valid; //check action validate.
+            }
+            //Final node
+            else
+            {
+                //Check main goal
+                mergeConditions = PropertyGroup<TKey, TValue>.Merge(
+                    actionResult.goal.GetState(), Goal.GetConflicts(actionResult.state));
+
+                result.finalState = actionResult.state;
+                result.valid = actionResult.valid; //Check action validate.
+            }
+            
+            if (mergeConditions != null)
+            {
+                result.goal = new GoapGoal<TKey, TValue>(actionResult.goal.Name, mergeConditions,
+                    actionResult.goal.PriorityLevel);
+            }
+            //Action invalid, path not valid.
+            else return (null, null, false);
+            
+            return result;
         }
 
         /// <summary>

@@ -18,12 +18,13 @@ MonoBehaviour:
     condition: 0
   effects:
   - name: 4
-    value: 5
+    value: 1
     effect: 1
   - name: 5
-    value: 2
+    value: 50
     effect: 2
   - name: 6
     value: 0
     effect: 0
   affectedKeys: 
+  _waitSeconds: 10

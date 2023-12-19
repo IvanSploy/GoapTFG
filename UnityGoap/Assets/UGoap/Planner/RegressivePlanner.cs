@@ -62,8 +62,8 @@ namespace GoapTFG.Planner
                         var clonedAction = action.Clone();
                         if(_actionsVisited.Contains(clonedAction.Name)) continue;
                         _actionsVisited.Add(clonedAction.Name);
-                        
-                        var child = _current.ApplyRegressiveAction(clonedAction, initialState,
+                            
+                        var child = _current.ApplyRegressiveAction(clonedAction,
                             _current.Goal, out var reached);
                         
                         if(child == null) continue;

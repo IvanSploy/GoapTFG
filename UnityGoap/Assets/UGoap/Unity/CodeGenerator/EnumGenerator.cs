@@ -19,7 +19,7 @@ namespace GoapTFG.UGoap.CodeGenerator
             {
                 var guid = guids[i];
                 var path = AssetDatabase.GUIDToAssetPath(guid);
-                UGoapGoal obj = AssetDatabase.LoadAssetAtPath<UGoapGoal>(path);
+                UGoapPriorityGoal obj = AssetDatabase.LoadAssetAtPath<UGoapPriorityGoal>(path);
                 guids[i] = obj.name.Replace(" ", "");
             }
 

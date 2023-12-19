@@ -55,9 +55,8 @@ namespace GoapTFG.Base
             if (!CheckAction(stateInfo)) return null;
             return DoApplyAction(stateInfo);
         }
-        
-        public GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo,
-            PropertyGroup<TKey, TValue> initialState, out bool reached)
+
+        public GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached)
         {
             if (!ProceduralConditions(stateInfo))
             {
@@ -73,8 +72,8 @@ namespace GoapTFG.Base
             //el valor se actualiza.
             var filter = _effects;
             if (_proceduralEffects is not null) filter += _proceduralEffects;
-            var remainingGoalConditions = goal.ResolveGoal(worldState, filter);
-            worldState.CheckFilteredConflicts(_preconditions, out var newGoalConditions, filter);
+            var remainingGoalConditions = goal.ResolveFilteredGoal(worldState, filter);
+            worldState.CheckFilteredConflict(_preconditions, out var newGoalConditions, filter);
 
             if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<TKey, TValue>(goal.Name, newGoalConditions, goal.PriorityLevel);
             else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
@@ -89,16 +88,21 @@ namespace GoapTFG.Base
                 return null;
             }
             else goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
-
-            //Si las condiciones faltantes coinciden con la del estado inicial entonces se considera objetivo.
-            if (goal.CountConflicts(initialState) == 0)
-            {
-                reached = true;
-                return GetVictoryGoal(worldState);
-            }
             
             reached = false;
             return new GoapStateInfo<TKey, TValue>(worldState, goal);
+        }
+        
+        public (PropertyGroup<TKey, TValue>, GoapGoal<TKey, TValue>, bool) ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
+        {
+            PropertyGroup<TKey, TValue> resultState;
+            GoapGoal<TKey, TValue> resultGoal;
+            bool proceduralCheck = ProceduralConditions(new GoapStateInfo<TKey, TValue>(state, goal));
+            
+            resultState = DoApplyAction(new GoapStateInfo<TKey, TValue>(state, goal));
+            var conflicts = resultState.GetConflict(_preconditions);
+            resultGoal = new GoapGoal<TKey, TValue>(goal.Name, conflicts, goal.PriorityLevel);
+            return (resultState, resultGoal, proceduralCheck);
         }
         
         private GoapStateInfo<TKey, TValue> GetVictoryGoal(PropertyGroup<TKey, TValue> worldState)
