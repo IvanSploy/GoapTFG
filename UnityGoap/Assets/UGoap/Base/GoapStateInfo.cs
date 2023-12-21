@@ -2,13 +2,17 @@
 {
     public class GoapStateInfo<TKey, TValue>
     {
-        public PropertyGroup<TKey, TValue> WorldState;
-        public GoapGoal<TKey, TValue> CurrentGoal;
+        public PropertyGroup<TKey, TValue> State;
+        public GoapGoal<TKey, TValue> Goal;
+        public PropertyGroup<TKey, TValue> ProceduralEffects;
 
-        public GoapStateInfo(PropertyGroup<TKey, TValue> worldState, GoapGoal<TKey, TValue> currentGoal = null)
+        public GoapStateInfo(PropertyGroup<TKey, TValue> worldState,
+            GoapGoal<TKey, TValue> currentGoal = null,
+            PropertyGroup<TKey, TValue> proceduralEffects = null)
         {
-            WorldState = worldState;
-            CurrentGoal = currentGoal;
+            State = worldState;
+            Goal = currentGoal;
+            ProceduralEffects = proceduralEffects;
         }
     }
 }

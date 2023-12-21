@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.UGoap;
 using UnityEngine;
 
 namespace GoapTFG.Planner
@@ -24,7 +25,7 @@ namespace GoapTFG.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions);
         
         /// <summary>
@@ -32,14 +33,15 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public static Stack<IGoapAction<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
+        public static Stack<GoapActionData<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
         {
-            Stack<IGoapAction<TKey, TValue>> plan = new Stack<IGoapAction<TKey, TValue>>();
+            Stack<GoapActionData<TKey, TValue>> plan = new Stack<GoapActionData<TKey, TValue>>();
             while (nodeGoal.Parent != null)
             {
                 
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                plan.Push(nodeGoal.Action);
+                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.Action, nodeGoal.ProceduralEffects);
+                plan.Push(actionData);
                 nodeGoal = nodeGoal.Parent;
             }
             return plan;
@@ -50,13 +52,13 @@ namespace GoapTFG.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public static Stack<IGoapAction<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
+        public static Stack<GoapActionData<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
         {
-            Stack<IGoapAction<TKey, TValue>> plan = GetPlan(nodeGoal);
-            Stack<IGoapAction<TKey, TValue>> invertedPlan = new Stack<IGoapAction<TKey, TValue>>();
-            foreach (var action in plan)
+            Stack<GoapActionData<TKey, TValue>> plan = GetPlan(nodeGoal);
+            Stack<GoapActionData<TKey, TValue>> invertedPlan = new Stack<GoapActionData<TKey, TValue>>();
+            foreach (var actionData in plan)
             {
-                invertedPlan.Push(action);
+                invertedPlan.Push(actionData);
             }
             return invertedPlan;
         }

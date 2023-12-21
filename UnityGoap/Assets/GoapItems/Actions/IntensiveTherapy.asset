@@ -33,4 +33,4 @@ MonoBehaviour:
     value: 0
     effect: 0
   affectedKeys: 
-  WaitSeconds: 20
+  _waitSeconds: 5

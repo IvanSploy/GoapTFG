@@ -21,7 +21,7 @@ namespace GoapTFG.UGoap.Actions
             return null;
         }
 
-        protected override void PerformedActions(UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }

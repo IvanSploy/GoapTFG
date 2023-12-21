@@ -17,7 +17,7 @@ MonoBehaviour:
     value: TownHall
     condition: 0
   - name: 1
-    value: 25
+    value: 100
     condition: 5
   effects:
   - name: 3
@@ -27,4 +27,4 @@ MonoBehaviour:
     value: 100
     effect: 2
   affectedKeys: 
-  WaitSeconds: 1
+  _waitSeconds: 1

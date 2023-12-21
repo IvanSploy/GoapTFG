@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.UGoap;
 using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
 
@@ -34,7 +35,7 @@ namespace GoapTFG.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<IGoapAction<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
+        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
             List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null, bool greedy = false)
         {
             if (goapGoal.IsReached(currentState)) return null;
@@ -93,13 +94,15 @@ namespace GoapTFG.Planner
             return compatible;
         }
 
-        public override Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
 
             RegisterActions(actions);
+
+            int nodesCreated = 1;
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             while (_current != null)
@@ -108,16 +111,15 @@ namespace GoapTFG.Planner
                 {
                     foreach (var action in _actions[key])
                     {
-                        if(_current.State.HasKey(key) && action.GetEffects().HasKey(key))
-                            if(!CheckEffectCompatibility(_current[key], _current.Goal[key],
+                        if(initialState.HasKey(key) && action.GetEffects().HasKey(key))
+                            if(!CheckEffectCompatibility(initialState[key], _current.Goal[key],
                                    _current.Goal.GetState().GetCondition(key), action.GetEffects().GetEffect(key))) continue;
 
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
-                        var clonedAction = action.Clone();
-                        _actionsVisited.Add(clonedAction.Name);
+                        _actionsVisited.Add(action.Name);
                             
-                        var child = _current.ApplyMixedAction(initialState, clonedAction);
+                        var child = _current.ApplyMixedAction(initialState, action);
                         
                         if(child == null) continue;
                         
@@ -126,7 +128,8 @@ namespace GoapTFG.Planner
                             return GetInvertedPlan(child);
                         }
                         
-                        _nodeGenerator.AddChildToParent(_current, child, clonedAction);
+                        _nodeGenerator.AddChildToParent(_current, child);
+                        nodesCreated += 1;
                     }
                 }
                 _actionsVisited.Clear();
@@ -136,6 +139,8 @@ namespace GoapTFG.Planner
                 {
                     if (_current.IsGoal)
                     {
+                        Debug.Log("NODOS CREADOS: " + nodesCreated);
+                        Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
                         return GetInvertedPlan(_current);
                     }
                     else if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)

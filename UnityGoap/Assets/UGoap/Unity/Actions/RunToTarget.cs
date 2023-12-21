@@ -9,13 +9,11 @@ namespace GoapTFG.UGoap.Actions
     [CreateAssetMenu(fileName = "RunToTarget", menuName = "Goap Items/Actions/RunToTarget", order = 3)]
     public class RunToTarget : UGoapAction
     {
-        private object _target;
-        
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            if (!stateInfo.WorldState.HasKey(Target)) return true;
-            var initialTarget = (string) stateInfo.WorldState[Target]; 
-            var finalTarget = (string) stateInfo.CurrentGoal[Target];
+            if (!stateInfo.State.HasKey(Target)) return true;
+            var initialTarget = (string) stateInfo.State[Target]; 
+            var finalTarget = (string) stateInfo.Goal[Target];
 
             var initialPos = UGoapWMM.Get(initialTarget).Position;
             var finalPos = UGoapWMM.Get(finalTarget).Position;
@@ -28,21 +26,23 @@ namespace GoapTFG.UGoap.Actions
         {
             PropertyGroup<PropertyKey, object> proceduralEffects = new PropertyGroup<PropertyKey, object>();
             
-            _target = stateInfo.CurrentGoal[Target];
-            proceduralEffects[Target] = _target;
+            proceduralEffects[Target] = stateInfo.Goal[Target];
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             //GO TO target
-            agent.GoToTargetRunning((string)_target);
+            if (proceduralEffects.HasKey(Target))
+            {
+                agent.GoToTargetRunning((string)proceduralEffects[Target]);
+            }
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var ws = stateInfo.WorldState;
-            var goal = stateInfo.CurrentGoal;
+            var ws = stateInfo.State;
+            var goal = stateInfo.Goal;
 
             if (!ws.HasKey(Target) || !goal.Has(Target)) return 50;
             

@@ -17,14 +17,14 @@ namespace GoapTFG.UGoap.Actions
         {
             var proceduralEffects = new PropertyGroup<PropertyKey, object>();
             var seeds = 100;
-            if(stateInfo.WorldState.HasKey(PropertyKey.Seeds)) seeds = (int)stateInfo.WorldState[PropertyKey.Seeds];
+            if(stateInfo.State.HasKey(PropertyKey.Seeds)) seeds = (int)stateInfo.State[PropertyKey.Seeds];
             proceduralEffects.Set(PropertyKey.Seeds, 0, BaseTypes.EffectType.Set);
             proceduralEffects.Set(PropertyKey.Money, seeds * GetCost() * 0.25f, BaseTypes.EffectType.Add);
             
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(GetCost());
         }

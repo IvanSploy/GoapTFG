@@ -817,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &406799088
 Transform:
   m_ObjectHideFlags: 0
@@ -876,7 +876,8 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  mixedPlan: 1
+  greedy: 1
   speed: 60
 --- !u!54 &406799091
 Rigidbody:
@@ -1122,7 +1123,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &637611282
 Transform:
   m_ObjectHideFlags: 0
@@ -1281,7 +1282,8 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  mixedPlan: 1
+  greedy: 1
   speed: 60
 --- !u!1001 &675069943
 PrefabInstance:
@@ -2861,7 +2863,8 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  mixedPlan: 1
+  greedy: 0
   speed: 60
 --- !u!1001 &1239231084
 PrefabInstance:
@@ -4309,7 +4312,8 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  mixedPlan: 1
+  greedy: 0
   speed: 70
 --- !u!1 &1782238542
 GameObject:
@@ -5900,7 +5904,8 @@ MonoBehaviour:
   active: 1
   hasPlan: 0
   performingAction: 0
-  regressivePlan: 0
+  mixedPlan: 1
+  greedy: 0
   speed: 70
 --- !u!4 &8709107423552666157
 Transform:

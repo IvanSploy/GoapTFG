@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GoapTFG.Base;
+using UnityEngine;
 
 namespace GoapTFG.Planner
 {
@@ -36,7 +37,7 @@ namespace GoapTFG.Planner
             return node;
         }
 
-        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child, IGoapAction<TKey, TValue> action)
+        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
@@ -55,7 +56,7 @@ namespace GoapTFG.Planner
                         return;
                     }
                     
-                    original.Update(parent, action);
+                    original.Update(parent, child.Action, child.ProceduralEffects);
                     UpdateChildren(original);
                 }
             }
@@ -68,7 +69,7 @@ namespace GoapTFG.Planner
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, child.Goal, action);
+                    original.Update(parent, child.Goal, child.Action, child.ProceduralEffects);
                     _openList.Add(original);
                 }
             }

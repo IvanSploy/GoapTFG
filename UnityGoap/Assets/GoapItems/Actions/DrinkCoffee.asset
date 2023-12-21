@@ -21,13 +21,13 @@ MonoBehaviour:
     condition: 5
   effects:
   - name: 4
-    value: 20
+    value: 25
     effect: 1
   - name: 5
     value: 15
-    effect: 1
+    effect: 2
   - name: 3
     value: 15
     effect: 2
   affectedKeys: 
-  WaitSeconds: 2
+  _waitSeconds: 2

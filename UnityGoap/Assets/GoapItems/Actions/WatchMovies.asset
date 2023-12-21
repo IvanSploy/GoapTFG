@@ -24,10 +24,10 @@ MonoBehaviour:
     value: 50
     effect: 1
   - name: 5
-    value: 2
-    effect: 4
+    value: 20
+    effect: 2
   - name: 3
     value: 40
     effect: 2
   affectedKeys: 
-  WaitSeconds: 5
+  _waitSeconds: 10

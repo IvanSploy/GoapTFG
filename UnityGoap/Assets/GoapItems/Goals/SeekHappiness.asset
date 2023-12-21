@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   properties:
   - name: 4
-    value: 100
+    value: 20
     condition: 5

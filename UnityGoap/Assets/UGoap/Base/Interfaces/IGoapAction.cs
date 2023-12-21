@@ -6,8 +6,6 @@ namespace GoapTFG.Base
     {
         string Name { get; }
         bool IsCompleted { get; }
-        
-        IGoapAction<TKey, TValue> Clone();
 
         //Cost related.
         int GetCost(GoapStateInfo<TKey, TValue> stateInfo); 
@@ -20,9 +18,9 @@ namespace GoapTFG.Base
         HashSet<TKey> GetAffectedKeys();
 
         //GOAP utilities.
-        PropertyGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
+        (PropertyGroup<TKey, TValue> state, PropertyGroup<TKey, TValue> proceduralEffects) ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
         GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached);
-        (PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal, bool valid) ApplyMixedAction(PropertyGroup<TKey, TValue> state,
+        (GoapStateInfo<TKey, TValue> stateInfo, bool valid) ApplyMixedAction(PropertyGroup<TKey, TValue> state,
             GoapGoal<TKey, TValue> goal);
         PropertyGroup<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo, IGoapAgent<TKey, TValue> agent);
     }

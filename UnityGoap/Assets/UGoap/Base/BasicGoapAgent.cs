@@ -6,7 +6,7 @@ namespace GoapTFG.Base
     //Handles the GOAP planification and is who realices the actions.
     public class BasicGoapAgent<TKey, TValue> : IGoapAgent<TKey, TValue>
     {
-        private Stack<IGoapAction<TKey, TValue>> _currentPlan;
+        private Stack<GoapActionData<TKey, TValue>> _currentPlan;
         private readonly List<IGoapAction<TKey, TValue>> _actions;
         private readonly List<GoapGoal<TKey, TValue>> _goals;
 
@@ -20,7 +20,7 @@ namespace GoapTFG.Base
             _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);
             _goals = new List<GoapGoal<TKey, TValue>>(goals);
             SortGoals();
-            _currentPlan = new Stack<IGoapAction<TKey, TValue>>();
+            _currentPlan = new Stack<GoapActionData<TKey, TValue>>();
         }
 
         public BasicGoapAgent(string name, GoapGoal<TKey, TValue> goal, List<IGoapAction<TKey, TValue>> actions = null)
@@ -28,7 +28,7 @@ namespace GoapTFG.Base
             Name = name;
             _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);
             _goals = new List<GoapGoal<TKey, TValue>> { goal };
-            _currentPlan = new Stack<IGoapAction<TKey, TValue>>();
+            _currentPlan = new Stack<GoapActionData<TKey, TValue>>();
         }
 
         public void AddAction(IGoapAction<TKey,TValue> action)
@@ -87,9 +87,10 @@ namespace GoapTFG.Base
             if (_currentPlan.Count == 0) return null;
 
             var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
-            foreach (var action in _currentPlan)
+            foreach (var actionData in _currentPlan)
             {
-                worldState = action.Execute(stateInfo, this);
+                stateInfo.ProceduralEffects = actionData.ProceduralEffects;
+                worldState = actionData.Action.Execute(stateInfo, this);
             }
             _currentPlan.Clear();
             return worldState;
@@ -99,8 +100,9 @@ namespace GoapTFG.Base
         {
             if (_currentPlan.Count == 0) return null;
 
-            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
-            worldState = _currentPlan.Pop().Execute(stateInfo, this);
+            GoapActionData<TKey, TValue> actionData = _currentPlan.Pop();
+            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal, actionData.ProceduralEffects);
+            worldState = actionData.Action.Execute(stateInfo, this);
             return worldState;
         }
 

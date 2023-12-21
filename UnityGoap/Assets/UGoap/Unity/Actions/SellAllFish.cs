@@ -18,14 +18,14 @@ namespace GoapTFG.UGoap.Actions
         {
             var proceduralEffects = new PropertyGroup<PropertyKey, object>();
             var fish = 100;
-            if(stateInfo.WorldState.HasKey(Fish)) fish = (int) stateInfo.WorldState[Fish];
+            if(stateInfo.State.HasKey(Fish)) fish = (int) stateInfo.State[Fish];
             proceduralEffects.Set(Fish, 0, BaseTypes.EffectType.Set);
             proceduralEffects.Set(Money, fish * GetCost() * 0.25f, BaseTypes.EffectType.Add);
             
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(GetCost());
         }

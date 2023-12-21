@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GoapTFG.Base;
+using GoapTFG.UGoap;
 using UnityEngine;
 using static GoapTFG.Base.BaseTypes;
 
@@ -32,7 +33,7 @@ namespace GoapTFG.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<IGoapAction<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
+        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
             List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null)
         {
             if (goapGoal.IsReached(currentState)) return null;
@@ -40,13 +41,15 @@ namespace GoapTFG.Planner
             return regressivePlanner.GeneratePlan(currentState, actions);
         }
 
-        public override Stack<IGoapAction<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
 
             RegisterActions(actions);
+            
+            int nodesCreated = 1;
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             while (_current != null)
@@ -59,28 +62,34 @@ namespace GoapTFG.Planner
                             if(!CheckEffectCompatibility(_current[key], _current.Goal[key],
                                    action.GetEffects().GetEffect(key))) continue;
 
-                        var clonedAction = action.Clone();
-                        if(_actionsVisited.Contains(clonedAction.Name)) continue;
-                        _actionsVisited.Add(clonedAction.Name);
+                        if(_actionsVisited.Contains(action.Name)) continue;
+                        _actionsVisited.Add(action.Name);
                             
-                        var child = _current.ApplyRegressiveAction(clonedAction,
+                        var child = _current.ApplyRegressiveAction(action,
                             _current.Goal, out var reached);
                         
                         if(child == null) continue;
                         
-                        if (reached)
-                        {
-                            return GetInvertedPlan(child);
-                        }
-                        
-                        _nodeGenerator.AddChildToParent(_current, child, clonedAction);
+                        _nodeGenerator.AddChildToParent(_current, child);
+                        nodesCreated++;
                     }
                 }
                 _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                if (_current != null && ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
+                
+                if (_current != null)
                 {
-                    _current.IsGoal = true; //To avoid recursive loop behaviour.
+                    if (_current.IsGoal)
+                    {
+                        Debug.Log("NODOS CREADOS: " + nodesCreated);
+                        Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
+                        return GetInvertedPlan(_current);
+                    }
+                    else if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
+                    {
+                        _current.IsGoal = true; //To avoid recursive loop behaviour.
+                        return GetInvertedPlan(_current);
+                    }
                 }
             }
             

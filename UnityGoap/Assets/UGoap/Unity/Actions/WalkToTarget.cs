@@ -9,8 +9,6 @@ namespace GoapTFG.UGoap.Actions
     [CreateAssetMenu(fileName = "WalkToTarget", menuName = "Goap Items/Actions/WalkToTarget", order = 3)]
     public class WalkToTarget : UGoapAction
     {
-        private object _target;
-        
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         { 
             return true;
@@ -21,21 +19,23 @@ namespace GoapTFG.UGoap.Actions
         {
             PropertyGroup<PropertyKey, object> proceduralEffects = new PropertyGroup<PropertyKey, object>();
             
-            _target = stateInfo.CurrentGoal[Target];
-            proceduralEffects[Target] = _target;
+            proceduralEffects[Target] = stateInfo.Goal[Target];;
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             //GO TO target
-            agent.GoToTargetWalking((string)_target);
+            if (proceduralEffects.HasKey(Target))
+            {
+                agent.GoToTargetWalking((string)proceduralEffects[Target]);
+            }
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var ws = stateInfo.WorldState;
-            var goal = stateInfo.CurrentGoal;
+            var ws = stateInfo.State;
+            var goal = stateInfo.Goal;
 
             if (!ws.HasKey(Target) || !goal.Has(Target)) return 50;
             
