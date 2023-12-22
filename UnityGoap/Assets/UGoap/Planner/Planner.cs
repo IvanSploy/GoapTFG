@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GoapTFG.Base;
 using GoapTFG.UGoap;
 using UnityEngine;
@@ -8,9 +7,14 @@ namespace GoapTFG.Planner
 {
     public abstract class Planner<TKey, TValue>
     {
+        //Stats
+        protected static int nodesCreated = 0;
+        protected static int nodesSkipped = 0;
+        
+        //Data
+        protected INodeGenerator<TKey, TValue> _nodeGenerator;
         protected Node<TKey, TValue> _current;
         protected GoapGoal<TKey, TValue> _goal;
-        protected INodeGenerator<TKey, TValue> _nodeGenerator;
 
         protected Planner(GoapGoal<TKey, TValue> goal,
             INodeGenerator<TKey, TValue> nodeGenerator)
@@ -82,6 +86,17 @@ namespace GoapTFG.Planner
             debugLog += actionNames + "\n";
             
             Debug.Log(debugLog);
+        }
+        
+        protected void DebugInfo(Node<TKey, TValue> node)
+        {
+            string info = "";
+            info += "NODOS CREADOS: " + nodesCreated + "\n";
+            info += "NODOS SALTADOS: " + nodesSkipped + "\n";
+            info += "ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied + "\n";
+            Debug.Log(info);
+            UGoapAction.actionsApplied = 0;
+            DebugPlan(node);
         }
     }
 }

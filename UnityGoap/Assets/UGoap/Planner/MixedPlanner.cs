@@ -14,11 +14,6 @@ namespace GoapTFG.Planner
     /// <typeparam name="TValue">String type</typeparam>
     public class MixedPlanner<TKey, TValue> : Planner<TKey, TValue>
     {
-        //Stats
-        private static int nodesCreated = 0;
-        private static int nodesSkipped = 0;
-        
-        //Data
         private const int ACTION_LIMIT = 50000;
         private bool _greedy = false;
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
@@ -186,17 +181,6 @@ namespace GoapTFG.Planner
             }
 
             return null; //Plan doesnt exist.
-        }
-
-        private void DebugInfo(Node<TKey, TValue> node)
-        {
-            string info = "";
-            info += "NODOS CREADOS: " + nodesCreated + "\n";
-            info += "NODOS SALTADOS: " + nodesSkipped + "\n";
-            info += "ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied + "\n";
-            Debug.Log(info);
-            UGoapAction.actionsApplied = 0;
-            DebugPlan(node);
         }
     }
 }
