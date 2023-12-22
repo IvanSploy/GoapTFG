@@ -24,7 +24,7 @@ MonoBehaviour:
     value: 50
     effect: 1
   - name: 5
-    value: 20
+    value: 50
     effect: 2
   - name: 3
     value: 40

@@ -17,6 +17,9 @@ MonoBehaviour:
     value: Hospital
     condition: 0
   - name: 5
+    value: 20
+    condition: 5
+  - name: 3
     value: 50
     condition: 5
   effects:
@@ -26,5 +29,8 @@ MonoBehaviour:
   - name: 6
     value: 0
     effect: 0
+  - name: 3
+    value: 50
+    effect: 2
   affectedKeys: 
   _waitSeconds: 10

@@ -190,13 +190,13 @@ namespace GoapTFG.Planner
 
         private void DebugInfo(Node<TKey, TValue> node)
         {
-            DebugPlan(node);
             string info = "";
             info += "NODOS CREADOS: " + nodesCreated + "\n";
             info += "NODOS SALTADOS: " + nodesSkipped + "\n";
             info += "ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied + "\n";
             Debug.Log(info);
             UGoapAction.actionsApplied = 0;
+            DebugPlan(node);
         }
     }
 }

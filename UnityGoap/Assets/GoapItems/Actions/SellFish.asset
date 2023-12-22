@@ -17,14 +17,14 @@ MonoBehaviour:
     value: TownHall
     condition: 0
   - name: 2
-    value: 10
+    value: 50
     condition: 5
   effects:
   - name: 3
-    value: 5
+    value: 25
     effect: 1
   - name: 2
-    value: 10
+    value: 50
     effect: 2
   affectedKeys: 
   _waitSeconds: 1

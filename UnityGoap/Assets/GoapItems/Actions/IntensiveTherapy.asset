@@ -20,7 +20,7 @@ MonoBehaviour:
     value: 2
     condition: 0
   - name: 5
-    value: 100
+    value: 50
     condition: 5
   effects:
   - name: 4

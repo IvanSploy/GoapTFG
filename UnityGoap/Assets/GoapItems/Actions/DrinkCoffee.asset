@@ -17,17 +17,17 @@ MonoBehaviour:
     value: Cafeteria
     condition: 0
   - name: 3
-    value: 15
+    value: 1
     condition: 5
   effects:
   - name: 4
     value: 25
     effect: 1
   - name: 5
-    value: 15
+    value: 30
     effect: 2
   - name: 3
-    value: 15
+    value: 1
     effect: 2
   affectedKeys: 
   _waitSeconds: 2
