@@ -77,19 +77,8 @@ namespace GoapTFG.UGoap
             {
                 Debug.Log("Estado actual: " + CurrentState);
                 var id = CreateNewPlan(CurrentState);
-                if (id >= 0)
-                {
-                    var debugLog = "Acciones para conseguir el objetivo: " + Count() + "\n" + _goals[id];
-                    hasPlan = true;
-                    foreach (var actionData in _currentPlan)
-                    {
-                        debugLog += actionData.Action.Name + "\n";
-                    }
-
-                    Debug.Log(debugLog);
-                }
-
                 if (id < 0) break;
+                
                 StartCoroutine(ExecutePlan());
                 yield return new WaitUntil(() => !hasPlan && active);
             }
@@ -100,6 +89,7 @@ namespace GoapTFG.UGoap
 
         private IEnumerator ExecutePlan()
         {
+            hasPlan = true;
             PropertyGroup<PropertyKey, object> result;
             do
             {

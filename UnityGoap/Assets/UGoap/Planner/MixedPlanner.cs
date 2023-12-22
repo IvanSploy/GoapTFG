@@ -14,7 +14,11 @@ namespace GoapTFG.Planner
     /// <typeparam name="TValue">String type</typeparam>
     public class MixedPlanner<TKey, TValue> : Planner<TKey, TValue>
     {
+        //Stats
+        private static int nodesCreated = 0;
         private static int nodesSkipped = 0;
+        
+        //Data
         private const int ACTION_LIMIT = 50000;
         private bool _greedy = false;
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
@@ -119,7 +123,7 @@ namespace GoapTFG.Planner
 
             RegisterActions(actions);
 
-            int nodesCreated = 0;
+            nodesCreated = 0;
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             while (_current != null)
@@ -146,9 +150,13 @@ namespace GoapTFG.Planner
                         
                         if(child == null) continue;
                         
-                        if (_greedy && child.IsGoal && child.CanBeGoal) //Greedy re sult, could be worst.
+                        if (child.IsGoal && child.CanBeGoal) //Greedy result, could be worst.
                         {
-                            return GetInvertedPlan(child);
+                            DebugPlan(child);
+                            if (_greedy)
+                            {
+                                return GetInvertedPlan(child);
+                            }
                         }
                         
                         _nodeGenerator.AddChildToParent(_current, child);
@@ -165,11 +173,7 @@ namespace GoapTFG.Planner
                     //If is goal
                     if (_current.IsGoal && _current.CanBeGoal)
                     {
-                        Debug.Log("NODOS CREADOS: " + nodesCreated);
-                        Debug.Log("NODOS SALTADOS: " + nodesSkipped);
-                        Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
-                        Debug.Log("COSTE: " + _current.TotalCost);
-                        UGoapAction.actionsApplied = 0;
+                        DebugInfo(_current);
                         return GetInvertedPlan(_current);
                     }
                     //If no more actions can be checked.
@@ -182,6 +186,17 @@ namespace GoapTFG.Planner
             }
 
             return null; //Plan doesnt exist.
+        }
+
+        private void DebugInfo(Node<TKey, TValue> node)
+        {
+            DebugPlan(node);
+            string info = "";
+            info += "NODOS CREADOS: " + nodesCreated + "\n";
+            info += "NODOS SALTADOS: " + nodesSkipped + "\n";
+            info += "ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied + "\n";
+            Debug.Log(info);
+            UGoapAction.actionsApplied = 0;
         }
     }
 }

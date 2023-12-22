@@ -62,5 +62,26 @@ namespace GoapTFG.Planner
             }
             return invertedPlan;
         }
+
+        public static void DebugPlan(Node<TKey, TValue> node)
+        {
+            var debugLog = "Acciones para conseguir el objetivo: ";
+            var actionNames = "";
+            int count = 0;
+            int cost = node.TotalCost;
+            
+            while (node.Parent != null)
+            {
+                actionNames += node.Action.Name + "\n";
+                count++;
+                node = node.Parent;
+            }
+
+            debugLog += count + "\n";
+            debugLog += "con coste: " + cost + "\n";
+            debugLog += actionNames + "\n";
+            
+            Debug.Log(debugLog);
+        }
     }
 }
