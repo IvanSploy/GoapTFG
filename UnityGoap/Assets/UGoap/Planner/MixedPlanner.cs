@@ -14,6 +14,7 @@ namespace GoapTFG.Planner
     /// <typeparam name="TValue">String type</typeparam>
     public class MixedPlanner<TKey, TValue> : Planner<TKey, TValue>
     {
+        private static int nodesSkipped = 0;
         private const int ACTION_LIMIT = 50000;
         private bool _greedy = false;
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
@@ -57,40 +58,56 @@ namespace GoapTFG.Planner
             }
         }
         
-        public static bool CheckEffectCompatibility(object currentValue, object valueDesired, ConditionType conditionType, EffectType effectType)
+        public static bool CheckEffectCompatibility(object currentValue, EffectType effectType, object actionValue,
+            object desiredValue, ConditionType conditionType)
         {
-            bool invert = conditionType is
-                ConditionType.LessThan or
-                ConditionType.LessOrEqual or
-                ConditionType.NotEqual;
+            //Check if condition will be fulfilled.
+            object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
+            if (EvaluateCondition(resultValue, desiredValue, conditionType))
+            {
+                return true;
+            }
             
+            //Is condition is not reached after evaluation.
             bool compatible;
             switch (effectType)
             {
                 case EffectType.Add:
                 case EffectType.Multiply:
-                    compatible = currentValue switch
+                    switch (conditionType)
                     {
-                        float floatValue => floatValue < (float)valueDesired,
-                        int intValue => intValue < (int)valueDesired,
-                        _ => true
-                    };
+                        case ConditionType.GreaterThan:
+                        case ConditionType.GreaterOrEqual:
+                            compatible = true;
+                            break;
+                        default:
+                            compatible = false;
+                            break;
+                    }
                     break;
                 case EffectType.Subtract:
                 case EffectType.Divide:
-                    compatible = currentValue switch
+                    switch (conditionType)
                     {
-                        float floatValue => floatValue > (float)valueDesired,
-                        int intValue => intValue > (int)valueDesired,
-                        _ => true
-                    };
+                        case ConditionType.LessThan:
+                        case ConditionType.LessOrEqual:
+                            compatible = true;
+                            break;
+                        default:
+                            compatible = false;
+                            break;
+                    }
                     break;
                 default:
-                    compatible = true;
+                    compatible = false;
                     break;
             }
 
-            if (invert) compatible = !compatible;
+            if (!compatible)
+            {
+                nodesSkipped++;
+                //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
+            }
             return compatible;
         }
 
@@ -102,7 +119,7 @@ namespace GoapTFG.Planner
 
             RegisterActions(actions);
 
-            int nodesCreated = 1;
+            int nodesCreated = 0;
             
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             while (_current != null)
@@ -111,11 +128,17 @@ namespace GoapTFG.Planner
                 {
                     foreach (var action in _actions[key])
                     {
-                        if(initialState.HasKey(key) && action.GetEffects().HasKey(key))
-                            if(!CheckEffectCompatibility(initialState[key], _current.Goal[key],
-                                   _current.Goal.GetState().GetCondition(key), action.GetEffects().GetEffect(key))) continue;
-
+                        //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
+                        
+                        //If current state has key or is not a procedural effect.
+                        if (_current.State.HasKey(key) && action.GetEffects().HasKey(key))
+                        {
+                            PropertyGroup<TKey, TValue> actionEffects = action.GetEffects();
+                            PropertyGroup<TKey, TValue> goalState = _current.Goal.GetState();
+                            if(! CheckEffectCompatibility(_current.State[key], actionEffects.GetEffect(key), actionEffects.GetValue(key),
+                                   goalState.GetValue(key), goalState.GetCondition(key))) continue;
+                        }
                         
                         _actionsVisited.Add(action.Name);
                             
@@ -123,7 +146,7 @@ namespace GoapTFG.Planner
                         
                         if(child == null) continue;
                         
-                        if (_greedy && child.IsGoal) //voraz
+                        if (_greedy && child.IsGoal && child.CanBeGoal) //Greedy re sult, could be worst.
                         {
                             return GetInvertedPlan(child);
                         }
@@ -132,17 +155,24 @@ namespace GoapTFG.Planner
                         nodesCreated += 1;
                     }
                 }
+                
+                //Begins another check
                 _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
                 
                 if (_current != null)
                 {
-                    if (_current.IsGoal)
+                    //If is goal
+                    if (_current.IsGoal && _current.CanBeGoal)
                     {
                         Debug.Log("NODOS CREADOS: " + nodesCreated);
+                        Debug.Log("NODOS SALTADOS: " + nodesSkipped);
                         Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
+                        Debug.Log("COSTE: " + _current.TotalCost);
+                        UGoapAction.actionsApplied = 0;
                         return GetInvertedPlan(_current);
                     }
+                    //If no more actions can be checked.
                     else if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         _current.IsGoal = true; //To avoid recursive loop behaviour.
@@ -150,7 +180,7 @@ namespace GoapTFG.Planner
                     }
                 }
             }
-            
+
             return null; //Plan doesnt exist.
         }
     }

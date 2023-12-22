@@ -21,6 +21,7 @@ namespace GoapTFG.Planner
         public int TotalCost { get; set; }
         public int ActionCount { get; set; }
         public bool IsGoal { get; set; }
+        public bool CanBeGoal { get; set; } = true;
         
         //Fields
         public readonly PropertyGroup<TKey, TValue> State;
@@ -77,7 +78,19 @@ namespace GoapTFG.Planner
             var recursiveResult = CheckMixedGoal(currentState, goapAction);
             Node<TKey, TValue> child = null;
             if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal, goapAction, recursiveResult.proceduralEffects);
-            if (child != null && !recursiveResult.goal.IsEmpty()) child.IsGoal = false;
+            if (child != null)
+            {
+                if (!recursiveResult.goal.IsEmpty())
+                {
+                    child.CanBeGoal = false;
+                    child.IsGoal = false;
+                }
+                else
+                {
+                    child.CanBeGoal = true;
+                    child.IsGoal = true;
+                }
+            }
             if (child is { IsGoal: true } && !recursiveResult.valid) return null;
             return child;
         }
@@ -183,7 +196,7 @@ namespace GoapTFG.Planner
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            TotalCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(State, Goal));
+            TotalCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal));
             ActionCount = parent.ActionCount + 1;
         }
 

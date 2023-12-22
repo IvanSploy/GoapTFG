@@ -176,10 +176,9 @@ namespace GoapTFG.UGoap
         {
             if (_currentPlan.Count == 0) return null;
 
-            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, _currentGoal);
             foreach (var actionData in _currentPlan)
             {
-                stateInfo.ProceduralEffects = actionData.ProceduralEffects;
+                var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal, actionData.ProceduralEffects);
                 worldState = actionData.Action.Execute(stateInfo, this);
             }
 
@@ -192,7 +191,7 @@ namespace GoapTFG.UGoap
             if (_currentPlan.Count == 0) return null;
 
             GoapActionData<PropertyKey, object> actionData = _currentPlan.Pop();
-            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, _currentGoal, actionData.ProceduralEffects);
+            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal, actionData.ProceduralEffects);
             worldState = actionData.Action.Execute(stateInfo, this);
             Debug.Log(worldState);
             return worldState;

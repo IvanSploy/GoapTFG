@@ -30,4 +30,4 @@ MonoBehaviour:
     value: 40
     effect: 2
   affectedKeys: 
-  _waitSeconds: 10
+  _waitSeconds: 5

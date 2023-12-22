@@ -31,7 +31,7 @@ namespace GoapTFG.Planner
             AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
-            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(State, Goal)) + asnParent.GCost;
+            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal)) + asnParent.GCost;
             TotalCost = HCost + GCost;
         }
 

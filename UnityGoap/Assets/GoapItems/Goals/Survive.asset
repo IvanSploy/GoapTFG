@@ -17,5 +17,5 @@ MonoBehaviour:
     value: 2
     condition: 1
   - name: 5
-    value: 50
+    value: 0
     condition: 3

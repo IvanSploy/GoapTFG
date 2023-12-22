@@ -44,7 +44,7 @@ namespace GoapTFG.UGoap.Actions
             var ws = stateInfo.State;
             var goal = stateInfo.Goal;
 
-            if (!ws.HasKey(Target) || !goal.Has(Target)) return 50;
+            if (!ws.HasKey(Target) || !goal.Has(Target)) return 25;
             
             var target1 = (string) ws[Target];
             var target2 = (string) goal[Target];
@@ -52,7 +52,7 @@ namespace GoapTFG.UGoap.Actions
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;
 
-            return Math.Max(2, (int)(Vector3.Distance(pos1, pos2) * 0.5f));
+            return Math.Max(3, (int)(Vector3.Distance(pos1, pos2) * 0.5f));
         }
     }
 }

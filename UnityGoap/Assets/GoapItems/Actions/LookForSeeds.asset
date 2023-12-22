@@ -16,12 +16,9 @@ MonoBehaviour:
   - name: 0
     value: Woods
     condition: 0
-  - name: 5
-    value: 20
-    condition: 3
   effects:
   - name: 1
-    value: 5
+    value: 10
     effect: 1
   - name: 5
     value: 1

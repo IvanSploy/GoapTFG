@@ -20,8 +20,7 @@ namespace GoapTFG.Base
             Add,
             Subtract,
             Multiply,
-            Divide,
-            Modulo
+            Divide
         }
         
         public static bool EvaluateCondition(object a, object b, ConditionType condition)
@@ -120,14 +119,6 @@ namespace GoapTFG.Base
                     {
                         int i => i / (int)b,
                         float f => f / (float)b,
-                        _ => b
-                    };
-                    break;
-                case EffectType.Modulo:
-                    result = a switch
-                    {
-                        int i => i % (int)b,
-                        float f => f % (float)b,
                         _ => b
                     };
                     break;

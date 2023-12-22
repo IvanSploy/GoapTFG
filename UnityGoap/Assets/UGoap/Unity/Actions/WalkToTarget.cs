@@ -45,7 +45,7 @@ namespace GoapTFG.UGoap.Actions
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;
 
-            return Math.Max(5, (int)(Vector3.Distance(pos1, pos2)));
+            return Math.Max(6, (int)(Vector3.Distance(pos1, pos2)));
         }
     }
 }

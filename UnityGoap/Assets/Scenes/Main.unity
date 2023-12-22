@@ -817,7 +817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &406799088
 Transform:
   m_ObjectHideFlags: 0
@@ -872,12 +872,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
+  - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   _rigidbody: {fileID: 406799091}
   active: 1
   hasPlan: 0
   performingAction: 0
   mixedPlan: 1
-  greedy: 1
+  greedy: 0
   speed: 60
 --- !u!54 &406799091
 Rigidbody:
@@ -1123,7 +1124,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &637611282
 Transform:
   m_ObjectHideFlags: 0
@@ -2704,7 +2705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1189433541
 Transform:
   m_ObjectHideFlags: 0
@@ -4153,7 +4154,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1707259719
 Transform:
   m_ObjectHideFlags: 0
@@ -4301,13 +4302,13 @@ MonoBehaviour:
     priority: 0
   actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
-  - {fileID: 11400000, guid: 6a72a6f429f99f44a8b6dc947bb89a3d, type: 2}
   - {fileID: 11400000, guid: 770bef44f819f6245bd9bb9dead0bfb2, type: 2}
   - {fileID: 11400000, guid: 064f169edc8e10f4ebd65f1c1cc19b81, type: 2}
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
+  - {fileID: 11400000, guid: ec03c671ee87e7b458959ce692f59d3b, type: 2}
   _rigidbody: {fileID: 1707259721}
   active: 1
   hasPlan: 0

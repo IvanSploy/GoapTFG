@@ -16,9 +16,6 @@ MonoBehaviour:
   - name: 0
     value: FishingPoint
     condition: 0
-  - name: 5
-    value: 5
-    condition: 3
   effects:
   - name: 2
     value: 10

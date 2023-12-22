@@ -16,6 +16,9 @@ MonoBehaviour:
   - name: 0
     value: Hospital
     condition: 0
+  - name: 5
+    value: 50
+    condition: 5
   effects:
   - name: 5
     value: 50

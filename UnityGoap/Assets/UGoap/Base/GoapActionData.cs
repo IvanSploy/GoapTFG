@@ -14,11 +14,13 @@ namespace GoapTFG.Base
     public struct GoapActionData<TKey, TValue>
     {
         public IGoapAction<TKey, TValue> Action;
+        public GoapGoal<TKey, TValue> Goal;
         public PropertyGroup<TKey, TValue> ProceduralEffects;
 
-        public GoapActionData(IGoapAction<TKey, TValue> action, PropertyGroup<TKey, TValue> proceduralEffects)
+        public GoapActionData(IGoapAction<TKey, TValue> action, GoapGoal<TKey, TValue> goal, PropertyGroup<TKey, TValue> proceduralEffects)
         {
             Action = action;
+            Goal = goal;
             ProceduralEffects = proceduralEffects;
         }
     }
