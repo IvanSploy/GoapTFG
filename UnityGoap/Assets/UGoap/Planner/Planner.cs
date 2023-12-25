@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using GoapTFG.Base;
-using GoapTFG.UGoap;
+using UGoap.Base;
+using UGoap.Unity;
 using UnityEngine;
+using static UGoap.Base.BaseTypes;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     public abstract class Planner<TKey, TValue>
     {
@@ -23,6 +24,59 @@ namespace GoapTFG.Planner
             _nodeGenerator = nodeGenerator;
         }
 
+        public static bool CheckEffectCompatibility(TValue currentValue, EffectType effectType, TValue actionValue,
+            TValue desiredValue, ConditionType conditionType)
+        {
+            //Check if condition will be fulfilled.
+            object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
+            if (EvaluateCondition(resultValue, desiredValue, conditionType))
+            {
+                return true;
+            }
+            
+            //Is condition is not reached after evaluation.
+            bool compatible;
+            switch (effectType)
+            {
+                case EffectType.Add:
+                case EffectType.Multiply:
+                    switch (conditionType)
+                    {
+                        case ConditionType.GreaterThan:
+                        case ConditionType.GreaterOrEqual:
+                            compatible = true;
+                            break;
+                        default:
+                            compatible = false;
+                            break;
+                    }
+                    break;
+                case EffectType.Subtract:
+                case EffectType.Divide:
+                    switch (conditionType)
+                    {
+                        case ConditionType.LessThan:
+                        case ConditionType.LessOrEqual:
+                            compatible = true;
+                            break;
+                        default:
+                            compatible = false;
+                            break;
+                    }
+                    break;
+                default:
+                    compatible = false;
+                    break;
+            }
+
+            if (!compatible)
+            {
+                nodesSkipped++;
+                //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
+            }
+            return compatible;
+        }
+        
         /// <summary>
         /// Generates the plan using the generator and the actions provided.
         /// </summary>

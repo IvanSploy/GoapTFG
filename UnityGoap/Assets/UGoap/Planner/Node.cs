@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using GoapTFG.Base;
+using UGoap.Base;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     /// <summary>
     /// Defines the Node used by the Planner Search.
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public abstract class Node<TKey, TValue> : System.IComparable
+    public abstract class Node<TKey, TValue> : IComparable
     {
         //Properties
         public Node<TKey, TValue> Parent { get; set; }      
         public List<Node<TKey, TValue>> Children { get; }
         public IGoapAction<TKey, TValue> Action { get; set; }
-        public PropertyGroup<TKey, TValue> ProceduralEffects { get; set; }
+        public EffectGroup<TKey, TValue> ProceduralEffects { get; set; }
         public GoapGoal<TKey, TValue> Goal { get; set; }
         public int TotalCost { get; set; }
         public int ActionCount { get; set; }
@@ -95,14 +94,14 @@ namespace GoapTFG.Planner
             return child;
         }
         
-        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, PropertyGroup<TKey, TValue> proceduralEffects, bool valid) CheckMixedGoal(
+        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, EffectGroup<TKey, TValue> proceduralEffects, bool valid) CheckMixedGoal(
             PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
-            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, PropertyGroup<TKey, TValue> proceduralEffects, bool valid) result;
+            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, EffectGroup<TKey, TValue> proceduralEffects, bool valid) result;
             var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
             var resultInfo = actionResult.stateInfo;
             
-            PropertyGroup<TKey, TValue> mergeConditions;
+            ConditionGroup<TKey, TValue> mergeConditions;
             
             //Nodes
             if (Parent != null)
@@ -113,8 +112,9 @@ namespace GoapTFG.Planner
                 if (parentResult.goal == null) 
                     return (null, null, null, false);
                 
-                mergeConditions = PropertyGroup<TKey, TValue>.Merge(
-                    resultInfo.Goal.GetState(), parentResult.goal.GetState());
+                mergeConditions = ConditionGroup<TKey, TValue>.Merge(
+                    resultInfo.Goal, 
+                    parentResult.goal);
                 
                 result.finalState = parentResult.finalState;
                 result.valid = parentResult.valid && actionResult.valid; //check action validate.
@@ -123,8 +123,9 @@ namespace GoapTFG.Planner
             else
             {
                 //Check main goal
-                mergeConditions = PropertyGroup<TKey, TValue>.Merge(
-                    resultInfo.Goal.GetState(), Goal.GetConflicts(resultInfo.State));
+                mergeConditions = ConditionGroup<TKey, TValue>.Merge(
+                    resultInfo.Goal,
+                    Goal.GetConflicts(resultInfo.State));
 
                 result.finalState = resultInfo.State;
                 result.valid = actionResult.valid; //Check action validate.
@@ -152,7 +153,7 @@ namespace GoapTFG.Planner
         /// <param name="proceduralEffects"></param>
         /// <returns></returns>
         protected abstract Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction, PropertyGroup<TKey, TValue> proceduralEffects);
+            IGoapAction<TKey, TValue> goapAction, EffectGroup<TKey, TValue> proceduralEffects);
 
         /// <summary>
         /// Update the info related to the parent and the action that leads to this node.
@@ -161,7 +162,7 @@ namespace GoapTFG.Planner
         /// <param name="goapAction">Action that leads to this node.</param>
         /// <param name="proceduralEffects"></param>
         public void Update(Node<TKey, TValue> parent, IGoapAction<TKey, TValue> goapAction,
-            PropertyGroup<TKey, TValue> proceduralEffects)
+            EffectGroup<TKey, TValue> proceduralEffects)
         {
             //Se actualiza la accion de origen y el objetivo.
             Action = goapAction;
@@ -178,7 +179,7 @@ namespace GoapTFG.Planner
         /// <param name="goapAction">Action that leads to this node.</param>
         /// <param name="proceduralEffects"></param>
         public void Update(Node<TKey, TValue> parent, GoapGoal<TKey, TValue> goal, IGoapAction<TKey, TValue> goapAction,
-            PropertyGroup<TKey, TValue> proceduralEffects)
+            EffectGroup<TKey, TValue> proceduralEffects)
         {
             //Se actualiza la accion de origen y el objetivo.
             Action = goapAction;

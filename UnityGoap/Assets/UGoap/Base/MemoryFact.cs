@@ -1,4 +1,4 @@
-namespace GoapTFG.Base{
+namespace UGoap.Base{
     /// <summary>
     /// Info useful for every agent in the goap system.
     /// </summary>

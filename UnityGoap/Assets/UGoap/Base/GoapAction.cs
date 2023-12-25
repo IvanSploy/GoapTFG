@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using Unity.VisualScripting;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
     public abstract class GoapAction<TKey, TValue> : IGoapAction<TKey, TValue>
     {
         //Fields
         public string Name { get; private set; }
-        private PropertyGroup<TKey, TValue> _preconditions;
-        private PropertyGroup<TKey, TValue> _effects;
+        private ConditionGroup<TKey, TValue> _preconditions;
+        private EffectGroup<TKey, TValue> _effects;
         private HashSet<TKey> _affectedKeys;
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
 
         //Creation of the scriptable TValue
-        protected GoapAction(PropertyGroup<TKey, TValue> preconditions,
-            PropertyGroup<TKey, TValue> effects,
+        protected GoapAction(ConditionGroup<TKey, TValue> preconditions,
+            EffectGroup<TKey, TValue> effects,
             HashSet<TKey> affectedKeys = null)
         {
             _preconditions = preconditions;
@@ -25,7 +25,7 @@ namespace GoapTFG.Base
 
         //Procedural related.
         protected abstract bool ProceduralConditions(GoapStateInfo<TKey, TValue> stateInfo);
-        protected abstract PropertyGroup<TKey, TValue> GetProceduralEffects(GoapStateInfo<TKey, TValue> stateInfo);
+        protected abstract EffectGroup<TKey, TValue> GetProceduralEffects(GoapStateInfo<TKey, TValue> stateInfo);
         protected abstract void PerformedActions(IGoapAgent<TKey, TValue> agent);
         
         //Cost related.
@@ -36,8 +36,8 @@ namespace GoapTFG.Base
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public PropertyGroup<TKey, TValue> GetPreconditions() => _preconditions;
-        public PropertyGroup<TKey, TValue> GetEffects() => _effects;
+        public ConditionGroup<TKey, TValue> GetPreconditions() => _preconditions;
+        public EffectGroup<TKey, TValue> GetEffects() => _effects;
         public HashSet<TKey> GetAffectedKeys() => _affectedKeys;
         
         private HashSet<TKey> InitializeAffectedKeys(HashSet<TKey> affectedKeys = null)
@@ -49,7 +49,7 @@ namespace GoapTFG.Base
         }
 
         //GOAP utilities.
-        public (PropertyGroup<TKey, TValue> state, PropertyGroup<TKey, TValue> proceduralEffects) ApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
+        public (PropertyGroup<TKey, TValue> state, EffectGroup<TKey, TValue> proceduralEffects) ApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
             if (!CheckAction(stateInfo)) return (null, null);
             return DoApplyAction(stateInfo);
@@ -67,30 +67,28 @@ namespace GoapTFG.Base
                 DoApplyAction(stateInfo);
             var goal = stateInfo.Goal;
 
-            //Al aplicar un filtro solo se tienen en cuenta los efectos de la acción actual,
-            //es decir, efectos anteriores son ignorados aunque si que suman en conjunto si
-            //el valor se actualiza.
-            var filter = _effects;
+            //Filtro de objetivos (solo los que atañen a la accion actual.)
+            PropertyGroup<TKey, TValue> filter = _effects;
             if (proceduralEffects is not null) filter += proceduralEffects;
+            
             var remainingGoalConditions = goal.ResolveFilteredGoal(worldState, filter);
-            worldState.CheckFilteredConflict(_preconditions, out var newGoalConditions, filter);
-            if(remainingGoalConditions == null && newGoalConditions != null) goal = new GoapGoal<TKey, TValue>(goal.Name, newGoalConditions, goal.PriorityLevel);
-            else if (remainingGoalConditions != null && newGoalConditions == null) goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions, goal.PriorityLevel);
-            else if (remainingGoalConditions == null)
+            _preconditions.CheckFilteredConflict(worldState, out var newGoalConditions, filter);
+            
+            if (remainingGoalConditions == null && newGoalConditions == null)
             {
                 reached = true;
                 return new GoapStateInfo<TKey, TValue>(worldState, GetVictoryGoal(), proceduralEffects);
             }
-            else
+
+            ConditionGroup<TKey, TValue> conditionGroup = ConditionGroup<TKey, TValue>.Merge(remainingGoalConditions, newGoalConditions);
+            if (conditionGroup == null)
             {
-                if (newGoalConditions.CheckConditionsConflict(remainingGoalConditions))
-                {
-                    reached = false;
-                    return null;
-                }
-                goal = new GoapGoal<TKey, TValue>(goal.Name, remainingGoalConditions + newGoalConditions, goal.PriorityLevel);
+                reached = false;
+                return null;
             }
             
+            goal = new GoapGoal<TKey, TValue>(goal.Name, conditionGroup, goal.PriorityLevel);
+
             reached = false;
             return new GoapStateInfo<TKey, TValue>(worldState, goal, proceduralEffects);
         }
@@ -98,7 +96,7 @@ namespace GoapTFG.Base
         public (GoapStateInfo<TKey, TValue>, bool) ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
         {
             //Check conflicts
-            var conflicts = state.GetConflict(_preconditions);
+            var conflicts = _preconditions.GetConflict(state);
             bool proceduralCheck = ProceduralConditions(new GoapStateInfo<TKey, TValue>(state, goal));
             
             //Apply action
@@ -110,7 +108,7 @@ namespace GoapTFG.Base
         
         private GoapGoal<TKey, TValue> GetVictoryGoal()
         {
-            return new GoapGoal<TKey, TValue>("Victory", new PropertyGroup<TKey, TValue>(), 1);
+            return new GoapGoal<TKey, TValue>("Victory", new ConditionGroup<TKey, TValue>(), 1);
         }
 
         //Used only by the Agent.
@@ -127,14 +125,14 @@ namespace GoapTFG.Base
         //Internal methods.
         private bool CheckAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
-            if (!stateInfo.State.CheckConflict(_preconditions))
+            if (!_preconditions.CheckConflict(stateInfo.State))
             {
                 return ProceduralConditions(stateInfo);
             }
             return false;
         }
         
-        private (PropertyGroup<TKey, TValue> state, PropertyGroup<TKey, TValue> proceduralEffects) DoApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
+        private (PropertyGroup<TKey, TValue> state, EffectGroup<TKey, TValue> proceduralEffects) DoApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
             var worldState = stateInfo.State + _effects;
             var proceduralEffects = GetProceduralEffects(new GoapStateInfo<TKey, TValue>

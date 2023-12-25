@@ -1,7 +1,7 @@
 ﻿using System;
-using GoapTFG.Base;
+using UGoap.Base;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     public interface INodeGenerator<TKey, TValue>
     {

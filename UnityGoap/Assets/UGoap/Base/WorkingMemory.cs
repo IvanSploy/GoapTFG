@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
     /// <summary>
     /// Represents the info recollected by the sensors.

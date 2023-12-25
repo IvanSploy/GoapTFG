@@ -1,8 +1,10 @@
-﻿using GoapTFG.Base;
+﻿using UGoap.Base;
 using UnityEngine;
-using static GoapTFG.UGoap.UGoapPropertyManager;
+using static UGoap.Base.BaseTypes;
+using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager.PropertyKey;
 
-namespace GoapTFG.UGoap.Actions
+namespace UGoap.Unity.Actions
 {
     [CreateAssetMenu(fileName = "SellAllSeeds", menuName = "Goap Items/Actions/SellAllSeeds", order = 1)]
     public class SellAllSeeds : UGoapAction
@@ -13,18 +15,18 @@ namespace GoapTFG.UGoap.Actions
         }
 
         //TODO Not working properly
-        protected override PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var proceduralEffects = new PropertyGroup<PropertyKey, object>();
+            var proceduralEffects = new EffectGroup<PropertyKey, object>();
             var seeds = 100;
-            if(stateInfo.State.HasKey(PropertyKey.Seeds)) seeds = (int)stateInfo.State[PropertyKey.Seeds];
-            proceduralEffects.Set(PropertyKey.Seeds, 0, BaseTypes.EffectType.Set);
-            proceduralEffects.Set(PropertyKey.Money, seeds * GetCost() * 0.25f, BaseTypes.EffectType.Add);
+            if(stateInfo.State.HasKey(Seeds)) seeds = (int)stateInfo.State[Seeds];
+            proceduralEffects.Set(Seeds, 0, EffectType.Set);
+            proceduralEffects.Set(Money, seeds * GetCost() * 0.25f, EffectType.Add);
             
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
+        protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(GetCost());
         }

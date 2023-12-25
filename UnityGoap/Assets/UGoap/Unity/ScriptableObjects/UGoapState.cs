@@ -1,11 +1,10 @@
-using System;
 using System.Collections.Generic;
-using GoapTFG.Base;
+using UGoap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static GoapTFG.UGoap.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager;
 
-namespace GoapTFG.UGoap.ScriptableObjects
+namespace UGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class UGoapState : ScriptableObject

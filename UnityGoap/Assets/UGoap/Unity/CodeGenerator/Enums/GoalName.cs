@@ -1,4 +1,4 @@
-namespace GoapTFG.UGoap.CodeGenerator.Enums
+namespace UGoap.Unity.CodeGenerator.Enums
 {
 	public enum GoalName
 	{

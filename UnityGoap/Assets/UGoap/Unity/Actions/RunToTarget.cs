@@ -1,10 +1,11 @@
 ﻿using System;
-using GoapTFG.Base;
+using UGoap.Base;
 using UnityEngine;
-using static GoapTFG.UGoap.UGoapPropertyManager;
-using static GoapTFG.UGoap.UGoapPropertyManager.PropertyKey;
+using static UGoap.Base.BaseTypes;
+using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager.PropertyKey;
 
-namespace GoapTFG.UGoap.Actions
+namespace UGoap.Unity.Actions
 {
     [CreateAssetMenu(fileName = "RunToTarget", menuName = "Goap Items/Actions/RunToTarget", order = 3)]
     public class RunToTarget : UGoapAction
@@ -21,16 +22,16 @@ namespace GoapTFG.UGoap.Actions
             return Vector3.Distance(initialPos, finalPos) > 10;
         }
         
-        protected override PropertyGroup<PropertyKey, object>
-            GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(
+            GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            PropertyGroup<PropertyKey, object> proceduralEffects = new PropertyGroup<PropertyKey, object>();
+            EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
             
-            proceduralEffects[Target] = stateInfo.Goal[Target];
+            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal[Target], EffectType.Set);
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
+        protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             //GO TO target
             if (proceduralEffects.HasKey(Target))

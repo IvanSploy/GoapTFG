@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using GoapTFG.UGoap;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
     /// <summary>
     /// Represents a NPC with the hability to plan. Can also be treated as IEntity.

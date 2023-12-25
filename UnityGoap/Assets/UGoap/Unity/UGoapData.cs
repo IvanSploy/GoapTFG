@@ -1,10 +1,10 @@
 using System;
+using UGoap.Base;
 using UnityEngine;
-using GoapTFG.Base;
-using static GoapTFG.UGoap.UGoapPropertyManager;
-using static GoapTFG.UGoap.UGoapPropertyManager.PropertyType;
+using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager.PropertyType;
 
-namespace GoapTFG.UGoap
+namespace UGoap.Unity
 {
     public static class UGoapData
     {
@@ -18,23 +18,24 @@ namespace GoapTFG.UGoap
             return (goal, worldState) =>
             {
                 var heuristic = 0;
-                foreach (var key in goal.GetState().GetKeys())
+                foreach (var goalPair in goal)
                 {
-                    if(!worldState.HasConflict(key, goal.GetState())) continue;
+                    PropertyKey key = goalPair.Key;
+                    if(!goal.GetState().HasConflict(key, worldState)) continue;
                     switch (GetPropertyType(key))
                     {
                         case Integer:
                             if (worldState.HasKey(key))
-                                heuristic += Math.Abs((int)goal.GetState().GetValue(key) - (int)worldState.GetValue(key));
-                            else heuristic += (int)goal.GetState().GetValue(key);
+                                heuristic += Math.Abs((int)goal[key] - (int)worldState[key]);
+                            else heuristic += (int)goal[key];
                             break;
                         case Float:
                             if (worldState.HasKey(key))
-                                heuristic += (int)Mathf.Abs((float)goal.GetState().GetValue(key) - (float)worldState.GetValue(key));
-                            else heuristic += (int)goal.GetState().GetValue(key);
+                                heuristic += (int)Mathf.Abs((float)goal[key] - (float)worldState[key]);
+                            else heuristic += (int)goal[key];
                             break;
                         default:
-                            if (!worldState.HasKey(key) || !goal.GetState().GetValue(key).Equals(worldState.GetValue(key))) 
+                            if (!worldState.HasKey(key) || !goal[key].Equals(worldState[key])) 
                                 heuristic += 1;
                             break;
                     }

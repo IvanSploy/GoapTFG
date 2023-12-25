@@ -1,9 +1,8 @@
-﻿using System;
-using GoapTFG.Base;
-using GoapTFG.UGoap.ScriptableObjects;
+﻿using UGoap.Base;
+using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
-namespace GoapTFG.UGoap
+namespace UGoap.Unity
 {
     [RequireComponent(typeof(Collider))]
     public class UGoapEntity : MonoBehaviour, IGoapEntity<UGoapPropertyManager.PropertyKey, object>
@@ -35,7 +34,7 @@ namespace GoapTFG.UGoap
             if (initialState != null)
             {
                 PropertyGroup<UGoapPropertyManager.PropertyKey, object> state = new ();
-                UGoapPropertyManager.AddIntoPropertyGroup(this.initialState.properties, in state);
+                UGoapPropertyManager.AddIntoPropertyGroup(initialState.properties, in state);
                 CurrentState = state;
             }
             else

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using GoapTFG.Base;
-using static GoapTFG.Base.BaseTypes;
+using UGoap.Base;
+using static UGoap.Base.BaseTypes;
 
-namespace GoapTFG.UGoap
+namespace UGoap.Unity
 {
     public static class UGoapPropertyManager
     {
@@ -168,7 +168,7 @@ namespace GoapTFG.UGoap
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in PropertyGroup<PropertyKey, object> state)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in ConditionGroup<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -181,7 +181,7 @@ namespace GoapTFG.UGoap
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">PropertyGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in PropertyGroup<PropertyKey, object> state)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in EffectGroup<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -194,17 +194,17 @@ namespace GoapTFG.UGoap
         #region Converters
         private static void ApplyProperty(Property property, in PropertyGroup<PropertyKey, object> pg)
         {
-            pg.Set(property.name, ParseValue(property));
+            pg.Set(property.name, new GoapValue<object>(ParseValue(property)));
         }
         
-        private static void ApplyProperty(ConditionProperty property, in PropertyGroup<PropertyKey, object> pg)
+        private static void ApplyProperty(ConditionProperty property, in ConditionGroup<PropertyKey, object> pg)
         {
-            pg.Set(property.name, ParseValue(property), property.condition);
+            pg.Set(property.name, new ConditionValue<object>(ParseValue(property), property.condition));
         }
 
-        private static void ApplyProperty(EffectProperty property, in PropertyGroup<PropertyKey, object> pg)
+        private static void ApplyProperty(EffectProperty property, in EffectGroup<PropertyKey, object> pg)
         {
-            pg.Set(property.name, ParseValue(property), property.effect);
+            pg.Set(property.name, new EffectValue<object>(ParseValue(property), property.effect));
         } 
         #endregion
     }

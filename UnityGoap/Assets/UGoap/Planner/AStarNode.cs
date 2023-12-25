@@ -1,6 +1,6 @@
-using GoapTFG.Base;
+using UGoap.Base;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     public class AStarNode<TKey, TValue> : Node<TKey, TValue>
     {
@@ -16,7 +16,8 @@ namespace GoapTFG.Planner
             HCost = 0;
         }
 
-        protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal, IGoapAction<TKey, TValue> goapAction, PropertyGroup<TKey, TValue> proceduralEffects)
+        protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
+            IGoapAction<TKey, TValue> goapAction, EffectGroup<TKey, TValue> proceduralEffects)
         {
             var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);
             aStarNode.Update(this, goapAction, proceduralEffects);

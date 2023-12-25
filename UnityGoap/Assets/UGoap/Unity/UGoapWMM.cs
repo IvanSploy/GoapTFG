@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using GoapTFG.Base;
-using Unity.VisualScripting;
+using UGoap.Base;
 using UnityEngine;
 
-namespace GoapTFG.UGoap
+namespace UGoap.Unity
 {
     public static class UGoapWMM
     {

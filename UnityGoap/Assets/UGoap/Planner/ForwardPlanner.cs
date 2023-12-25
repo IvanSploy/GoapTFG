@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoapTFG.Base;
+using UGoap.Base;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     /// <summary>
     /// Planner used to find the plan required.
@@ -46,7 +46,7 @@ namespace GoapTFG.Planner
                 {
                     Node<TKey, TValue> child = _current.ApplyAction(action);
                     if(child == null) continue;
-                    if(child.IsGoal) return Planner<TKey, TValue>.GetPlan(child); //Fin de la búsqueda.
+                    if(child.IsGoal) return GetPlan(child); //Fin de la búsqueda.
                     _nodeGenerator.AddChildToParent(_current, child);
                 }
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.

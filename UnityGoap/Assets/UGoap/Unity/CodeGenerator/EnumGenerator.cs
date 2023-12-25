@@ -1,8 +1,8 @@
 ﻿using System.IO;
-using GoapTFG.UGoap.ScriptableObjects;
+using UGoap.Unity.ScriptableObjects;
 using UnityEditor;
 
-namespace GoapTFG.UGoap.CodeGenerator
+namespace UGoap.Unity.CodeGenerator
 {
     public static class EnumGenerator
     {

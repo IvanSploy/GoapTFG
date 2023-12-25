@@ -1,35 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
-    public class GoapGoal<TKey, TValue> : IEnumerable<TKey>
+    public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ConditionValue<TValue>>>
     {
         //Fields
-        private readonly PropertyGroup<TKey, TValue> _conditions;
+        private readonly ConditionGroup<TKey, TValue> _conditions;
 
         //Properties
         public string Name { get; }
         public int PriorityLevel { get; }
         
         //Constructors
-        public GoapGoal(string name, PropertyGroup<TKey, TValue> goal, int priorityLevel)
+        public GoapGoal(string name, ConditionGroup<TKey, TValue> goal, int priorityLevel)
         {
-            _conditions = new PropertyGroup<TKey, TValue>(goal) ;
+            _conditions = new ConditionGroup<TKey, TValue>(goal) ;
             PriorityLevel = priorityLevel;
             Name = name;
         }
         
         public GoapGoal(GoapGoal<TKey, TValue> goapGoal)
         {
-            _conditions = new PropertyGroup<TKey, TValue>(goapGoal._conditions) ;
+            _conditions = new ConditionGroup<TKey, TValue>(goapGoal._conditions) ;
             PriorityLevel = goapGoal.PriorityLevel;
             Name = goapGoal.Name;
         }
 
         //Getters
-        public PropertyGroup<TKey, TValue> GetState()
+        public ConditionGroup<TKey, TValue> GetState()
         {
             return _conditions;
         }
@@ -42,22 +41,22 @@ namespace GoapTFG.Base
         
         public bool IsReached (PropertyGroup<TKey, TValue> worldState)
         {
-            return !worldState.CheckConflict(_conditions);
+            return !_conditions.CheckConflict(worldState);
         }
         
-        public PropertyGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
+        public ConditionGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
         {
-            return worldState.GetConflict(_conditions);
+            return _conditions.GetConflict(worldState);
         }
         
-        public PropertyGroup<TKey, TValue> ResolveFilteredGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
+        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
         {
-            return worldState.CheckFilteredConflict(_conditions, out var mismatches, filter) ? mismatches : null;
+            return _conditions.CheckFilteredConflict(worldState, out var mismatches, filter) ? mismatches : null;
         }
         
         public int CountConflicts (PropertyGroup<TKey, TValue> worldState)
         {
-            return worldState.CountConflict(_conditions);
+            return _conditions.CountConflict(worldState);
         }
 
         public bool Has(TKey key)
@@ -66,26 +65,31 @@ namespace GoapTFG.Base
         }
         
         //Operators
-        public TValue this[TKey key]
+        public ConditionValue<TValue> this[TKey key]
         {
             get => GetState()[key];
             set => GetState()[key] = value;
         }
         
-        public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
+        public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, ConditionGroup<TKey, TValue> b)
         {
-            var propertyGroup = a._conditions;
-            return new GoapGoal<TKey, TValue>(a.Name, propertyGroup + b, a.PriorityLevel);
+            var conditionGroup = a._conditions;
+            return new GoapGoal<TKey, TValue>(a.Name, conditionGroup + b, a.PriorityLevel);
+        }
+        
+            // Implicit conversion operator
+        public static implicit operator ConditionGroup<TKey, TValue>(GoapGoal<TKey, TValue> goal)
+        {
+            return goal.GetState();
         }
 
         //Overrides
-
         public override string ToString()
         {
             return "Objetivo: " + Name + "\n" + _conditions;
         }
 
-        public IEnumerator<TKey> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, ConditionValue<TValue>>> GetEnumerator()
         {
             return GetState().GetEnumerator();
         }

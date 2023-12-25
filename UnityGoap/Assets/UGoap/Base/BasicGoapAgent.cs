@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using GoapTFG.Planner;
+using UGoap.Planner;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
     //Handles the GOAP planification and is who realices the actions.
     public class BasicGoapAgent<TKey, TValue> : IGoapAgent<TKey, TValue>

@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using GoapTFG.Base;
+﻿using UGoap.Base;
 using UnityEngine;
-using static GoapTFG.UGoap.UGoapPropertyManager;
-using static GoapTFG.UGoap.UGoapPropertyManager.PropertyKey;
+using static UGoap.Base.BaseTypes;
+using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager.PropertyKey;
 
-namespace GoapTFG.UGoap.Actions
+namespace UGoap.Unity.Actions
 {
     [CreateAssetMenu(fileName = "SellAllFish", menuName = "Goap Items/Actions/SellAllFish", order = 1)]
     public class SellAllFish : UGoapAction
@@ -14,18 +14,18 @@ namespace GoapTFG.UGoap.Actions
             return true;
         }
 
-        protected override PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var proceduralEffects = new PropertyGroup<PropertyKey, object>();
+            var proceduralEffects = new EffectGroup<PropertyKey, object>();
             var fish = 100;
             if(stateInfo.State.HasKey(Fish)) fish = (int) stateInfo.State[Fish];
-            proceduralEffects.Set(Fish, 0, BaseTypes.EffectType.Set);
-            proceduralEffects.Set(Money, fish * GetCost() * 0.25f, BaseTypes.EffectType.Add);
+            proceduralEffects.Set(Fish, 0, EffectType.Set);
+            proceduralEffects.Set(Money, fish * GetCost() * 0.25f, EffectType.Add);
             
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
+        protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(GetCost());
         }

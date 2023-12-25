@@ -1,4 +1,4 @@
-﻿namespace GoapTFG.Base
+﻿namespace UGoap.Base
 {
     /// <summary>
     /// Represents an Enitity with an state.

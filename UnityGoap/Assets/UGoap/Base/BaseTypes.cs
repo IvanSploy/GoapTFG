@@ -1,6 +1,7 @@
 ﻿using System;
+using Unity.VisualScripting;
 
-namespace GoapTFG.Base
+namespace UGoap.Base
 {
     public static class BaseTypes
     {
@@ -124,6 +125,11 @@ namespace GoapTFG.Base
                     break;
             }
             return result;
+        }
+        
+        public static object GetDefaultValue(object value)
+        {
+            return value is string ? "" : value.GetType().Default();
         }
     }
 }

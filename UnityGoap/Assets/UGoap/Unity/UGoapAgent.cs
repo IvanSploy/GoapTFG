@@ -1,14 +1,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using GoapTFG.Base;
-using GoapTFG.Planner;
-using GoapTFG.UGoap.ScriptableObjects;
+using UGoap.Base;
+using UGoap.Planner;
+using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
-using static GoapTFG.UGoap.UGoapData;
-using static GoapTFG.UGoap.UGoapPropertyManager;
+using static UGoap.Unity.UGoapData;
+using static UGoap.Unity.UGoapPropertyManager;
 
-namespace GoapTFG.UGoap
+namespace UGoap.Unity
 {
     [RequireComponent(typeof(Rigidbody))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent<PropertyKey, object>
@@ -22,9 +22,9 @@ namespace GoapTFG.UGoap
         
         public bool active = true;
         public bool hasPlan;
-        public bool performingAction = false;
+        public bool performingAction;
         public bool mixedPlan = true;
-        public bool greedy = false;
+        public bool greedy;
         public float speed = 5;
 
         //Agent base related

@@ -1,16 +1,16 @@
+using System;
 using System.Collections.Generic;
-using GoapTFG.Base;
-using UnityEngine;
+using UGoap.Base;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     public class AStar<TKey, TValue> : INodeGenerator<TKey, TValue>
     {
         private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
-        private readonly System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> _customHeuristic;
+        private readonly Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> _customHeuristic;
 
-        public AStar(System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
+        public AStar(Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
         {
             _openList = new SortedSet<Node<TKey, TValue>>();
             _expandedNodes = new HashSet<Node<TKey, TValue>>();
@@ -103,7 +103,7 @@ namespace GoapTFG.Planner
             }
         }
         
-        public System.Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> GetCustomHeuristic()
+        public Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

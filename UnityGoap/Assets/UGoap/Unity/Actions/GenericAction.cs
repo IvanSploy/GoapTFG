@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using GoapTFG.Base;
+﻿using UGoap.Base;
 using UnityEngine;
-using static GoapTFG.UGoap.UGoapPropertyManager;
+using static UGoap.Unity.UGoapPropertyManager;
 
-namespace GoapTFG.UGoap.Actions
+namespace UGoap.Unity.Actions
 {
     [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 1)]
     public class GenericAction : UGoapAction
@@ -16,12 +15,12 @@ namespace GoapTFG.UGoap.Actions
             return true;
         }
 
-        protected override PropertyGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return null;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
+        protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }

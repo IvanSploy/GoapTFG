@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GoapTFG.Base;
-using GoapTFG.UGoap;
+using UGoap.Base;
+using UGoap.Unity;
 using UnityEngine;
-using static GoapTFG.Base.BaseTypes;
+using static UGoap.Base.BaseTypes;
 
-namespace GoapTFG.Planner
+namespace UGoap.Planner
 {
     /// <summary>
     /// Planner used to find the plan required.
@@ -54,13 +54,17 @@ namespace GoapTFG.Planner
             _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
             while (_current != null)
             {
-                foreach (var key in _current.Goal)
+                foreach (var goalPair in _current.Goal)
                 {
+                    TKey key = goalPair.Key;
                     foreach (var action in _actions[key])
                     {
-                        if(_current.State.HasKey(key) && action.GetEffects().HasKey(key))
-                            if(!CheckEffectCompatibility(_current[key], _current.Goal[key],
-                                   action.GetEffects().GetEffect(key))) continue;
+                        if (_current.State.HasKey(key) && action.GetEffects().HasKey(key))
+                        {
+                            EffectGroup<TKey, TValue> actionEffects = action.GetEffects();
+                            if(! CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
+                                goalPair.Value.Value, goalPair.Value.ConditionType)) continue;
+                        }
 
                         if(_actionsVisited.Contains(action.Name)) continue;
                         _actionsVisited.Add(action.Name);
@@ -85,7 +89,8 @@ namespace GoapTFG.Planner
                         Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
                         return GetInvertedPlan(_current);
                     }
-                    else if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
+
+                    if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         _current.IsGoal = true; //To avoid recursive loop behaviour.
                         return GetInvertedPlan(_current);
@@ -108,36 +113,6 @@ namespace GoapTFG.Planner
                         _actions[key].Add(action);
                 }
             }
-        }
-        
-        public static bool CheckEffectCompatibility(object currentValue, object valueDesired, EffectType effectType)
-        {
-            bool compatible;
-            switch (effectType)
-            {
-                case EffectType.Add:
-                case EffectType.Multiply:
-                    compatible = currentValue switch
-                    {
-                        float floatValue => floatValue < (float)valueDesired,
-                        int intValue => intValue < (int)valueDesired,
-                        _ => true
-                    };
-                    break;
-                case EffectType.Subtract:
-                case EffectType.Divide:
-                    compatible = currentValue switch
-                    {
-                        float floatValue => floatValue > (float)valueDesired,
-                        int intValue => intValue > (int)valueDesired,
-                        _ => true
-                    };
-                    break;
-                default:
-                    compatible = true;
-                    break;
-                }
-                return compatible;
         }
     }
 }
