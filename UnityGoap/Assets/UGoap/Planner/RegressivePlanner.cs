@@ -56,9 +56,9 @@ namespace UGoap.Planner
                     TKey key = goalPair.Key;
                     foreach (var action in _actions[key])
                     {
-                        if (_current.State.HasKey(key) && action.GetEffects().HasKey(key))
+                        EffectGroup<TKey, TValue> actionEffects = action.GetEffects(new GoapStateInfo<TKey, TValue>(_current.State, _current.Goal));
+                        if (_current.State.HasKey(key) && actionEffects.HasKey(key))
                         {
-                            EffectGroup<TKey, TValue> actionEffects = action.GetEffects();
                             if(! CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
                                 goalPair.Value.Value, goalPair.Value.ConditionType)) continue;
                         }

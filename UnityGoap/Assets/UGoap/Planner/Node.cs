@@ -45,8 +45,7 @@ namespace UGoap.Planner
         /// <returns>Node result.</returns>
         public Node<TKey, TValue> ApplyAction(IGoapAction<TKey, TValue> goapAction)
         {
-            (var state, var proceduralEffects) =
-                goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(State, Goal));
+            var state = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(State, Goal));
             return state == null ? null : CreateChildNode(state, Goal, goapAction);
         }
 

@@ -64,6 +64,9 @@ namespace UGoap.Base
         //Operators
         public static PropertyGroup<TKey, TValue> operator +(PropertyGroup<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
         {
+            if (b == null) return a;
+            if (a == null) return b;
+            
             var propertyGroup = new PropertyGroup<TKey, TValue>(a);
             foreach (var pair in b)
             {
@@ -74,6 +77,9 @@ namespace UGoap.Base
         
         public static PropertyGroup<TKey, TValue> operator +(PropertyGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
         {
+            if (b == null) return a;
+            if (a == null) return b;
+            
             var propertyGroup = new PropertyGroup<TKey, TValue>(a);
             foreach (var pair in b)
             {
@@ -97,6 +103,8 @@ namespace UGoap.Base
         
         public static PropertyGroup<TKey, TValue> operator -(PropertyGroup<TKey, TValue> a, BaseGroup<TKey, TValue> b)
         {
+            if (b == null) return a;
+            
             var propertyGroup = new PropertyGroup<TKey, TValue>(a);
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)

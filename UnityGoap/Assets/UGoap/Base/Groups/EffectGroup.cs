@@ -55,6 +55,9 @@ namespace UGoap.Base
         
         public static EffectGroup<TKey, TValue> operator +(EffectGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
         {
+            if (b == null) return a;
+            if (a == null) return b;
+            
             var propertyGroup = new EffectGroup<TKey, TValue>(a);
             foreach (var pair in b)
             {

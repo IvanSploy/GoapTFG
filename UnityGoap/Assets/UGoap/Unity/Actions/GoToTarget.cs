@@ -14,7 +14,7 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _speedFactor = 1;
         [SerializeField] private int _minDistance = 0;
         
-        protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             if (!stateInfo.State.HasKey(Target)) return true;
             var initialTarget = (string) stateInfo.State[Target]; 
@@ -26,6 +26,12 @@ namespace UGoap.Unity.Actions
             return Vector3.Distance(initialPos, finalPos) > _minDistance;
         }
         
+        protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(
+            GoapStateInfo<PropertyKey, object> stateInfo)
+        {
+            return null;
+        }
+        
         protected override EffectGroup<PropertyKey, object> GetProceduralEffects(
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
@@ -34,9 +40,9 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
+        protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
         {
-            agent.GoToTarget((string)proceduralEffects[Target], _speedFactor);
+            agent.GoToTarget((string)state[Target], _speedFactor);
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)

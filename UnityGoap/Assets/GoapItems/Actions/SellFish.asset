@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
+  m_Script: {fileID: 11500000, guid: 61a67950ecf146feaa2b517ba71cec6b, type: 3}
   m_Name: SellFish
   m_EditorClassIdentifier: 
   preconditions:
@@ -17,14 +17,10 @@ MonoBehaviour:
     value: TownHall
     condition: 0
   - name: 2
-    value: 50
-    condition: 5
-  effects:
-  - name: 3
-    value: 25
-    effect: 1
-  - name: 2
-    value: 50
-    effect: 2
-  affectedKeys: 
+    value: 0
+    condition: 4
+  effects: []
+  affectedKeys: 0200000003000000
+  _resource: 2
+  _price: 0.3
   _waitSeconds: 1

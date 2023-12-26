@@ -23,9 +23,10 @@ namespace UGoap.Base
         }
 
         //Procedural related.
-        protected abstract bool ProceduralConditions(GoapStateInfo<TKey, TValue> stateInfo);
+        protected abstract bool Validate(GoapStateInfo<TKey, TValue> stateInfo);
+        protected abstract ConditionGroup<TKey, TValue> GetProceduralConditions(GoapStateInfo<TKey, TValue> stateInfo);
         protected abstract EffectGroup<TKey, TValue> GetProceduralEffects(GoapStateInfo<TKey, TValue> stateInfo);
-        protected abstract void PerformedActions(EffectGroup<TKey, TValue> proceduralEffects, IGoapAgent<TKey, TValue> agent);
+        protected abstract void PerformedActions(PropertyGroup<TKey, TValue> state, IGoapAgent<TKey, TValue> agent);
         
         //Cost related.
         public int GetCost() => _cost;
@@ -35,8 +36,17 @@ namespace UGoap.Base
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public ConditionGroup<TKey, TValue> GetPreconditions() => _preconditions;
-        public EffectGroup<TKey, TValue> GetEffects() => _effects;
+        public ConditionGroup<TKey, TValue> GetPreconditions(GoapStateInfo<TKey, TValue> stateInfo)
+        {
+            return _preconditions + GetProceduralConditions(stateInfo);
+        }
+
+        public EffectGroup<TKey, TValue> GetEffects(GoapStateInfo<TKey, TValue> stateInfo)
+        {
+            
+            return _effects + GetProceduralEffects(stateInfo);
+        }
+
         public HashSet<TKey> GetAffectedKeys() => _affectedKeys;
         
         private HashSet<TKey> InitializeAffectedKeys(HashSet<TKey> affectedKeys = null)
@@ -58,30 +68,28 @@ namespace UGoap.Base
         }
 
         //GOAP utilities.
-        public (PropertyGroup<TKey, TValue> state, EffectGroup<TKey, TValue> proceduralEffects) ApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
+        public PropertyGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
-            if (!CheckAction(stateInfo)) return (null, null);
+            if (!CheckAction(stateInfo)) return null;
             return DoApplyAction(stateInfo);
         }
 
         public GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached)
         {
-            if (!ProceduralConditions(stateInfo))
+            if (!Validate(stateInfo))
             {
                 reached = false;
                 return null;
             }
             
-            (var worldState, var proceduralEffects) =
-                DoApplyAction(stateInfo);
+            var worldState = DoApplyAction(stateInfo);
             var goal = stateInfo.Goal;
 
             //Filtro de objetivos (solo los que atañen a la accion actual.)
-            PropertyGroup<TKey, TValue> filter = _effects;
-            if (proceduralEffects is not null) filter += proceduralEffects;
+            PropertyGroup<TKey, TValue> filter = GetEffects(stateInfo);
             
             var remainingGoalConditions = goal.ResolveFilteredGoal(worldState, filter);
-            _preconditions.CheckFilteredConflict(worldState, out var newGoalConditions, filter);
+            GetPreconditions(stateInfo).CheckFilteredConflict(worldState, out var newGoalConditions, filter);
             
             if (remainingGoalConditions == null && newGoalConditions == null)
             {
@@ -105,12 +113,12 @@ namespace UGoap.Base
         public (GoapStateInfo<TKey, TValue>, bool) ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
         {
             //Check conflicts
-            var conflicts = _preconditions.GetConflict(state);
-            bool proceduralCheck = ProceduralConditions(new GoapStateInfo<TKey, TValue>(state, goal));
+            var stateInfo = new GoapStateInfo<TKey, TValue>(state, goal);
+            var conflicts = GetPreconditions(stateInfo).GetConflict(state);
+            bool proceduralCheck = Validate(stateInfo);
             
             //Apply action
-            (var resultState, var proceduralEffects) =
-                DoApplyAction(new GoapStateInfo<TKey, TValue>(state, goal));
+            var resultState = DoApplyAction(stateInfo);
             var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<TKey, TValue>(goal.Name, conflicts, goal.PriorityLevel);
             return (new GoapStateInfo<TKey, TValue>(resultState, resultGoal), proceduralCheck);
         }
@@ -125,30 +133,24 @@ namespace UGoap.Base
             IGoapAgent<TKey, TValue> goapAgent)
         {
             if (!CheckAction(stateInfo)) return null;
-            var state = stateInfo.State + _effects;
-            var proceduralEffects = GetProceduralEffects(stateInfo);
-            if(proceduralEffects != null) state += proceduralEffects;
-            PerformedActions(proceduralEffects, goapAgent);
+            var state = stateInfo.State + GetEffects(stateInfo);
+            PerformedActions(state, goapAgent);
             return state;
         }
 
         //Internal methods.
         private bool CheckAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
-            if (!_preconditions.CheckConflict(stateInfo.State))
+            if (!GetPreconditions(stateInfo).CheckConflict(stateInfo.State))
             {
-                return ProceduralConditions(stateInfo);
+                return Validate(stateInfo);
             }
             return false;
         }
         
-        private (PropertyGroup<TKey, TValue> state, EffectGroup<TKey, TValue> proceduralEffects) DoApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
+        private PropertyGroup<TKey, TValue> DoApplyAction(GoapStateInfo<TKey, TValue> stateInfo)
         {
-            var worldState = stateInfo.State + _effects;
-            var proceduralEffects = GetProceduralEffects(new GoapStateInfo<TKey, TValue>
-                (worldState, stateInfo.Goal));
-            if (proceduralEffects != null) worldState += proceduralEffects;
-            return (worldState, proceduralEffects);
+            return stateInfo.State + GetEffects(stateInfo);
         }
 
         public override string ToString()

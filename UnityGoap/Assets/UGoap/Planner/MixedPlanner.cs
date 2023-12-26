@@ -76,9 +76,10 @@ namespace UGoap.Planner
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
                         //If current state has key or is not a procedural effect.
-                        if (_current.State.HasKey(key) && action.GetEffects().HasKey(key))
+                        EffectGroup<TKey, TValue> actionEffects =
+                            action.GetEffects(new GoapStateInfo<TKey, TValue>(initialState, _current.Goal));
+                        if (_current.State.HasKey(key))
                         {
-                            EffectGroup<TKey, TValue> actionEffects = action.GetEffects();
                             if(! CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
                                    goalPair.Value.Value, goalPair.Value.ConditionType)) continue;
                         }
