@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UGoap.Base;
-using Unity.VisualScripting;
 using UnityEngine;
 using static UGoap.Unity.UGoapPropertyManager;
 
@@ -16,29 +16,18 @@ namespace UGoap.Unity
 {
     public abstract class UGoapAction : ScriptableObject, IGoapAction
     {
-        public static int actionsApplied;
-        
         //Scriptable 
-        [HideInInspector] public List<ConditionProperty> preconditions;
-        [HideInInspector] public List<EffectProperty> effects;
+        [HideInInspector] public List<ConditionProperty> preconditions = new();
+        [HideInInspector] public List<EffectProperty> effects = new();
         [HideInInspector] public List<PropertyKey> affectedKeys;
         
         //Fields
         public string Name { get; private set; }
-        private ConditionGroup _preconditions;
-        private EffectGroup _effects;
+        private ConditionGroup _preconditions = new();
+        private EffectGroup _effects = new();
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
         private HashSet<PropertyKey> _affectedKeys;
-
-        //Creation of the scriptable object
-        protected UGoapAction()
-        {
-            preconditions = new();
-            effects = new();
-            _preconditions = new();
-            _effects = new();
-        }
 
         //Updating data from the scriptable object.
         private void OnValidate()
@@ -68,8 +57,18 @@ namespace UGoap.Unity
         private HashSet<PropertyKey> InitializeAffectedKeys(HashSet<PropertyKey> affectedPropertyKeys = null)
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
-            affectedPropertyLists.AddRange(_effects.GetKeys());
-            if(affectedPropertyKeys != null) affectedPropertyLists.AddRange(affectedPropertyKeys);
+            foreach (var key in _effects.GetKeys())
+            {
+                affectedPropertyLists.Add(key);
+            }
+
+            if (affectedKeys != null)
+            {
+                foreach (var key in affectedKeys)
+                {
+                    affectedPropertyLists.Add(key);
+                }
+            }
             return affectedPropertyLists;
         }
 
@@ -111,7 +110,6 @@ namespace UGoap.Unity
             var worldState = stateInfo.State + _effects;
             var proceduralEffects = GetProceduralEffects(new GoapStateInfo<PropertyKey, object>(worldState, stateInfo.Goal));
             if (proceduralEffects != null) worldState += proceduralEffects;
-            actionsApplied++;
             return (worldState, proceduralEffects);
         }
         

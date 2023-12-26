@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using UGoap.Base;
-using UGoap.Unity;
-using UnityEngine;
 using static UGoap.Base.BaseTypes;
 
 namespace UGoap.Planner
@@ -11,6 +9,7 @@ namespace UGoap.Planner
         //Stats
         protected static int nodesCreated = 0;
         protected static int nodesSkipped = 0;
+        public static int actionsApplied = 0;
         
         //Data
         protected INodeGenerator<TKey, TValue> _nodeGenerator;
@@ -138,8 +137,8 @@ namespace UGoap.Planner
             debugLog += count + "\n";
             debugLog += "con coste: " + cost + "\n";
             debugLog += actionNames + "\n";
-            
-            Debug.Log(debugLog);
+
+            DebugRecord.AddRecord(debugLog);
         }
         
         protected void DebugInfo(Node<TKey, TValue> node)
@@ -147,10 +146,10 @@ namespace UGoap.Planner
             string info = "";
             info += "NODOS CREADOS: " + nodesCreated + "\n";
             info += "NODOS SALTADOS: " + nodesSkipped + "\n";
-            info += "ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied + "\n";
-            Debug.Log(info);
-            UGoapAction.actionsApplied = 0;
+            info += "ACCIONES RECORRIDAS: " + actionsApplied + "\n";
+            actionsApplied = 0;
             DebugPlan(node);
+            DebugRecord.AddRecord(info);
         }
     }
 }

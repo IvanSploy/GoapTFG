@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
-using UGoap.Unity;
-using UnityEngine;
-using static UGoap.Base.BaseTypes;
 
 namespace UGoap.Planner
 {
@@ -71,6 +68,7 @@ namespace UGoap.Planner
                             
                         var child = _current.ApplyRegressiveAction(action,
                             _current.Goal, out var reached);
+                        actionsApplied++;
                         
                         if(child == null) continue;
                         
@@ -85,8 +83,7 @@ namespace UGoap.Planner
                 {
                     if (_current.IsGoal)
                     {
-                        Debug.Log("NODOS CREADOS: " + nodesCreated);
-                        Debug.Log("ACCIONES RECORRIDAS: " + UGoapAction.actionsApplied);
+                        DebugInfo(_current);
                         return GetInvertedPlan(_current);
                     }
 

@@ -1,0 +1,17 @@
+{
+    "name": "UGoap.unity",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3ab1c13863885c242abffb1ed61459fc",
+        "GUID:e01d2f8bfcae92048b0b3d0128c58c4b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

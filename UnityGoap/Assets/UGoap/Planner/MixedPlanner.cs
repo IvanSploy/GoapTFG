@@ -86,6 +86,7 @@ namespace UGoap.Planner
                         _actionsVisited.Add(action.Name);
                             
                         var child = _current.ApplyMixedAction(initialState, action);
+                        actionsApplied++;
                         
                         if(child == null) continue;
                         

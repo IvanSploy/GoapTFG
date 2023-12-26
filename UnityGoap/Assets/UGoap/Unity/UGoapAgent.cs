@@ -157,6 +157,7 @@ namespace UGoap.Unity
             var plan = mixedPlan
                 ? MixedPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic, greedy)
                 : RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic);
+            DebugLogs(DebugRecord.GetRecords());
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
@@ -235,6 +236,15 @@ namespace UGoap.Unity
             performingAction = true;
             yield return new WaitForSeconds(seconds);
             performingAction = false;
+        }
+        
+        //Debug
+        private void DebugLogs(List<string> logs)
+        {
+            foreach (var log in logs)
+            {
+                Debug.Log(log);
+            }
         }
     }
 }

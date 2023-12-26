@@ -129,7 +129,14 @@ namespace UGoap.Base
         
         public static object GetDefaultValue(object value)
         {
-            return value is string ? "" : value.GetType().Default();
+            object defaultValue = value switch
+            {
+                int => 0,
+                float => 0f,
+                string => "",
+                _ => null,
+            };
+            return defaultValue;
         }
     }
 }

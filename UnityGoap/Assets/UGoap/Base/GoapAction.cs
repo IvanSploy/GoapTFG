@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unity.VisualScripting;
 
 namespace UGoap.Base
 {
@@ -43,8 +42,18 @@ namespace UGoap.Base
         private HashSet<TKey> InitializeAffectedKeys(HashSet<TKey> affectedKeys = null)
         {
             HashSet<TKey> affectedPropertyLists = new HashSet<TKey>();
-            affectedPropertyLists.AddRange(_effects.GetKeys());
-            if(affectedKeys != null) affectedPropertyLists.AddRange(affectedKeys);
+            foreach (var key in _effects.GetKeys())
+            {
+                affectedPropertyLists.Add(key);
+            }
+
+            if (affectedKeys != null)
+            {
+                foreach (var key in affectedKeys)
+                {
+                    affectedPropertyLists.Add(key);
+                }
+            }
             return affectedPropertyLists;
         }
 

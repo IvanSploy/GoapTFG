@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using UGoap.Base;
 using UGoap.Planner;
 
-namespace UGoap.Base
+namespace UGoap.CSharp
 {
     //Handles the GOAP planification and is who realices the actions.
-    public class BasicGoapAgent<TKey, TValue> : IGoapAgent<TKey, TValue>
+    public class GoapAgent<TKey, TValue> : IGoapAgent<TKey, TValue>
     {
         private Stack<GoapActionData<TKey, TValue>> _currentPlan;
         private readonly List<IGoapAction<TKey, TValue>> _actions;
@@ -14,7 +15,7 @@ namespace UGoap.Base
         public PropertyGroup<TKey, TValue> CurrentState { get; set; }
         public GoapGoal<TKey, TValue> CurrentGoal { get; set; }
         
-        public BasicGoapAgent(string name, List<GoapGoal<TKey, TValue>> goals, List<IGoapAction<TKey, TValue>> actions = null)
+        public GoapAgent(string name, List<GoapGoal<TKey, TValue>> goals, List<IGoapAction<TKey, TValue>> actions = null)
         {
             Name = name;
             _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);
@@ -23,7 +24,7 @@ namespace UGoap.Base
             _currentPlan = new Stack<GoapActionData<TKey, TValue>>();
         }
 
-        public BasicGoapAgent(string name, GoapGoal<TKey, TValue> goal, List<IGoapAction<TKey, TValue>> actions = null)
+        public GoapAgent(string name, GoapGoal<TKey, TValue> goal, List<IGoapAction<TKey, TValue>> actions = null)
         {
             Name = name;
             _actions = actions == null ? new List<IGoapAction<TKey, TValue>>() : new List<IGoapAction<TKey, TValue>>(actions);

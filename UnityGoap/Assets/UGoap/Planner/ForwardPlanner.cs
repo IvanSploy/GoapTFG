@@ -45,6 +45,8 @@ namespace UGoap.Planner
                 foreach (var action in actions)
                 {
                     Node<TKey, TValue> child = _current.ApplyAction(action);
+                    actionsApplied++;
+                    
                     if(child == null) continue;
                     if(child.IsGoal) return GetPlan(child); //Fin de la búsqueda.
                     _nodeGenerator.AddChildToParent(_current, child);
