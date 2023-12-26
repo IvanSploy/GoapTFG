@@ -1,6 +1,6 @@
 {
     "name": "UGoap.Planner",
-    "rootNamespace": "",
+    "rootNamespace": "UGoap.Planner",
     "references": [
         "GUID:3ab1c13863885c242abffb1ed61459fc"
     ],

@@ -4,13 +4,11 @@ namespace UGoap.Base
     {
         public IGoapAction<TKey, TValue> Action;
         public GoapGoal<TKey, TValue> Goal;
-        public EffectGroup<TKey, TValue> ProceduralEffects;
 
-        public GoapActionData(IGoapAction<TKey, TValue> action, GoapGoal<TKey, TValue> goal, EffectGroup<TKey, TValue> proceduralEffects)
+        public GoapActionData(IGoapAction<TKey, TValue> action, GoapGoal<TKey, TValue> goal)
         {
             Action = action;
             Goal = goal;
-            ProceduralEffects = proceduralEffects;
         }
     }
 }

@@ -56,7 +56,7 @@ namespace UGoap.Planner
                         return;
                     }
                     
-                    original.Update(parent, child.Action, child.ProceduralEffects);
+                    original.Update(parent, child.Action);
                     UpdateChildren(original);
                 }
             }
@@ -69,7 +69,7 @@ namespace UGoap.Planner
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, child.Goal, child.Action, child.ProceduralEffects);
+                    original.Update(parent, child.Goal, child.Action);
                     _openList.Add(original);
                 }
             }

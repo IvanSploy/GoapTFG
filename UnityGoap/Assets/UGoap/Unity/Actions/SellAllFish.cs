@@ -9,6 +9,9 @@ namespace UGoap.Unity.Actions
     [CreateAssetMenu(fileName = "SellAllFish", menuName = "Goap Items/Actions/SellAllFish", order = 1)]
     public class SellAllFish : UGoapAction
     {
+        [Header("Custom Data")]
+        [SerializeField] private int _waitSeconds = 1;
+
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return true;
@@ -27,7 +30,7 @@ namespace UGoap.Unity.Actions
 
         protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
-            agent.GoGenericAction(GetCost());
+            agent.GoGenericAction(_waitSeconds);
         }
     }
 }

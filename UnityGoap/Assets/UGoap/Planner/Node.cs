@@ -15,7 +15,6 @@ namespace UGoap.Planner
         public Node<TKey, TValue> Parent { get; set; }      
         public List<Node<TKey, TValue>> Children { get; }
         public IGoapAction<TKey, TValue> Action { get; set; }
-        public EffectGroup<TKey, TValue> ProceduralEffects { get; set; }
         public GoapGoal<TKey, TValue> Goal { get; set; }
         public int TotalCost { get; set; }
         public int ActionCount { get; set; }
@@ -48,7 +47,7 @@ namespace UGoap.Planner
         {
             (var state, var proceduralEffects) =
                 goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(State, Goal));
-            return state == null ? null : CreateChildNode(state, Goal, goapAction, proceduralEffects);
+            return state == null ? null : CreateChildNode(state, Goal, goapAction);
         }
 
         /// <summary>
@@ -62,7 +61,7 @@ namespace UGoap.Planner
             GoapGoal<TKey, TValue> goapGoal, out bool reached)
         {
             var stateCreated = goapAction.ApplyRegressiveAction(new GoapStateInfo<TKey, TValue>(State, goapGoal), out reached);
-            return stateCreated == null ? null : CreateChildNode(stateCreated.State, stateCreated.Goal, goapAction, stateCreated.ProceduralEffects);
+            return stateCreated == null ? null : CreateChildNode(stateCreated.State, stateCreated.Goal, goapAction);
         }
 
         /// <summary>
@@ -76,7 +75,7 @@ namespace UGoap.Planner
         {
             var recursiveResult = CheckMixedGoal(currentState, goapAction);
             Node<TKey, TValue> child = null;
-            if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal, goapAction, recursiveResult.proceduralEffects);
+            if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal, goapAction);
             if (child != null)
             {
                 if (!recursiveResult.goal.IsEmpty())
@@ -94,10 +93,10 @@ namespace UGoap.Planner
             return child;
         }
         
-        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, EffectGroup<TKey, TValue> proceduralEffects, bool valid) CheckMixedGoal(
+        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) CheckMixedGoal(
             PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
-            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, EffectGroup<TKey, TValue> proceduralEffects, bool valid) result;
+            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) result;
             var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
             var resultInfo = actionResult.stateInfo;
             
@@ -110,7 +109,7 @@ namespace UGoap.Planner
 
                 //Action invalid, path not valid.
                 if (parentResult.goal == null) 
-                    return (null, null, null, false);
+                    return (null, null, false);
                 
                 mergeConditions = ConditionGroup<TKey, TValue>.Merge(
                     resultInfo.Goal, 
@@ -137,9 +136,7 @@ namespace UGoap.Planner
                     resultInfo.Goal.PriorityLevel);
             }
             //Action invalid, path not valid.
-            else return (null, null, null, false);
-            
-            result.proceduralEffects = actionResult.stateInfo.ProceduralEffects;
+            else return (null, null, false);
             
             return result;
         }
@@ -150,23 +147,19 @@ namespace UGoap.Planner
         /// <param name="state">Property Group</param>
         /// <param name="goapGoal"></param>
         /// <param name="goapAction"></param>
-        /// <param name="proceduralEffects"></param>
         /// <returns></returns>
         protected abstract Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction, EffectGroup<TKey, TValue> proceduralEffects);
+            IGoapAction<TKey, TValue> goapAction);
 
         /// <summary>
         /// Update the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">Action that leads to this node.</param>
-        /// <param name="proceduralEffects"></param>
-        public void Update(Node<TKey, TValue> parent, IGoapAction<TKey, TValue> goapAction,
-            EffectGroup<TKey, TValue> proceduralEffects)
+        public void Update(Node<TKey, TValue> parent, IGoapAction<TKey, TValue> goapAction)
         {
             //Se actualiza la accion de origen y el objetivo.
             Action = goapAction;
-            ProceduralEffects = proceduralEffects;
             ActionCount = parent.ActionCount + 1;
             Update(parent);
         }
@@ -177,13 +170,10 @@ namespace UGoap.Planner
         /// <param name="parent"></param>
         /// <param name="goal"></param>
         /// <param name="goapAction">Action that leads to this node.</param>
-        /// <param name="proceduralEffects"></param>
-        public void Update(Node<TKey, TValue> parent, GoapGoal<TKey, TValue> goal, IGoapAction<TKey, TValue> goapAction,
-            EffectGroup<TKey, TValue> proceduralEffects)
+        public void Update(Node<TKey, TValue> parent, GoapGoal<TKey, TValue> goal, IGoapAction<TKey, TValue> goapAction)
         {
             //Se actualiza la accion de origen y el objetivo.
             Action = goapAction;
-            ProceduralEffects = proceduralEffects;
             ActionCount = parent.ActionCount + 1;
             Goal = goal;
             Update(parent);

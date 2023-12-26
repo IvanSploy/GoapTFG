@@ -97,7 +97,7 @@ namespace UGoap.Planner
             {
                 
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.Action, nodeGoal.Parent.Goal, nodeGoal.ProceduralEffects);
+                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.Action, nodeGoal.Parent.Goal);
                 plan.Push(actionData);
                 nodeGoal = nodeGoal.Parent;
             }

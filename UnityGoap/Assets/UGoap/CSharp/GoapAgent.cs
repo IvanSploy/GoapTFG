@@ -90,7 +90,6 @@ namespace UGoap.CSharp
             var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
             foreach (var actionData in _currentPlan)
             {
-                stateInfo.ProceduralEffects = actionData.ProceduralEffects;
                 worldState = actionData.Action.Execute(stateInfo, this);
             }
             _currentPlan.Clear();
@@ -102,7 +101,7 @@ namespace UGoap.CSharp
             if (_currentPlan.Count == 0) return null;
 
             GoapActionData<TKey, TValue> actionData = _currentPlan.Pop();
-            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal, actionData.ProceduralEffects);
+            var stateInfo = new GoapStateInfo<TKey, TValue>(worldState, CurrentGoal);
             worldState = actionData.Action.Execute(stateInfo, this);
             return worldState;
         }

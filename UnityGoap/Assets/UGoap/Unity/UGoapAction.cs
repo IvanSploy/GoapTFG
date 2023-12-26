@@ -89,8 +89,9 @@ namespace UGoap.Unity
                 return null;
             }
             var state = stateInfo.State + _effects;
-            if(stateInfo.ProceduralEffects != null) state += stateInfo.ProceduralEffects;
-            PerformedActions(stateInfo.ProceduralEffects, (UGoapAgent) goapAgent);
+            var proceduralEffects = GetProceduralEffects(stateInfo);
+            if(proceduralEffects != null) state += proceduralEffects;
+            PerformedActions(proceduralEffects, (UGoapAgent) goapAgent);
             return state;
         }
 
@@ -135,7 +136,7 @@ namespace UGoap.Unity
             if (remainingGoalConditions == null && newGoalConditions == null)
             {
                 reached = true;
-                return new GoapStateInfo<PropertyKey, object>(worldState, GetVictoryGoal(), proceduralEffects);
+                return new GoapStateInfo<PropertyKey, object>(worldState, GetVictoryGoal());
             }
 
             ConditionGroup<PropertyKey, object> conditionGroup = ConditionGroup<PropertyKey, object>.Merge(remainingGoalConditions, newGoalConditions);
@@ -148,7 +149,7 @@ namespace UGoap.Unity
             goal = new GoapGoal<PropertyKey, object>(goal.Name, conditionGroup, goal.PriorityLevel);
 
             reached = false;
-            return new GoapStateInfo<PropertyKey, object>(worldState, goal, proceduralEffects);
+            return new GoapStateInfo<PropertyKey, object>(worldState, goal);
         }
         
         public (GoapStateInfo<PropertyKey, object>, bool) ApplyMixedAction(PropertyGroup<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
@@ -161,7 +162,7 @@ namespace UGoap.Unity
             (var resultState, var proceduralEffects) =
                 DoApplyAction(new GoapStateInfo<PropertyKey, object>(state, goal));
             var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<PropertyKey, object>(goal.Name, conflicts, goal.PriorityLevel);
-            return (new GoapStateInfo<PropertyKey, object>(resultState, resultGoal, proceduralEffects), proceduralCheck);
+            return (new GoapStateInfo<PropertyKey, object>(resultState, resultGoal), proceduralCheck);
         }
 
         private GoapGoal<PropertyKey, object> GetVictoryGoal()

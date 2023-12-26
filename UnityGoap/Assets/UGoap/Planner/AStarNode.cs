@@ -17,10 +17,10 @@ namespace UGoap.Planner
         }
 
         protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction, EffectGroup<TKey, TValue> proceduralEffects)
+            IGoapAction<TKey, TValue> goapAction)
         {
             var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);
-            aStarNode.Update(this, goapAction, proceduralEffects);
+            aStarNode.Update(this, goapAction);
             Children.Add(aStarNode);
             return aStarNode;
         }

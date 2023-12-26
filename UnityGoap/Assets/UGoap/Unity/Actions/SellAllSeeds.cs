@@ -9,12 +9,15 @@ namespace UGoap.Unity.Actions
     [CreateAssetMenu(fileName = "SellAllSeeds", menuName = "Goap Items/Actions/SellAllSeeds", order = 1)]
     public class SellAllSeeds : UGoapAction
     {
+        [Header("Custom Data")]
+        [SerializeField] private int _waitSeconds = 1;
+        [SerializeField] private int _price = 1;
+
         protected override bool ProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return true;
         }
 
-        //TODO Not working properly
         protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             var proceduralEffects = new EffectGroup<PropertyKey, object>();
@@ -28,7 +31,7 @@ namespace UGoap.Unity.Actions
 
         protected override void PerformedActions(EffectGroup<PropertyKey, object> proceduralEffects, UGoapAgent agent)
         {
-            agent.GoGenericAction(GetCost());
+            agent.GoGenericAction(_waitSeconds);
         }
     }
 }

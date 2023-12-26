@@ -120,6 +120,7 @@ namespace UGoap.Planner
 
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
+                        DebugInfo(_current);
                         _current.IsGoal = true; //To avoid recursive loop behaviour.
                         return GetInvertedPlan(_current);
                     }

@@ -4,15 +4,12 @@
     {
         public PropertyGroup<TKey, TValue> State;
         public GoapGoal<TKey, TValue> Goal;
-        public EffectGroup<TKey, TValue> ProceduralEffects;
 
         public GoapStateInfo(PropertyGroup<TKey, TValue> worldState,
-            GoapGoal<TKey, TValue> currentGoal = null,
-            EffectGroup<TKey, TValue> proceduralEffects = null)
+            GoapGoal<TKey, TValue> currentGoal = null)
         {
             State = worldState;
             Goal = currentGoal;
-            ProceduralEffects = proceduralEffects;
         }
     }
 }

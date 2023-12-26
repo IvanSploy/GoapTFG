@@ -1,6 +1,6 @@
 {
     "name": "UGoap.Base",
-    "rootNamespace": "",
+    "rootNamespace": "UGoap.Base",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

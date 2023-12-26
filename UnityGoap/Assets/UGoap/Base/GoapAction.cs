@@ -25,7 +25,7 @@ namespace UGoap.Base
         //Procedural related.
         protected abstract bool ProceduralConditions(GoapStateInfo<TKey, TValue> stateInfo);
         protected abstract EffectGroup<TKey, TValue> GetProceduralEffects(GoapStateInfo<TKey, TValue> stateInfo);
-        protected abstract void PerformedActions(IGoapAgent<TKey, TValue> agent);
+        protected abstract void PerformedActions(EffectGroup<TKey, TValue> proceduralEffects, IGoapAgent<TKey, TValue> agent);
         
         //Cost related.
         public int GetCost() => _cost;
@@ -86,7 +86,7 @@ namespace UGoap.Base
             if (remainingGoalConditions == null && newGoalConditions == null)
             {
                 reached = true;
-                return new GoapStateInfo<TKey, TValue>(worldState, GetVictoryGoal(), proceduralEffects);
+                return new GoapStateInfo<TKey, TValue>(worldState, GetVictoryGoal());
             }
 
             ConditionGroup<TKey, TValue> conditionGroup = ConditionGroup<TKey, TValue>.Merge(remainingGoalConditions, newGoalConditions);
@@ -99,7 +99,7 @@ namespace UGoap.Base
             goal = new GoapGoal<TKey, TValue>(goal.Name, conditionGroup, goal.PriorityLevel);
 
             reached = false;
-            return new GoapStateInfo<TKey, TValue>(worldState, goal, proceduralEffects);
+            return new GoapStateInfo<TKey, TValue>(worldState, goal);
         }
         
         public (GoapStateInfo<TKey, TValue>, bool) ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
@@ -112,7 +112,7 @@ namespace UGoap.Base
             (var resultState, var proceduralEffects) =
                 DoApplyAction(new GoapStateInfo<TKey, TValue>(state, goal));
             var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<TKey, TValue>(goal.Name, conflicts, goal.PriorityLevel);
-            return (new GoapStateInfo<TKey, TValue>(resultState, resultGoal, proceduralEffects), proceduralCheck);
+            return (new GoapStateInfo<TKey, TValue>(resultState, resultGoal), proceduralCheck);
         }
         
         private GoapGoal<TKey, TValue> GetVictoryGoal()
@@ -126,8 +126,9 @@ namespace UGoap.Base
         {
             if (!CheckAction(stateInfo)) return null;
             var state = stateInfo.State + _effects;
-            if(stateInfo.ProceduralEffects != null) state += stateInfo.ProceduralEffects;
-            PerformedActions(goapAgent);
+            var proceduralEffects = GetProceduralEffects(stateInfo);
+            if(proceduralEffects != null) state += proceduralEffects;
+            PerformedActions(proceduralEffects, goapAgent);
             return state;
         }
 

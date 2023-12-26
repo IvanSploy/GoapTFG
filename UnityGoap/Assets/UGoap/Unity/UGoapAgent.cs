@@ -169,7 +169,7 @@ namespace UGoap.Unity
 
             foreach (var actionData in _currentPlan)
             {
-                var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal, actionData.ProceduralEffects);
+                var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal);
                 worldState = actionData.Action.Execute(stateInfo, this);
             }
 
@@ -182,7 +182,7 @@ namespace UGoap.Unity
             if (_currentPlan.Count == 0) return null;
 
             GoapActionData<PropertyKey, object> actionData = _currentPlan.Pop();
-            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal, actionData.ProceduralEffects);
+            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldState, actionData.Goal);
             worldState = actionData.Action.Execute(stateInfo, this);
             Debug.Log(worldState);
             return worldState;
@@ -194,14 +194,9 @@ namespace UGoap.Unity
         }
 
         //ACTIONS
-        public void GoToTargetWalking(string target)
+        public void GoToTarget(string target, float speedFactor)
         {
-            StartCoroutine(Movement(speed * 0.5f, UGoapWMM.Get(target).Position));
-        }
-
-        public void GoToTargetRunning(string target)
-        {
-            StartCoroutine(Movement(speed, UGoapWMM.Get(target).Position));
+            StartCoroutine(Movement(speed * speedFactor, UGoapWMM.Get(target).Position));
         }
         
         public void GoGenericAction(float seconds)

@@ -1,6 +1,6 @@
 {
-    "name": "UGoap.unity",
-    "rootNamespace": "",
+    "name": "UGoap.Unity",
+    "rootNamespace": "UGoap.Unity",
     "references": [
         "GUID:3ab1c13863885c242abffb1ed61459fc",
         "GUID:e01d2f8bfcae92048b0b3d0128c58c4b"

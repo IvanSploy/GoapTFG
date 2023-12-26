@@ -10,7 +10,7 @@ namespace UGoap.Unity.CodeGenerator
         private const string GeneratedNamespace = "GoapTFG.Unity.CodeGenerator.Enums";
         private const string ScriptableObjectsPath = "Assets/GoapItems";
         
-        [MenuItem("GoapTFG/GenerateGoals")]
+        [MenuItem("UGoap/GenerateGoals")]
         public static void CreateGoalEnum()
         {
             var guids = AssetDatabase.FindAssets("t: goalscriptableobject", new[]{ ScriptableObjectsPath });
