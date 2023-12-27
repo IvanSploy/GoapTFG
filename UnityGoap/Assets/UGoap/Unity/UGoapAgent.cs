@@ -21,11 +21,13 @@ namespace UGoap.Unity
         public string Name { get; set; }
         
         public bool active = true;
-        public bool hasPlan;
-        public bool performingAction;
         public bool mixedPlan = true;
+        public bool wait = true;
         public bool greedy;
         public float speed = 5;
+        
+        public bool hasPlan;
+        public bool performingAction;
 
         //Agent base related
         private Stack<GoapActionData<PropertyKey, object>> _currentPlan;
@@ -201,7 +203,7 @@ namespace UGoap.Unity
         
         public void GoGenericAction(float seconds)
         {
-            StartCoroutine(Wait(seconds));
+            if(wait) StartCoroutine(Wait(seconds));
         }
         
         //COROUTINES

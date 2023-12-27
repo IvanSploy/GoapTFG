@@ -23,7 +23,7 @@ namespace UGoap.Unity.Actions
         {
             var proceduralConditions = new ConditionGroup<PropertyKey, object>();
 
-            var resourceCount = GetNeededAmount(stateInfo);
+            var resourceCount = GetRequiredAmount(stateInfo);
             
             proceduralConditions.Set(_resource, resourceCount, ConditionType.GreaterOrEqual);
             
@@ -34,7 +34,7 @@ namespace UGoap.Unity.Actions
         {
             var proceduralEffects = new EffectGroup<PropertyKey, object>();
             
-            var resourceCount = GetNeededAmount(stateInfo);
+            var resourceCount = GetRequiredAmount(stateInfo);
             var money = resourceCount * _price;
             
             proceduralEffects.Set(_resource, resourceCount, EffectType.Subtract);
@@ -48,12 +48,13 @@ namespace UGoap.Unity.Actions
             agent.GoGenericAction(_waitSeconds);
         }
 
-        private int GetNeededAmount(GoapStateInfo<PropertyKey, object> stateInfo)
+        private int GetRequiredAmount(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             ConditionValue<object> moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f);
-            float money = (float) moneyValue.Value;
-            if (moneyValue.ConditionType == ConditionType.GreaterThan) money += 1;
-            return (int) Mathf.Ceil(money / _price);
+            GoapValue<object> currentMoney = stateInfo.State.TryGetOrDefault(Money, 0f);
+            float moneyRequired = (float) moneyValue.Value - (float) currentMoney.Value;
+            if (moneyValue.ConditionType == ConditionType.GreaterThan) moneyRequired += 1;
+            return (int) Mathf.Ceil(moneyRequired / _price);
         }
     }
 }

@@ -1,12 +1,15 @@
+using System;
 using UGoap.Base;
 
 namespace UGoap.Planner
 {
-    public class AStarNode<TKey, TValue> : Node<TKey, TValue>
+    public class AStarNode<TKey, TValue> : Node<TKey, TValue>, IComparable
     {
         //Properties
         public int HCost { get; set; }
         public int GCost { get; set; }
+
+        public override int TotalCost => GCost + HCost;
 
         //Constructor
         public AStarNode(PropertyGroup<TKey, TValue> state,
@@ -17,10 +20,11 @@ namespace UGoap.Planner
         }
 
         protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction)
+            IGoapAction<TKey, TValue> goapAction, int cost = -1)
         {
             var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);
             aStarNode.Update(this, goapAction);
+            if(cost >= 0) aStarNode.GCost = cost;
             Children.Add(aStarNode);
             return aStarNode;
         }
@@ -33,7 +37,6 @@ namespace UGoap.Planner
             HCost = GetHeuristic();
             IsGoal = HCost == 0;
             GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal)) + asnParent.GCost;
-            TotalCost = HCost + GCost;
         }
 
         /// <summary>
@@ -46,7 +49,7 @@ namespace UGoap.Planner
         }
 
         #region Overrides
-
+        
         public override string ToString()
         {
             string text = "";

@@ -67,15 +67,14 @@ namespace UGoap.Unity.Editor
 
                 UGoapAction actionScriptableObject = (UGoapAction)target;
 
-                EditorGUILayout.LabelField("Action Data", EditorStyles.boldLabel);
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
-                actionScriptableObject.SetCost(EditorGUILayout.IntField("Cost", actionScriptableObject.GetCost()));
                 EditorGUILayout.Space();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("affectedKeys"), true);
 
                 //Guarda los cambios realizados en los property fields.
                 serializedObject.ApplyModifiedProperties();

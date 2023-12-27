@@ -57,8 +57,9 @@ namespace UGoap.Unity.Actions
 
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;
-
-            return Math.Max(3, (int)(Vector3.Distance(pos1, pos2) / _speedFactor));
+            
+            var cost = Math.Max(3, (int)(Vector3.Distance(pos1, pos2) / _speedFactor));
+            return cost;
         }
     }
 }

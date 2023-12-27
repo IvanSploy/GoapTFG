@@ -17,6 +17,8 @@ namespace UGoap.Unity
     public abstract class UGoapAction : ScriptableObject, IGoapAction
     {
         //Scriptable 
+        [Header("Common Data")]
+        [SerializeField] private int _cost = 1;
         [HideInInspector] public List<ConditionProperty> preconditions = new();
         [HideInInspector] public List<EffectProperty> effects = new();
         
@@ -24,7 +26,6 @@ namespace UGoap.Unity
         public string Name { get; private set; }
         private readonly ConditionGroup _preconditions = new();
         private readonly EffectGroup _effects = new();
-        private int _cost = 1;
         public bool IsCompleted { get; } = false;
 
         //Updating data from the scriptable object.

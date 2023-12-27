@@ -89,6 +89,22 @@ namespace UGoap.Base
         }
 
         //Overrides
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            GoapGoal<TKey, TValue> objGoal = (GoapGoal<TKey, TValue>)obj;
+            
+            return GetState().Equals(objGoal.GetState());
+        }
+        
+        public override int GetHashCode()
+        {
+            return GetState().GetHashCode();
+        }
+
         public override string ToString()
         {
             return "Objetivo: " + Name + "\n" + _conditions;

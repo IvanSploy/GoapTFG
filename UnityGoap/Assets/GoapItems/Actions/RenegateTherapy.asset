@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: RenegateTherapy
   m_EditorClassIdentifier: 
+  _cost: 10
   preconditions:
   - name: 0
     value: Station
@@ -26,5 +27,4 @@ MonoBehaviour:
   - name: 3
     value: 1000
     effect: 1
-  affectedKeys: 
   _waitSeconds: 10

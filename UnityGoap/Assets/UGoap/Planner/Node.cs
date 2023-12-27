@@ -16,7 +16,7 @@ namespace UGoap.Planner
         public List<Node<TKey, TValue>> Children { get; }
         public IGoapAction<TKey, TValue> Action { get; set; }
         public GoapGoal<TKey, TValue> Goal { get; set; }
-        public int TotalCost { get; set; }
+        public virtual int TotalCost { get; set; }
         public int ActionCount { get; set; }
         public bool IsGoal { get; set; }
         public bool CanBeGoal { get; set; } = true;
@@ -74,7 +74,8 @@ namespace UGoap.Planner
         {
             var recursiveResult = CheckMixedGoal(currentState, goapAction);
             Node<TKey, TValue> child = null;
-            if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal, goapAction);
+            if(recursiveResult.goal != null) child = CreateChildNode(recursiveResult.finalState, recursiveResult.goal,
+                goapAction, recursiveResult.cost);
             if (child != null)
             {
                 if (!recursiveResult.goal.IsEmpty())
@@ -92,10 +93,10 @@ namespace UGoap.Planner
             return child;
         }
         
-        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) CheckMixedGoal(
+        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost, bool valid) CheckMixedGoal(
             PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
-            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, bool valid) result;
+            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost, bool valid) result;
             var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
             var resultInfo = actionResult.stateInfo;
             
@@ -108,13 +109,14 @@ namespace UGoap.Planner
 
                 //Action invalid, path not valid.
                 if (parentResult.goal == null) 
-                    return (null, null, false);
+                    return (null, null, -1, false);
                 
                 mergeConditions = ConditionGroup<TKey, TValue>.Merge(
                     resultInfo.Goal, 
                     parentResult.goal);
                 
                 result.finalState = parentResult.finalState;
+                result.cost = goapAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal)) + parentResult.cost;
                 result.valid = parentResult.valid && actionResult.valid; //check action validate.
             }
             //Final node
@@ -126,6 +128,7 @@ namespace UGoap.Planner
                     Goal.GetConflicts(resultInfo.State));
 
                 result.finalState = resultInfo.State;
+                result.cost = goapAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal));
                 result.valid = actionResult.valid; //Check action validate.
             }
             
@@ -135,7 +138,7 @@ namespace UGoap.Planner
                     resultInfo.Goal.PriorityLevel);
             }
             //Action invalid, path not valid.
-            else return (null, null, false);
+            else return (null, null, -1, false);
             
             return result;
         }
@@ -146,9 +149,10 @@ namespace UGoap.Planner
         /// <param name="state">Property Group</param>
         /// <param name="goapGoal"></param>
         /// <param name="goapAction"></param>
+        /// <param name="cost">Custom cost</param>
         /// <returns></returns>
         protected abstract Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction);
+            IGoapAction<TKey, TValue> goapAction, int cost = -1);
 
         /// <summary>
         /// Update the info related to the parent and the action that leads to this node.
@@ -160,21 +164,6 @@ namespace UGoap.Planner
             //Se actualiza la accion de origen y el objetivo.
             Action = goapAction;
             ActionCount = parent.ActionCount + 1;
-            Update(parent);
-        }
-
-        /// <summary>
-        /// Update the info related to the parent and the action that leads to this node.
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="goal"></param>
-        /// <param name="goapAction">Action that leads to this node.</param>
-        public void Update(Node<TKey, TValue> parent, GoapGoal<TKey, TValue> goal, IGoapAction<TKey, TValue> goapAction)
-        {
-            //Se actualiza la accion de origen y el objetivo.
-            Action = goapAction;
-            ActionCount = parent.ActionCount + 1;
-            Goal = goal;
             Update(parent);
         }
         
@@ -215,7 +204,7 @@ namespace UGoap.Planner
 
             Node<TKey, TValue> objNode = (Node<TKey, TValue>)obj;
             
-            return State.Equals(objNode.State);
+            return State.Equals(objNode.State) && Goal.Equals(objNode.Goal);
         }
 
         public override int GetHashCode()

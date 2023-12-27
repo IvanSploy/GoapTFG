@@ -19,12 +19,11 @@ namespace UGoap.Planner
 
         public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
         {
-            var initialGoalState = goal.GetConflicts(currentState);
-            var initialGoal = new GoapGoal<TKey, TValue>(goal.Name, initialGoalState, goal.PriorityLevel);
-            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, initialGoal, this);
+            var goalState = new GoapGoal<TKey, TValue>(goal);
+            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goalState, this);
             var initialHeuristic = node.GetHeuristic();
+            node.GCost = 0;
             node.HCost = initialHeuristic;
-            node.TotalCost = initialHeuristic;
             return node;
         }
         
@@ -43,19 +42,11 @@ namespace UGoap.Planner
             if (_expandedNodes.Contains(child))
             {
                 _expandedNodes.TryGetValue(child, out var original);
-
+                
                 //Se actualiza el nodo original con la nueva información y sus hijos respectivamente
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    //Sin embargo si el nodo ya ha sido expandido y los objetivos no coindiden es mejor dejar dos ramas
-                    //abiertas debido a que habría que eliminar toda la descendencia pues no se puede actualizar a los hijos.
-                    if (!child.Goal.Equals(original.Goal))
-                    {
-                        _openList.Add(child);
-                        return;
-                    }
-                    
                     original.Update(parent, child.Action);
                     UpdateChildren(original);
                 }
@@ -64,13 +55,13 @@ namespace UGoap.Planner
             else if (_openList.Contains(child))
             {
                 _openList.TryGetValue(child, out var original);
+                
                 //En caso de que ya exista un nodo igual en la lista abierta,
                 //se actualiza por el de menor valor de coste.
                 if (child.TotalCost < original.TotalCost)
                 {
                     _openList.Remove(original);
-                    original.Update(parent, child.Goal, child.Action);
-                    _openList.Add(original);
+                    _openList.Add(child);
                 }
             }
             //Si el nodo nunca había sido generado.
