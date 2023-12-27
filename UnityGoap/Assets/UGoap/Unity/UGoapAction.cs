@@ -19,7 +19,6 @@ namespace UGoap.Unity
         //Scriptable 
         [HideInInspector] public List<ConditionProperty> preconditions = new();
         [HideInInspector] public List<EffectProperty> effects = new();
-        [HideInInspector] public List<PropertyKey> affectedKeys;
         
         //Fields
         public string Name { get; private set; }
@@ -27,7 +26,6 @@ namespace UGoap.Unity
         private readonly EffectGroup _effects = new();
         private int _cost = 1;
         public bool IsCompleted { get; } = false;
-        private HashSet<PropertyKey> _affectedKeys;
 
         //Updating data from the scriptable object.
         private void OnValidate()
@@ -36,7 +34,6 @@ namespace UGoap.Unity
             _cost = Math.Max(0, _cost);
             AddIntoPropertyGroup(preconditions, in _preconditions);
             AddIntoPropertyGroup(effects, in _effects);
-            _affectedKeys = InitializeAffectedKeys(affectedKeys.ToHashSet());
         }
 
         //Procedural related.
@@ -60,9 +57,7 @@ namespace UGoap.Unity
         {
             return _effects + GetProceduralEffects(stateInfo);
         }
-        public HashSet<PropertyKey> GetAffectedKeys() => _affectedKeys;
-        
-        private HashSet<PropertyKey> InitializeAffectedKeys(HashSet<PropertyKey> affectedPropertyKeys = null)
+        public HashSet<PropertyKey> GetAffectedKeys()
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
             foreach (var key in _effects.GetKeys())
@@ -70,9 +65,12 @@ namespace UGoap.Unity
                 affectedPropertyLists.Add(key);
             }
 
-            if (affectedKeys != null)
+            var proceduralEffects = GetProceduralEffects(new GoapStateInfo(new PropertyGroup(),
+                new GoapGoal("", new ConditionGroup(), 1)));
+
+            if (proceduralEffects != null)
             {
-                foreach (var key in affectedKeys)
+                foreach (var key in proceduralEffects.GetKeys())
                 {
                     affectedPropertyLists.Add(key);
                 }

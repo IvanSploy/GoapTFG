@@ -64,6 +64,11 @@ namespace UGoap.Base
             return _conditions.HasKey(key);
         }
         
+        public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        {
+            return GetState().TryGetOrDefault(key, defaultValue);
+        }
+        
         //Operators
         public ConditionValue<TValue> this[TKey key]
         {

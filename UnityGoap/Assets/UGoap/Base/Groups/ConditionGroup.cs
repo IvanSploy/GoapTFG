@@ -39,6 +39,15 @@ namespace UGoap.Base
             return (ConditionValue<TValue>) _values[key];
         }
 
+        public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        {
+            if(HasKey(key)) return Get(key);
+            else
+            {
+                return new ConditionValue<TValue>(defaultValue, ConditionType.Equal);
+            }
+        }
+        
         public ConditionValue<TValue> this[TKey key]
         {
             get => Get(key);

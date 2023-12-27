@@ -50,8 +50,9 @@ namespace UGoap.Unity.Actions
 
         private int GetNeededAmount(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            float money = stateInfo.Goal.Has(Money) ? (float)stateInfo.Goal[Money].Value : 0f;
-            if (stateInfo.Goal.Has(Money) && stateInfo.Goal[Money].ConditionType == ConditionType.GreaterThan) money += 1;
+            ConditionValue<object> moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f);
+            float money = (float) moneyValue.Value;
+            if (moneyValue.ConditionType == ConditionType.GreaterThan) money += 1;
             return (int) Mathf.Ceil(money / _price);
         }
     }

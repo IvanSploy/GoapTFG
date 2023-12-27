@@ -36,13 +36,13 @@ namespace UGoap.Unity.Actions
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
             EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
-            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal[Target], EffectType.Set);
+            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal.TryGetOrDefault(Target, ""), EffectType.Set);
             return proceduralEffects;
         }
 
         protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
         {
-            agent.GoToTarget((string)state[Target], _speedFactor);
+            agent.GoToTarget((string)state.TryGetOrDefault(Target, ""), _speedFactor);
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)

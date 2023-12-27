@@ -92,7 +92,6 @@ namespace UGoap.Unity
         
         #region Parsers
 
-        // ReSharper disable Unity.PerformanceAnalysis
         public static object ParseValue(PropertyKey name, string value)
         {
             object result;

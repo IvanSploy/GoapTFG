@@ -36,6 +36,15 @@ namespace UGoap.Base
         
         public EffectValue<TValue> Get(TKey key) => (EffectValue<TValue>) _values[key];
 
+        public EffectValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        {
+            if(HasKey(key)) return Get(key);
+            else
+            {
+                return new EffectValue<TValue>(defaultValue, EffectType.Set);
+            }
+        }
+        
         public EffectValue<TValue> this[TKey key]
         {
             get => Get(key);

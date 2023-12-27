@@ -54,6 +54,15 @@ namespace UGoap.Base
         {
             return _values[key];
         }
+        
+        public GoapValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        {
+            if(HasKey(key)) return _values[key];
+            else
+            {
+                return new GoapValue<TValue>(defaultValue);
+            }
+        }
 
         public TValue this[TKey key]
         {
