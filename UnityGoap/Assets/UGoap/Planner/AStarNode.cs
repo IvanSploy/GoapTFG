@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UGoap.Base;
 
 namespace UGoap.Planner
@@ -25,6 +26,7 @@ namespace UGoap.Planner
             var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);
             aStarNode.Update(this, goapAction);
             if(cost >= 0) aStarNode.GCost = cost;
+            aStarNode.IsGoal = goapGoal.GetState().IsEmpty();
             Children.Add(aStarNode);
             return aStarNode;
         }
@@ -35,8 +37,7 @@ namespace UGoap.Planner
             
             AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
-            IsGoal = HCost == 0;
-            GCost = Action.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal)) + asnParent.GCost;
+            GCost = ParentAction.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal)) + asnParent.GCost;
         }
 
         /// <summary>
@@ -53,8 +54,8 @@ namespace UGoap.Planner
         public override string ToString()
         {
             string text = "";
-            if (Action == null) text += "Initial Node";
-            else text += Action.Name;
+            if (ParentAction == null) text += "Initial Node";
+            else text += ParentAction.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
             text += " | Objetivo: " + Goal + "\n";
             return text;

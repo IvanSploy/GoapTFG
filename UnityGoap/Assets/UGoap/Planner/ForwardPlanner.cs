@@ -19,17 +19,17 @@ namespace UGoap.Planner
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
         /// </summary>
-        /// <param name="currentState">Current state of the world.</param>
+        /// <param name="initialState">Current state of the world.</param>
         /// <param name="goapGoal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goapGoal,
+        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
             List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null)
         {
-            if (goapGoal.IsReached(currentState)) return null;
-            ForwardPlanner<TKey, TValue> regressiveForwardPlannerBase = new ForwardPlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(newHeuristic));
-            return regressiveForwardPlannerBase.GeneratePlan(currentState, actions);
+            if (goapGoal.IsReached(initialState)) return null;
+            ForwardPlanner<TKey, TValue> regressiveForwardPlannerBase = new ForwardPlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(initialState, newHeuristic));
+            return regressiveForwardPlannerBase.GeneratePlan(initialState, actions);
         }
 
         public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,

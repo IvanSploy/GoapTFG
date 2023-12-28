@@ -110,17 +110,18 @@ namespace UGoap.Base
             return new GoapStateInfo<TKey, TValue>(worldState, goal);
         }
         
-        public (GoapStateInfo<TKey, TValue>, bool) ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
+        public GoapStateInfo<TKey, TValue> ApplyMixedAction(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal)
         {
             //Check conflicts
             var stateInfo = new GoapStateInfo<TKey, TValue>(state, goal);
+            if(!Validate(stateInfo)) return null;
+            
             var conflicts = GetPreconditions(stateInfo).GetConflict(state);
-            bool proceduralCheck = Validate(stateInfo);
             
             //Apply action
             var resultState = DoApplyAction(stateInfo);
             var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<TKey, TValue>(goal.Name, conflicts, goal.PriorityLevel);
-            return (new GoapStateInfo<TKey, TValue>(resultState, resultGoal), proceduralCheck);
+            return new GoapStateInfo<TKey, TValue>(resultState, resultGoal);
         }
         
         private GoapGoal<TKey, TValue> GetVictoryGoal()

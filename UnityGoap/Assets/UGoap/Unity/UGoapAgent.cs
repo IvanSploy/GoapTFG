@@ -21,7 +21,7 @@ namespace UGoap.Unity
         public string Name { get; set; }
         
         public bool active = true;
-        public bool mixedPlan = true;
+        //public bool mixedPlan = true;
         public bool wait = true;
         public bool greedy;
         public float speed = 5;
@@ -156,9 +156,9 @@ namespace UGoap.Unity
         public bool CreatePlan(PropertyGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
             Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> customHeuristic)
         {
-            var plan = mixedPlan
-                ? MixedPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic, greedy)
-                : RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic);
+            var plan = 
+                //!mixedPlan ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic) :
+                MixedPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic, greedy);
             DebugLogs(DebugRecord.GetRecords());
             if (plan == null) return false;
             _currentPlan = plan;

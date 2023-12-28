@@ -12,24 +12,19 @@ namespace UGoap.Unity.Actions
     {
         [Header("Custom Data")]
         [SerializeField] private int _speedFactor = 1;
-        [SerializeField] private int _minDistance = 0;
+        [SerializeField] private string _excludedLocation = "none";
         
         protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            if (!stateInfo.State.HasKey(Target)) return true;
-            var initialTarget = (string) stateInfo.State[Target]; 
-            var finalTarget = (string) stateInfo.Goal[Target];
-
-            var initialPos = UGoapWMM.Get(initialTarget).Position;
-            var finalPos = UGoapWMM.Get(finalTarget).Position;
-
-            return Vector3.Distance(initialPos, finalPos) > _minDistance;
+            return true;
         }
         
         protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            return null;
+            var condition = new ConditionGroup<PropertyKey, object>();
+            condition.Set(Target, _excludedLocation, ConditionType.NotEqual);
+            return condition;
         }
         
         protected override EffectGroup<PropertyKey, object> GetProceduralEffects(

@@ -93,6 +93,7 @@ namespace UGoap.Unity
             if (!CheckAction(stateInfo))
             {
                 Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
+                CheckAction(stateInfo);
                 return null;
             }
             var state = stateInfo.State + GetEffects(stateInfo);
@@ -152,17 +153,18 @@ namespace UGoap.Unity
             return new GoapStateInfo<PropertyKey, object>(worldState, goal);
         }
         
-        public (GoapStateInfo<PropertyKey, object>, bool) ApplyMixedAction(PropertyGroup<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
+        public GoapStateInfo<PropertyKey, object> ApplyMixedAction(PropertyGroup<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
         {
             //Check conflicts
             var stateInfo = new GoapStateInfo<PropertyKey, object>(state, goal);
+            if (!Validate(stateInfo)) return null;
+            
             var conflicts = GetPreconditions(stateInfo).GetConflict(state);
-            bool proceduralCheck = Validate(stateInfo);
             
             //Apply action
             var resultState = DoApplyAction(stateInfo);
             var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<PropertyKey, object>(goal.Name, conflicts, goal.PriorityLevel);
-            return (new GoapStateInfo<PropertyKey, object>(resultState, resultGoal), proceduralCheck);
+            return new GoapStateInfo<PropertyKey, object>(resultState, resultGoal);
         }
 
         private GoapGoal<PropertyKey, object> GetVictoryGoal()

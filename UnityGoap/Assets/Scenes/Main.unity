@@ -869,13 +869,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2c5dec3e75000f4490ba3558b55715a, type: 2}
   - {fileID: 11400000, guid: 770bef44f819f6245bd9bb9dead0bfb2, type: 2}
   - {fileID: 11400000, guid: 064f169edc8e10f4ebd65f1c1cc19b81, type: 2}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 074535df95c53a6419157b7e0de88f76, type: 2}
   - {fileID: 11400000, guid: 877137e29c5344a44be9561a0e6d35bc, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   _rigidbody: {fileID: 406799091}
   active: 1
-  mixedPlan: 1
   wait: 1
   greedy: 0
   speed: 60
@@ -1283,7 +1282,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   _rigidbody: {fileID: 637611284}
   active: 1
-  mixedPlan: 1
   wait: 1
   greedy: 0
   speed: 60
@@ -2988,7 +2986,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   _rigidbody: {fileID: 1189433543}
   active: 1
-  mixedPlan: 1
   wait: 1
   greedy: 0
   speed: 60
@@ -4437,7 +4434,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   _rigidbody: {fileID: 1707259721}
   active: 1
-  mixedPlan: 1
   wait: 1
   greedy: 0
   speed: 70
@@ -6030,10 +6026,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 877137e29c5344a44be9561a0e6d35bc, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
+  - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
   _rigidbody: {fileID: 8709107423552666153}
   active: 1
-  mixedPlan: 1
-  wait: 1
+  wait: 0
   greedy: 0
   speed: 70
   hasPlan: 0

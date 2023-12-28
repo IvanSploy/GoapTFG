@@ -97,7 +97,7 @@ namespace UGoap.Planner
             {
                 
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.Action, nodeGoal.Parent.Goal);
+                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.ParentAction, nodeGoal.Parent.Goal);
                 plan.Push(actionData);
                 nodeGoal = nodeGoal.Parent;
             }
@@ -129,7 +129,7 @@ namespace UGoap.Planner
             
             while (node.Parent != null)
             {
-                actionNames += node.Action.Name + "\n";
+                actionNames += node.ParentAction.Name + "\n";
                 count++;
                 node = node.Parent;
             }

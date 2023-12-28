@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96d321a40074ace91634645e047ee56, type: 3}
   m_Name: RunToTarget
   m_EditorClassIdentifier: 
+  _cost: 1
   preconditions: []
   effects: []
-  affectedKeys: 00000000
   _speedFactor: 2
-  _minDistance: 10
+  _excludedLocation: none

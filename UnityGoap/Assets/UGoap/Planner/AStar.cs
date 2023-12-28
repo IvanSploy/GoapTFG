@@ -9,9 +9,12 @@ namespace UGoap.Planner
         private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
         private readonly Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> _customHeuristic;
-
-        public AStar(Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
+        private readonly PropertyGroup<TKey, TValue> _initialState;
+        
+        public AStar(PropertyGroup<TKey, TValue> initialState, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
         {
+            _initialState = initialState;
+            
             _openList = new SortedSet<Node<TKey, TValue>>();
             _expandedNodes = new HashSet<Node<TKey, TValue>>();
             _customHeuristic = customHeuristic;
@@ -47,8 +50,8 @@ namespace UGoap.Planner
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    original.Update(parent, child.Action);
-                    UpdateChildren(original);
+                    original.Update(parent, child.ParentAction);
+                    UpdateChildrenCost(original);
                 }
             }
             //Si el nodo se encuentra en la lista abierta.
@@ -73,23 +76,26 @@ namespace UGoap.Planner
         /// It could change the order of the nodes in the Open List.
         /// </summary>
         /// <param name="node">Parent Node</param>
-        private void UpdateChildren(Node<TKey, TValue> node)
+        private void UpdateChildrenCost(Node<TKey, TValue> node)
         {
             if (node.Children.Count == 0) return;
             
             foreach (var child in node.Children)
             {
-                if (child.Children.Count != 0)
+                var aStarChild = (AStarNode<TKey, TValue>)child;
+                if (aStarChild.Children.Count != 0)
                 {
-                    child.Update(node);
-                    UpdateChildren(child);
+                    aStarChild.Update(node);
+                    UpdateChildrenCost(aStarChild);
                 }
                 else
                 {
-                    if (!_openList.Remove(child)) continue;
+                    if (!_openList.Remove(aStarChild)) continue;
                     
-                    child.Update(node);
-                    _openList.Add(child);
+                    aStarChild.Update(node);
+                    var cost = node.GetUpdatedCost(_initialState, child.ParentAction);
+                    aStarChild.GCost = cost;
+                    _openList.Add(aStarChild);
                 }
             }
         }
