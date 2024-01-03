@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: WatchMovies
   m_EditorClassIdentifier: 
+  _cost: 5
   preconditions:
   - name: 0
     value: Theatres
@@ -29,5 +30,4 @@ MonoBehaviour:
   - name: 3
     value: 40
     effect: 2
-  affectedKeys: 
   _waitSeconds: 5

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: GoFishing
   m_EditorClassIdentifier: 
+  _cost: 2
   preconditions:
   - name: 0
     value: FishingPoint
@@ -26,5 +27,4 @@ MonoBehaviour:
   - name: 4
     value: 2
     effect: 2
-  affectedKeys: 
-  _waitSeconds: 3
+  _waitSeconds: 2

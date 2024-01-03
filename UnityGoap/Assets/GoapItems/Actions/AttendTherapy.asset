@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: AttendTherapy
   m_EditorClassIdentifier: 
+  _cost: 10
   preconditions:
   - name: 0
     value: Hospital
@@ -32,5 +33,4 @@ MonoBehaviour:
   - name: 3
     value: 50
     effect: 2
-  affectedKeys: 
   _waitSeconds: 10
