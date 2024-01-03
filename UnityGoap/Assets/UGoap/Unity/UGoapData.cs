@@ -21,7 +21,7 @@ namespace UGoap.Unity
                 foreach (var goalPair in goal)
                 {
                     PropertyKey key = goalPair.Key;
-                    if(!goal.GetState().HasConflict(key, worldState)) continue;
+                    if(!goal.GetState().GetConflictConditions(key, worldState)) continue;
                     switch (GetPropertyType(key))
                     {
                         case Integer:

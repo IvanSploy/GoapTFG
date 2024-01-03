@@ -56,7 +56,7 @@ namespace UGoap.Base
         
         public int CountConflicts (StateGroup<TKey, TValue> worldState)
         {
-            return _conditions.CountConflict(worldState);
+            return _conditions.CountConflicts(worldState);
         }
 
         public bool Has(TKey key)

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
 
@@ -10,7 +9,7 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class StateGroup<TKey, TValue> : BaseGroup<TKey, StateValue<TValue>>
+    public class StateGroup<TKey, TValue> : BaseGroup<TKey, TValue>
     {
         public StateGroup(StateGroup<TKey, TValue> stateGroup = null) : base(stateGroup)
         { }
@@ -18,12 +17,7 @@ namespace UGoap.Base
         //Value Access
         public void Set(TKey key, TValue value)
         {
-            _values[key] = new StateValue<TValue>(value);
-        }
-        
-        public void Set(TKey key, StateValue<TValue> value)
-        {
-            _values[key] = new StateValue<TValue>(value.Value);
+            _values[key] = value;
         }
         
         public void Set(StateGroup<TKey, TValue> otherPg)
@@ -34,11 +28,14 @@ namespace UGoap.Base
             }
         }
         
-        public void Set(ConditionGroup<TKey, TValue> otherPg)
+        public void Set(ConditionGroup<TKey, TValue> other)
         {
-            foreach (var pair in otherPg)
-            {   
-                Set(pair.Key, pair.Value);
+            foreach (var pair in other)
+            {
+                foreach (var condition in pair.Value)
+                {
+                    Set(pair.Key, condition.Value);
+                }
             }
         }
         
@@ -46,27 +43,24 @@ namespace UGoap.Base
         {
             foreach (var pair in effectGroup)
             {   
-                Set(pair.Key, pair.Value);
+                Set(pair.Key, pair.Value.Value);
             }
         }
         
-        private StateValue<TValue> Get(TKey key)
+        private TValue Get(TKey key)
         {
             return _values[key];
         }
         
-        public StateValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public TValue TryGetOrDefault(TKey key, TValue defaultValue)
         {
             if(HasKey(key)) return _values[key];
-            else
-            {
-                return new StateValue<TValue>(defaultValue);
-            }
+            return defaultValue;
         }
 
         public TValue this[TKey key]
         {
-            get => Get(key).Value;
+            get => Get(key);
             set => Set(key, value);
         }
         
@@ -127,7 +121,7 @@ namespace UGoap.Base
         public override string ToString()
         {
             return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
-                                                            pair.Value.Value + "\n");
+                                                            pair.Value + "\n");
         }
         
         //Overrides
@@ -143,7 +137,7 @@ namespace UGoap.Base
             foreach (var key in _values.Keys)
             {
                 if (!otherPg.HasKey(key)) return false;
-                if(!_values[key].Value.Equals(otherPg._values[key].Value)) return false;
+                if(!_values[key].Equals(otherPg._values[key])) return false;
             }
             return true;
         }
@@ -155,12 +149,12 @@ namespace UGoap.Base
         public override int GetHashCode()
         {
             int hash = 18;
-            foreach(KeyValuePair<TKey, StateValue<TValue>> kvp in _values)
+            foreach(KeyValuePair<TKey, TValue> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
                 if (!IsRelevantKey(kvp.Key)) continue;
                 
-                hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode());
+                hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
                 hash %= int.MaxValue;
             }
             return hash;
@@ -174,7 +168,7 @@ namespace UGoap.Base
 
         private bool IsRelevantKey(TKey key)
         {
-            return _values[key].Value.GetHashCode() != GetDefaultValue(_values[key].Value).GetHashCode();
+            return _values[key].GetHashCode() != GetDefaultValue(_values[key]).GetHashCode();
         }
         #endregion
         

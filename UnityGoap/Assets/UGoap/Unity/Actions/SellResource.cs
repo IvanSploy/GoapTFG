@@ -52,7 +52,7 @@ namespace UGoap.Unity.Actions
         {
             ConditionValue<object> moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f);
             StateValue<object> currentMoney = stateInfo.State.TryGetOrDefault(Money, 0f);
-            float moneyRequired = (float) moneyValue.Value - (float) currentMoney.Value;
+            float moneyRequired = (float) moneyValue - (float) currentMoney;
             if (moneyValue.ConditionType == ConditionType.GreaterThan) moneyRequired += 1;
             return (int) Mathf.Ceil(moneyRequired / _price);
         }
