@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
@@ -164,15 +165,63 @@ namespace UGoap.Base
         {
             return _values.Aggregate("", (current, pair) =>
             {
-                ConditionValue<TValue> conditionValue = (ConditionValue<TValue>)pair.Value;
-                return current + "Key: " + pair.Key + " | Value: " +
-                       conditionValue.Value + " | Condition: " + conditionValue.ConditionType + "\n";
+                string log = "";
+                foreach (var condition in pair.Value)
+                {
+                    log += "Key: " + pair.Key + " | Value: " +
+                           condition.Value + " | Condition: " + condition.ConditionType + "\n";
+                }
+                return log;
             });
         }
 
-        public override IEnumerator<KeyValuePair<TKey, HashSet<ConditionValue<TValue>>>> GetEnumerator()
+        public new IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>> GetEnumerator()
         {
-            return base.GetEnumerator().;
+            return new ConditionsEnumerator(_values.Keys.ToArray(), _values.Values.ToArray());
+        }
+        
+        public class ConditionsEnumerator : IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>>
+        {
+            private KeyValuePair<TKey, List<ConditionValue<TValue>>>[] _data;
+            private int _index = -1;
+
+            public ConditionsEnumerator(TKey[] keys, HashSet<ConditionValue<TValue>>[] values)
+            {
+                _data = new KeyValuePair<TKey, List<ConditionValue<TValue>>>[keys.Length];
+                for (var i = 0; i < keys.Length; i++)
+                {
+                    _data[i] = new KeyValuePair<TKey, List<ConditionValue<TValue>>>(keys[i], values[i].ToList());
+                }
+            }
+
+            public KeyValuePair<TKey, List<ConditionValue<TValue>>> Current
+            {
+                get
+                {
+                    if (_index >= 0 && _index < _data.Length)
+                    {
+                        return _data[_index];
+                    }
+
+                    throw new InvalidOperationException();
+                }
+            }
+
+            object IEnumerator.Current => Current;
+            
+            public bool MoveNext()
+            {
+                _index++;
+                return _index < _data.Length;
+            }
+
+            public void Reset()
+            {
+                _index = -1;
+            }
+
+            public void Dispose()
+            { }
         }
     }
 }

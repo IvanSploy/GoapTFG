@@ -24,48 +24,51 @@ namespace UGoap.Planner
         }
 
         public static bool CheckEffectCompatibility(TValue currentValue, EffectType effectType, TValue actionValue,
-            TValue desiredValue, ConditionType conditionType)
+            List<ConditionValue<TValue>> conditions)
         {
-            //Check if condition will be fulfilled.
-            object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
-            if (EvaluateCondition(resultValue, desiredValue, conditionType))
+            bool compatible = true;
+            for (var i = 0; i < conditions.Count && compatible; i++)
             {
-                return true;
-            }
-            
-            //Is condition is not reached after evaluation.
-            bool compatible;
-            switch (effectType)
-            {
-                case EffectType.Add:
-                case EffectType.Multiply:
-                    switch (conditionType)
-                    {
-                        case ConditionType.GreaterThan:
-                        case ConditionType.GreaterOrEqual:
-                            compatible = true;
-                            break;
-                        default:
-                            compatible = false;
-                            break;
-                    }
-                    break;
-                case EffectType.Subtract:
-                case EffectType.Divide:
-                    switch (conditionType)
-                    {
-                        case ConditionType.LessThan:
-                        case ConditionType.LessOrEqual:
-                            compatible = true;
-                            break;
-                        default:
-                            compatible = false;
-                            break;
-                    }
-                    break;
-                default:
-                    compatible = false;
-                    break;
+                var condition = conditions[i];
+                //Check if condition will be fulfilled.
+                object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
+                if (EvaluateCondition(resultValue, condition.Value, condition.ConditionType))
+                {
+                    return true;
+                }
+
+                //Is condition is not reached after evaluation.
+                switch (effectType)
+                {
+                    case EffectType.Add:
+                    case EffectType.Multiply:
+                        switch (condition.ConditionType)
+                        {
+                            case ConditionType.GreaterThan:
+                            case ConditionType.GreaterOrEqual:
+                                break;
+                            default:
+                                compatible = false;
+                                break;
+                        }
+
+                        break;
+                    case EffectType.Subtract:
+                    case EffectType.Divide:
+                        switch (condition.ConditionType)
+                        {
+                            case ConditionType.LessThan:
+                            case ConditionType.LessOrEqual:
+                                break;
+                            default:
+                                compatible = false;
+                                break;
+                        }
+                        break;
+                    default:
+                        compatible = false;
+                        break;
+                }
             }
 
             if (!compatible)

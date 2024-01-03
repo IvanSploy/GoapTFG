@@ -48,7 +48,7 @@ namespace UGoap.Unity.Actions
             if (!ws.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
             
             var target1 = (string) ws[Target];
-            var target2 = (string) goal[Target];
+            var target2 = (string) goal[Target][0].Value; //todo comprobar condicion adecuada.
 
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;

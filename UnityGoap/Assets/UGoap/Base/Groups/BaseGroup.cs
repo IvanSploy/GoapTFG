@@ -39,7 +39,7 @@ namespace UGoap.Base
             return _values.Count == 0;
         }
         
-        public virtual IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _values.GetEnumerator();
         }

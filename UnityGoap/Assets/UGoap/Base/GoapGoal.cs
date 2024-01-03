@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UGoap.Base
 {
-    public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ConditionValue<TValue>>>
+    public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, List<ConditionValue<TValue>>>>
     {
         //Fields
         private readonly ConditionGroup<TKey, TValue> _conditions;
@@ -64,18 +64,14 @@ namespace UGoap.Base
             return _conditions.HasKey(key);
         }
         
-        public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public List<ConditionValue<TValue>> TryGetOrDefault(TKey key, TValue defaultValue)
         {
             return GetState().TryGetOrDefault(key, defaultValue);
         }
         
         //Operators
-        public ConditionValue<TValue> this[TKey key]
-        {
-            get => GetState()[key];
-            set => GetState()[key] = value;
-        }
-        
+        public List<ConditionValue<TValue>> this[TKey key] => GetState()[key];
+
         public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, ConditionGroup<TKey, TValue> b)
         {
             var conditionGroup = a._conditions;
@@ -110,7 +106,7 @@ namespace UGoap.Base
             return "Objetivo: " + Name + "\n" + _conditions;
         }
 
-        public IEnumerator<KeyValuePair<TKey, ConditionValue<TValue>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>> GetEnumerator()
         {
             return GetState().GetEnumerator();
         }

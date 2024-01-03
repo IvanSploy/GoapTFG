@@ -60,7 +60,7 @@ namespace UGoap.Planner
                         if (_current.State.HasKey(key) && actionEffects.HasKey(key))
                         {
                             if(! CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
-                                goalPair.Value.Value, goalPair.Value.ConditionType)) continue;
+                                goalPair.Value)) continue;
                         }
 
                         if(_actionsVisited.Contains(action.Name)) continue;

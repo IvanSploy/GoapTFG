@@ -193,7 +193,7 @@ namespace UGoap.Unity
         #region Converters
         private static void ApplyProperty(Property property, in StateGroup<PropertyKey, object> pg)
         {
-            pg.Set(property.name, new StateValue<object>(ParseValue(property)));
+            pg.Set(property.name, ParseValue(property));
         }
         
         private static void ApplyProperty(ConditionProperty property, in ConditionGroup<PropertyKey, object> pg)
