@@ -31,7 +31,8 @@ namespace UGoap.Unity.Actions
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
             EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
-            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal.TryGetOrDefault(Target, ""), EffectType.Set);
+            string target = (string) stateInfo.Goal.TryGetOrDefault(Target, "")[0].Value; //TODO check this
+            proceduralEffects[Target] = new EffectValue<object>(target, EffectType.Set);
             return proceduralEffects;
         }
 

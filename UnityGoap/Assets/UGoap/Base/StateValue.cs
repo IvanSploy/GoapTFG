@@ -13,8 +13,13 @@ namespace UGoap.Base
             ConditionType = conditionType;
         }
 
-        protected bool Equals(ConditionValue<TValue> other)
+        public override bool Equals(object obj)
         {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            ConditionValue<TValue> other = (ConditionValue<TValue>)obj;
             return Value.Equals(other.Value) && ConditionType == other.ConditionType;
         }
 
@@ -36,8 +41,13 @@ namespace UGoap.Base
             EffectType = effectType;
         }
 
-        protected bool Equals(EffectValue<TValue> other)
+        public override bool Equals(object obj)
         {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            EffectValue<TValue> other = (EffectValue<TValue>)obj;
             return Value.Equals(other.Value) && EffectType == other.EffectType;
         }
 

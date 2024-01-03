@@ -21,11 +21,9 @@ namespace UGoap.Base
             _values[key] = new EffectValue<TValue>(value, effectType);
         }
         
-        public void Set(TKey key, EffectValue<TValue> effectValue)
-        {
-            _values[key] = new EffectValue<TValue>(effectValue.Value, effectValue.EffectType);
-        }
-        
+        public void Set(TKey key, EffectValue<TValue> effectValue) =>
+            Set(key, effectValue.Value, effectValue.EffectType);
+
         public void Set(EffectGroup<TKey, TValue> otherPg)
         {
             foreach (var pair in otherPg)
@@ -39,10 +37,7 @@ namespace UGoap.Base
         public EffectValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
         {
             if(HasKey(key)) return Get(key);
-            else
-            {
-                return new EffectValue<TValue>(defaultValue, EffectType.Set);
-            }
+            return new EffectValue<TValue>(defaultValue, EffectType.Set);
         }
         
         public EffectValue<TValue> this[TKey key]

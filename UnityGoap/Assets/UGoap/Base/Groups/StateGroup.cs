@@ -28,17 +28,6 @@ namespace UGoap.Base
             }
         }
         
-        public void Set(ConditionGroup<TKey, TValue> other)
-        {
-            foreach (var pair in other)
-            {
-                foreach (var condition in pair.Value)
-                {
-                    Set(pair.Key, condition.Value);
-                }
-            }
-        }
-        
         public void Set(EffectGroup<TKey, TValue> effectGroup)
         {
             foreach (var pair in effectGroup)
@@ -173,14 +162,6 @@ namespace UGoap.Base
         #endregion
         
         //Casts
-        // Implicit conversion operator
-        public static implicit operator StateGroup<TKey, TValue>(ConditionGroup<TKey, TValue> custom)
-        {
-            StateGroup<TKey, TValue> stateGroup = new StateGroup<TKey, TValue>();
-            stateGroup.Set(custom);
-            return stateGroup;
-        }
-        
         // Implicit conversion operator
         public static implicit operator StateGroup<TKey, TValue>(EffectGroup<TKey, TValue> custom)
         {
