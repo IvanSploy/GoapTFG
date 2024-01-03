@@ -16,12 +16,12 @@ namespace UGoap.Base
         //Value Access
         public void Set(TKey key, TValue value, ConditionType conditionType)
         {
-            Values[key] = new ConditionValue<TValue>(value, conditionType);
+            _values[key] = new ConditionValue<TValue>(value, conditionType);
         }
         
         public void Set(TKey key, ConditionValue<TValue> value)
         {
-            Values[key] = new ConditionValue<TValue>(value.Value, value.ConditionType);
+            _values[key] = new ConditionValue<TValue>(value.Value, value.ConditionType);
         }
         
         public void Set(ConditionGroup<TKey, TValue> conditionGroup)
@@ -34,7 +34,7 @@ namespace UGoap.Base
         
         public ConditionValue<TValue> Get(TKey key)
         {
-            return (ConditionValue<TValue>) Values[key];
+            return (ConditionValue<TValue>) _values[key];
         }
 
         public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
@@ -105,7 +105,7 @@ namespace UGoap.Base
             if (cg == null) return newCg;
             if (newCg == null) return cg;
             
-            foreach (var pair in cg.Values)
+            foreach (var pair in cg._values)
             {
                 var data = pair.Value;
                 if (!newCg.HasKey(pair.Key)) continue;
@@ -132,7 +132,7 @@ namespace UGoap.Base
         //Overrides
         public override string ToString()
         {
-            return Values.Aggregate("", (current, pair) =>
+            return _values.Aggregate("", (current, pair) =>
             {
                 ConditionValue<TValue> conditionValue = (ConditionValue<TValue>) pair.Value;
                 return current + "Key: " + pair.Key + " | Value: " +

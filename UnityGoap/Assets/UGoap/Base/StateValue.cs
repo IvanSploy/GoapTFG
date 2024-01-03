@@ -2,22 +2,22 @@
 
 namespace UGoap.Base
 {
-    public class GoapValue<TValue>
+    public class StateValue<TValue>
     {
         public TValue Value;
 
-        public GoapValue(TValue value)
+        public StateValue(TValue value)
         {
             Value = value;
         }
         
-        public GoapValue(GoapValue<TValue> value)
+        public StateValue(StateValue<TValue> value)
         {
             Value = value.Value;
         }
         
         // Implicit conversion operator
-        public static implicit operator TValue(GoapValue<TValue> propertyValue)
+        public static implicit operator TValue(StateValue<TValue> propertyValue)
         {
             return propertyValue.Value;
         }
@@ -28,12 +28,12 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            GoapValue<TValue> goapValue = (GoapValue<TValue>)obj;
-            return Value.Equals(goapValue.Value);
+            StateValue<TValue> stateValue = (StateValue<TValue>)obj;
+            return Value.Equals(stateValue.Value);
         }
     }
     
-    public class ConditionValue<TValue> : GoapValue<TValue>
+    public class ConditionValue<TValue> : StateValue<TValue>
     {
         public ConditionType ConditionType;
 
@@ -42,7 +42,7 @@ namespace UGoap.Base
             ConditionType = conditionType;
         }
         
-        public ConditionValue(GoapValue<TValue> value, ConditionType conditionType) : base(value.Value)
+        public ConditionValue(StateValue<TValue> value, ConditionType conditionType) : base(value.Value)
         {
             ConditionType = conditionType;
         }
@@ -58,7 +58,7 @@ namespace UGoap.Base
         }
     }
     
-    public class EffectValue<TValue> : GoapValue<TValue>
+    public class EffectValue<TValue> : StateValue<TValue>
     {
         public EffectType EffectType;
 
@@ -67,7 +67,7 @@ namespace UGoap.Base
             EffectType = effectType;
         }
         
-        public EffectValue(GoapValue<TValue> value, EffectType effectType) : base(value.Value)
+        public EffectValue(StateValue<TValue> value, EffectType effectType) : base(value.Value)
         {
             EffectType = effectType;
         }

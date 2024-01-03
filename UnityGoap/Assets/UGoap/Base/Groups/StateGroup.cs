@@ -10,7 +10,7 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class StateGroup<TKey, TValue> : BaseGroup<TKey, GoapValue<TValue>>
+    public class StateGroup<TKey, TValue> : BaseGroup<TKey, StateValue<TValue>>
     {
         public StateGroup(StateGroup<TKey, TValue> stateGroup = null) : base(stateGroup)
         { }
@@ -18,12 +18,12 @@ namespace UGoap.Base
         //Value Access
         public void Set(TKey key, TValue value)
         {
-            Values[key] = new GoapValue<TValue>(value);
+            _values[key] = new StateValue<TValue>(value);
         }
         
-        public void Set(TKey key, GoapValue<TValue> value)
+        public void Set(TKey key, StateValue<TValue> value)
         {
-            Values[key] = new GoapValue<TValue>(value.Value);
+            _values[key] = new StateValue<TValue>(value.Value);
         }
         
         public void Set(StateGroup<TKey, TValue> otherPg)
@@ -50,17 +50,17 @@ namespace UGoap.Base
             }
         }
         
-        private GoapValue<TValue> Get(TKey key)
+        private StateValue<TValue> Get(TKey key)
         {
-            return Values[key];
+            return _values[key];
         }
         
-        public GoapValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public StateValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
         {
-            if(HasKey(key)) return Values[key];
+            if(HasKey(key)) return _values[key];
             else
             {
-                return new GoapValue<TValue>(defaultValue);
+                return new StateValue<TValue>(defaultValue);
             }
         }
 
@@ -116,7 +116,7 @@ namespace UGoap.Base
             
             var propertyGroup = new StateGroup<TKey, TValue>(a);
             if (b is null) return propertyGroup;
-            foreach (var pair in b.Values)
+            foreach (var pair in b._values)
             {
                 if(a.HasKey(pair.Key)) propertyGroup.Remove(pair.Key);
             }
@@ -126,9 +126,57 @@ namespace UGoap.Base
         //Overrides
         public override string ToString()
         {
-            return Values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
+            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
                                                             pair.Value.Value + "\n");
         }
+        
+        //Overrides
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            StateGroup<TKey, TValue> otherPg = (StateGroup<TKey, TValue>)obj;
+            
+            if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
+            foreach (var key in _values.Keys)
+            {
+                if (!otherPg.HasKey(key)) return false;
+                if(!_values[key].Value.Equals(otherPg._values[key].Value)) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Evaluate hash code of the dictionary with sort order and xor exclusion.
+        /// </summary>
+        /// <returns>Hash Number</returns>
+        public override int GetHashCode()
+        {
+            int hash = 18;
+            foreach(KeyValuePair<TKey, StateValue<TValue>> kvp in _values)
+            {
+                //No se toman en cuenta las reglas desinformadas.
+                if (!IsRelevantKey(kvp.Key)) continue;
+                
+                hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.Value.GetHashCode());
+                hash %= int.MaxValue;
+            }
+            return hash;
+        }
+        
+        #region DefaultValues
+        private int CountRelevantKeys()
+        {
+            return _values.Keys.Count(IsRelevantKey);
+        }
+
+        private bool IsRelevantKey(TKey key)
+        {
+            return _values[key].Value.GetHashCode() != GetDefaultValue(_values[key].Value).GetHashCode();
+        }
+        #endregion
         
         //Casts
         // Implicit conversion operator

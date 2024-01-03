@@ -18,12 +18,12 @@ namespace UGoap.Base
         //Value Access
         public void Set(TKey key, TValue value, EffectType effectType)
         {
-            Values[key] = new EffectValue<TValue>(value, effectType);
+            _values[key] = new EffectValue<TValue>(value, effectType);
         }
         
         public void Set(TKey key, EffectValue<TValue> effectValue)
         {
-            Values[key] = new EffectValue<TValue>(effectValue.Value, effectValue.EffectType);
+            _values[key] = new EffectValue<TValue>(effectValue.Value, effectValue.EffectType);
         }
         
         public void Set(EffectGroup<TKey, TValue> otherPg)
@@ -34,7 +34,7 @@ namespace UGoap.Base
             }
         }
         
-        public EffectValue<TValue> Get(TKey key) => Values[key];
+        public EffectValue<TValue> Get(TKey key) => _values[key];
 
         public EffectValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
         {
@@ -54,7 +54,7 @@ namespace UGoap.Base
         //Overrides
         public override string ToString()
         {
-            return Values.Aggregate("", (current, pair) =>
+            return _values.Aggregate("", (current, pair) =>
             {
                 EffectValue<TValue> effectValue = pair.Value;
                 return current + "Key: " + pair.Key + " | Valor: " +
