@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
 
@@ -10,7 +9,7 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class ConditionGroup<TKey, TValue> : BaseGroup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, ConditionValue<TValue>>>
+    public class ConditionGroup<TKey, TValue> : BaseGroup<TKey, List<ConditionValue<TValue>>>
     {
         public ConditionGroup(ConditionGroup<TKey, TValue> conditionGroup = null) : base(conditionGroup)
         { }
@@ -18,54 +17,62 @@ namespace UGoap.Base
         //Value Access
         public void Set(TKey key, TValue value, ConditionType conditionType)
         {
-            _values[key] = new ConditionValue<TValue>(value, conditionType);
+            Set(key, new ConditionValue<TValue>(value, conditionType));
         }
         
-        public void Set(TKey key, ConditionValue<TValue> value)
+        private void Set(TKey key, ConditionValue<TValue> value)
         {
-            _values[key] = new ConditionValue<TValue>(value.Value, value.ConditionType);
-        }
-        
-        public void Set(ConditionGroup<TKey, TValue> conditionGroup)
-        {
-            foreach (var pair in conditionGroup)
-            {   
-                Set(pair.Key, pair.Value);
+            if (!_values.ContainsKey(key))
+            {
+                _values[key] = new List<ConditionValue<TValue>>();
             }
+            _values[key].Add(new ConditionValue<TValue>(value.Value, value.ConditionType));
         }
         
-        public ConditionValue<TValue> Get(TKey key)
+        protected override void Set(TKey key, List<ConditionValue<TValue>> listValue)
         {
-            return (ConditionValue<TValue>) _values[key];
+            _values[key] = new List<ConditionValue<TValue>>(listValue);
         }
 
-        public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public List<ConditionValue<TValue>> TryGetOrDefault(TKey key, TValue defaultValue)
         {
             if(HasKey(key)) return Get(key);
-            else
-            {
-                return new ConditionValue<TValue>(defaultValue, ConditionType.Equal);
-            }
+            return new List<ConditionValue<TValue>> { new(defaultValue, ConditionType.Equal) };
         }
         
-        public ConditionValue<TValue> this[TKey key]
-        {
-            get => Get(key);
-            set => Set(key, value);
-        }
-
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(PropertyGroup<TKey, TValue> propertyGroup)
+        public bool CheckConflict(StateGroup<TKey, TValue> stateGroup)
         {
-            return this.Any(pg => HasConflict(pg.Key, propertyGroup));
+            return _values.Any(pg => HasConflict(pg.Key, stateGroup));
         }
         
-        public ConditionGroup<TKey, TValue> GetConflict(PropertyGroup<TKey, TValue> propertyGroup)
+        public int CountConflict(StateGroup<TKey, TValue> stateGroup)
         {
-            ConditionGroup<TKey, TValue> mismatches = new ConditionGroup<TKey, TValue>();
+            return _values.Count(pg => HasConflict(pg.Key, stateGroup));
+        }
+        
+        public bool CheckFilteredConflict(StateGroup<TKey, TValue> stateGroup, out ConditionGroup<TKey, TValue> mismatches,
+            StateGroup<TKey, TValue> filter)
+        {
+            mismatches = new ConditionGroup<TKey, TValue>();
             foreach (var pair in this)
             {
-                if (HasConflict(pair.Key, propertyGroup))
+                if(!filter.HasKey(pair.Key)) mismatches.Set(pair.Key, pair.Value);
+                else if (HasConflict(pair.Key, stateGroup))
+                    mismatches.Set(pair.Key, pair.Value);
+            }
+
+            var thereIsConflict = !mismatches.IsEmpty();
+            if (!thereIsConflict) mismatches = null;
+            return thereIsConflict;
+        }
+        
+        public ConditionGroup<TKey, TValue> GetConflict(StateGroup<TKey, TValue> stateGroup)
+        {
+            ConditionGroup<TKey, TValue> mismatches = new ConditionGroup<TKey, TValue>();
+            foreach (var pair in _values)
+            {
+                if (HasConflict(pair.Key, stateGroup))
                     mismatches.Set(pair.Key, pair.Value);
             }
 
@@ -73,33 +80,17 @@ namespace UGoap.Base
             return mismatches;
         }
 
-        public int CountConflict(PropertyGroup<TKey, TValue> propertyGroup)
+        public bool HasConflict(TKey key, StateGroup<TKey, TValue> stateGroup)
         {
-            return propertyGroup.Count(pg => HasConflict(pg.Key, propertyGroup));
-        }
-
-        public bool HasConflict(TKey key, PropertyGroup<TKey, TValue> propertyGroup)
-        {
-            object defaultValue = GetDefaultValue(Get(key).Value);
-            TValue mainValue = !propertyGroup.HasKey(key) ? (TValue) defaultValue : propertyGroup[key];
-                
-            return !EvaluateCondition(mainValue, Get(key).Value, Get(key).ConditionType);
-        }
-        
-        public bool CheckFilteredConflict(PropertyGroup<TKey, TValue> propertyGroup, out ConditionGroup<TKey, TValue> mismatches,
-            PropertyGroup<TKey, TValue> filter)
-        {
-            mismatches = new ConditionGroup<TKey, TValue>();
-            foreach (var pair in this)
+            object defaultValue = GetDefaultValue(Get(key)[0].Value);
+            TValue mainValue = !stateGroup.HasKey(key) ? (TValue) defaultValue : stateGroup[key].Value;
+            
+            foreach (var conditionValue in Get(key))
             {
-                if(!filter.HasKey(pair.Key)) mismatches.Set(pair.Key, pair.Value);
-                else if (HasConflict(pair.Key, propertyGroup))
-                    mismatches.Set(pair.Key, pair.Value);
+                if (!EvaluateCondition(mainValue, conditionValue.Value, conditionValue.ConditionType))
+                    return true;
             }
-
-            var thereIsConflict = !mismatches.IsEmpty();
-            if (!thereIsConflict) mismatches = null;
-            return thereIsConflict;
+            return false;
         }
         
         public static ConditionGroup<TKey, TValue> Merge(ConditionGroup<TKey, TValue> cg, ConditionGroup<TKey, TValue> newCg)
@@ -124,9 +115,22 @@ namespace UGoap.Base
             if (a == null) return b;
             
             var propertyGroup = new ConditionGroup<TKey, TValue>(a);
+            
             foreach (var pair in b)
             {
-                propertyGroup.Set(pair.Key, pair.Value.Value, pair.Value.ConditionType);
+                if (propertyGroup.HasKey(pair.Key))
+                {
+                    foreach (var bValue in pair.Value.Where(bValue => !propertyGroup.Get(pair.Key).Any(aValue =>
+                                 aValue.ConditionType == bValue.ConditionType &&
+                                 aValue.Value.Equals(bValue.Value))))
+                    {
+                        propertyGroup.Set(pair.Key, bValue.Value, bValue.ConditionType);
+                    }
+                }
+                else
+                {
+                    propertyGroup.Set(pair.Key, pair.Value);
+                }
             }
             return propertyGroup;
         }
@@ -136,22 +140,15 @@ namespace UGoap.Base
         {
             return _values.Aggregate("", (current, pair) =>
             {
-                ConditionValue<TValue> conditionValue = (ConditionValue<TValue>) pair.Value;
-                return current + "Key: " + pair.Key + " | Value: " +
-                       conditionValue.Value + " | Condition: " + conditionValue.ConditionType + "\n";
+                List<ConditionValue<TValue>> conditionValues = pair.Value;
+                string log = current + "Key: " + pair.Key + "\n";
+                foreach (var conditionValue in conditionValues)
+                {
+                    log += "\t| Value: " +
+                           conditionValue.Value + " | Condition: " + conditionValue.ConditionType + "\n";
+                }
+                return log;
             });
-        }
-        
-        //Enumerable
-        public IEnumerator<KeyValuePair<TKey, ConditionValue<TValue>>> GetEnumerator()
-        {
-            return new GroupEnumerator<ConditionValue<TValue>>(_values.Keys.ToArray(), _values.Values.Select(value =>
-                (ConditionValue<TValue>)value).ToArray());
-        }
-        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

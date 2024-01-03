@@ -18,10 +18,9 @@ namespace UGoap.Base
         HashSet<TKey> GetAffectedKeys();
 
         //GOAP utilities.
-        PropertyGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
+        StateGroup<TKey, TValue> ApplyAction(GoapStateInfo<TKey, TValue> stateInfo);
         GoapStateInfo<TKey, TValue> ApplyRegressiveAction(GoapStateInfo<TKey, TValue> stateInfo, out bool reached);
-        (GoapStateInfo<TKey, TValue> stateInfo, bool valid) ApplyMixedAction(PropertyGroup<TKey, TValue> state,
-            GoapGoal<TKey, TValue> goal);
-        PropertyGroup<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo, IGoapAgent<TKey, TValue> agent);
+        GoapStateInfo<TKey, TValue> ApplyMixedAction(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal);
+        StateGroup<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo, IGoapAgent<TKey, TValue> agent);
     }
 }

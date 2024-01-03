@@ -12,7 +12,7 @@ namespace UGoap.Unity
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> GetCustomHeuristic()
+        public static Func<GoapGoal<PropertyKey, object>, StateGroup<PropertyKey, object>, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>
@@ -22,22 +22,31 @@ namespace UGoap.Unity
                 {
                     PropertyKey key = goalPair.Key;
                     if(!goal.GetState().HasConflict(key, worldState)) continue;
-                    switch (GetPropertyType(key))
+                    foreach (var conditionValue in goal[key])
                     {
-                        case Integer:
-                            if (worldState.HasKey(key))
-                                heuristic += Math.Abs((int)goal[key] - (int)worldState[key]);
-                            else heuristic += (int)goal[key];
-                            break;
-                        case Float:
-                            if (worldState.HasKey(key))
-                                heuristic += (int)Mathf.Abs((float)goal[key] - (float)worldState[key]);
-                            else heuristic += (int)goal[key];
-                            break;
-                        default:
-                            if (!worldState.HasKey(key) || !goal[key].Equals(worldState[key])) 
-                                heuristic += 1;
-                            break;
+                        if (worldState.HasKey(key))
+                        {
+                            if (BaseTypes.EvaluateCondition(worldState[key].Value, conditionValue.Value,
+                                    conditionValue.ConditionType)) continue;
+                        }
+
+                        switch (GetPropertyType(key))
+                        {
+                            case Integer:
+                                if (worldState.HasKey(key))
+                                    heuristic += Math.Abs((int)conditionValue.Value - (int)worldState[key].Value);
+                                else heuristic += (int)conditionValue.Value;
+                                break;
+                            case Float:
+                                if (worldState.HasKey(key))
+                                    heuristic += (int)Mathf.Abs((float)conditionValue.Value - (float)worldState[key].Value);
+                                else heuristic += (int)conditionValue.Value;
+                                break;
+                            default:
+                                if (!worldState.HasKey(key) || !conditionValue.Equals(worldState[key].Value)) 
+                                    heuristic += 1;
+                                break;
+                        }
                     }
                 }
                 return heuristic;

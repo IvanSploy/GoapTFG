@@ -43,17 +43,18 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }
 
         private int GetNeededAmount(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            ConditionValue<object> moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f);
-            float money = (float) moneyValue.Value;
-            if (moneyValue.ConditionType == ConditionType.GreaterThan) money += 1;
-            return (int) Mathf.Ceil(money / _price);
+            ConditionValue<object> moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f)[0];
+            StateValue<object> currentMoney = stateInfo.State.TryGetOrDefault(Money, 0f);
+            float moneyRequired = (float) moneyValue.Value - (float) currentMoney.Value;
+            if (moneyValue.ConditionType == ConditionType.GreaterThan) moneyRequired += 1;
+            return (int) Mathf.Ceil(moneyRequired / _price);
         }
     }
 }

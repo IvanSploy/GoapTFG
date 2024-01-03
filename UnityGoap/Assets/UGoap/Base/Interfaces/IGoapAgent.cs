@@ -38,20 +38,20 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="worldState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int CreateNewPlan(PropertyGroup<TKey, TValue> worldState);
+        public int CreateNewPlan(StateGroup<TKey, TValue> worldState);
         /// <summary>
         /// Performs all of the actions in the actual plan all at once.
         /// </summary>
         /// <param name="worldState"></param>
         /// <returns></returns>
-        public PropertyGroup<TKey, TValue> DoPlan(PropertyGroup<TKey, TValue> worldState);
+        public StateGroup<TKey, TValue> DoPlan(StateGroup<TKey, TValue> worldState);
         
         /// <summary>
         /// Performs the current action of the actual plan.
         /// </summary>
         /// <param name="worldState"></param>
         /// <returns></returns>
-        public PropertyGroup<TKey, TValue> PlanStep(PropertyGroup<TKey, TValue> worldState);
+        public StateGroup<TKey, TValue> PlanStep(StateGroup<TKey, TValue> worldState);
         
         /// <summary>
         /// Current number of action that the actual plan has.

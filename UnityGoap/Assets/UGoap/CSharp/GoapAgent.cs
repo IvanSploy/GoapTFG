@@ -12,7 +12,7 @@ namespace UGoap.CSharp
         private readonly List<GoapGoal<TKey, TValue>> _goals;
 
         public string Name { get; }
-        public PropertyGroup<TKey, TValue> CurrentState { get; set; }
+        public StateGroup<TKey, TValue> CurrentState { get; set; }
         public GoapGoal<TKey, TValue> CurrentGoal { get; set; }
         
         public GoapAgent(string name, List<GoapGoal<TKey, TValue>> goals, List<IGoapAction<TKey, TValue>> actions = null)
@@ -59,7 +59,7 @@ namespace UGoap.CSharp
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
         
-        public int CreateNewPlan(PropertyGroup<TKey, TValue> worldState)
+        public int CreateNewPlan(StateGroup<TKey, TValue> worldState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             int i = 0;
@@ -74,7 +74,7 @@ namespace UGoap.CSharp
             return i-1;
         }
 
-        private bool CreatePlan(PropertyGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goal)
+        private bool CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goal)
         {
             var plan = RegressivePlanner<TKey, TValue>.CreatePlan(initialState, goal, _actions);
             if (plan == null) return false;
@@ -83,7 +83,7 @@ namespace UGoap.CSharp
         }
         
         //Plan follower
-        public PropertyGroup<TKey, TValue> DoPlan(PropertyGroup<TKey, TValue> worldState)
+        public StateGroup<TKey, TValue> DoPlan(StateGroup<TKey, TValue> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 
@@ -96,7 +96,7 @@ namespace UGoap.CSharp
             return worldState;
         }
 
-        public PropertyGroup<TKey, TValue> PlanStep(PropertyGroup<TKey, TValue> worldState)
+        public StateGroup<TKey, TValue> PlanStep(StateGroup<TKey, TValue> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
@@ -24,6 +25,12 @@ namespace UGoap.Planner
         }
 
         public static bool CheckEffectCompatibility(TValue currentValue, EffectType effectType, TValue actionValue,
+            List<ConditionValue<TValue>> conditionValues)
+        {
+            return conditionValues.All(conditionValue => CheckEffectCompatibility(currentValue, effectType, actionValue, conditionValue.Value, conditionValue.ConditionType));
+        }
+
+        private static bool CheckEffectCompatibility(TValue currentValue, EffectType effectType, TValue actionValue,
             TValue desiredValue, ConditionType conditionType)
         {
             //Check if condition will be fulfilled.
@@ -82,7 +89,7 @@ namespace UGoap.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions);
         
         /// <summary>

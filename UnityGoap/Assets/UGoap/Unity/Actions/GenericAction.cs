@@ -25,7 +25,7 @@ namespace UGoap.Unity.Actions
             return null;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }

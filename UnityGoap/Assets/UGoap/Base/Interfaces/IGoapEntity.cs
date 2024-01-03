@@ -12,6 +12,6 @@
         /// <summary>
         /// Represents the state associated with the current entity.
         /// </summary>
-        public PropertyGroup<TKey, TValue> CurrentState { get; set; }
+        public StateGroup<TKey, TValue> CurrentState { get; set; }
     }
 }

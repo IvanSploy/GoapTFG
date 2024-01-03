@@ -36,13 +36,13 @@ namespace UGoap.Unity.Actions
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
             EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
-            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal.TryGetOrDefault(Target, ""), EffectType.Set);
+            proceduralEffects[Target] = new EffectValue<object>(stateInfo.Goal.TryGetOrDefault(Target, "")[0].Value, EffectType.Set);
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
-            agent.GoToTarget((string)state.TryGetOrDefault(Target, ""), _speedFactor);
+            agent.GoToTarget((string)state.TryGetOrDefault(Target, "").Value, _speedFactor);
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)
@@ -52,8 +52,8 @@ namespace UGoap.Unity.Actions
 
             if (!ws.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
             
-            var target1 = (string) ws[Target];
-            var target2 = (string) goal[Target];
+            var target1 = (string) ws[Target].Value;
+            var target2 = (string) goal[Target][0].Value;
 
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;

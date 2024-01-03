@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UGoap.Base
 {
-    public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ConditionValue<TValue>>>
+    public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, List<ConditionValue<TValue>>>>
     {
         //Fields
         private readonly ConditionGroup<TKey, TValue> _conditions;
@@ -28,33 +28,30 @@ namespace UGoap.Base
         }
 
         //Getters
-        public ConditionGroup<TKey, TValue> GetState()
-        {
-            return _conditions;
-        }
-        
+        public ConditionGroup<TKey, TValue> GetState() => _conditions;
+
         //GOAP Utilites
         public bool IsEmpty()
         {
             return _conditions.IsEmpty();
         }
         
-        public bool IsReached (PropertyGroup<TKey, TValue> worldState)
+        public bool IsReached (StateGroup<TKey, TValue> worldState)
         {
             return !_conditions.CheckConflict(worldState);
         }
         
-        public ConditionGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
+        public ConditionGroup<TKey, TValue> GetConflicts (StateGroup<TKey, TValue> worldState)
         {
             return _conditions.GetConflict(worldState);
         }
         
-        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
+        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (StateGroup<TKey, TValue> worldState, StateGroup<TKey, TValue> filter)
         {
             return _conditions.CheckFilteredConflict(worldState, out var mismatches, filter) ? mismatches : null;
         }
         
-        public int CountConflicts (PropertyGroup<TKey, TValue> worldState)
+        public int CountConflicts (StateGroup<TKey, TValue> worldState)
         {
             return _conditions.CountConflict(worldState);
         }
@@ -64,18 +61,14 @@ namespace UGoap.Base
             return _conditions.HasKey(key);
         }
         
-        public ConditionValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public List<ConditionValue<TValue>> TryGetOrDefault(TKey key, TValue defaultValue)
         {
             return GetState().TryGetOrDefault(key, defaultValue);
         }
         
         //Operators
-        public ConditionValue<TValue> this[TKey key]
-        {
-            get => GetState()[key];
-            set => GetState()[key] = value;
-        }
-        
+        public List<ConditionValue<TValue>> this[TKey key] => GetState()[key];
+
         public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, ConditionGroup<TKey, TValue> b)
         {
             var conditionGroup = a._conditions;
@@ -94,14 +87,14 @@ namespace UGoap.Base
             return "Objetivo: " + Name + "\n" + _conditions;
         }
 
-        public IEnumerator<KeyValuePair<TKey, ConditionValue<TValue>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>> GetEnumerator()
         {
             return GetState().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetState().GetEnumerator();
+            return GetEnumerator();
         }
     }
 }

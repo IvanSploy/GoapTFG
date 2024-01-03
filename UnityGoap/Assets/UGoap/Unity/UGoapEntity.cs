@@ -14,7 +14,7 @@ namespace UGoap.Unity
         public string Name => nameEntity;
         public Collider Collider => _collider;
 
-        public PropertyGroup<UGoapPropertyManager.PropertyKey, object> CurrentState { get; set; }
+        public StateGroup<UGoapPropertyManager.PropertyKey, object> CurrentState { get; set; }
 
         private void Awake()
         {
@@ -33,13 +33,13 @@ namespace UGoap.Unity
         {
             if (initialState != null)
             {
-                PropertyGroup<UGoapPropertyManager.PropertyKey, object> state = new ();
+                StateGroup<UGoapPropertyManager.PropertyKey, object> state = new ();
                 UGoapPropertyManager.AddIntoPropertyGroup(initialState.properties, in state);
                 CurrentState = state;
             }
             else
             {
-                CurrentState = new PropertyGroup<UGoapPropertyManager.PropertyKey, object>();
+                CurrentState = new StateGroup<UGoapPropertyManager.PropertyKey, object>();
             }
             UGoapWMM.Add(Name, this);
         }

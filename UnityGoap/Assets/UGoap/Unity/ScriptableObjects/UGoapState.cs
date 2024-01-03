@@ -11,9 +11,9 @@ namespace UGoap.Unity.ScriptableObjects
     {
         [FormerlySerializedAs("stateProperties")] [HideInInspector] public List<Property> properties;
 
-        public PropertyGroup<PropertyKey, object> Create()
+        public StateGroup<PropertyKey, object> Create()
         {
-            PropertyGroup<PropertyKey, object> state = new();
+            StateGroup<PropertyKey, object> state = new();
             AddIntoPropertyGroup(properties, in state);
             return state;
         }
