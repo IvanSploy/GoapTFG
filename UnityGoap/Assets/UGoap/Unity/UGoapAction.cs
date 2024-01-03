@@ -5,7 +5,7 @@ using UGoap.Base;
 using UnityEngine;
 using static UGoap.Unity.UGoapPropertyManager;
 
-using PropertyGroup = UGoap.Base.PropertyGroup<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
+using PropertyGroup = UGoap.Base.StateGroup<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
 using ConditionGroup = UGoap.Base.ConditionGroup<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
 using EffectGroup = UGoap.Base.EffectGroup<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
 using GoapGoal = UGoap.Base.GoapGoal<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
@@ -112,7 +112,7 @@ namespace UGoap.Unity
             return false;
         }
         
-        private PropertyGroup<PropertyKey, object> DoApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
+        private StateGroup<PropertyKey, object> DoApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return stateInfo.State + GetEffects(stateInfo);
         }
@@ -129,7 +129,7 @@ namespace UGoap.Unity
             var goal = stateInfo.Goal;
 
             //Filtro de objetivos (solo los que atañen a la accion actual.)
-            PropertyGroup<PropertyKey, object> filter = GetEffects(stateInfo);
+            StateGroup<PropertyKey, object> filter = GetEffects(stateInfo);
             
             var remainingGoalConditions = goal.ResolveFilteredGoal(worldState, filter);
             GetPreconditions(stateInfo).CheckFilteredConflict(worldState, out var newGoalConditions, filter);
@@ -153,7 +153,7 @@ namespace UGoap.Unity
             return new GoapStateInfo<PropertyKey, object>(worldState, goal);
         }
         
-        public GoapStateInfo<PropertyKey, object> ApplyMixedAction(PropertyGroup<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
+        public GoapStateInfo<PropertyKey, object> ApplyMixedAction(StateGroup<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
         {
             //Check conflicts
             var stateInfo = new GoapStateInfo<PropertyKey, object>(state, goal);

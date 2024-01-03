@@ -13,14 +13,14 @@ namespace UGoap.Planner
         public override int TotalCost => GCost + HCost;
 
         //Constructor
-        public AStarNode(PropertyGroup<TKey, TValue> state,
+        public AStarNode(StateGroup<TKey, TValue> state,
             GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(state, goal, generator)
         {
             GCost = 0;
             HCost = 0;
         }
 
-        protected override Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
+        protected override Node<TKey, TValue> CreateChildNode(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
             IGoapAction<TKey, TValue> goapAction, int cost = -1)
         {
             var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);

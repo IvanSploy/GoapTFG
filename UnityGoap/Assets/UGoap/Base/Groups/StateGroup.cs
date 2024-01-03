@@ -10,23 +10,23 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class PropertyGroup<TKey, TValue> : BaseGroup<TKey, TValue>, IEnumerable<KeyValuePair<TKey, GoapValue<TValue>>>
+    public class StateGroup<TKey, TValue> : BaseGroup<TKey, GoapValue<TValue>>
     {
-        public PropertyGroup(PropertyGroup<TKey, TValue> propertyGroup = null) : base(propertyGroup)
+        public StateGroup(StateGroup<TKey, TValue> stateGroup = null) : base(stateGroup)
         { }
         
         //Value Access
         public void Set(TKey key, TValue value)
         {
-            _values[key] = new GoapValue<TValue>(value);
+            Values[key] = new GoapValue<TValue>(value);
         }
         
         public void Set(TKey key, GoapValue<TValue> value)
         {
-            _values[key] = new GoapValue<TValue>(value.Value);
+            Values[key] = new GoapValue<TValue>(value.Value);
         }
         
-        public void Set(PropertyGroup<TKey, TValue> otherPg)
+        public void Set(StateGroup<TKey, TValue> otherPg)
         {
             foreach (var pair in otherPg)
             {   
@@ -52,12 +52,12 @@ namespace UGoap.Base
         
         private GoapValue<TValue> Get(TKey key)
         {
-            return _values[key];
+            return Values[key];
         }
         
         public GoapValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
         {
-            if(HasKey(key)) return _values[key];
+            if(HasKey(key)) return Values[key];
             else
             {
                 return new GoapValue<TValue>(defaultValue);
@@ -71,12 +71,12 @@ namespace UGoap.Base
         }
         
         //Operators
-        public static PropertyGroup<TKey, TValue> operator +(PropertyGroup<TKey, TValue> a, PropertyGroup<TKey, TValue> b)
+        public static StateGroup<TKey, TValue> operator +(StateGroup<TKey, TValue> a, StateGroup<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new PropertyGroup<TKey, TValue>(a);
+            var propertyGroup = new StateGroup<TKey, TValue>(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value);
@@ -84,12 +84,12 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static PropertyGroup<TKey, TValue> operator +(PropertyGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
+        public static StateGroup<TKey, TValue> operator +(StateGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new PropertyGroup<TKey, TValue>(a);
+            var propertyGroup = new StateGroup<TKey, TValue>(a);
             foreach (var pair in b)
             {
                 TKey key = pair.Key;
@@ -110,13 +110,13 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static PropertyGroup<TKey, TValue> operator -(PropertyGroup<TKey, TValue> a, BaseGroup<TKey, TValue> b)
+        public static StateGroup<TKey, TValue> operator -(StateGroup<TKey, TValue> a, BaseGroup<TKey, TValue> b)
         {
             if (b == null) return a;
             
-            var propertyGroup = new PropertyGroup<TKey, TValue>(a);
+            var propertyGroup = new StateGroup<TKey, TValue>(a);
             if (b is null) return propertyGroup;
-            foreach (var pair in b._values)
+            foreach (var pair in b.Values)
             {
                 if(a.HasKey(pair.Key)) propertyGroup.Remove(pair.Key);
             }
@@ -126,36 +126,25 @@ namespace UGoap.Base
         //Overrides
         public override string ToString()
         {
-            return _values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
+            return Values.Aggregate("", (current, pair) => current + "Key: " + pair.Key + " | Valor: " +
                                                             pair.Value.Value + "\n");
-        }
-        
-        //Enumerable
-        public IEnumerator<KeyValuePair<TKey, GoapValue<TValue>>> GetEnumerator()
-        {
-            return new GroupEnumerator<GoapValue<TValue>>(_values.Keys.ToArray(), _values.Values.ToArray());
-        }
-        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
         
         //Casts
         // Implicit conversion operator
-        public static implicit operator PropertyGroup<TKey, TValue>(ConditionGroup<TKey, TValue> custom)
+        public static implicit operator StateGroup<TKey, TValue>(ConditionGroup<TKey, TValue> custom)
         {
-            PropertyGroup<TKey, TValue> propertyGroup = new PropertyGroup<TKey, TValue>();
-            propertyGroup.Set(custom);
-            return propertyGroup;
+            StateGroup<TKey, TValue> stateGroup = new StateGroup<TKey, TValue>();
+            stateGroup.Set(custom);
+            return stateGroup;
         }
         
         // Implicit conversion operator
-        public static implicit operator PropertyGroup<TKey, TValue>(EffectGroup<TKey, TValue> custom)
+        public static implicit operator StateGroup<TKey, TValue>(EffectGroup<TKey, TValue> custom)
         {
-            PropertyGroup<TKey, TValue> propertyGroup = new PropertyGroup<TKey, TValue>();
-            propertyGroup.Set(custom);
-            return propertyGroup;
+            StateGroup<TKey, TValue> stateGroup = new StateGroup<TKey, TValue>();
+            stateGroup.Set(custom);
+            return stateGroup;
         }
     }
 }

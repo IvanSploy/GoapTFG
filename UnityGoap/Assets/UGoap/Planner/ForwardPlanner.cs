@@ -24,15 +24,15 @@ namespace UGoap.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(PropertyGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
-            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> newHeuristic = null)
+        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
+            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> newHeuristic = null)
         {
             if (goapGoal.IsReached(initialState)) return null;
             ForwardPlanner<TKey, TValue> regressiveForwardPlannerBase = new ForwardPlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(initialState, newHeuristic));
             return regressiveForwardPlannerBase.GeneratePlan(initialState, actions);
         }
 
-        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();

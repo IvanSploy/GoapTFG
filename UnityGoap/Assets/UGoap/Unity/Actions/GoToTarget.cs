@@ -35,7 +35,7 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(PropertyGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
             agent.GoToTarget((string)state.TryGetOrDefault(Target, ""), _speedFactor);
         }

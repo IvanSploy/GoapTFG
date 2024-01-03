@@ -12,7 +12,7 @@ namespace UGoap.Unity
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> GetCustomHeuristic()
+        public static Func<GoapGoal<PropertyKey, object>, StateGroup<PropertyKey, object>, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>

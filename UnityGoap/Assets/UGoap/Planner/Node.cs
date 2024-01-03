@@ -21,11 +21,11 @@ namespace UGoap.Planner
         public bool IsGoal { get; set; }
         
         //Fields
-        public readonly PropertyGroup<TKey, TValue> State;
+        public readonly StateGroup<TKey, TValue> State;
         protected readonly INodeGenerator<TKey, TValue> Generator;
         
         //Constructor
-        protected Node(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
+        protected Node(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
         {
             State = state;
             Goal = goal;
@@ -66,7 +66,7 @@ namespace UGoap.Planner
         /// <param name="currentState">The current state of the research.</param>
         /// <param name="goapAction">ParentAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node<TKey, TValue> ApplyMixedAction(PropertyGroup<TKey, TValue> currentState,
+        public Node<TKey, TValue> ApplyMixedAction(StateGroup<TKey, TValue> currentState,
             IGoapAction<TKey, TValue> goapAction)
         {
             var recursiveResult = CheckMixedGoal(currentState, goapAction);
@@ -74,10 +74,10 @@ namespace UGoap.Planner
                 goapAction, recursiveResult.cost);
         }
         
-        public (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) CheckMixedGoal(
-            PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        public (StateGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) CheckMixedGoal(
+            StateGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
-            (PropertyGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) result;
+            (StateGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) result;
             var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
 
             if (actionResult == null) return (null, null, -1);
@@ -123,7 +123,7 @@ namespace UGoap.Planner
             return result;
         }
         
-        public int GetUpdatedCost(PropertyGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        public int GetUpdatedCost(StateGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
             int cost;
             var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
@@ -151,7 +151,7 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node<TKey, TValue> CreateChildNode(PropertyGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
+        protected abstract Node<TKey, TValue> CreateChildNode(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
             IGoapAction<TKey, TValue> goapAction, int cost = -1);
 
         /// <summary>

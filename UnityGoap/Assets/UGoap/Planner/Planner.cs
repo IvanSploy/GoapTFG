@@ -82,7 +82,7 @@ namespace UGoap.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(PropertyGroup<TKey, TValue> initialState,
+        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,
             List<IGoapAction<TKey, TValue>> actions);
         
         /// <summary>

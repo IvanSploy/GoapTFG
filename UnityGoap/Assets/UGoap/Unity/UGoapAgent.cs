@@ -35,7 +35,7 @@ namespace UGoap.Unity
         private List<IGoapAction<PropertyKey, object>> _actions;
         private GoapGoal<PropertyKey, object> _currentGoal;
         
-        public PropertyGroup<PropertyKey, object> CurrentState { get; set; }
+        public StateGroup<PropertyKey, object> CurrentState { get; set; }
 
         // Start is called before the first frame update
 
@@ -92,7 +92,7 @@ namespace UGoap.Unity
         private IEnumerator ExecutePlan()
         {
             hasPlan = true;
-            PropertyGroup<PropertyKey, object> result;
+            StateGroup<PropertyKey, object> result;
             do
             {
                 result = PlanStep(CurrentState);
@@ -132,7 +132,7 @@ namespace UGoap.Unity
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
 
-        public int CreateNewPlan(PropertyGroup<PropertyKey, object> worldState)
+        public int CreateNewPlan(StateGroup<PropertyKey, object> worldState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             var i = 0;
@@ -153,8 +153,8 @@ namespace UGoap.Unity
             return _currentGoal;
         }
 
-        public bool CreatePlan(PropertyGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
-            Func<GoapGoal<PropertyKey, object>, PropertyGroup<PropertyKey, object>, int> customHeuristic)
+        public bool CreatePlan(StateGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
+            Func<GoapGoal<PropertyKey, object>, StateGroup<PropertyKey, object>, int> customHeuristic)
         {
             var plan = 
                 //!mixedPlan ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic) :
@@ -165,7 +165,7 @@ namespace UGoap.Unity
             return true;
         }
 
-        public PropertyGroup<PropertyKey, object> DoPlan(PropertyGroup<PropertyKey, object> worldState)
+        public StateGroup<PropertyKey, object> DoPlan(StateGroup<PropertyKey, object> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 
@@ -179,7 +179,7 @@ namespace UGoap.Unity
             return worldState;
         }
 
-        public PropertyGroup<PropertyKey, object> PlanStep(PropertyGroup<PropertyKey, object> worldState)
+        public StateGroup<PropertyKey, object> PlanStep(StateGroup<PropertyKey, object> worldState)
         {
             if (_currentPlan.Count == 0) return null;
 

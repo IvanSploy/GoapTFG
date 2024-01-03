@@ -8,10 +8,10 @@ namespace UGoap.Planner
     {
         private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
-        private readonly Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> _customHeuristic;
-        private readonly PropertyGroup<TKey, TValue> _initialState;
+        private readonly Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> _customHeuristic;
+        private readonly StateGroup<TKey, TValue> _initialState;
         
-        public AStar(PropertyGroup<TKey, TValue> initialState, Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> customHeuristic = null)
+        public AStar(StateGroup<TKey, TValue> initialState, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> customHeuristic = null)
         {
             _initialState = initialState;
             
@@ -20,7 +20,7 @@ namespace UGoap.Planner
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TKey, TValue> CreateInitialNode(PropertyGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
+        public Node<TKey, TValue> CreateInitialNode(StateGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
         {
             var goalState = new GoapGoal<TKey, TValue>(goal);
             AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goalState, this);
@@ -100,7 +100,7 @@ namespace UGoap.Planner
             }
         }
         
-        public Func<GoapGoal<TKey, TValue>, PropertyGroup<TKey, TValue>, int> GetCustomHeuristic()
+        public Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

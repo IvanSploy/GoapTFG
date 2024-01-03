@@ -39,22 +39,22 @@ namespace UGoap.Base
             return _conditions.IsEmpty();
         }
         
-        public bool IsReached (PropertyGroup<TKey, TValue> worldState)
+        public bool IsReached (StateGroup<TKey, TValue> worldState)
         {
             return !_conditions.CheckConflict(worldState);
         }
         
-        public ConditionGroup<TKey, TValue> GetConflicts (PropertyGroup<TKey, TValue> worldState)
+        public ConditionGroup<TKey, TValue> GetConflicts (StateGroup<TKey, TValue> worldState)
         {
             return _conditions.GetConflict(worldState);
         }
         
-        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (PropertyGroup<TKey, TValue> worldState, PropertyGroup<TKey, TValue> filter)
+        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (StateGroup<TKey, TValue> worldState, StateGroup<TKey, TValue> filter)
         {
             return _conditions.CheckFilteredConflict(worldState, out var mismatches, filter) ? mismatches : null;
         }
         
-        public int CountConflicts (PropertyGroup<TKey, TValue> worldState)
+        public int CountConflicts (StateGroup<TKey, TValue> worldState)
         {
             return _conditions.CountConflict(worldState);
         }
