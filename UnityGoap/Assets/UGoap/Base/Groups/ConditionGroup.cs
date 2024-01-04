@@ -15,6 +15,10 @@ namespace UGoap.Base
     {
         public ConditionGroup(ConditionGroup<TKey, TValue> conditionGroup = null) : base(conditionGroup)
         {
+            foreach (var key in _values.Keys.ToList())
+            {
+                _values[key] = new HashSet<ConditionValue<TValue>>(_values[key]);
+            }
         }
 
         //Value Access
@@ -27,7 +31,6 @@ namespace UGoap.Base
                     new HashSet<ConditionValue<TValue>> { condition };
                 _values[key] = conditions;
             }
-
             _values[key].Add(condition);
         }
 
@@ -142,7 +145,7 @@ namespace UGoap.Base
                 var conditions = pair.Value.ToList();
                 if (!newCg.HasKey(pair.Key)) continue;
                 var newConditions = newCg[pair.Key];
-                if (!newConditions.Equals(conditions)) //Introducir nueva formula de condiciones.
+                if (!newConditions.SequenceEqual(conditions)) //TODO Introducir nueva formula de condiciones.
                     return null;
             }
 

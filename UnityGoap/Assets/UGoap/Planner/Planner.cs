@@ -27,14 +27,16 @@ namespace UGoap.Planner
             List<ConditionValue<TValue>> conditions)
         {
             bool compatible = true;
+            object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
+
             for (var i = 0; i < conditions.Count && compatible; i++)
             {
                 var condition = conditions[i];
+                
                 //Check if condition will be fulfilled.
-                object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
                 if (EvaluateCondition(resultValue, condition.Value, condition.ConditionType))
                 {
-                    return true;
+                    continue;
                 }
 
                 //Is condition is not reached after evaluation.

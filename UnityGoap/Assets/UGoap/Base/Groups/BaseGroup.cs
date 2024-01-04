@@ -12,10 +12,10 @@ namespace UGoap.Base
     {
         protected internal readonly SortedDictionary<TKey, TValue> _values;
         
-        public BaseGroup(BaseGroup<TKey, TValue> effectGroup = null)
+        public BaseGroup(BaseGroup<TKey, TValue> baseGroup = null)
         {
-            _values = effectGroup == null ? new SortedDictionary<TKey, TValue>()
-                : new SortedDictionary<TKey, TValue>(effectGroup._values);
+            _values = baseGroup == null ? new SortedDictionary<TKey, TValue>()
+                : new SortedDictionary<TKey, TValue>(baseGroup._values);
         }
 
         //Key Access

@@ -12,7 +12,7 @@ namespace UGoap.Base
     /// <typeparam name="TValue">Value type</typeparam>
     public class EffectGroup<TKey, TValue> : BaseGroup<TKey, EffectValue<TValue>>
     {
-        public EffectGroup(EffectGroup<TKey, TValue> effectGroup = null) : base(effectGroup)
+        public EffectGroup(EffectGroup<TKey, TValue> baseGroup = null) : base(baseGroup)
         { }
 
         //Value Access
