@@ -80,7 +80,7 @@ namespace UGoap.Planner
                             action.GetEffects(new GoapStateInfo<TKey, TValue>(initialState, _current.Goal));
                         if (_current.State.HasKey(key))
                         {
-                            if(! CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
+                            if(!CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
                                    goalPair.Value)) continue;
                         }
                         

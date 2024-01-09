@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
@@ -16,7 +18,7 @@ namespace UGoap.Unity.Actions
         
         protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            return true;
+            return stateInfo.Goal[Target].Any((condition) => condition.ConditionType == ConditionType.Equal);
         }
         
         protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(
@@ -31,7 +33,15 @@ namespace UGoap.Unity.Actions
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
             EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
-            string target = (string) stateInfo.Goal.TryGetOrDefault(Target, "")[0].Value; //TODO check this
+            string target = "";
+            var targetList = stateInfo.Goal.TryGetOrDefault(Target, null);
+            if (targetList != null)
+            {
+                var condition = targetList.
+                    FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
+                if(condition != null)
+                    target = (string) condition.Value;
+            }
             proceduralEffects[Target] = new EffectValue<object>(target, EffectType.Set);
             return proceduralEffects;
         }
@@ -49,7 +59,7 @@ namespace UGoap.Unity.Actions
             if (!ws.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
             
             var target1 = (string) ws[Target];
-            var target2 = (string) goal[Target][0].Value; //todo comprobar condicion adecuada.
+            var target2 = (string) stateInfo.Goal[Target].First((condition) => condition.ConditionType == ConditionType.Equal).Value;
 
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;

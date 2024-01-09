@@ -140,12 +140,11 @@ namespace UGoap.Base
             if (cg == null) return newCg;
             if (newCg == null) return cg;
 
-            foreach (var pair in cg._values)
+            foreach (var pair in cg)
             {
-                var conditions = pair.Value.ToList();
                 if (!newCg.HasKey(pair.Key)) continue;
                 var newConditions = newCg[pair.Key];
-                if (!newConditions.SequenceEqual(conditions)) //TODO Introducir nueva formula de condiciones.
+                if (newConditions.Any(conditionValue => !CheckCondition(pair.Value, conditionValue)))
                     return null;
             }
 
@@ -176,6 +175,23 @@ namespace UGoap.Base
                 }
                 return log;
             });
+        }
+        
+        //Overrides
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            ConditionGroup<TKey, TValue> otherPg = (ConditionGroup<TKey, TValue>)obj;
+            
+            foreach (var key in _values.Keys)
+            {
+                if (!otherPg.HasKey(key)) return false;
+                if (!_values[key].SetEquals(otherPg._values[key])) return false;
+            }
+            return true;
         }
 
         public new IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>> GetEnumerator()
@@ -225,6 +241,159 @@ namespace UGoap.Base
 
             public void Dispose()
             { }
+        }
+        
+        private static bool CheckCondition(List<ConditionValue<TValue>> conditions, ConditionValue<TValue> conditionValue)
+        {
+            foreach (var condition in conditions)
+            {
+                bool compatible = true;
+                if (condition.ConditionType == ConditionType.Equal)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => condition.Value.Equals(conditionValue.Value),
+                        ConditionType.NotEqual => !condition.Value.Equals(conditionValue.Value),
+                        ConditionType.LessThan => condition.Value switch
+                        {
+                            int intValue => intValue < (int)(object)conditionValue.Value,
+                            float floatValue => floatValue < (float)(object)conditionValue.Value,
+                            _ => !condition.Value.Equals(conditionValue.Value)
+                        },
+                        ConditionType.LessOrEqual => condition.Value switch
+                        {
+                            int intValue => intValue <= (int)(object)conditionValue.Value,
+                            float floatValue => floatValue <= (float)(object)conditionValue.Value,
+                            _ => condition.Value.Equals(conditionValue.Value)
+                        },
+                        ConditionType.GreaterThan => condition.Value switch
+                        {
+                            int intValue => intValue > (int)(object)conditionValue.Value,
+                            float floatValue => floatValue > (float)(object)conditionValue.Value,
+                            _ => !condition.Value.Equals(conditionValue.Value)
+                        },
+                        ConditionType.GreaterOrEqual => condition.Value switch
+                        {
+                            int intValue => intValue >= (int)(object)conditionValue.Value,
+                            float floatValue => floatValue >= (float)(object)conditionValue.Value,
+                            _ => condition.Value.Equals(conditionValue.Value)
+                        },
+                        _ => true
+                    };
+                }
+                else if (condition.ConditionType == ConditionType.NotEqual)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => !condition.Value.Equals(conditionValue.Value),
+                        ConditionType.NotEqual => condition.Value.Equals(conditionValue.Value),
+                        _ => true
+                    };
+                }
+                else if (condition.ConditionType == ConditionType.LessThan)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => conditionValue.Value switch
+                        {
+                            int intValue => intValue < (int)(object)condition.Value,
+                            float floatValue => floatValue < (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.GreaterThan => conditionValue.Value switch
+                        {
+                            int intValue => intValue + 1 < (int)(object)condition.Value,
+                            float floatValue => floatValue + 0.1f < (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.GreaterOrEqual => conditionValue.Value switch
+                        {
+                            int intValue => intValue < (int)(object)condition.Value,
+                            float floatValue => floatValue < (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        _ => true
+                    };
+                }
+                else if (condition.ConditionType == ConditionType.LessOrEqual)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => conditionValue.Value switch
+                        {
+                            int intValue => intValue <= (int)(object)condition.Value,
+                            float floatValue => floatValue <= (float)(object)condition.Value,
+                            _ => conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.GreaterThan => conditionValue.Value switch
+                        {
+                            int intValue => intValue < (int)(object)condition.Value,
+                            float floatValue => floatValue < (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.GreaterOrEqual => conditionValue.Value switch
+                        {
+                            int intValue => intValue <= (int)(object)condition.Value,
+                            float floatValue => floatValue <= (float)(object)condition.Value,
+                            _ => conditionValue.Value.Equals(condition.Value)
+                        },
+                        _ => true
+                    };
+                }
+                else if (condition.ConditionType == ConditionType.GreaterThan)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => conditionValue.Value switch
+                        {
+                            int intValue => intValue > (int)(object)condition.Value,
+                            float floatValue => floatValue > (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.LessThan => conditionValue.Value switch
+                        {
+                            int intValue => intValue + 1 > (int)(object)condition.Value,
+                            float floatValue => floatValue + 0.1f > (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.LessOrEqual => conditionValue.Value switch
+                        {
+                            int intValue => intValue > (int)(object)condition.Value,
+                            float floatValue => floatValue > (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        _ => true
+                    };
+                }
+                else if (condition.ConditionType == ConditionType.GreaterOrEqual)
+                {
+                    compatible = conditionValue.ConditionType switch
+                    {
+                        ConditionType.Equal => conditionValue.Value switch
+                        {
+                            int intValue => intValue >= (int)(object)condition.Value,
+                            float floatValue => floatValue >= (float)(object)condition.Value,
+                            _ => conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.LessThan => conditionValue.Value switch
+                        {
+                            int intValue => intValue > (int)(object)condition.Value,
+                            float floatValue => floatValue > (float)(object)condition.Value,
+                            _ => !conditionValue.Value.Equals(condition.Value)
+                        },
+                        ConditionType.LessOrEqual => conditionValue.Value switch
+                        {
+                            int intValue => intValue >= (int)(object)condition.Value,
+                            float floatValue => floatValue >= (float)(object)condition.Value,
+                            _ => conditionValue.Value.Equals(condition.Value)
+                        },
+                        _ => true
+                    };
+                }
+
+                if (!compatible) return false;
+            }
+            return true;
         }
     }
 }
