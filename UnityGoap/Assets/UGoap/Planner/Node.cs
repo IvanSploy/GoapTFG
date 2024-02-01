@@ -193,7 +193,6 @@ namespace UGoap.Planner
         }
 
         #region Overrides
-
         public override bool Equals(object obj)
         {
             if (obj == null) return false;
