@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UGoap.Base;
+using UGoap.Learning;
 using UnityEngine;
 using static UGoap.Unity.UGoapPropertyManager;
 
@@ -45,7 +46,17 @@ namespace UGoap.Unity
         
         //Cost related.
         public int GetCost() => _cost;        
-        public virtual int GetCost(GoapStateInfo stateInfo) => _cost;
+        public virtual int GetCost(GoapStateInfo stateInfo)
+        {
+            var value = GoapQLearning.ParseToStateCode(stateInfo.State, stateInfo.Goal);
+            var qValue = GoapQLearning.GetQValue(value, Name);
+            if(Math.Abs(qValue - GoapQLearning.InitialValue) > 0.1f)
+            {
+                return Math.Max((int) qValue, 0);
+            }
+
+            return _cost;
+        }
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters

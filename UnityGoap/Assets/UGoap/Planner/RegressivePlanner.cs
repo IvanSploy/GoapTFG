@@ -12,15 +12,11 @@ namespace UGoap.Planner
     public class RegressivePlanner<TKey, TValue> : Planner<TKey, TValue>
     {
         private const int ACTION_LIMIT = 50000;
-        private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
-        private readonly HashSet<string> _actionsVisited; 
+        private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions = new(); 
+        private readonly HashSet<string> _actionsVisited = new(); 
 
-        private RegressivePlanner(GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> nodeGenerator)
-            : base(goal, nodeGenerator)
-        {
-            _actions = new Dictionary<TKey, List<IGoapAction<TKey, TValue>>>();
-            _actionsVisited = new HashSet<string>();
-        }
+        public RegressivePlanner(INodeGenerator<TKey, TValue> nodeGenerator)
+            : base(nodeGenerator) { }
 
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
@@ -30,12 +26,12 @@ namespace UGoap.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
-            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> newHeuristic = null)
+        public Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
+            List<IGoapAction<TKey, TValue>> actions)
         {
+            _goal = goapGoal;
             if (goapGoal.IsReached(initialState)) return null;
-            var regressivePlanner = new RegressivePlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(initialState, newHeuristic));
-            return regressivePlanner.GeneratePlan(initialState, actions);
+            return GeneratePlan(initialState, actions);
         }
 
         public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,

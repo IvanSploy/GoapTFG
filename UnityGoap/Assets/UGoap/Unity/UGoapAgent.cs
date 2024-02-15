@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UGoap.Base;
+using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
@@ -156,10 +157,18 @@ namespace UGoap.Unity
         public bool CreatePlan(StateGroup<PropertyKey, object> worldState, GoapGoal<PropertyKey, object> goapGoal,
             Func<GoapGoal<PropertyKey, object>, StateGroup<PropertyKey, object>, int> customHeuristic)
         {
+            var generator = new AStar<PropertyKey, object>(worldState, customHeuristic);
+            var planner = new MixedPlanner<PropertyKey, object>(generator, greedy);
+            //planner.OnNodeCreated += UpdateQValue;
+            planner.OnPlanCreated += UpdatePlanQValue;
+            
             var plan = 
                 //!mixedPlan ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic) :
-                MixedPlanner<PropertyKey, object>.CreatePlan(worldState, goapGoal, _actions, customHeuristic, greedy);
+                planner.CreatePlan(worldState, goapGoal, _actions);
+            
+            
             DebugLogs(DebugRecord.GetRecords());
+            GoapQLearning.DebugLearning();
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
@@ -241,6 +250,28 @@ namespace UGoap.Unity
             foreach (var log in logs)
             {
                 Debug.Log(log);
+            }
+        }
+        
+        //QLearning
+        private void UpdateQValue(Node<PropertyKey, object> node)
+        {
+            if (node.Parent == null) return;
+            int reward = GoapQLearning.GetReward(node.Parent, node);
+            int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State, node.Parent.Goal);
+            int finishNode = GoapQLearning.ParseToStateCode(node.State, node.Goal);
+            GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
+        }
+        
+        private void UpdatePlanQValue(Node<PropertyKey, object> node)
+        {
+            while (node.Parent != null)
+            {
+                int reward = GoapQLearning.GetReward(node.Parent, node);
+                int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State, node.Parent.Goal);
+                int finishNode = GoapQLearning.ParseToStateCode(node.State, node.Goal);
+                GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
+                node = node.Parent;
             }
         }
     }

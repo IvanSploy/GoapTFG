@@ -76,7 +76,9 @@ namespace UGoap.CSharp
 
         private bool CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goal)
         {
-            var plan = RegressivePlanner<TKey, TValue>.CreatePlan(initialState, goal, _actions);
+            var generator = new AStar<TKey, TValue>(initialState);
+            var planner = new RegressivePlanner<TKey, TValue>(generator);
+            var plan = planner.CreatePlan(initialState, goal, _actions);
             if (plan == null) return false;
             _currentPlan = plan;
             return true;

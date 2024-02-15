@@ -13,14 +13,12 @@ namespace UGoap.Planner
     {
         private const int ACTION_LIMIT = 50000;
         private bool _greedy;
-        private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions; 
-        private readonly HashSet<string> _actionsVisited; 
+        private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions = new(); 
+        private readonly HashSet<string> _actionsVisited = new(); 
 
-        private MixedPlanner(GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> nodeGenerator, bool greedy = false)
-            : base(goal, nodeGenerator)
+        public MixedPlanner(INodeGenerator<TKey, TValue> nodeGenerator, bool greedy = false)
+            : base(nodeGenerator)
         {
-            _actions = new Dictionary<TKey, List<IGoapAction<TKey, TValue>>>();
-            _actionsVisited = new HashSet<string>();
             _greedy = greedy;
         }
 
@@ -31,13 +29,14 @@ namespace UGoap.Planner
         /// <param name="goapGoal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
+        /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
-            List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> newHeuristic = null, bool greedy = false)
+        public Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goal,
+            List<IGoapAction<TKey, TValue>> actions)
         {
-            if (goapGoal.IsReached(initialState)) return null;
-            var mixedPlanner = new MixedPlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(initialState, newHeuristic), greedy);
-            return mixedPlanner.GeneratePlan(initialState, actions);
+            _goal = goal;
+            if (goal.IsReached(initialState)) return null;
+            return GeneratePlan(initialState, actions);
         }
         
         private void RegisterActions(List<IGoapAction<TKey, TValue>> actions)
@@ -91,6 +90,8 @@ namespace UGoap.Planner
                         
                         if(child == null) continue;
                         
+                        OnNodeCreated?.Invoke(child);
+                        
                         if (child.IsGoal) //Greedy result, could be worst.
                         {
                             DebugPlan(child);
@@ -115,6 +116,7 @@ namespace UGoap.Planner
                     if (_current.IsGoal)
                     {
                         DebugInfo(_current);
+                        OnPlanCreated?.Invoke(_current);
                         return GetInvertedPlan(_current);
                     }
                     //If no more actions can be checked.

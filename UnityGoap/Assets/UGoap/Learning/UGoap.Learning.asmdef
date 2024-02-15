@@ -1,10 +1,9 @@
 {
-    "name": "UGoap.Unity",
-    "rootNamespace": "UGoap.Unity",
+    "name": "UGoap.Learning",
+    "rootNamespace": "UGoap.Learning",
     "references": [
         "GUID:3ab1c13863885c242abffb1ed61459fc",
-        "GUID:e01d2f8bfcae92048b0b3d0128c58c4b",
-        "GUID:e156bd5fa2de6fc48b97cea5e45f9ac5"
+        "GUID:e01d2f8bfcae92048b0b3d0128c58c4b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

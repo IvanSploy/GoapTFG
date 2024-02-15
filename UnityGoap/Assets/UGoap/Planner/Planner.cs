@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
@@ -15,11 +16,13 @@ namespace UGoap.Planner
         protected INodeGenerator<TKey, TValue> _nodeGenerator;
         protected Node<TKey, TValue> _current;
         protected GoapGoal<TKey, TValue> _goal;
+        
+        //Events
+        public Action<Node<TKey, TValue>> OnNodeCreated;
+        public Action<Node<TKey, TValue>> OnPlanCreated;
 
-        protected Planner(GoapGoal<TKey, TValue> goal,
-            INodeGenerator<TKey, TValue> nodeGenerator)
+        protected Planner(INodeGenerator<TKey, TValue> nodeGenerator)
         {
-            _goal = goal;
             _nodeGenerator = nodeGenerator;
         }
 
@@ -95,7 +98,7 @@ namespace UGoap.Planner
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
+        public Stack<GoapActionData<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
         {
             Stack<GoapActionData<TKey, TValue>> plan = new Stack<GoapActionData<TKey, TValue>>();
             while (nodeGoal.Parent != null)
@@ -114,7 +117,7 @@ namespace UGoap.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public static Stack<GoapActionData<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
+        public Stack<GoapActionData<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
         {
             Stack<GoapActionData<TKey, TValue>> plan = GetPlan(nodeGoal);
             Stack<GoapActionData<TKey, TValue>> invertedPlan = new Stack<GoapActionData<TKey, TValue>>();
@@ -125,7 +128,7 @@ namespace UGoap.Planner
             return invertedPlan;
         }
 
-        public static void DebugPlan(Node<TKey, TValue> node)
+        public void DebugPlan(Node<TKey, TValue> node)
         {
             var debugLog = "Acciones para conseguir el objetivo: ";
             var actionNames = "";

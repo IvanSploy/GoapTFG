@@ -13,8 +13,8 @@ namespace UGoap.Planner
     {
         private const int ACTION_LIMIT = 500;
 
-        private ForwardPlanner(GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> nodeGenerator)
-            : base(goal, nodeGenerator) { }
+        public ForwardPlanner(INodeGenerator<TKey, TValue> nodeGenerator)
+            : base(nodeGenerator) { }
 
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
@@ -24,12 +24,12 @@ namespace UGoap.Planner
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <returns>Stack of the plan actions.</returns>
-        public static Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
+        public Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goapGoal,
             List<IGoapAction<TKey, TValue>> actions, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> newHeuristic = null)
         {
+            _goal = goapGoal;
             if (goapGoal.IsReached(initialState)) return null;
-            ForwardPlanner<TKey, TValue> regressiveForwardPlannerBase = new ForwardPlanner<TKey, TValue>(goapGoal, new AStar<TKey, TValue>(initialState, newHeuristic));
-            return regressiveForwardPlannerBase.GeneratePlan(initialState, actions);
+            return GeneratePlan(initialState, actions);
         }
 
         public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,

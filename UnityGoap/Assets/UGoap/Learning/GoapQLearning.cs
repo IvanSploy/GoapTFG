@@ -2,13 +2,13 @@
 using System.Linq;
 using UGoap.Base;
 using UGoap.Planner;
-using UGoap.Unity.ScriptableObjects;
+using UnityEngine;
 
 namespace UGoap.Learning
 {
-    public static class GoapQLearning<TKey, TValue>
+    public static class GoapQLearning
     {
-        private static int _initialValue = 0;
+        public static readonly int InitialValue = 0;
         private const float Alpha = 0.25f;
         private const float Gamma = 0.9f;
         
@@ -29,11 +29,11 @@ namespace UGoap.Learning
                 {
                     return qValue;
                 }
-                actionValues[action] = _initialValue;
+                actionValues[action] = InitialValue;
             }
             else
             {
-                _qValues[state] = new Dictionary<string, float> { { action, _initialValue } };
+                _qValues[state] = new Dictionary<string, float> { { action, InitialValue } };
             }
 
             return _qValues[state][action];
@@ -41,6 +41,7 @@ namespace UGoap.Learning
         
         private static float GetMaxQValue(int state)
         {
+            if (!_qValues.ContainsKey(state)) return 0;
             return _qValues[state].Max(value => value.Value);
         }
 
@@ -48,7 +49,7 @@ namespace UGoap.Learning
         {
             if (_qValues.TryGetValue(state, out var actionValues))
             {
-                actionValues[action] = _initialValue;
+                actionValues[action] = qValue;
             }
             else
             {
@@ -56,16 +57,41 @@ namespace UGoap.Learning
             }
         }
 
-        public static int ParseNodeToState(Node<TKey, TValue> node)
+        public static int ParseToStateCode<TKey, TValue>(StateGroup<TKey, TValue> state, GoapGoal<TKey,TValue> goal)
         {
             StateGroup<TKey, TValue> filteredState = new StateGroup<TKey, TValue>();
-            foreach (var pair in node.Goal)
+            foreach (var pair in goal)
             {
-                if (node.State.HasKey(pair.Key))
-                    filteredState[pair.Key] = node.State[pair.Key];
+                if (state.HasKey(pair.Key))
+                    filteredState[pair.Key] = state[pair.Key];
             }
 
             return filteredState.GetHashCode();
+        }
+
+        public static int GetReward<TKey, TValue>(Node<TKey, TValue> startNode, Node<TKey, TValue> finishNode)
+        {
+            return startNode.TotalCost - finishNode.TotalCost;
+        }
+
+        public static void DebugLearning()
+        {
+            string log = "";
+            int generatedStates = 0;
+            string morelog = "";
+            foreach (var state in _qValues)
+            {
+                generatedStates++;
+                morelog += state.Key + " | ";
+                foreach (var actionValue in state.Value)
+                {
+                    morelog += actionValue.Key + ": " + actionValue.Value + "\n";
+                }
+            }
+            log += "GeneratedStates states: " + generatedStates + "\n";
+            log += morelog;
+
+            Debug.Log(log);
         }
     }
 }
