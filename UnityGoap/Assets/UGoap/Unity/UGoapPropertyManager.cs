@@ -5,20 +5,9 @@ using static UGoap.Base.BaseTypes;
 
 namespace UGoap.Unity
 {
-    public static class UGoapPropertyManager
+    public static partial class UGoapPropertyManager
     {
-        //CONFIGURACIÓN DE LAS PROPIEDADES DEL EJEMPLO
-        [Serializable]
-        public enum PropertyKey {
-            Target,
-            Seeds,
-            Fish,
-            Money,
-            Happiness,
-            Fatigue,
-            MentalState
-        }
-        
+        #region PropertyDefinitions
         [Serializable]
         public enum PropertyType
         {
@@ -28,26 +17,7 @@ namespace UGoap.Unity
             String = 3,
             Enum = 4
         }
-
-        private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
-        {
-            { PropertyKey.Target, PropertyType.String },
-            { PropertyKey.Seeds, PropertyType.Integer },
-            { PropertyKey.Fish, PropertyType.Integer },
-            { PropertyKey.Money, PropertyType.Float },
-            { PropertyKey.Happiness, PropertyType.Float },
-            { PropertyKey.Fatigue, PropertyType.Float },
-            { PropertyKey.MentalState, PropertyType.Enum }        
-        };
-
-        public static Dictionary<PropertyKey, string[]> EnumNames = new()
-        {
-            { PropertyKey.MentalState, new [] { "Good", "Tired", "Burnout" }} 
-        };
-
-        #region PropertyDefinitions
         
-        //CONFIGURACIÓN PROPIEDADES 
         [Serializable]
         public class Property {
             public PropertyKey name;

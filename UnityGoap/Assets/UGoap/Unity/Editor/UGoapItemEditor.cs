@@ -3,8 +3,6 @@ using UGoap.Base;
 using UGoap.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using static UGoap.Base.BaseTypes;
-using static UGoap.Unity.CodeGenerator.EnumGenerator;
 using static UGoap.Unity.UGoapPropertyManager;
 
 namespace UGoap.Unity.Editor

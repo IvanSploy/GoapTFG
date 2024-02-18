@@ -1,0 +1,19 @@
+using System;
+using System.Collections.Generic;
+
+namespace UGoap.Unity
+{
+    public static partial class UGoapPropertyManager
+    {
+        [Serializable]
+        public enum PropertyKey 
+        {
+            [propertyKeys]
+        }
+        
+        private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
+        {
+            [propertyTypes]       
+        };
+    }
+}
