@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
@@ -34,10 +35,14 @@ namespace UGoap.Base
         
         public EffectValue<TValue> Get(TKey key) => _values[key];
 
-        public EffectValue<TValue> TryGetOrDefault(TKey key, TValue defaultValue)
+        public EffectValue<T> TryGetOrDefault<T>(TKey key, T defaultValue)
         {
-            if(HasKey(key)) return Get(key);
-            return new EffectValue<TValue>(defaultValue, EffectType.Set);
+            if(HasKey(key))
+            {
+                var original = Get(key);
+                return new EffectValue<T>((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);
+            }
+            return new EffectValue<T>(defaultValue, EffectType.Set);
         }
         
         public EffectValue<TValue> this[TKey key]

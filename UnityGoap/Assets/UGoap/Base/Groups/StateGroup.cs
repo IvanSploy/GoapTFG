@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
 
@@ -41,9 +42,9 @@ namespace UGoap.Base
             return _values[key];
         }
         
-        public TValue TryGetOrDefault(TKey key, TValue defaultValue)
+        public T TryGetOrDefault<T>(TKey key, T defaultValue)
         {
-            if(HasKey(key)) return _values[key];
+            if(HasKey(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
             return defaultValue;
         }
 

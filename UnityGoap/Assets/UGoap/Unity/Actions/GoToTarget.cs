@@ -18,7 +18,7 @@ namespace UGoap.Unity.Actions
         
         protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            return stateInfo.Goal[Target].Any((condition) => condition.ConditionType == ConditionType.Equal);
+            return stateInfo.Goal[Target].Any(condition => !condition.Value.Equals("") && condition.ConditionType == ConditionType.Equal);
         }
         
         protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(
@@ -34,13 +34,17 @@ namespace UGoap.Unity.Actions
         {
             EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
             string target = "";
-            var targetList = stateInfo.Goal.TryGetOrDefault(Target, null);
+            var targetList = stateInfo.Goal.TryGetOrDefault<string>(Target, null);
             if (targetList != null)
             {
                 var condition = targetList.
                     FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
                 if(condition != null)
-                    target = (string) condition.Value;
+                    target = condition.Value;
+            }
+            else
+            {
+                Debug.LogError("This should not happen.");
             }
             proceduralEffects[Target] = new EffectValue<object>(target, EffectType.Set);
             return proceduralEffects;
@@ -48,7 +52,7 @@ namespace UGoap.Unity.Actions
 
         protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
-            agent.GoToTarget((string)state.TryGetOrDefault(Target, ""), _speedFactor);
+            agent.GoToTarget(state.TryGetOrDefault(Target, ""), _speedFactor);
         }
 
         public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)

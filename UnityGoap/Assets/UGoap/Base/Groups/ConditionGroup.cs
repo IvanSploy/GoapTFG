@@ -52,10 +52,19 @@ namespace UGoap.Base
             return _values[key];
         }
 
-        public List<ConditionValue<TValue>> TryGetOrDefault(TKey key, TValue defaultValue)
+        public List<ConditionValue<T>> TryGetOrDefault<T>(TKey key, T defaultValue)
         {
-            if (HasKey(key)) return Get(key).ToList();
-            return new List<ConditionValue<TValue>>
+            if (HasKey(key))
+            {
+                var original = Get(key);
+                List<ConditionValue<T>> list = new List<ConditionValue<T>>();
+                foreach (var condition in original)
+                {
+                    list.Add(new ConditionValue<T>((T)Convert.ChangeType(condition.Value, typeof(T)), condition.ConditionType));
+                }
+                return list;
+            }
+            return new List<ConditionValue<T>>
             {
                 new(defaultValue, ConditionType.Equal)
             };
