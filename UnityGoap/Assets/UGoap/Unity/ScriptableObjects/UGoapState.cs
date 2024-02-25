@@ -9,7 +9,7 @@ namespace UGoap.Unity.ScriptableObjects
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class UGoapState : ScriptableObject
     {
-        [FormerlySerializedAs("stateProperties")] [HideInInspector] public List<Property> properties;
+        [HideInInspector] public List<Property> properties;
 
         public StateGroup<PropertyKey, object> Create()
         {

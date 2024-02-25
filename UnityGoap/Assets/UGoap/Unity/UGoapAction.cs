@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UGoap.Base;
 using UGoap.Learning;
 using UnityEngine;
@@ -125,7 +124,8 @@ namespace UGoap.Unity
         
         private StateGroup<PropertyKey, object> DoApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            return stateInfo.State + GetEffects(stateInfo);
+            var result = stateInfo.State + GetEffects(stateInfo);
+            return result;
         }
         
         public GoapStateInfo<PropertyKey, object> ApplyRegressiveAction(GoapStateInfo<PropertyKey, object> stateInfo, out bool reached)

@@ -1,5 +1,7 @@
+using System;
 using UGoap.Base;
 using UnityEngine;
+using static UGoap.Unity.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {
@@ -29,6 +31,11 @@ namespace UGoap.Unity
         public static MemoryFact<Vector3, UGoapEntity> Get(UGoapEntity ge)
         {
             return WMemory.Find(ge);
+        }
+        
+        public static MemoryFact<Vector3, UGoapEntity> Get(PropertyKey key)
+        {
+            return WMemory.Find(memoryFact => memoryFact.Object.CurrentState.HasKey(key));
         }
         
         public static void Update(string name, UGoapEntity ge)

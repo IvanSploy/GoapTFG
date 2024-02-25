@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static UGoap.Unity.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects

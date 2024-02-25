@@ -1,5 +1,5 @@
-﻿using UGoap.Base;
-using UGoap.Unity.ScriptableObjects;
+﻿using System.Collections.Generic;
+using UGoap.Base;
 using UnityEngine;
 using static UGoap.Unity.UGoapPropertyManager;
 
@@ -9,8 +9,8 @@ namespace UGoap.Unity
     public class UGoapEntity : MonoBehaviour, IGoapEntity<PropertyKey, object>
     {
         [SerializeField] private string nameEntity;
-        [SerializeField] private UGoapState initialState;
         [SerializeField] private Collider _collider;
+        [SerializeField] private List<Property> _initialState;
 
         public string Name => nameEntity;
         public Collider Collider => _collider;
@@ -32,16 +32,9 @@ namespace UGoap.Unity
 
         private void AddToWorkingMemoryManager()
         {
-            if (initialState != null)
-            {
-                StateGroup<PropertyKey, object> state = new ();
-                AddIntoPropertyGroup(initialState.properties, in state);
-                CurrentState = state;
-            }
-            else
-            {
-                CurrentState = new StateGroup<PropertyKey, object>();
-            }
+            StateGroup<PropertyKey, object> state = new ();
+            AddIntoPropertyGroup(_initialState, in state);
+            CurrentState = state;
             UGoapWMM.Add(Name, this);
         }
     }

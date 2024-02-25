@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace UGoap.Base
@@ -50,6 +51,11 @@ namespace UGoap.Base
             return _facts.Find(fact => fact.Object.Equals(obj));
         }
         
+        public MemoryFact<TVector, TObject> Find(Predicate<MemoryFact<TVector, TObject>> match)
+        {
+            return _facts.Find(match);
+        }
+        
         public List<MemoryFact<TVector, TObject>> FindAll(string name)
         {
             return _facts.FindAll(fact => fact.Name.Equals(name));
@@ -58,6 +64,11 @@ namespace UGoap.Base
         public List<MemoryFact<TVector, TObject>> FindAll(TObject obj)
         {
             return _facts.FindAll(fact => fact.Object.Equals(obj));
+        }
+        
+        public List<MemoryFact<TVector, TObject>> FindAll(Func<MemoryFact<TVector, TObject>, bool> search)
+        {
+            return _facts.FindAll(search.Invoke);
         }
     }
 }

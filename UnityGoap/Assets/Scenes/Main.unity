@@ -689,8 +689,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: TownHall
-  initialState: {fileID: 0}
   _collider: {fileID: 244704351}
+  _initialState: []
 --- !u!136 &244704351
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1101,8 +1101,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: Cafeteria
-  initialState: {fileID: 0}
   _collider: {fileID: 468168989}
+  _initialState: []
 --- !u!1 &637611281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,6 +1369,191 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5869782213023575846, guid: c8d6ff8da70fce64cb04d008fce7982e, type: 3}
   m_PrefabInstance: {fileID: 675069943}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &684706975
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 684706976}
+  - component: {fileID: 684706982}
+  - component: {fileID: 684706981}
+  - component: {fileID: 684706980}
+  - component: {fileID: 684706979}
+  - component: {fileID: 684706978}
+  - component: {fileID: 684706977}
+  m_Layer: 6
+  m_Name: NewAgent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &684706976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -6.1553776e-14, z: -0, w: 1}
+  m_LocalPosition: {x: -112.5, y: 7.3, z: -187.6}
+  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 760066898}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &684706977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0334a17f8fe0d5648983bf23c9d8e1be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!54 &684706978
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!136 &684706979
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &684706980
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 02c716a4491301449b561ee1a0547850, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &684706981
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &684706982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684706975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
+  goalObjects:
+  - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
+    priority: 1
+  - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
+    priority: 0
+  actionObjects:
+  - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
+  - {fileID: 11400000, guid: 9839c62994c5cf948a35d7e0382de1c6, type: 2}
+  - {fileID: 11400000, guid: 6a72a6f429f99f44a8b6dc947bb89a3d, type: 2}
+  - {fileID: 11400000, guid: 38b36793a40f3ff4981b9dc2901f3a5b, type: 2}
+  - {fileID: 11400000, guid: d0922196f94739d4da04904df7ed6b33, type: 2}
+  - {fileID: 11400000, guid: 074535df95c53a6419157b7e0de88f76, type: 2}
+  - {fileID: 11400000, guid: 877137e29c5344a44be9561a0e6d35bc, type: 2}
+  - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
+  - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
+  - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
+  _rigidbody: {fileID: 684706978}
+  active: 1
+  wait: 0
+  greedy: 0
+  speed: 70
+  hasPlan: 0
+  performingAction: 0
 --- !u!1 &704893486
 GameObject:
   m_ObjectHideFlags: 0
@@ -1668,6 +1853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 684706976}
   - {fileID: 8709107423552666157}
   - {fileID: 1707259719}
   - {fileID: 406799088}
@@ -2263,8 +2449,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: Station
-  initialState: {fileID: 0}
   _collider: {fileID: 919182329}
+  _initialState: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -4255,8 +4441,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: Theatres
-  initialState: {fileID: 0}
   _collider: {fileID: 1680513760}
+  _initialState: []
 --- !u!1 &1707259718
 GameObject:
   m_ObjectHideFlags: 0
@@ -5213,8 +5399,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: FishingPoint
-  initialState: {fileID: 0}
   _collider: {fileID: 1831070797}
+  _initialState:
+  - name: 2
+    value: 10000
 --- !u!136 &1831070797
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5441,8 +5629,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: Woods
-  initialState: {fileID: 0}
   _collider: {fileID: 1922751072}
+  _initialState:
+  - name: 1
+    value: 10000
 --- !u!136 &1922751072
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -5884,8 +6074,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameEntity: Hospital
-  initialState: {fileID: 0}
   _collider: {fileID: 2146468562}
+  _initialState: []
 --- !u!114 &3949256954392127559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6070,7 +6260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
