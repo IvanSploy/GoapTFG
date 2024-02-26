@@ -80,8 +80,8 @@ namespace UGoap.Base
         
         public static object EvaluateEffect(object a, object b, EffectType effect)
         {
-            if (a.GetType() != b.GetType()) throw new 
-                ArgumentException("Evaluated properties doesnt have the same types. Check the assigns.");
+            if (a.GetType() != b.GetType()) 
+                throw new ArgumentException("Evaluated properties doesnt have the same types. Check the assigns.");
 
             
             object result;

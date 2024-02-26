@@ -1547,6 +1547,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
+  - {fileID: 11400000, guid: c8b168280ce795e4783ffd917fc7aa20, type: 2}
+  - {fileID: 11400000, guid: 6a63fc15ec28e6b4bae2209e3d3802be, type: 2}
   _rigidbody: {fileID: 684706978}
   active: 1
   wait: 0
@@ -5402,7 +5404,7 @@ MonoBehaviour:
   _collider: {fileID: 1831070797}
   _initialState:
   - name: 2
-    value: 10000
+    value: 50
 --- !u!136 &1831070797
 CapsuleCollider:
   m_ObjectHideFlags: 0

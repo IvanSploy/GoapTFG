@@ -9,15 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c271df5fa884eeba7cb009e23f46b15, type: 3}
-  m_Name: GetFish
+  m_Script: {fileID: 11500000, guid: 4acbb97fd4f3438d8901b7fda67769b8, type: 3}
+  m_Name: SellCurrentSeeds
   m_EditorClassIdentifier: 
   _cost: 1
   preconditions:
   - name: 0
-    value: FishingPoint
+    value: TownHall
     condition: 0
   effects: []
-  _resource: 2
-  _count: 25
+  _resource: 1
+  _price: 0.05
   _waitSeconds: 1

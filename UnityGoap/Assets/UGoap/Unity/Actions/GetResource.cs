@@ -69,10 +69,7 @@ namespace UGoap.Unity.Actions
             
             return proceduralEffects;
         }
-
-        //TODO Recordar cual es la verdadera cantidad que se va a eliminar.
-        //Quizá haya que aplicarlo a nivel de procedural effect y no a nivel externo.
-        //La planificación requiere una memoria interna y consciente del entorno para que tenga sentido.
+        
         protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
@@ -83,11 +80,13 @@ namespace UGoap.Unity.Actions
             {
                 case PropertyType.Integer:
                     var ivalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0);
-                    fact.Object.CurrentState.Set(_resource, ivalue - _count);
+                    var icount = (int)Math.Min(_count, ivalue);
+                    fact.Object.CurrentState.Set(_resource, ivalue - icount);
                     break;
                 case PropertyType.Float:
                     var fvalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0f);
-                    fact.Object.CurrentState.Set(_resource, fvalue - _count);
+                    var fcount = (int)Math.Min(_count, fvalue);
+                    fact.Object.CurrentState.Set(_resource, fvalue - fcount);
                     break;
                 default:
                     throw new 
