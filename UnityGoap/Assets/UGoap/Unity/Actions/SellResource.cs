@@ -52,7 +52,8 @@ namespace UGoap.Unity.Actions
         private int GetRequiredAmount(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             var moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f).First();
-            float currentMoney = stateInfo.PredictedState.TryGetOrDefault(Money, 0f);
+            float currentMoney = stateInfo.State.TryGetOrDefault(Money, 0f);
+            currentMoney += stateInfo.PredictedState.TryGetOrDefault(Money, 0f);
             float moneyRequired = Mathf.Max(moneyValue.Value - currentMoney, 0f);
             if (moneyValue.ConditionType == ConditionType.GreaterThan) moneyRequired += 1;
             return (int) Mathf.Ceil(moneyRequired / _price);
