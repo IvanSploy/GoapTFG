@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using UGoap.Base;
 using UnityEngine;
@@ -21,49 +20,41 @@ namespace UGoap.Unity.Actions
             return stateInfo.Goal[Target].Any(condition => !condition.Value.Equals("") && condition.ConditionType == ConditionType.Equal);
         }
         
-        protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(
+        protected override GoapConditions<PropertyKey, object> GetProceduralConditions(
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var condition = new ConditionGroup<PropertyKey, object>();
+            var condition = new GoapConditions<PropertyKey, object>();
             condition.Set(Target, _excludedLocation, ConditionType.NotEqual);
             return condition;
         }
         
-        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(
+        protected override GoapEffects<PropertyKey, object> GetProceduralEffects(
             GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            EffectGroup<PropertyKey, object> proceduralEffects = new EffectGroup<PropertyKey, object>();
+            GoapEffects<PropertyKey, object> proceduralEffects = new GoapEffects<PropertyKey, object>();
             string target = "";
             var targetList = stateInfo.Goal.TryGetOrDefault<string>(Target, null);
             if (targetList != null)
             {
-                var condition = targetList.
-                    FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
+                var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
                 if(condition != null)
                     target = condition.Value;
-            }
-            else
-            {
-                Debug.LogError("This should not happen.");
             }
             proceduralEffects[Target] = new EffectValue<object>(target, EffectType.Set);
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(GoapState<PropertyKey, object> goapState, UGoapAgent agent)
         {
-            agent.GoToTarget(state.TryGetOrDefault(Target, ""), _speedFactor);
+            agent.GoToTarget(goapState.TryGetOrDefault(Target, ""), _speedFactor);
         }
 
-        public override int GetCost(GoapStateInfo<PropertyKey, object> stateInfo)
+        public override int GetCost(GoapState<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
         {
-            var ws = stateInfo.State;
-            var goal = stateInfo.Goal;
-
-            if (!ws.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
+            if (!state.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
             
-            var target1 = (string) ws[Target];
-            var target2 = (string) stateInfo.Goal[Target].First((condition) => condition.ConditionType == ConditionType.Equal).Value;
+            var target1 = (string) state[Target];
+            var target2 = (string) goal[Target].First((condition) => condition.ConditionType == ConditionType.Equal).Value;
 
             var pos1 = UGoapWMM.Get(target1).Position;
             var pos2 = UGoapWMM.Get(target2).Position;

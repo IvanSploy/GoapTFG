@@ -1,7 +1,7 @@
 ﻿namespace UGoap.Base
 {
     /// <summary>
-    /// Represents an Enitity with an state.
+    /// Represents an Enitity with an goapState.
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
@@ -10,8 +10,8 @@
         public string Name { get; }
         
         /// <summary>
-        /// Represents the state associated with the current entity.
+        /// Represents the goapState associated with the current entity.
         /// </summary>
-        public StateGroup<TKey, TValue> CurrentState { get; set; }
+        public GoapState<TKey, TValue> CurrentGoapState { get; set; }
     }
 }

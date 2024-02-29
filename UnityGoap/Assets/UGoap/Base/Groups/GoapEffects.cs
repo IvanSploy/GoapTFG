@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
 
@@ -11,9 +9,9 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class EffectGroup<TKey, TValue> : BaseGroup<TKey, EffectValue<TValue>>
+    public class GoapEffects<TKey, TValue> : GoapBase<TKey, EffectValue<TValue>>
     {
-        public EffectGroup(EffectGroup<TKey, TValue> baseGroup = null) : base(baseGroup)
+        public GoapEffects(GoapEffects<TKey, TValue> baseGroup = null) : base(baseGroup)
         { }
 
         //Value Access
@@ -25,7 +23,7 @@ namespace UGoap.Base
         public void Set(TKey key, EffectValue<TValue> effectValue) =>
             Set(key, effectValue.Value, effectValue.EffectType);
 
-        public void Set(EffectGroup<TKey, TValue> otherPg)
+        public void Set(GoapEffects<TKey, TValue> otherPg)
         {
             foreach (var pair in otherPg)
             {
@@ -62,12 +60,12 @@ namespace UGoap.Base
             });
         }
         
-        public static EffectGroup<TKey, TValue> operator +(EffectGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
+        public static GoapEffects<TKey, TValue> operator +(GoapEffects<TKey, TValue> a, GoapEffects<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new EffectGroup<TKey, TValue>(a);
+            var propertyGroup = new GoapEffects<TKey, TValue>(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value.Value, pair.Value.EffectType);

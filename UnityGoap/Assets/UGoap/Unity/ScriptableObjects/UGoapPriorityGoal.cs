@@ -14,7 +14,7 @@ namespace UGoap.Unity.ScriptableObjects
         
         public GoapGoal<PropertyKey, object> Create(int priority)
         {
-            ConditionGroup<PropertyKey, object> state = new();
+            GoapConditions<PropertyKey, object> state = new();
             AddIntoPropertyGroup(properties, in state);
             return new GoapGoal<PropertyKey, object>(name, state, priority);
         }

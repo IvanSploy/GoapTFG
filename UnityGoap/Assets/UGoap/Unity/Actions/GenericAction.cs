@@ -15,17 +15,17 @@ namespace UGoap.Unity.Actions
             return true;
         }
 
-        protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapConditions<PropertyKey, object> GetProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return null;
         }
 
-        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapEffects<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             return null;
         }
 
-        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(GoapState<PropertyKey, object> goapState, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }

@@ -11,11 +11,11 @@ namespace UGoap.Unity.ScriptableObjects
     {
         [HideInInspector] public List<Property> properties;
 
-        public StateGroup<PropertyKey, object> Create()
+        public GoapState<PropertyKey, object> Create()
         {
-            StateGroup<PropertyKey, object> state = new();
-            AddIntoPropertyGroup(properties, in state);
-            return state;
+            GoapState<PropertyKey, object> goapState = new();
+            AddIntoPropertyGroup(properties, in goapState);
+            return goapState;
         }
     }
 }

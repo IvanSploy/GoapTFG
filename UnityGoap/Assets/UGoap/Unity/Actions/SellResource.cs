@@ -20,9 +20,9 @@ namespace UGoap.Unity.Actions
             return true;
         }
 
-        protected override ConditionGroup<PropertyKey, object> GetProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapConditions<PropertyKey, object> GetProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var proceduralConditions = new ConditionGroup<PropertyKey, object>();
+            var proceduralConditions = new GoapConditions<PropertyKey, object>();
 
             var resourceCount = GetRequiredAmount(stateInfo);
             
@@ -31,9 +31,9 @@ namespace UGoap.Unity.Actions
             return proceduralConditions;
         }
 
-        protected override EffectGroup<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapEffects<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
         {
-            var proceduralEffects = new EffectGroup<PropertyKey, object>();
+            var proceduralEffects = new GoapEffects<PropertyKey, object>();
             
             var resourceCount = GetRequiredAmount(stateInfo);
             var money = resourceCount * _price;
@@ -44,7 +44,7 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(StateGroup<PropertyKey, object> state, UGoapAgent agent)
+        protected override void PerformedActions(GoapState<PropertyKey, object> goapState, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }
@@ -52,8 +52,8 @@ namespace UGoap.Unity.Actions
         private int GetRequiredAmount(GoapStateInfo<PropertyKey, object> stateInfo)
         {
             var moneyValue = stateInfo.Goal.TryGetOrDefault(Money, 0f).First();
-            float currentMoney = stateInfo.State.TryGetOrDefault(Money, 0f);
-            float moneyRequired = moneyValue.Value - currentMoney;
+            float currentMoney = stateInfo.PredictedState.TryGetOrDefault(Money, 0f);
+            float moneyRequired = Mathf.Max(moneyValue.Value - currentMoney, 0f);
             if (moneyValue.ConditionType == ConditionType.GreaterThan) moneyRequired += 1;
             return (int) Mathf.Ceil(moneyRequired / _price);
         }

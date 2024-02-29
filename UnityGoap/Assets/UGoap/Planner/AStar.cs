@@ -8,22 +8,22 @@ namespace UGoap.Planner
     {
         private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
-        private readonly Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> _customHeuristic;
-        private readonly StateGroup<TKey, TValue> _initialState;
+        private readonly Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> _customHeuristic;
+        private readonly GoapState<TKey, TValue> _initialGoapState;
         
-        public AStar(StateGroup<TKey, TValue> initialState, Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> customHeuristic = null)
+        public AStar(GoapState<TKey, TValue> initialGoapState, Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> customHeuristic = null)
         {
-            _initialState = initialState;
+            _initialGoapState = initialGoapState;
             
             _openList = new SortedSet<Node<TKey, TValue>>();
             _expandedNodes = new HashSet<Node<TKey, TValue>>();
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TKey, TValue> CreateInitialNode(StateGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal)
+        public Node<TKey, TValue> CreateInitialNode(GoapState<TKey, TValue> currentGoapState, GoapGoal<TKey, TValue> goal)
         {
             var goalState = new GoapGoal<TKey, TValue>(goal);
-            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentState, goalState, this);
+            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentGoapState, goalState, this);
             var initialHeuristic = node.GetHeuristic();
             node.GCost = 0;
             node.HCost = initialHeuristic;
@@ -93,14 +93,14 @@ namespace UGoap.Planner
                     if (!_openList.Remove(aStarChild)) continue;
                     
                     aStarChild.Update(node);
-                    var cost = node.GetUpdatedCost(_initialState, child.ParentAction);
+                    var cost = node.GetUpdatedCost(_initialGoapState, child.ParentAction);
                     aStarChild.GCost = cost;
                     _openList.Add(aStarChild);
                 }
             }
         }
         
-        public Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> GetCustomHeuristic()
+        public Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

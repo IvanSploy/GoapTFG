@@ -57,16 +57,16 @@ namespace UGoap.Learning
             }
         }
 
-        public static int ParseToStateCode<TKey, TValue>(StateGroup<TKey, TValue> state, GoapGoal<TKey,TValue> goal)
+        public static int ParseToStateCode<TKey, TValue>(GoapState<TKey, TValue> goapState, GoapGoal<TKey,TValue> goal)
         {
-            StateGroup<TKey, TValue> filteredState = new StateGroup<TKey, TValue>();
+            GoapState<TKey, TValue> filteredGoapState = new GoapState<TKey, TValue>();
             foreach (var pair in goal)
             {
-                if (state.HasKey(pair.Key))
-                    filteredState[pair.Key] = state[pair.Key];
+                if (goapState.HasKey(pair.Key))
+                    filteredGoapState[pair.Key] = goapState[pair.Key];
             }
 
-            return filteredState.GetHashCode();
+            return filteredGoapState.GetHashCode();
         }
 
         public static int GetReward<TKey, TValue>(Node<TKey, TValue> startNode, Node<TKey, TValue> finishNode)

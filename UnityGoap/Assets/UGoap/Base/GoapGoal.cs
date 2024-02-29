@@ -6,29 +6,29 @@ namespace UGoap.Base
     public class GoapGoal<TKey, TValue> : IEnumerable<KeyValuePair<TKey, List<ConditionValue<TValue>>>>
     {
         //Fields
-        private readonly ConditionGroup<TKey, TValue> _conditions;
+        private readonly GoapConditions<TKey, TValue> _conditions;
 
         //Properties
         public string Name { get; }
         public int PriorityLevel { get; }
         
         //Constructors
-        public GoapGoal(string name, ConditionGroup<TKey, TValue> goal, int priorityLevel)
+        public GoapGoal(string name, GoapConditions<TKey, TValue> goal, int priorityLevel)
         {
-            _conditions = new ConditionGroup<TKey, TValue>(goal) ;
+            _conditions = new GoapConditions<TKey, TValue>(goal) ;
             PriorityLevel = priorityLevel;
             Name = name;
         }
         
         public GoapGoal(GoapGoal<TKey, TValue> goapGoal)
         {
-            _conditions = new ConditionGroup<TKey, TValue>(goapGoal._conditions) ;
+            _conditions = new GoapConditions<TKey, TValue>(goapGoal._conditions) ;
             PriorityLevel = goapGoal.PriorityLevel;
             Name = goapGoal.Name;
         }
 
         //Getters
-        public ConditionGroup<TKey, TValue> GetState()
+        public GoapConditions<TKey, TValue> GetState()
         {
             return _conditions;
         }
@@ -39,24 +39,24 @@ namespace UGoap.Base
             return _conditions.IsEmpty();
         }
         
-        public bool IsReached (StateGroup<TKey, TValue> worldState)
+        public bool IsReached (GoapState<TKey, TValue> worldGoapState)
         {
-            return !_conditions.CheckConflict(worldState);
+            return !_conditions.CheckConflict(worldGoapState);
         }
         
-        public ConditionGroup<TKey, TValue> GetConflicts (StateGroup<TKey, TValue> worldState)
+        public GoapConditions<TKey, TValue> GetConflicts (GoapState<TKey, TValue> worldGoapState)
         {
-            return _conditions.GetConflict(worldState);
+            return _conditions.GetConflict(worldGoapState);
         }
         
-        public ConditionGroup<TKey, TValue> ResolveFilteredGoal (StateGroup<TKey, TValue> worldState, StateGroup<TKey, TValue> filter)
+        public GoapConditions<TKey, TValue> ResolveFilteredGoal (GoapState<TKey, TValue> worldGoapState, GoapState<TKey, TValue> filter)
         {
-            return _conditions.CheckFilteredConflict(worldState, out var mismatches, filter) ? mismatches : null;
+            return _conditions.CheckFilteredConflict(worldGoapState, out var mismatches, filter) ? mismatches : null;
         }
         
-        public int CountConflicts (StateGroup<TKey, TValue> worldState)
+        public int CountConflicts (GoapState<TKey, TValue> worldGoapState)
         {
-            return _conditions.CountConflicts(worldState);
+            return _conditions.CountConflicts(worldGoapState);
         }
 
         public bool Has(TKey key)
@@ -72,14 +72,14 @@ namespace UGoap.Base
         //Operators
         public List<ConditionValue<TValue>> this[TKey key] => GetState()[key];
 
-        public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, ConditionGroup<TKey, TValue> b)
+        public static GoapGoal<TKey, TValue> operator +(GoapGoal<TKey, TValue> a, GoapConditions<TKey, TValue> b)
         {
             var conditionGroup = a._conditions;
             return new GoapGoal<TKey, TValue>(a.Name, conditionGroup + b, a.PriorityLevel);
         }
         
             // Implicit conversion operator
-        public static implicit operator ConditionGroup<TKey, TValue>(GoapGoal<TKey, TValue> goal)
+        public static implicit operator GoapConditions<TKey, TValue>(GoapGoal<TKey, TValue> goal)
         {
             return goal.GetState();
         }

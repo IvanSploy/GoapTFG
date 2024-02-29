@@ -9,14 +9,14 @@ namespace UGoap.Planner
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">String type</typeparam>
-    public class MixedPlanner<TKey, TValue> : Planner<TKey, TValue>
+    public class GoapPlanner<TKey, TValue> : Planner<TKey, TValue>
     {
         private const int ACTION_LIMIT = 50000;
         private bool _greedy;
         private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new(); 
 
-        public MixedPlanner(INodeGenerator<TKey, TValue> nodeGenerator, bool greedy = false)
+        public GoapPlanner(INodeGenerator<TKey, TValue> nodeGenerator, bool greedy = false)
             : base(nodeGenerator)
         {
             _greedy = greedy;
@@ -25,18 +25,18 @@ namespace UGoap.Planner
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
         /// </summary>
-        /// <param name="initialState">Current state of the world.</param>
+        /// <param name="initialGoapState">Current goapState of the world.</param>
         /// <param name="goapGoal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Stack<GoapActionData<TKey, TValue>> CreatePlan(StateGroup<TKey, TValue> initialState, GoapGoal<TKey, TValue> goal,
+        public Stack<GoapActionData<TKey, TValue>> CreatePlan(GoapState<TKey, TValue> initialGoapState, GoapGoal<TKey, TValue> goal,
             List<IGoapAction<TKey, TValue>> actions)
         {
             _goal = goal;
-            if (goal.IsReached(initialState)) return null;
-            return GeneratePlan(initialState, actions);
+            if (goal.IsReached(initialGoapState)) return null;
+            return GeneratePlan(initialGoapState, actions);
         }
         
         private void RegisterActions(List<IGoapAction<TKey, TValue>> actions)
@@ -53,17 +53,17 @@ namespace UGoap.Planner
             }
         }
 
-        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(StateGroup<TKey, TValue> initialState,
+        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(GoapState<TKey, TValue> initialGoapState,
             List<IGoapAction<TKey, TValue>> actions)
         {
-            if (initialState == null || actions == null) throw new ArgumentNullException();
+            if (initialGoapState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
 
             RegisterActions(actions);
 
             nodesCreated = 0;
             
-            _current = _nodeGenerator.CreateInitialNode(initialState, _goal);
+            _current = _nodeGenerator.CreateInitialNode(initialGoapState, _goal);
             while (_current != null)
             {
                 foreach (var goalPair in _current.Goal)
@@ -74,9 +74,9 @@ namespace UGoap.Planner
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
-                        //If current state has key or is not a procedural effect.
-                        EffectGroup<TKey, TValue> actionEffects =
-                            action.GetEffects(new GoapStateInfo<TKey, TValue>(initialState, _current.Goal));
+                        //If current goapState has key or is not a procedural effect.
+                        GoapEffects<TKey, TValue> actionEffects =
+                            action.GetEffects(new GoapStateInfo<TKey, TValue>(initialGoapState, _current.Goal, _current.State));
                         if (_current.State.HasKey(key))
                         {
                             if(!CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
@@ -85,7 +85,7 @@ namespace UGoap.Planner
                         
                         _actionsVisited.Add(action.Name);
                             
-                        var child = _current.ApplyMixedAction(initialState, action);
+                        var child = _current.ApplyAction(initialGoapState, action);
                         actionsApplied++;
                         
                         if(child == null) continue;

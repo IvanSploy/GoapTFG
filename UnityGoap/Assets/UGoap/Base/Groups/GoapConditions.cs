@@ -11,9 +11,9 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class ConditionGroup<TKey, TValue> : BaseGroup<TKey, HashSet<ConditionValue<TValue>>>
+    public class GoapConditions<TKey, TValue> : GoapBase<TKey, HashSet<ConditionValue<TValue>>>
     {
-        public ConditionGroup(ConditionGroup<TKey, TValue> conditionGroup = null) : base(conditionGroup)
+        public GoapConditions(GoapConditions<TKey, TValue> goapConditions = null) : base(goapConditions)
         {
             foreach (var key in _values.Keys.ToList())
             {
@@ -36,9 +36,9 @@ namespace UGoap.Base
 
         public void Set(TKey key, ConditionValue<TValue> value) => Set(key, value.Value, value.ConditionType);
 
-        public void Set(ConditionGroup<TKey, TValue> conditionGroup)
+        public void Set(GoapConditions<TKey, TValue> goapConditions)
         {
-            foreach (var pair in conditionGroup)
+            foreach (var pair in goapConditions)
             {
                 foreach (var condition in pair.Value)
                 {
@@ -73,17 +73,17 @@ namespace UGoap.Base
         public List<ConditionValue<TValue>> this[TKey key] => Get(key).ToList();
 
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(StateGroup<TKey, TValue> stateGroup)
+        public bool CheckConflict(GoapState<TKey, TValue> goapState)
         {
-            return this.Any(pg => GetConflictConditions(pg.Key, stateGroup).Count > 0);
+            return this.Any(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
         }
 
-        public ConditionGroup<TKey, TValue> GetConflict(StateGroup<TKey, TValue> stateGroup)
+        public GoapConditions<TKey, TValue> GetConflict(GoapState<TKey, TValue> goapState)
         {
-            ConditionGroup<TKey, TValue> conflicts = new ConditionGroup<TKey, TValue>();
+            GoapConditions<TKey, TValue> conflicts = new GoapConditions<TKey, TValue>();
             foreach (var pair in this)
             {
-                var conditions = GetConflictConditions(pair.Key, stateGroup);
+                var conditions = GetConflictConditions(pair.Key, goapState);
                 foreach (var condition in conditions)
                 {
                     conflicts.Set(pair.Key, condition);
@@ -94,16 +94,16 @@ namespace UGoap.Base
             return conflicts;
         }
 
-        public int CountConflicts(StateGroup<TKey, TValue> stateGroup) =>
-            stateGroup.Count(pg => GetConflictConditions(pg.Key, stateGroup).Count > 0);
+        public int CountConflicts(GoapState<TKey, TValue> goapState) =>
+            goapState.Count(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
 
-        public List<ConditionValue<TValue>> GetConflictConditions(TKey key, StateGroup<TKey, TValue> stateGroup)
+        public List<ConditionValue<TValue>> GetConflictConditions(TKey key, GoapState<TKey, TValue> goapState)
         {
             List<ConditionValue<TValue>> conflicts = new List<ConditionValue<TValue>>();
             foreach (var condition in Get(key))
             {
                 object defaultValue = GetDefaultValue(condition.Value);
-                TValue mainValue = !stateGroup.HasKey(key) ? (TValue)defaultValue : stateGroup[key];
+                TValue mainValue = !goapState.HasKey(key) ? (TValue)defaultValue : goapState[key];
 
                 if (!EvaluateCondition(mainValue, condition.Value, condition.ConditionType))
                 {
@@ -114,11 +114,11 @@ namespace UGoap.Base
             return conflicts;
         }
 
-        public bool CheckFilteredConflict(StateGroup<TKey, TValue> stateGroup,
-            out ConditionGroup<TKey, TValue> mismatches,
-            StateGroup<TKey, TValue> filter)
+        public bool CheckFilteredConflict(GoapState<TKey, TValue> goapState,
+            out GoapConditions<TKey, TValue> mismatches,
+            GoapState<TKey, TValue> filter)
         {
-            mismatches = new ConditionGroup<TKey, TValue>();
+            mismatches = new GoapConditions<TKey, TValue>();
             foreach (var pair in this)
             {
                 if (!filter.HasKey(pair.Key))
@@ -130,7 +130,7 @@ namespace UGoap.Base
                 }
                 else
                 {
-                    var conditions = GetConflictConditions(pair.Key, stateGroup);
+                    var conditions = GetConflictConditions(pair.Key, goapState);
                     foreach (var condition in conditions)
                     {
                         mismatches.Set(pair.Key, condition.Value, condition.ConditionType);
@@ -143,8 +143,8 @@ namespace UGoap.Base
             return thereIsConflict;
         }
 
-        public static ConditionGroup<TKey, TValue> Merge(ConditionGroup<TKey, TValue> cg,
-            ConditionGroup<TKey, TValue> newCg)
+        public static GoapConditions<TKey, TValue> Merge(GoapConditions<TKey, TValue> cg,
+            GoapConditions<TKey, TValue> newCg)
         {
             if (cg == null) return newCg;
             if (newCg == null) return cg;
@@ -160,13 +160,13 @@ namespace UGoap.Base
             return cg + newCg;
         }
 
-        public static ConditionGroup<TKey, TValue> operator +(ConditionGroup<TKey, TValue> a,
-            ConditionGroup<TKey, TValue> b)
+        public static GoapConditions<TKey, TValue> operator +(GoapConditions<TKey, TValue> a,
+            GoapConditions<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
 
-            var propertyGroup = new ConditionGroup<TKey, TValue>(a);
+            var propertyGroup = new GoapConditions<TKey, TValue>(a);
             propertyGroup.Set(b);
             return propertyGroup;
         }
@@ -193,8 +193,9 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            ConditionGroup<TKey, TValue> otherPg = (ConditionGroup<TKey, TValue>)obj;
-            
+            GoapConditions<TKey, TValue> otherPg = (GoapConditions<TKey, TValue>)obj;
+
+            if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;            
             foreach (var key in _values.Keys)
             {
                 if (!otherPg.HasKey(key)) return false;
@@ -202,6 +203,15 @@ namespace UGoap.Base
             }
             return true;
         }
+        
+        #region DefaultValues
+        private int CountRelevantKeys()
+        {
+            return _values.Keys.Sum(key =>
+                _values[key].Count(value =>
+                    value.Value.GetHashCode() != GetDefaultValue(value.Value).GetHashCode()));
+        }
+        #endregion
 
         public new IEnumerator<KeyValuePair<TKey, List<ConditionValue<TValue>>>> GetEnumerator()
         {

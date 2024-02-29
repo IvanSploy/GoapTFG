@@ -8,14 +8,14 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public abstract class BaseGroup<TKey, TValue> : IEnumerable<KeyValuePair<TKey,TValue>>
+    public abstract class GoapBase<TKey, TValue> : IEnumerable<KeyValuePair<TKey,TValue>>
     {
         protected internal readonly SortedDictionary<TKey, TValue> _values;
         
-        public BaseGroup(BaseGroup<TKey, TValue> baseGroup = null)
+        public GoapBase(GoapBase<TKey, TValue> goapBase = null)
         {
-            _values = baseGroup == null ? new SortedDictionary<TKey, TValue>()
-                : new SortedDictionary<TKey, TValue>(baseGroup._values);
+            _values = goapBase == null ? new SortedDictionary<TKey, TValue>()
+                : new SortedDictionary<TKey, TValue>(goapBase._values);
         }
 
         //Key Access

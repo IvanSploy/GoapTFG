@@ -10,9 +10,9 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="TKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class StateGroup<TKey, TValue> : BaseGroup<TKey, TValue>
+    public class GoapState<TKey, TValue> : GoapBase<TKey, TValue>
     {
-        public StateGroup(StateGroup<TKey, TValue> stateGroup = null) : base(stateGroup)
+        public GoapState(GoapState<TKey, TValue> goapState = null) : base(goapState)
         { }
         
         //Value Access
@@ -21,7 +21,7 @@ namespace UGoap.Base
             _values[key] = value;
         }
         
-        public void Set(StateGroup<TKey, TValue> otherPg)
+        public void Set(GoapState<TKey, TValue> otherPg)
         {
             foreach (var pair in otherPg)
             {   
@@ -29,9 +29,9 @@ namespace UGoap.Base
             }
         }
         
-        public void Set(EffectGroup<TKey, TValue> effectGroup)
+        public void Set(GoapEffects<TKey, TValue> goapEffects)
         {
-            foreach (var pair in effectGroup)
+            foreach (var pair in goapEffects)
             {   
                 Set(pair.Key, pair.Value.Value);
             }
@@ -55,12 +55,12 @@ namespace UGoap.Base
         }
         
         //Operators
-        public static StateGroup<TKey, TValue> operator +(StateGroup<TKey, TValue> a, StateGroup<TKey, TValue> b)
+        public static GoapState<TKey, TValue> operator +(GoapState<TKey, TValue> a, GoapState<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new StateGroup<TKey, TValue>(a);
+            var propertyGroup = new GoapState<TKey, TValue>(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value);
@@ -68,12 +68,12 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static StateGroup<TKey, TValue> operator +(StateGroup<TKey, TValue> a, EffectGroup<TKey, TValue> b)
+        public static GoapState<TKey, TValue> operator +(GoapState<TKey, TValue> a, GoapEffects<TKey, TValue> b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new StateGroup<TKey, TValue>(a);
+            var propertyGroup = new GoapState<TKey, TValue>(a);
             foreach (var pair in b)
             {
                 TKey key = pair.Key;
@@ -94,11 +94,11 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static StateGroup<TKey, TValue> operator -(StateGroup<TKey, TValue> a, BaseGroup<TKey, TValue> b)
+        public static GoapState<TKey, TValue> operator -(GoapState<TKey, TValue> a, GoapBase<TKey, TValue> b)
         {
             if (b == null) return a;
             
-            var propertyGroup = new StateGroup<TKey, TValue>(a);
+            var propertyGroup = new GoapState<TKey, TValue>(a);
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
@@ -121,7 +121,7 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            StateGroup<TKey, TValue> otherPg = (StateGroup<TKey, TValue>)obj;
+            GoapState<TKey, TValue> otherPg = (GoapState<TKey, TValue>)obj;
             
             if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
             foreach (var key in _values.Keys)
@@ -164,11 +164,11 @@ namespace UGoap.Base
         
         //Casts
         // Implicit conversion operator
-        public static implicit operator StateGroup<TKey, TValue>(EffectGroup<TKey, TValue> custom)
+        public static implicit operator GoapState<TKey, TValue>(GoapEffects<TKey, TValue> custom)
         {
-            StateGroup<TKey, TValue> stateGroup = new StateGroup<TKey, TValue>();
-            stateGroup.Set(custom);
-            return stateGroup;
+            GoapState<TKey, TValue> goapState = new GoapState<TKey, TValue>();
+            goapState.Set(custom);
+            return goapState;
         }
     }
 }

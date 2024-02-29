@@ -36,22 +36,22 @@ namespace UGoap.Base
         /// <summary>
         /// Manages to create a new plan for the Agent.
         /// </summary>
-        /// <param name="worldState"></param>
+        /// <param name="worldGoapState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int CreateNewPlan(StateGroup<TKey, TValue> worldState);
+        public int CreateNewPlan(GoapState<TKey, TValue> worldGoapState);
         /// <summary>
         /// Performs all of the actions in the actual plan all at once.
         /// </summary>
-        /// <param name="worldState"></param>
+        /// <param name="worldGoapState"></param>
         /// <returns></returns>
-        public StateGroup<TKey, TValue> DoPlan(StateGroup<TKey, TValue> worldState);
+        public GoapState<TKey, TValue> DoPlan(GoapState<TKey, TValue> worldGoapState);
         
         /// <summary>
         /// Performs the current action of the actual plan.
         /// </summary>
-        /// <param name="worldState"></param>
+        /// <param name="worldGoapState"></param>
         /// <returns></returns>
-        public StateGroup<TKey, TValue> PlanStep(StateGroup<TKey, TValue> worldState);
+        public GoapState<TKey, TValue> PlanStep(GoapState<TKey, TValue> worldGoapState);
         
         /// <summary>
         /// Current number of action that the actual plan has.

@@ -119,25 +119,25 @@ namespace UGoap.Unity
         #region Usos externos
         
         /// <summary>
-        /// Converts a Property into a value inside a StateGroup.
+        /// Converts a Property into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="state">StateGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, in StateGroup<PropertyKey, object> state)
+        /// <param name="goapState">State that will include the new Property.</param>
+        public static void AddIntoPropertyGroup(List<Property> properties, in GoapState<PropertyKey, object> goapState)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, in state);
+                ApplyProperty(property, in goapState);
             }
         }
     
         
         /// <summary>
-        /// Converts a ConditionProperty into a value inside a StateGroup.
+        /// Converts a ConditionProperty into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="state">StateGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in ConditionGroup<PropertyKey, object> state)
+        /// <param name="state">State that will include the new Property.</param>
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in GoapConditions<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -146,11 +146,11 @@ namespace UGoap.Unity
         }
     
         /// <summary>
-        /// Converts an EffectProperty into a value inside a StateGroup.
+        /// Converts an EffectProperty into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="state">StateGroup that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in EffectGroup<PropertyKey, object> state)
+        /// <param name="state">State that will include the new Property.</param>
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in GoapEffects<PropertyKey, object> state)
         {
             foreach (var property in properties)
             {
@@ -161,17 +161,17 @@ namespace UGoap.Unity
         #endregion
 
         #region Converters
-        private static void ApplyProperty(Property property, in StateGroup<PropertyKey, object> pg)
+        private static void ApplyProperty(Property property, in GoapState<PropertyKey, object> pg)
         {
             pg.Set(property.name, ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, in ConditionGroup<PropertyKey, object> pg)
+        private static void ApplyProperty(ConditionProperty property, in GoapConditions<PropertyKey, object> pg)
         {
             pg.Set(property.name, new ConditionValue<object>(ParseValue(property), property.condition));
         }
 
-        private static void ApplyProperty(EffectProperty property, in EffectGroup<PropertyKey, object> pg)
+        private static void ApplyProperty(EffectProperty property, in GoapEffects<PropertyKey, object> pg)
         {
             pg.Set(property.name, new EffectValue<object>(ParseValue(property), property.effect));
         } 

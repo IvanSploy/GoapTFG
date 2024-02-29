@@ -2,14 +2,17 @@
 {
     public class GoapStateInfo<TKey, TValue>
     {
-        public StateGroup<TKey, TValue> State;
+        public GoapState<TKey, TValue> State;
         public GoapGoal<TKey, TValue> Goal;
+        public GoapState<TKey, TValue> PredictedState;
 
-        public GoapStateInfo(StateGroup<TKey, TValue> worldState,
-            GoapGoal<TKey, TValue> currentGoal = null)
+        public GoapStateInfo(GoapState<TKey, TValue> state,
+            GoapGoal<TKey, TValue> currentGoal,
+            GoapState<TKey, TValue> predictedState)
         {
-            State = worldState;
+            State = state;
             Goal = currentGoal;
+            PredictedState = predictedState;
         }
     }
 }

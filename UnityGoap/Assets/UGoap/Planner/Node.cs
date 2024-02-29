@@ -21,11 +21,11 @@ namespace UGoap.Planner
         public bool IsGoal { get; set; }
         
         //Fields
-        public readonly StateGroup<TKey, TValue> State;
+        public readonly GoapState<TKey, TValue> State;
         protected readonly INodeGenerator<TKey, TValue> Generator;
         
         //Constructor
-        protected Node(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
+        protected Node(GoapState<TKey, TValue> state, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
         {
             State = state;
             Goal = goal;
@@ -36,80 +36,58 @@ namespace UGoap.Planner
 
             //Used By Generator
         /// <summary>
-        /// Applies an action to a Node and creates the Node that result.
+        /// Do mixed apply for the current state and node.
         /// </summary>
-        /// <param name="goapAction">ParentAction applied to the node.</param>
-        /// <returns>Node result.</returns>
-        public Node<TKey, TValue> ApplyAction(IGoapAction<TKey, TValue> goapAction)
-        {
-            var state = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(State, Goal));
-            return state == null ? null : CreateChildNode(state, Goal, goapAction);
-        }
-
-        /// <summary>
-        /// Do regressive apply for the current state and node.
-        /// </summary>
-        /// <param name="goapAction">ParentAction applied to the node.</param>
-        /// <param name="goapGoal">Goal to be modified</param>
-        /// <param name="reached">If the node has no conflicts</param>
-        /// <returns>Node result.</returns>
-        public Node<TKey, TValue> ApplyRegressiveAction(IGoapAction<TKey, TValue> goapAction,
-            GoapGoal<TKey, TValue> goapGoal, out bool reached)
-        {
-            var stateCreated = goapAction.ApplyRegressiveAction(new GoapStateInfo<TKey, TValue>(State, goapGoal), out reached);
-            return stateCreated == null ? null : CreateChildNode(stateCreated.State, stateCreated.Goal, goapAction);
-        }
-
-        /// <summary>
-        /// Do regressive apply for the current state and node.
-        /// </summary>
-        /// <param name="currentState">The current state of the research.</param>
+        /// <param name="currentGoapState">The current state of the research.</param>
         /// <param name="goapAction">ParentAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node<TKey, TValue> ApplyMixedAction(StateGroup<TKey, TValue> currentState,
+        public Node<TKey, TValue> ApplyAction(GoapState<TKey, TValue> currentGoapState,
             IGoapAction<TKey, TValue> goapAction)
         {
-            var recursiveResult = CheckMixedGoal(currentState, goapAction);
+            var recursiveResult = CheckGoal(currentGoapState, goapAction);
             return recursiveResult.goal == null ? null : CreateChildNode(recursiveResult.finalState, recursiveResult.goal,
                 goapAction, recursiveResult.cost);
         }
         
-        public (StateGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) CheckMixedGoal(
-            StateGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        public (GoapState<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) CheckGoal(
+            GoapState<TKey, TValue> currentGoapState, IGoapAction<TKey, TValue> goapAction)
         {
-            (StateGroup<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) result;
-            var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
+            (GoapState<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) result;
+            var actionResult = goapAction.ApplyAction(
+                new GoapStateInfo<TKey, TValue>(currentGoapState,
+                    Goal,
+                    State));
 
-            if (actionResult == null) return (null, null, -1);
+            if (actionResult.State == null) return (null, null, -1);
             
-            ConditionGroup<TKey, TValue> mergeConditions;
+            GoapConditions<TKey, TValue> mergeConditions;
             
             //Nodes
             if (Parent != null)
             {
-                var parentResult = Parent.CheckMixedGoal(actionResult.State, ParentAction);
+                var parentResult = Parent.CheckGoal(actionResult.State, ParentAction);
 
                 //ParentAction invalid, path not valid.
                 if (parentResult.goal == null) 
                     return (null, null, -1);
                 
-                mergeConditions = ConditionGroup<TKey, TValue>.Merge(
+                mergeConditions = GoapConditions<TKey, TValue>.Merge(
                     actionResult.Goal, 
                     parentResult.goal);
                 
                 result.finalState = parentResult.finalState;
-                result.cost = goapAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal)) + parentResult.cost;
+                result.cost = goapAction.GetCost(currentGoapState, Goal) + parentResult.cost;
             }
             //Final node
             else
             {
                 //Check main goal
-                mergeConditions = ConditionGroup<TKey, TValue>.Merge(
+                mergeConditions = GoapConditions<TKey, TValue>.Merge(
                     actionResult.Goal,
                     Goal.GetConflicts(actionResult.State));
 
                 result.finalState = actionResult.State;
-                result.cost = goapAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal));
+                result.cost = goapAction.GetCost(currentGoapState, Goal);
             }
             
             if (mergeConditions != null)
@@ -123,21 +101,21 @@ namespace UGoap.Planner
             return result;
         }
         
-        public int GetUpdatedCost(StateGroup<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        public int GetUpdatedCost(GoapState<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
         {
             int cost;
-            var actionResult = goapAction.ApplyMixedAction(currentState, Goal);
+            var actionResult = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(currentState, Goal, State));
             
             //Nodes
             if (Parent != null)
             {
                 var parentCost = Parent.GetUpdatedCost(actionResult.State, ParentAction);
-                cost = ParentAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal)) + parentCost;
+                cost = ParentAction.GetCost(currentState, Goal) + parentCost;
             }
             //Final node
             else
             {
-                cost = goapAction.GetCost(new GoapStateInfo<TKey, TValue>(currentState, Goal));
+                cost = goapAction.GetCost(currentState, Goal);
             }
             
             return cost;
@@ -146,12 +124,12 @@ namespace UGoap.Planner
         /// <summary>
         /// Performs the creation of a new Node based on an existent PG.
         /// </summary>
-        /// <param name="state">Property Group</param>
+        /// <param name="goapState">Property Group</param>
         /// <param name="goapGoal"></param>
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node<TKey, TValue> CreateChildNode(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
+        protected abstract Node<TKey, TValue> CreateChildNode(GoapState<TKey, TValue> goapState, GoapGoal<TKey, TValue> goapGoal,
             IGoapAction<TKey, TValue> goapAction, int cost = -1);
 
         /// <summary>
@@ -175,7 +153,7 @@ namespace UGoap.Planner
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            TotalCost = ParentAction.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal));
+            TotalCost = ParentAction.GetCost(parent.State, parent.Goal);
             ActionCount = parent.ActionCount + 1;
         }
 

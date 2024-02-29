@@ -8,10 +8,10 @@ namespace UGoap.Planner
         /// <summary>
         /// Peforms the main planning cycle from the start to the end.
         /// </summary>
-        /// <param name="currentState">Initial state of the world.</param>
+        /// <param name="currentGoapState">Initial goapState of the world.</param>
         /// <param name="goal">Goal expected to reach.</param>
         /// <returns>Stack of actions for the agent.</returns>
-        Node<TKey, TValue> CreateInitialNode(StateGroup<TKey, TValue> currentState, GoapGoal<TKey, TValue> goal);
+        Node<TKey, TValue> CreateInitialNode(GoapState<TKey, TValue> currentGoapState, GoapGoal<TKey, TValue> goal);
 
         /// <summary>
         /// Retrieves the next node that has to be analyzed by the generator.
@@ -33,6 +33,6 @@ namespace UGoap.Planner
         /// Retrieves the custom heuristic of the generator if exists.
         /// </summary>
         /// <returns>Custom heuristic.</returns>
-        Func<GoapGoal<TKey, TValue>, StateGroup<TKey, TValue>, int> GetCustomHeuristic();
+        Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> GetCustomHeuristic();
     }
 }

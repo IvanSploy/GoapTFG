@@ -13,17 +13,17 @@ namespace UGoap.Planner
         public override int TotalCost => GCost + HCost;
 
         //Constructor
-        public AStarNode(StateGroup<TKey, TValue> state,
+        public AStarNode(GoapState<TKey, TValue> state,
             GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(state, goal, generator)
         {
             GCost = 0;
             HCost = 0;
         }
 
-        protected override Node<TKey, TValue> CreateChildNode(StateGroup<TKey, TValue> state, GoapGoal<TKey, TValue> goapGoal,
+        protected override Node<TKey, TValue> CreateChildNode(GoapState<TKey, TValue> goapState, GoapGoal<TKey, TValue> goapGoal,
             IGoapAction<TKey, TValue> goapAction, int cost = -1)
         {
-            var aStarNode = new AStarNode<TKey, TValue>(state, goapGoal, Generator);
+            var aStarNode = new AStarNode<TKey, TValue>(goapState, goapGoal, Generator);
             aStarNode.Update(this, goapAction);
             if(cost >= 0) aStarNode.GCost = cost;
             aStarNode.IsGoal = goapGoal.GetState().IsEmpty();
@@ -37,7 +37,7 @@ namespace UGoap.Planner
             
             AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
             HCost = GetHeuristic();
-            GCost = ParentAction.GetCost(new GoapStateInfo<TKey, TValue>(parent.State, parent.Goal)) + asnParent.GCost;
+            GCost = ParentAction.GetCost(parent.State, parent.Goal) + asnParent.GCost;
         }
 
         /// <summary>
