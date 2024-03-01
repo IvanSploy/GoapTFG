@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
-namespace UGoap.Unity
+namespace UGoap.Base
 {
     public static partial class UGoapPropertyManager
     {
@@ -123,7 +122,7 @@ namespace UGoap.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="goapState">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, in GoapState<PropertyKey, object> goapState)
+        public static void AddIntoPropertyGroup(List<Property> properties, in GoapState goapState)
         {
             foreach (var property in properties)
             {
@@ -137,7 +136,7 @@ namespace UGoap.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in GoapConditions<PropertyKey, object> state)
+        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in GoapConditions state)
         {
             foreach (var property in properties)
             {
@@ -150,7 +149,7 @@ namespace UGoap.Unity
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in GoapEffects<PropertyKey, object> state)
+        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in GoapEffects state)
         {
             foreach (var property in properties)
             {
@@ -161,19 +160,19 @@ namespace UGoap.Unity
         #endregion
 
         #region Converters
-        private static void ApplyProperty(Property property, in GoapState<PropertyKey, object> pg)
+        private static void ApplyProperty(Property property, in GoapState pg)
         {
             pg.Set(property.name, ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, in GoapConditions<PropertyKey, object> pg)
+        private static void ApplyProperty(ConditionProperty property, in GoapConditions pg)
         {
-            pg.Set(property.name, new ConditionValue<object>(ParseValue(property), property.condition));
+            pg.Set(property.name, new ConditionValue(ParseValue(property), property.condition));
         }
 
-        private static void ApplyProperty(EffectProperty property, in GoapEffects<PropertyKey, object> pg)
+        private static void ApplyProperty(EffectProperty property, in GoapEffects pg)
         {
-            pg.Set(property.name, new EffectValue<object>(ParseValue(property), property.effect));
+            pg.Set(property.name, new EffectValue(ParseValue(property), property.effect));
         } 
         #endregion
     }

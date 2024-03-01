@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {
     [RequireComponent(typeof(Collider))]
-    public class UGoapEntity : MonoBehaviour, IGoapEntity<PropertyKey, object>
+    public class UGoapEntity : MonoBehaviour, IGoapEntity
     {
         [SerializeField] private string nameEntity;
         [SerializeField] private Collider _collider;
@@ -15,7 +15,7 @@ namespace UGoap.Unity
         public string Name => nameEntity;
         public Collider Collider => _collider;
 
-        public GoapState<PropertyKey, object> CurrentGoapState { get; set; }
+        public GoapState CurrentGoapState { get; set; }
 
         private void Awake()
         {
@@ -32,7 +32,7 @@ namespace UGoap.Unity
 
         private void AddToWorkingMemoryManager()
         {
-            GoapState<PropertyKey, object> goapState = new ();
+            GoapState goapState = new ();
             AddIntoPropertyGroup(_initialState, in goapState);
             CurrentGoapState = goapState;
             UGoapWMM.Add(Name, this);

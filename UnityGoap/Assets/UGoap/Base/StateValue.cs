@@ -2,12 +2,12 @@
 
 namespace UGoap.Base
 {
-    public class ConditionValue<TValue>
+    public class ConditionValue
     {
-        public readonly TValue Value;
+        public readonly object Value;
         public readonly ConditionType ConditionType;
 
-        public ConditionValue(TValue value, ConditionType conditionType)
+        public ConditionValue(object value, ConditionType conditionType)
         {
             Value = value;
             ConditionType = conditionType;
@@ -19,7 +19,7 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            ConditionValue<TValue> other = (ConditionValue<TValue>)obj;
+            ConditionValue other = (ConditionValue)obj;
             return Value.Equals(other.Value) && ConditionType == other.ConditionType;
         }
 
@@ -30,12 +30,12 @@ namespace UGoap.Base
         }
     }
     
-    public class EffectValue<TValue>
+    public class EffectValue
     {
-        public readonly TValue Value;
+        public readonly object Value;
         public readonly EffectType EffectType;
 
-        public EffectValue(TValue value, EffectType effectType)
+        public EffectValue(object value, EffectType effectType)
         {
             Value = value;
             EffectType = effectType;
@@ -47,7 +47,7 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            EffectValue<TValue> other = (EffectValue<TValue>)obj;
+            EffectValue other = (EffectValue)obj;
             return Value.Equals(other.Value) && EffectType == other.EffectType;
         }
 

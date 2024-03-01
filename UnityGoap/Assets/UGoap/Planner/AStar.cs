@@ -4,42 +4,42 @@ using UGoap.Base;
 
 namespace UGoap.Planner
 {
-    public class AStar<TKey, TValue> : INodeGenerator<TKey, TValue>
+    public class AStar : INodeGenerator
     {
-        private readonly SortedSet<Node<TKey, TValue>> _openList; //Para acceder más rapidamente al elemento prioritario.
-        private readonly HashSet<Node<TKey, TValue>> _expandedNodes;
-        private readonly Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> _customHeuristic;
-        private readonly GoapState<TKey, TValue> _initialGoapState;
+        private readonly SortedSet<Node> _openList; //Para acceder más rapidamente al elemento prioritario.
+        private readonly HashSet<Node> _expandedNodes;
+        private readonly Func<GoapGoal, GoapState, int> _customHeuristic;
+        private readonly GoapState _initialGoapState;
         
-        public AStar(GoapState<TKey, TValue> initialGoapState, Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> customHeuristic = null)
+        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null)
         {
             _initialGoapState = initialGoapState;
             
-            _openList = new SortedSet<Node<TKey, TValue>>();
-            _expandedNodes = new HashSet<Node<TKey, TValue>>();
+            _openList = new SortedSet<Node>();
+            _expandedNodes = new HashSet<Node>();
             _customHeuristic = customHeuristic;
         }
 
-        public Node<TKey, TValue> CreateInitialNode(GoapState<TKey, TValue> currentGoapState, GoapGoal<TKey, TValue> goal)
+        public Node CreateInitialNode(GoapState currentGoapState, GoapGoal goal)
         {
-            var goalState = new GoapGoal<TKey, TValue>(goal);
-            AStarNode<TKey, TValue> node = new AStarNode<TKey, TValue>(currentGoapState, goalState, this);
+            var goalState = new GoapGoal(goal);
+            AStarNode node = new AStarNode(currentGoapState, goalState, this);
             var initialHeuristic = node.GetHeuristic();
             node.GCost = 0;
             node.HCost = initialHeuristic;
             return node;
         }
         
-        public Node<TKey, TValue> GetNextNode(Node<TKey, TValue> current)
+        public Node GetNextNode(Node current)
         {
             _expandedNodes.Add(current);
             if (_openList.Count == 0) return null;
-            Node<TKey, TValue> node = _openList.Min;
+            Node node = _openList.Min;
             _openList.Remove(node);
             return node;
         }
 
-        public void AddChildToParent(Node<TKey, TValue> parent, Node<TKey, TValue> child)
+        public void AddChildToParent(Node parent, Node child)
         {
             //Si el nodo ya ha sido explorado.
             if (_expandedNodes.Contains(child))
@@ -76,13 +76,13 @@ namespace UGoap.Planner
         /// It could change the order of the nodes in the Open List.
         /// </summary>
         /// <param name="node">Parent Node</param>
-        private void UpdateChildrenCost(Node<TKey, TValue> node)
+        private void UpdateChildrenCost(Node node)
         {
             if (node.Children.Count == 0) return;
             
             foreach (var child in node.Children)
             {
-                var aStarChild = (AStarNode<TKey, TValue>)child;
+                var aStarChild = (AStarNode)child;
                 if (aStarChild.Children.Count != 0)
                 {
                     aStarChild.Update(node);
@@ -100,7 +100,7 @@ namespace UGoap.Planner
             }
         }
         
-        public Func<GoapGoal<TKey, TValue>, GoapState<TKey, TValue>, int> GetCustomHeuristic()
+        public Func<GoapGoal, GoapState, int> GetCustomHeuristic()
         {
             return _customHeuristic;
         }

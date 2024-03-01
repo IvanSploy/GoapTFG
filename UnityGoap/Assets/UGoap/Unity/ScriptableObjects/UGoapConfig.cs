@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UGoap.Unity.CodeGenerator;
 using UnityEngine;
-using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {

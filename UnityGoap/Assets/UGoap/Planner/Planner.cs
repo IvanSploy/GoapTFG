@@ -5,7 +5,7 @@ using static UGoap.Base.BaseTypes;
 
 namespace UGoap.Planner
 {
-    public abstract class Planner<TKey, TValue>
+    public abstract class Planner
     {
         //Stats
         protected static int nodesCreated = 0;
@@ -13,31 +13,31 @@ namespace UGoap.Planner
         public static int actionsApplied = 0;
         
         //Data
-        protected INodeGenerator<TKey, TValue> _nodeGenerator;
-        protected Node<TKey, TValue> _current;
-        protected GoapGoal<TKey, TValue> _goal;
+        protected INodeGenerator _nodeGenerator;
+        protected Node _current;
+        protected GoapGoal _goal;
         
         //Events
-        public Action<Node<TKey, TValue>> OnNodeCreated;
-        public Action<Node<TKey, TValue>> OnPlanCreated;
+        public Action<Node> OnNodeCreated;
+        public Action<Node> OnPlanCreated;
 
-        protected Planner(INodeGenerator<TKey, TValue> nodeGenerator)
+        protected Planner(INodeGenerator nodeGenerator)
         {
             _nodeGenerator = nodeGenerator;
         }
 
-        public static bool CheckEffectCompatibility(TValue currentValue, EffectType effectType, TValue actionValue,
-            List<ConditionValue<TValue>> conditions)
+        public static bool CheckEffectCompatibility(object currentValue, EffectType effectType, object actionValue,
+            List<ConditionValue> conditions)
         {
             bool compatible = true;
-            object resultValue = EvaluateEffect(currentValue, actionValue, effectType);
+            object resultValue = Evaluate(currentValue, effectType, actionValue);
 
             for (var i = 0; i < conditions.Count && compatible; i++)
             {
                 var condition = conditions[i];
                 
                 //Check if condition will be fulfilled.
-                if (EvaluateCondition(resultValue, condition.Value, condition.ConditionType))
+                if (Evaluate(resultValue, condition.ConditionType, condition.Value))
                 {
                     continue;
                 }
@@ -90,22 +90,22 @@ namespace UGoap.Planner
         /// <param name="initialGoapState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<GoapActionData<TKey, TValue>> GeneratePlan(GoapState<TKey, TValue> initialGoapState,
-            List<IGoapAction<TKey, TValue>> actions);
+        public abstract Stack<GoapActionData> GeneratePlan(GoapState initialGoapState,
+            List<IGoapAction> actions);
         
         /// <summary>
         /// Gets the final plan that the researcher has found.
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public Stack<GoapActionData<TKey, TValue>> GetPlan(Node<TKey, TValue> nodeGoal)
+        public Stack<GoapActionData> GetPlan(Node nodeGoal)
         {
-            Stack<GoapActionData<TKey, TValue>> plan = new Stack<GoapActionData<TKey, TValue>>();
+            Stack<GoapActionData> plan = new Stack<GoapActionData>();
             while (nodeGoal.Parent != null)
             {
                 
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                var actionData = new GoapActionData<TKey, TValue>(nodeGoal.ParentAction, nodeGoal.Parent.Goal, nodeGoal.Parent.State);
+                var actionData = new GoapActionData(nodeGoal.ParentAction, nodeGoal.Parent.Goal, nodeGoal.Parent.State);
                 plan.Push(actionData);
                 nodeGoal = nodeGoal.Parent;
             }
@@ -117,10 +117,10 @@ namespace UGoap.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public Stack<GoapActionData<TKey, TValue>> GetInvertedPlan(Node<TKey, TValue> nodeGoal)
+        public Stack<GoapActionData> GetInvertedPlan(Node nodeGoal)
         {
-            Stack<GoapActionData<TKey, TValue>> plan = GetPlan(nodeGoal);
-            Stack<GoapActionData<TKey, TValue>> invertedPlan = new Stack<GoapActionData<TKey, TValue>>();
+            Stack<GoapActionData> plan = GetPlan(nodeGoal);
+            Stack<GoapActionData> invertedPlan = new Stack<GoapActionData>();
             foreach (var actionData in plan)
             {
                 invertedPlan.Push(actionData);
@@ -128,7 +128,7 @@ namespace UGoap.Planner
             return invertedPlan;
         }
 
-        public void DebugPlan(Node<TKey, TValue> node)
+        public void DebugPlan(Node node)
         {
             var debugLog = "Acciones para conseguir el objetivo: ";
             var actionNames = "";
@@ -149,7 +149,7 @@ namespace UGoap.Planner
             DebugRecord.AddRecord(debugLog);
         }
         
-        protected void DebugInfo(Node<TKey, TValue> node)
+        protected void DebugInfo(Node node)
         {
             string info = "";
             info += "NODOS CREADOS: " + nodesCreated + "\n";

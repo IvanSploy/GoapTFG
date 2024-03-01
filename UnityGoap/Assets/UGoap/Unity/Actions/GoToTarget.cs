@@ -3,8 +3,7 @@ using System.Linq;
 using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Unity.UGoapPropertyManager;
-using static UGoap.Unity.UGoapPropertyManager.PropertyKey;
+using static UGoap.Base.UGoapPropertyManager.PropertyKey;
 
 namespace UGoap.Unity.Actions
 {
@@ -15,41 +14,41 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _speedFactor = 1;
         [SerializeField] private string _excludedLocation = "none";
         
-        protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override bool Validate(GoapStateInfo stateInfo)
         {
             return stateInfo.Goal[Target].Any(condition => !condition.Value.Equals("") && condition.ConditionType == ConditionType.Equal);
         }
         
-        protected override GoapConditions<PropertyKey, object> GetProceduralConditions(
-            GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapConditions GetProceduralConditions(
+            GoapStateInfo stateInfo)
         {
-            var condition = new GoapConditions<PropertyKey, object>();
+            var condition = new GoapConditions();
             condition.Set(Target, _excludedLocation, ConditionType.NotEqual);
             return condition;
         }
         
-        protected override GoapEffects<PropertyKey, object> GetProceduralEffects(
-            GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapEffects GetProceduralEffects(
+            GoapStateInfo stateInfo)
         {
-            GoapEffects<PropertyKey, object> proceduralEffects = new GoapEffects<PropertyKey, object>();
+            GoapEffects proceduralEffects = new GoapEffects();
             string target = "";
-            var targetList = stateInfo.Goal.TryGetOrDefault<string>(Target, null);
+            var targetList = stateInfo.Goal.TryGetOrDefault(Target, null);
             if (targetList != null)
             {
                 var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
                 if(condition != null)
-                    target = condition.Value;
+                    target = (string)condition.Value;
             }
-            proceduralEffects[Target] = new EffectValue<object>(target, EffectType.Set);
+            proceduralEffects[Target] = new EffectValue(target, EffectType.Set);
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(GoapState<PropertyKey, object> goapState, UGoapAgent agent)
+        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
             agent.GoToTarget(goapState.TryGetOrDefault(Target, ""), _speedFactor);
         }
 
-        public override int GetCost(GoapState<PropertyKey, object> state, GoapGoal<PropertyKey, object> goal)
+        public override int GetCost(GoapState state, GoapGoal goal)
         {
             if (!state.HasKey(Target) || !goal.Has(Target)) return 50 / _speedFactor;
             

@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using UGoap.Base;
 using UGoap.Learning;
 using UnityEngine;
-using static UGoap.Unity.UGoapPropertyManager;
-
-using GoapState = UGoap.Base.GoapState<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
-using ConditionGroup = UGoap.Base.GoapConditions<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
-using EffectGroup = UGoap.Base.GoapEffects<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
-using GoapGoal = UGoap.Base.GoapGoal<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
-using GoapStateInfo = UGoap.Base.GoapStateInfo<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
-using IGoapAction = UGoap.Base.IGoapAction<UGoap.Unity.UGoapPropertyManager.PropertyKey, object>;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {
@@ -24,8 +17,8 @@ namespace UGoap.Unity
         
         //Fields
         public string Name { get; private set; }
-        private readonly ConditionGroup _preconditions = new();
-        private readonly EffectGroup _effects = new();
+        private readonly GoapConditions _preconditions = new();
+        private readonly GoapEffects _effects = new();
         public bool IsCompleted { get; } = false;
 
         //Updating data from the scriptable object.
@@ -39,8 +32,8 @@ namespace UGoap.Unity
 
         //Procedural related.
         protected abstract bool Validate(GoapStateInfo stateInfo);
-        protected abstract ConditionGroup GetProceduralConditions(GoapStateInfo stateInfo);
-        protected abstract EffectGroup GetProceduralEffects(GoapStateInfo stateInfo);
+        protected abstract GoapConditions GetProceduralConditions(GoapStateInfo stateInfo);
+        protected abstract GoapEffects GetProceduralEffects(GoapStateInfo stateInfo);
         protected abstract void PerformedActions(GoapState goapState, UGoapAgent agent);
         
         //Cost related.
@@ -59,32 +52,32 @@ namespace UGoap.Unity
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public ConditionGroup GetPreconditions(GoapStateInfo stateInfo)
+        public GoapConditions GetPreconditions(GoapStateInfo stateInfo)
         {
             return _preconditions + GetProceduralConditions(stateInfo);
         }
 
-        public EffectGroup GetEffects(GoapStateInfo stateInfo)
+        public GoapEffects GetEffects(GoapStateInfo stateInfo)
         {
             return _effects + GetProceduralEffects(stateInfo);
         }
         public HashSet<PropertyKey> GetAffectedKeys()
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
-            foreach (var key in _effects.GetKeys())
+            foreach (var key in _effects.GePropertyKeys())
             {
                 affectedPropertyLists.Add(key);
             }
 
             var stateInfo = new GoapStateInfo(new GoapState(),
-                new GoapGoal("", new ConditionGroup(), 1),
+                new GoapGoal("", new GoapConditions(), 1),
                 new GoapState());
             
             var proceduralEffects = GetProceduralEffects(stateInfo);
 
             if (proceduralEffects != null)
             {
-                foreach (var key in proceduralEffects.GetKeys())
+                foreach (var key in proceduralEffects.GePropertyKeys())
                 {
                     affectedPropertyLists.Add(key);
                 }
@@ -94,7 +87,7 @@ namespace UGoap.Unity
 
         //Used only by the Agent.
         public GoapState Execute(GoapStateInfo stateInfo,
-            IGoapAgent<PropertyKey, object> goapAgent)
+            IGoapAgent goapAgent)
         {
             if (!CheckAction(stateInfo))
             {
@@ -108,7 +101,7 @@ namespace UGoap.Unity
         }
 
         //Internal methods.
-        private bool CheckAction(GoapStateInfo<PropertyKey, object> stateInfo)
+        private bool CheckAction(GoapStateInfo stateInfo)
         {
             if (!GetPreconditions(stateInfo).CheckConflict(stateInfo.State))
             {
@@ -118,7 +111,7 @@ namespace UGoap.Unity
             return false;
         }
         
-        private GoapState<PropertyKey, object> DoApplyAction(GoapStateInfo<PropertyKey, object> stateInfo)
+        private GoapState DoApplyAction(GoapStateInfo stateInfo)
         {
             var result = stateInfo.State + GetEffects(stateInfo);
             return result;
@@ -133,13 +126,13 @@ namespace UGoap.Unity
             
             //Apply action
             var resultState = DoApplyAction(stateInfo);
-            var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal<PropertyKey, object>(stateInfo.Goal.Name, conflicts, stateInfo.Goal.PriorityLevel);
+            var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal(stateInfo.Goal.Name, conflicts, stateInfo.Goal.PriorityLevel);
             return (resultState, resultGoal);
         }
 
-        private GoapGoal<PropertyKey, object> GetVictoryGoal()
+        private GoapGoal GetVictoryGoal()
         {
-            return new GoapGoal<PropertyKey, object>("Victory", new GoapConditions<PropertyKey, object>(), 1);
+            return new GoapGoal("Victory", new GoapConditions(), 1);
         }
 
         public override string ToString()

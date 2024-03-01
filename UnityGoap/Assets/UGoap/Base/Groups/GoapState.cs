@@ -1,27 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static UGoap.Base.BaseTypes;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
 {
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="TKey">Key type</typeparam>
-    /// <typeparam name="TValue">Value type</typeparam>
-    public class GoapState<TKey, TValue> : GoapBase<TKey, TValue>
+    /// <typeparam name="PropertyKey">Key type</typeparam>
+    /// <typeparam name="object">Value type</typeparam>
+    public class GoapState : GoapBase<object>
     {
-        public GoapState(GoapState<TKey, TValue> goapState = null) : base(goapState)
+        public GoapState(GoapState goapState = null) : base(goapState)
         { }
         
         //Value Access
-        public void Set(TKey key, TValue value)
+        public void Set(PropertyKey key, object value)
         {
             _values[key] = value;
         }
         
-        public void Set(GoapState<TKey, TValue> otherPg)
+        public void Set(GoapState otherPg)
         {
             foreach (var pair in otherPg)
             {   
@@ -29,7 +29,7 @@ namespace UGoap.Base
             }
         }
         
-        public void Set(GoapEffects<TKey, TValue> goapEffects)
+        public void Set(GoapEffects goapEffects)
         {
             foreach (var pair in goapEffects)
             {   
@@ -37,30 +37,30 @@ namespace UGoap.Base
             }
         }
         
-        private TValue Get(TKey key)
+        private object Get(PropertyKey key)
         {
             return _values[key];
         }
         
-        public T TryGetOrDefault<T>(TKey key, T defaultValue)
+        public T TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
             if(HasKey(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
             return defaultValue;
         }
 
-        public TValue this[TKey key]
+        public object this[PropertyKey key]
         {
             get => Get(key);
             set => Set(key, value);
         }
         
         //Operators
-        public static GoapState<TKey, TValue> operator +(GoapState<TKey, TValue> a, GoapState<TKey, TValue> b)
+        public static GoapState operator +(GoapState a, GoapState b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapState<TKey, TValue>(a);
+            var propertyGroup = new GoapState(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value);
@@ -68,37 +68,37 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static GoapState<TKey, TValue> operator +(GoapState<TKey, TValue> a, GoapEffects<TKey, TValue> b)
+        public static GoapState operator +(GoapState a, GoapEffects b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapState<TKey, TValue>(a);
+            var propertyGroup = new GoapState(a);
             foreach (var pair in b)
             {
-                TKey key = pair.Key;
-                EffectValue<TValue> bValue = pair.Value;
+                PropertyKey key = pair.Key;
+                EffectValue bValue = pair.Value;
                 
-                TValue aux;
+                object aux;
                 if (propertyGroup.HasKey(key))
                 {
-                    aux = (TValue) EvaluateEffect(propertyGroup[key], bValue.Value, bValue.EffectType);
+                    aux = bValue.Evaluate(propertyGroup[key]);
                 }
                 else
                 {
-                    object defValue = GetDefaultValue(bValue.Value);
-                    aux = (TValue) EvaluateEffect(defValue, bValue.Value, bValue.EffectType);
+                    object defValue = bValue.Value.GetDefault();
+                    aux = bValue.Evaluate(defValue);
                 }
                 propertyGroup.Set(key, aux);
             }
             return propertyGroup;
         }
         
-        public static GoapState<TKey, TValue> operator -(GoapState<TKey, TValue> a, GoapBase<TKey, TValue> b)
+        public static GoapState operator -(GoapState a, GoapBase<object> b)
         {
             if (b == null) return a;
             
-            var propertyGroup = new GoapState<TKey, TValue>(a);
+            var propertyGroup = new GoapState(a);
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
@@ -121,9 +121,9 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            GoapState<TKey, TValue> otherPg = (GoapState<TKey, TValue>)obj;
+            GoapState otherPg = (GoapState)obj;
             
-            if (CountRelevantKeys() != otherPg.CountRelevantKeys()) return false;
+            if (CountRelevanPropertyKeys() != otherPg.CountRelevanPropertyKeys()) return false;
             foreach (var key in _values.Keys)
             {
                 if (!otherPg.HasKey(key)) return false;
@@ -139,10 +139,10 @@ namespace UGoap.Base
         public override int GetHashCode()
         {
             int hash = 18;
-            foreach(KeyValuePair<TKey, TValue> kvp in _values)
+            foreach(KeyValuePair<PropertyKey, object> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (!IsRelevantKey(kvp.Key)) continue;
+                if (!IsRelevanPropertyKey(kvp.Key)) continue;
                 
                 hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
                 hash %= int.MaxValue;
@@ -151,22 +151,22 @@ namespace UGoap.Base
         }
         
         #region DefaultValues
-        private int CountRelevantKeys()
+        private int CountRelevanPropertyKeys()
         {
-            return _values.Keys.Count(IsRelevantKey);
+            return _values.Keys.Count(IsRelevanPropertyKey);
         }
 
-        private bool IsRelevantKey(TKey key)
+        private bool IsRelevanPropertyKey(PropertyKey key)
         {
-            return _values[key].GetHashCode() != GetDefaultValue(_values[key]).GetHashCode();
+            return _values[key].GetHashCode() != _values[key].GetDefault().GetHashCode();
         }
         #endregion
         
         //Casts
         // Implicit conversion operator
-        public static implicit operator GoapState<TKey, TValue>(GoapEffects<TKey, TValue> custom)
+        public static implicit operator GoapState(GoapEffects custom)
         {
-            GoapState<TKey, TValue> goapState = new GoapState<TKey, TValue>();
+            GoapState goapState = new GoapState();
             goapState.Set(custom);
             return goapState;
         }

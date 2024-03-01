@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Planner
 {
     /// <summary>
     /// Planner used to find the plan required.
     /// </summary>
-    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="TValue">String type</typeparam>
-    public class GoapPlanner<TKey, TValue> : Planner<TKey, TValue>
+    public class GoapPlanner : Planner
     {
         private const int ACTION_LIMIT = 50000;
         private bool _greedy;
-        private readonly Dictionary<TKey, List<IGoapAction<TKey, TValue>>> _actions = new(); 
+        private readonly Dictionary<PropertyKey, List<IGoapAction>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new(); 
 
-        public GoapPlanner(INodeGenerator<TKey, TValue> nodeGenerator, bool greedy = false)
+        public GoapPlanner(INodeGenerator nodeGenerator, bool greedy = false)
             : base(nodeGenerator)
         {
             _greedy = greedy;
@@ -31,30 +32,30 @@ namespace UGoap.Planner
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Stack<GoapActionData<TKey, TValue>> CreatePlan(GoapState<TKey, TValue> initialGoapState, GoapGoal<TKey, TValue> goal,
-            List<IGoapAction<TKey, TValue>> actions)
+        public Stack<GoapActionData> CreatePlan(GoapState initialGoapState, GoapGoal goal,
+            List<IGoapAction> actions)
         {
             _goal = goal;
             if (goal.IsReached(initialGoapState)) return null;
             return GeneratePlan(initialGoapState, actions);
         }
         
-        private void RegisterActions(List<IGoapAction<TKey, TValue>> actions)
+        private void RegisterActions(List<IGoapAction> actions)
         {
             foreach (var action in actions)
             {
                 foreach (var key in action.GetAffectedKeys())
                 {
                     if(!_actions.ContainsKey(key))
-                        _actions[key] = new List<IGoapAction<TKey, TValue>>{action};
+                        _actions[key] = new List<IGoapAction>{action};
                     else
                         _actions[key].Add(action);
                 }
             }
         }
 
-        public override Stack<GoapActionData<TKey, TValue>> GeneratePlan(GoapState<TKey, TValue> initialGoapState,
-            List<IGoapAction<TKey, TValue>> actions)
+        public override Stack<GoapActionData> GeneratePlan(GoapState initialGoapState,
+            List<IGoapAction> actions)
         {
             if (initialGoapState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
@@ -68,15 +69,15 @@ namespace UGoap.Planner
             {
                 foreach (var goalPair in _current.Goal)
                 {
-                    TKey key = goalPair.Key;
+                    PropertyKey key = goalPair.Key;
                     foreach (var action in _actions[goalPair.Key])
                     {
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
                         //If current goapState has key or is not a procedural effect.
-                        GoapEffects<TKey, TValue> actionEffects =
-                            action.GetEffects(new GoapStateInfo<TKey, TValue>(initialGoapState, _current.Goal, _current.State));
+                        GoapEffects actionEffects =
+                            action.GetEffects(new GoapStateInfo(initialGoapState, _current.Goal, _current.State));
                         if (_current.State.HasKey(key))
                         {
                             if(!CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,

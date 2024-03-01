@@ -7,30 +7,30 @@ namespace UGoap.Planner
     /// <summary>
     /// Defines the Node used by the Planner Search.
     /// </summary>
-    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public abstract class Node<TKey, TValue> : IComparable
+    public abstract class Node : IComparable
     {
         //Properties
-        public Node<TKey, TValue> Parent { get; set; }      
-        public List<Node<TKey, TValue>> Children { get; }
-        public IGoapAction<TKey, TValue> ParentAction { get; set; }
-        public GoapGoal<TKey, TValue> Goal { get; set; }
+        public Node Parent { get; set; }      
+        public List<Node> Children { get; }
+        public IGoapAction ParentAction { get; set; }
+        public GoapGoal Goal { get; set; }
         public virtual int TotalCost { get; set; }
         public int ActionCount { get; set; }
         public bool IsGoal { get; set; }
         
         //Fields
-        public readonly GoapState<TKey, TValue> State;
-        protected readonly INodeGenerator<TKey, TValue> Generator;
+        public readonly GoapState State;
+        protected readonly INodeGenerator Generator;
         
         //Constructor
-        protected Node(GoapState<TKey, TValue> state, GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator)
+        protected Node(GoapState state, GoapGoal goal, INodeGenerator generator)
         {
             State = state;
             Goal = goal;
             Generator = generator;
-            Children = new List<Node<TKey, TValue>>();
+            Children = new List<Node>();
             ActionCount = 0;
         }
 
@@ -41,26 +41,26 @@ namespace UGoap.Planner
         /// <param name="currentGoapState">The current state of the research.</param>
         /// <param name="goapAction">ParentAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node<TKey, TValue> ApplyAction(GoapState<TKey, TValue> currentGoapState,
-            IGoapAction<TKey, TValue> goapAction)
+        public Node ApplyAction(GoapState currentGoapState,
+            IGoapAction goapAction)
         {
             var recursiveResult = CheckGoal(currentGoapState, goapAction);
             return recursiveResult.goal == null ? null : CreateChildNode(recursiveResult.finalState, recursiveResult.goal,
                 goapAction, recursiveResult.cost);
         }
         
-        public (GoapState<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) CheckGoal(
-            GoapState<TKey, TValue> currentGoapState, IGoapAction<TKey, TValue> goapAction)
+        public (GoapState finalState, GoapGoal goal, int cost) CheckGoal(
+            GoapState currentGoapState, IGoapAction goapAction)
         {
-            (GoapState<TKey, TValue> finalState, GoapGoal<TKey, TValue> goal, int cost) result;
+            (GoapState finalState, GoapGoal goal, int cost) result;
             var actionResult = goapAction.ApplyAction(
-                new GoapStateInfo<TKey, TValue>(currentGoapState,
+                new GoapStateInfo(currentGoapState,
                     Goal,
                     State));
 
             if (actionResult.State == null) return (null, null, -1);
             
-            GoapConditions<TKey, TValue> mergeConditions;
+            GoapConditions mergeConditions;
             
             //Nodes
             if (Parent != null)
@@ -71,7 +71,7 @@ namespace UGoap.Planner
                 if (parentResult.goal == null) 
                     return (null, null, -1);
                 
-                mergeConditions = GoapConditions<TKey, TValue>.Merge(
+                mergeConditions = GoapConditions.Merge(
                     actionResult.Goal, 
                     parentResult.goal);
                 
@@ -82,7 +82,7 @@ namespace UGoap.Planner
             else
             {
                 //Check main goal
-                mergeConditions = GoapConditions<TKey, TValue>.Merge(
+                mergeConditions = GoapConditions.Merge(
                     actionResult.Goal,
                     Goal.GetConflicts(actionResult.State));
 
@@ -92,7 +92,7 @@ namespace UGoap.Planner
             
             if (mergeConditions != null)
             {
-                result.goal = new GoapGoal<TKey, TValue>(actionResult.Goal.Name, mergeConditions,
+                result.goal = new GoapGoal(actionResult.Goal.Name, mergeConditions,
                     actionResult.Goal.PriorityLevel);
             }
             //ParentAction invalid, path not valid.
@@ -101,10 +101,10 @@ namespace UGoap.Planner
             return result;
         }
         
-        public int GetUpdatedCost(GoapState<TKey, TValue> currentState, IGoapAction<TKey, TValue> goapAction)
+        public int GetUpdatedCost(GoapState currentState, IGoapAction goapAction)
         {
             int cost;
-            var actionResult = goapAction.ApplyAction(new GoapStateInfo<TKey, TValue>(currentState, Goal, State));
+            var actionResult = goapAction.ApplyAction(new GoapStateInfo(currentState, Goal, State));
             
             //Nodes
             if (Parent != null)
@@ -129,15 +129,15 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node<TKey, TValue> CreateChildNode(GoapState<TKey, TValue> goapState, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction, int cost = -1);
+        protected abstract Node CreateChildNode(GoapState goapState, GoapGoal goapGoal,
+            IGoapAction goapAction, int cost = -1);
 
         /// <summary>
         /// Update the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">ParentAction that leads to this node.</param>
-        public void Update(Node<TKey, TValue> parent, IGoapAction<TKey, TValue> goapAction)
+        public void Update(Node parent, IGoapAction goapAction)
         {
             //Se actualiza la accion de origen y el objetivo.
             ParentAction = goapAction;
@@ -149,7 +149,7 @@ namespace UGoap.Planner
         /// Updates the Node to sets a new Parent and all the related info.
         /// </summary>
         /// <param name="parent"></param>
-        public virtual void Update(Node<TKey, TValue> parent)
+        public virtual void Update(Node parent)
         {
             //Se define la relación padre hijo.
             Parent = parent;
@@ -159,7 +159,7 @@ namespace UGoap.Planner
 
         public int CompareTo(object obj)
         {
-            Node<TKey, TValue> objNode = (Node<TKey, TValue>)obj;
+            Node objNode = (Node)obj;
             //En inserciones se comprobará que no se trata del mismo nodo aunque tengan el mismo coste.
             //En búsquedas se encontrará al comprobar que se trata del mismo nodo.
             if (Equals(objNode)) return 0;
@@ -177,7 +177,7 @@ namespace UGoap.Planner
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            Node<TKey, TValue> objNode = (Node<TKey, TValue>)obj;
+            Node objNode = (Node)obj;
             
             return State.Equals(objNode.State) && Goal.Equals(objNode.Goal);
         }

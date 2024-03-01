@@ -1,29 +1,30 @@
 ﻿using System;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
 {
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="TKey">Key type</typeparam>
+    /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class GoapEffects<TKey, TValue> : GoapBase<TKey, EffectValue<TValue>>
+    public class GoapEffects : GoapBase< EffectValue>
     {
-        public GoapEffects(GoapEffects<TKey, TValue> baseGroup = null) : base(baseGroup)
+        public GoapEffects(GoapEffects baseGroup = null) : base(baseGroup)
         { }
 
         //Value Access
-        public void Set(TKey key, TValue value, EffectType effectType)
+        public void Set(PropertyKey key, object value, EffectType effectType)
         {
-            _values[key] = new EffectValue<TValue>(value, effectType);
+            _values[key] = new EffectValue(value, effectType);
         }
         
-        public void Set(TKey key, EffectValue<TValue> effectValue) =>
+        public void Set(PropertyKey key, EffectValue effectValue) =>
             Set(key, effectValue.Value, effectValue.EffectType);
 
-        public void Set(GoapEffects<TKey, TValue> otherPg)
+        public void Set(GoapEffects otherPg)
         {
             foreach (var pair in otherPg)
             {
@@ -31,19 +32,19 @@ namespace UGoap.Base
             }
         }
         
-        public EffectValue<TValue> Get(TKey key) => _values[key];
+        public EffectValue Get(PropertyKey key) => _values[key];
 
-        public EffectValue<T> TryGetOrDefault<T>(TKey key, T defaultValue)
+        public EffectValue TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
             if(HasKey(key))
             {
                 var original = Get(key);
-                return new EffectValue<T>((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);
+                return new EffectValue((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);
             }
-            return new EffectValue<T>(defaultValue, EffectType.Set);
+            return new EffectValue(defaultValue, EffectType.Set);
         }
         
-        public EffectValue<TValue> this[TKey key]
+        public EffectValue this[PropertyKey key]
         {
             get => Get(key);
             set => Set(key, value);
@@ -54,18 +55,18 @@ namespace UGoap.Base
         {
             return _values.Aggregate("", (current, pair) =>
             {
-                EffectValue<TValue> effectValue = pair.Value;
+                EffectValue effectValue = pair.Value;
                 return current + "Key: " + pair.Key + " | Valor: " +
                        effectValue.Value + "\n" + " | Effect: " + effectValue.EffectType + "\n";
             });
         }
         
-        public static GoapEffects<TKey, TValue> operator +(GoapEffects<TKey, TValue> a, GoapEffects<TKey, TValue> b)
+        public static GoapEffects operator +(GoapEffects a, GoapEffects b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapEffects<TKey, TValue>(a);
+            var propertyGroup = new GoapEffects(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value.Value, pair.Value.EffectType);

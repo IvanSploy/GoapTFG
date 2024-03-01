@@ -4,7 +4,7 @@ using UGoap.Base;
 
 namespace UGoap.Planner
 {
-    public class AStarNode<TKey, TValue> : Node<TKey, TValue>, IComparable
+    public class AStarNode : Node, IComparable
     {
         //Properties
         public int HCost { get; set; }
@@ -13,17 +13,17 @@ namespace UGoap.Planner
         public override int TotalCost => GCost + HCost;
 
         //Constructor
-        public AStarNode(GoapState<TKey, TValue> state,
-            GoapGoal<TKey, TValue> goal, INodeGenerator<TKey, TValue> generator) : base(state, goal, generator)
+        public AStarNode(GoapState state,
+            GoapGoal goal, INodeGenerator generator) : base(state, goal, generator)
         {
             GCost = 0;
             HCost = 0;
         }
 
-        protected override Node<TKey, TValue> CreateChildNode(GoapState<TKey, TValue> goapState, GoapGoal<TKey, TValue> goapGoal,
-            IGoapAction<TKey, TValue> goapAction, int cost = -1)
+        protected override Node CreateChildNode(GoapState goapState, GoapGoal goapGoal,
+            IGoapAction goapAction, int cost = -1)
         {
-            var aStarNode = new AStarNode<TKey, TValue>(goapState, goapGoal, Generator);
+            var aStarNode = new AStarNode(goapState, goapGoal, Generator);
             aStarNode.Update(this, goapAction);
             if(cost >= 0) aStarNode.GCost = cost;
             aStarNode.IsGoal = goapGoal.GetState().IsEmpty();
@@ -31,11 +31,11 @@ namespace UGoap.Planner
             return aStarNode;
         }
 
-        public override void Update(Node<TKey, TValue> parent)
+        public override void Update(Node parent)
         {
             base.Update(parent);
             
-            AStarNode<TKey, TValue> asnParent = (AStarNode<TKey, TValue>) parent;
+            AStarNode asnParent = (AStarNode) parent;
             HCost = GetHeuristic();
             GCost = ParentAction.GetCost(parent.State, parent.Goal) + asnParent.GCost;
         }

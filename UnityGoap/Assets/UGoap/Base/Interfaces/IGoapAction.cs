@@ -1,24 +1,25 @@
 ﻿using System.Collections.Generic;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
 {
-    public interface IGoapAction<TKey, TValue>
+    public interface IGoapAction
     {
         string Name { get; }
         bool IsCompleted { get; }
 
         //Cost related.
-        int GetCost(GoapState<TKey, TValue> state, GoapGoal<TKey,TValue> goal); 
+        int GetCost(GoapState state, GoapGoal goal); 
         int GetCost(); 
         int SetCost(int cost);
         
         //Getters
-        GoapConditions<TKey, TValue> GetPreconditions(GoapStateInfo<TKey, TValue> stateInfo);
-        GoapEffects<TKey, TValue> GetEffects(GoapStateInfo<TKey, TValue> stateInfo);
-        HashSet<TKey> GetAffectedKeys();
+        GoapConditions GetPreconditions(GoapStateInfo stateInfo);
+        GoapEffects GetEffects(GoapStateInfo stateInfo);
+        HashSet<PropertyKey> GetAffectedKeys();
 
         //GOAP utilities.
-        (GoapState<TKey, TValue> State, GoapGoal<TKey,TValue> Goal) ApplyAction(GoapStateInfo<TKey, TValue> info);
-        GoapState<TKey, TValue> Execute(GoapStateInfo<TKey, TValue> stateInfo, IGoapAgent<TKey, TValue> agent);
+        (GoapState State, GoapGoal Goal) ApplyAction(GoapStateInfo info);
+        GoapState Execute(GoapStateInfo stateInfo, IGoapAgent agent);
     }
 }

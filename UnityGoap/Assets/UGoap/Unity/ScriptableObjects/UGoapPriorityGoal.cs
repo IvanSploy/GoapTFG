@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
@@ -12,11 +12,11 @@ namespace UGoap.Unity.ScriptableObjects
         [HideInInspector] 
         public List<ConditionProperty> properties;
         
-        public GoapGoal<PropertyKey, object> Create(int priority)
+        public GoapGoal Create(int priority)
         {
-            GoapConditions<PropertyKey, object> state = new();
+            GoapConditions state = new();
             AddIntoPropertyGroup(properties, in state);
-            return new GoapGoal<PropertyKey, object>(name, state, priority);
+            return new GoapGoal(name, state, priority);
         }
     }
     
@@ -26,7 +26,7 @@ namespace UGoap.Unity.ScriptableObjects
         [SerializeField] private UGoapPriorityGoal priorityGoal;
         [Range(0, 10)] [SerializeField] private int priority;
 
-        public GoapGoal<PropertyKey, object> Create()
+        public GoapGoal Create()
         {
             return priorityGoal.Create(priority);
         }

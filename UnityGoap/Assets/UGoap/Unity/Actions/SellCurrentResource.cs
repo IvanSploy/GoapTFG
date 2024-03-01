@@ -2,8 +2,8 @@
 using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Unity.UGoapPropertyManager;
-using static UGoap.Unity.UGoapPropertyManager.PropertyKey;
+using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.UGoapPropertyManager.PropertyKey;
 
 namespace UGoap.Unity.Actions
 {
@@ -15,7 +15,7 @@ namespace UGoap.Unity.Actions
         [SerializeField] private float _price = 1;
         [SerializeField] private int _waitSeconds = 1;
 
-        protected override bool Validate(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override bool Validate(GoapStateInfo stateInfo)
         {
             bool valid = true;
             switch (GetPropertyType(_resource))
@@ -35,14 +35,14 @@ namespace UGoap.Unity.Actions
             return valid;
         }
 
-        protected override GoapConditions<PropertyKey, object> GetProceduralConditions(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapConditions GetProceduralConditions(GoapStateInfo stateInfo)
         {
             return null;
         }
 
-        protected override GoapEffects<PropertyKey, object> GetProceduralEffects(GoapStateInfo<PropertyKey, object> stateInfo)
+        protected override GoapEffects GetProceduralEffects(GoapStateInfo stateInfo)
         {
-            var proceduralEffects = new GoapEffects<PropertyKey, object>();
+            var proceduralEffects = new GoapEffects();
 
             float resourceCount;
             switch (GetPropertyType(_resource))
@@ -68,7 +68,7 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
 
-        protected override void PerformedActions(GoapState<PropertyKey, object> goapState, UGoapAgent agent)
+        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
             agent.GoGenericAction(_waitSeconds);
         }

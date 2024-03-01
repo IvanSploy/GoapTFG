@@ -1,7 +1,6 @@
-using System;
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Unity.UGoapPropertyManager;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {

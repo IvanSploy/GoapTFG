@@ -57,9 +57,9 @@ namespace UGoap.Learning
             }
         }
 
-        public static int ParseToStateCode<TKey, TValue>(GoapState<TKey, TValue> goapState, GoapGoal<TKey,TValue> goal)
+        public static int ParseToStateCode(GoapState goapState, GoapGoal goal)
         {
-            GoapState<TKey, TValue> filteredGoapState = new GoapState<TKey, TValue>();
+            GoapState filteredGoapState = new GoapState();
             foreach (var pair in goal)
             {
                 if (goapState.HasKey(pair.Key))
@@ -69,7 +69,7 @@ namespace UGoap.Learning
             return filteredGoapState.GetHashCode();
         }
 
-        public static int GetReward<TKey, TValue>(Node<TKey, TValue> startNode, Node<TKey, TValue> finishNode)
+        public static int GetReward(Node startNode, Node finishNode)
         {
             return startNode.TotalCost - finishNode.TotalCost;
         }

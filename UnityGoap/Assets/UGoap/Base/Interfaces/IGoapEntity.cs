@@ -3,15 +3,13 @@
     /// <summary>
     /// Represents an Enitity with an goapState.
     /// </summary>
-    /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TValue"></typeparam>
-    public interface IGoapEntity<TKey, TValue>
+    public interface IGoapEntity
     {
         public string Name { get; }
         
         /// <summary>
         /// Represents the goapState associated with the current entity.
         /// </summary>
-        public GoapState<TKey, TValue> CurrentGoapState { get; set; }
+        public GoapState CurrentGoapState { get; set; }
     }
 }

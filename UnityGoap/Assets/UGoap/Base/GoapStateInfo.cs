@@ -1,14 +1,14 @@
 ﻿namespace UGoap.Base
 {
-    public class GoapStateInfo<TKey, TValue>
+    public class GoapStateInfo
     {
-        public GoapState<TKey, TValue> State;
-        public GoapGoal<TKey, TValue> Goal;
-        public GoapState<TKey, TValue> PredictedState;
+        public GoapState State;
+        public GoapGoal Goal;
+        public GoapState PredictedState;
 
-        public GoapStateInfo(GoapState<TKey, TValue> state,
-            GoapGoal<TKey, TValue> currentGoal,
-            GoapState<TKey, TValue> predictedState)
+        public GoapStateInfo(GoapState state,
+            GoapGoal currentGoal,
+            GoapState predictedState)
         {
             State = state;
             Goal = currentGoal;

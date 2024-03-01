@@ -7,12 +7,11 @@ using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
 using static UGoap.Unity.UGoapData;
-using static UGoap.Unity.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class UGoapAgent : MonoBehaviour, IGoapAgent<PropertyKey, object>
+    public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
         [SerializeField] private UGoapState initialState;
         [SerializeField] private List<PriorityGoal> goalObjects;
@@ -31,12 +30,12 @@ namespace UGoap.Unity
         public bool performingAction;
 
         //Agent base related
-        private Stack<GoapActionData<PropertyKey, object>> _currentPlan;
-        private List<GoapGoal<PropertyKey, object>> _goals;
-        private List<IGoapAction<PropertyKey, object>> _actions;
-        private GoapGoal<PropertyKey, object> _currentGoal;
+        private Stack<GoapActionData> _currentPlan;
+        private List<GoapGoal> _goals;
+        private List<IGoapAction> _actions;
+        private GoapGoal _currentGoal;
         
-        public GoapState<PropertyKey, object> CurrentGoapState { get; set; }
+        public GoapState CurrentGoapState { get; set; }
 
         // Start is called before the first frame update
 
@@ -51,8 +50,8 @@ namespace UGoap.Unity
             _currentPlan = new();
             _goals = new();
             _actions = new();
-            List<GoapGoal<PropertyKey, object>> myGoals = new();
-            List<IGoapAction<PropertyKey, object>> myActions = new();
+            List<GoapGoal> myGoals = new();
+            List<IGoapAction> myActions = new();
             CurrentGoapState = initialState != null ? initialState.Create() : new();
             
             //OBJETIVOS
@@ -93,7 +92,7 @@ namespace UGoap.Unity
         private IEnumerator ExecutePlan()
         {
             hasPlan = true;
-            GoapState<PropertyKey, object> result;
+            GoapState result;
             do
             {
                 result = PlanStep(CurrentGoapState);
@@ -106,23 +105,23 @@ namespace UGoap.Unity
 
         //INTERFACE CLASSES
 
-        public void AddAction(IGoapAction<PropertyKey, object> action)
+        public void AddAction(IGoapAction action)
         {
             _actions.Add(action);
         }
 
-        public void AddActions(List<IGoapAction<PropertyKey, object>> actionList)
+        public void AddActions(List<IGoapAction> actionList)
         {
             _actions.AddRange(actionList);
         }
 
-        public void AddGoal(GoapGoal<PropertyKey, object> goal)
+        public void AddGoal(GoapGoal goal)
         {
             _goals.Add(goal);
             SortGoals();
         }
 
-        public void AddGoals(List<GoapGoal<PropertyKey, object>> goalList)
+        public void AddGoals(List<GoapGoal> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -133,7 +132,7 @@ namespace UGoap.Unity
             _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
         }
 
-        public int CreateNewPlan(GoapState<PropertyKey, object> worldGoapState)
+        public int CreateNewPlan(GoapState worldGoapState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
             var i = 0;
@@ -149,21 +148,21 @@ namespace UGoap.Unity
             return i - 1;
         }
 
-        public GoapGoal<PropertyKey, object> GetCurrentGoal()
+        public GoapGoal GetCurrentGoal()
         {
             return _currentGoal;
         }
 
-        public bool CreatePlan(GoapState<PropertyKey, object> worldGoapState, GoapGoal<PropertyKey, object> goapGoal,
-            Func<GoapGoal<PropertyKey, object>, GoapState<PropertyKey, object>, int> customHeuristic)
+        public bool CreatePlan(GoapState worldGoapState, GoapGoal goapGoal,
+            Func<GoapGoal, GoapState, int> customHeuristic)
         {
-            var generator = new AStar<PropertyKey, object>(worldGoapState, customHeuristic);
-            var planner = new GoapPlanner<PropertyKey, object>(generator);
+            var generator = new AStar(worldGoapState, customHeuristic);
+            var planner = new GoapPlanner(generator);
             //planner.OnNodeCreated += UpdateQValue;
             planner.OnPlanCreated += UpdatePlanQValue;
             
             var plan = 
-                //!mixedPlan ? RegressivePlanner<PropertyKey, object>.CreatePlan(worldGoapState, goapGoal, _actions, customHeuristic) :
+                //!mixedPlan ? RegressivePlanner.CreatePlan(worldGoapState, goapGoal, _actions, customHeuristic) :
                 planner.CreatePlan(worldGoapState, goapGoal, _actions);
             
             
@@ -174,13 +173,13 @@ namespace UGoap.Unity
             return true;
         }
 
-        public GoapState<PropertyKey, object> DoPlan(GoapState<PropertyKey, object> worldGoapState)
+        public GoapState DoPlan(GoapState worldGoapState)
         {
             if (_currentPlan.Count == 0) return null;
 
             foreach (var actionData in _currentPlan)
             {
-                var stateInfo = new GoapStateInfo<PropertyKey, object>(worldGoapState, actionData.Goal, actionData.PredictedState);
+                var stateInfo = new GoapStateInfo(worldGoapState, actionData.Goal, actionData.PredictedState);
                 worldGoapState = actionData.Action.Execute(stateInfo, this);
             }
 
@@ -188,12 +187,12 @@ namespace UGoap.Unity
             return worldGoapState;
         }
 
-        public GoapState<PropertyKey, object> PlanStep(GoapState<PropertyKey, object> worldGoapState)
+        public GoapState PlanStep(GoapState worldGoapState)
         {
             if (_currentPlan.Count == 0) return null;
 
-            GoapActionData<PropertyKey, object> actionData = _currentPlan.Pop();
-            var stateInfo = new GoapStateInfo<PropertyKey, object>(worldGoapState, actionData.Goal, actionData.PredictedState);
+            GoapActionData actionData = _currentPlan.Pop();
+            var stateInfo = new GoapStateInfo(worldGoapState, actionData.Goal, actionData.PredictedState);
             worldGoapState = actionData.Action.Execute(stateInfo, this);
             Debug.Log(worldGoapState);
             return worldGoapState;
@@ -254,7 +253,7 @@ namespace UGoap.Unity
         }
         
         //QLearning
-        private void UpdateQValue(Node<PropertyKey, object> node)
+        private void UpdateQValue(Node node)
         {
             if (node.Parent == null) return;
             int reward = GoapQLearning.GetReward(node.Parent, node);
@@ -263,7 +262,7 @@ namespace UGoap.Unity
             GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
         }
         
-        private void UpdatePlanQValue(Node<PropertyKey, object> node)
+        private void UpdatePlanQValue(Node node)
         {
             while (node.Parent != null)
             {
