@@ -76,20 +76,10 @@ namespace UGoap.Base
         
         public static object Evaluate(object a, EffectType effect, object b)
         {
-            if (a.GetType() != b.GetType())
-            {
+            if (a.GetType() != b.GetType()) 
                 throw new ArgumentException("Evaluated properties doesnt have the same types. Check the assigns.");
-            }
-                          
-            if (!a.GetType().IsPrimitive && effect != EffectType.Set)
-            {
-                throw new InvalidOperationException("Aritmetic operation cannot be applied.");
-            }
-
-            dynamic dynamicA = a;
-            dynamic dynamicB = b;
             
-            dynamic result;
+            object result;
             switch (effect)
             {
                 case EffectType.Set:
@@ -97,16 +87,38 @@ namespace UGoap.Base
                     result = b;
                     break;
                 case EffectType.Add:
-                    result = dynamicA + dynamicB;
+                    result = a switch
+                    {
+                        int i => i + (int)b,
+                        float f => f + (float)b,
+                        string s => s + "\n" + (string)b,
+                        _ => b
+                    };
                     break;
                 case EffectType.Subtract:
-                    result = dynamicA - dynamicB;
+                    result = a switch
+                    {
+                        int i => i - (int)b,
+                        float f => f - (float)b,
+                        string s => s.Replace((string)b, ""),
+                        _ => b
+                    };
                     break;
                 case EffectType.Multiply:
-                    result = dynamicA * dynamicB;
+                    result = a switch
+                    {
+                        int i => i * (int)b,
+                        float f => f * (float)b,
+                        _ => b
+                    };
                     break;
                 case EffectType.Divide:
-                    result = dynamicA / dynamicB;
+                    result = a switch
+                    {
+                        int i => i / (int)b,
+                        float f => f / (float)b,
+                        _ => b
+                    };
                     break;
             }
             return result;
