@@ -18,6 +18,7 @@ namespace UGoap.Base
         //Value Access
         public void Set(PropertyKey key, object value)
         {
+            AssertValidType(key, value);
             _values[key] = value;
         }
         

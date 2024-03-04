@@ -18,6 +18,7 @@ namespace UGoap.Base
         //Value Access
         public void Set(PropertyKey key, object value, EffectType effectType)
         {
+            AssertValidType(key, value);
             _values[key] = new EffectValue(value, effectType);
         }
         

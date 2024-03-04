@@ -32,7 +32,7 @@ namespace UGoap.Unity.Actions
         {
             GoapEffects proceduralEffects = new GoapEffects();
             string target = "";
-            var targetList = stateInfo.Goal.TryGetOrDefault(Target, null);
+            var targetList = stateInfo.Goal.TryGetOrDefault(Target, "");
             if (targetList != null)
             {
                 var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);

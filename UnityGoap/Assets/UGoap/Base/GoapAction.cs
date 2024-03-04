@@ -53,7 +53,7 @@ namespace UGoap.Base
         private HashSet<PropertyKey> InitializeAffectedKeys(HashSet<PropertyKey> affectedKeys = null)
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
-            foreach (var key in _effects.GePropertyKeys())
+            foreach (var key in _effects.GetPropertyKeys())
             {
                 affectedPropertyLists.Add(key);
             }

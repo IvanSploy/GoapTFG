@@ -67,6 +67,7 @@ namespace UGoap.Planner
             _current = _nodeGenerator.CreateInitialNode(initialGoapState, _goal);
             while (_current != null)
             {
+                _actionsVisited.Clear();
                 foreach (var goalPair in _current.Goal)
                 {
                     PropertyKey key = goalPair.Key;
@@ -107,10 +108,7 @@ namespace UGoap.Planner
                     }
                 }
                 
-                //Begins another check
-                _actionsVisited.Clear();
                 _current = _nodeGenerator.GetNextNode(_current); //Get next node.
-                
                 if (_current != null)
                 {
                     //If is goal

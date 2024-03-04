@@ -64,7 +64,7 @@ namespace UGoap.Unity
         public HashSet<PropertyKey> GetAffectedKeys()
         {
             HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
-            foreach (var key in _effects.GePropertyKeys())
+            foreach (var key in _effects.GetPropertyKeys())
             {
                 affectedPropertyLists.Add(key);
             }
@@ -77,7 +77,7 @@ namespace UGoap.Unity
 
             if (proceduralEffects != null)
             {
-                foreach (var key in proceduralEffects.GePropertyKeys())
+                foreach (var key in proceduralEffects.GetPropertyKeys())
                 {
                     affectedPropertyLists.Add(key);
                 }

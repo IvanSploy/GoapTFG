@@ -25,6 +25,7 @@ namespace UGoap.Base
         //Value Access
         public void Set(PropertyKey key, object value, ConditionType conditionType)
         {
+            AssertValidType(key, value);
             var condition = new ConditionValue(value, conditionType);
             if (!HasKey(key))
             {

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using static UGoap.Base.UGoapPropertyManager;
 
@@ -7,8 +8,6 @@ namespace UGoap.Base
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="PropertyKey">Key type</typeparam>
-    /// <typeparam name="object">Value type</typeparam>
     public abstract class GoapBase<T> : IEnumerable<KeyValuePair<PropertyKey, T>>
     {
         protected internal readonly SortedDictionary<PropertyKey, T> _values;
@@ -19,8 +18,25 @@ namespace UGoap.Base
                 : new SortedDictionary<PropertyKey, T>(goapBase._values);
         }
 
+        protected internal void AssertValidType(PropertyKey key, object value)
+        {
+            var valid = GetPropertyType(key) switch
+            {
+                PropertyType.Boolean => value is bool,
+                PropertyType.Integer => value is int,
+                PropertyType.Float => value is float,
+                PropertyType.String => value is string,
+                PropertyType.Enum => value is int,
+                _ => false
+            };
+            if (!valid)
+            {
+                throw new ArgumentException("Type of value is not valid.");
+            }
+        }
+
         //Key Access
-        public List<PropertyKey> GePropertyKeys()
+        public List<PropertyKey> GetPropertyKeys()
         {
             return new List<PropertyKey>(_values.Keys);
         }
