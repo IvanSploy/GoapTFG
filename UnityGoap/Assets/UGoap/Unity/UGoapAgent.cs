@@ -257,8 +257,8 @@ namespace UGoap.Unity
         {
             if (node.Parent == null) return;
             int reward = GoapQLearning.GetReward(node.Parent, node);
-            int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State, node.Parent.Goal);
-            int finishNode = GoapQLearning.ParseToStateCode(node.State, node.Goal);
+            int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State);
+            int finishNode = GoapQLearning.ParseToStateCode(node.State);
             GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
         }
         
@@ -267,8 +267,8 @@ namespace UGoap.Unity
             while (node.Parent != null)
             {
                 int reward = GoapQLearning.GetReward(node.Parent, node);
-                int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State, node.Parent.Goal);
-                int finishNode = GoapQLearning.ParseToStateCode(node.State, node.Goal);
+                int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State);
+                int finishNode = GoapQLearning.ParseToStateCode(node.State);
                 GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
                 node = node.Parent;
             }

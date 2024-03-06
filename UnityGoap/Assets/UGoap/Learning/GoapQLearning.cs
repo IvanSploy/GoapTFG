@@ -11,6 +11,7 @@ namespace UGoap.Learning
         public static readonly int InitialValue = 0;
         private const float Alpha = 0.25f;
         private const float Gamma = 0.9f;
+        private const int Range = 500;
         
         private static Dictionary<int, Dictionary<string, float>> _qValues = new();
         
@@ -57,15 +58,19 @@ namespace UGoap.Learning
             }
         }
 
-        public static int ParseToStateCode(GoapState goapState, GoapGoal goal)
+        public static int ParseToStateCode(GoapState goapState)
         {
-            GoapState filteredGoapState = new GoapState();
-            foreach (var pair in goal)
+            GoapState filteredGoapState = new GoapState(goapState);
+            foreach (var pair in goapState)
             {
-                if (goapState.HasKey(pair.Key))
-                    filteredGoapState[pair.Key] = goapState[pair.Key];
+                var result = pair.Value switch
+                {
+                    int iValue => iValue / Range * Range,
+                    float fValue => Mathf.Floor(fValue / Range) * Range,
+                    _  => pair.Value,
+                };
+                filteredGoapState[pair.Key] = result;      
             }
-
             return filteredGoapState.GetHashCode();
         }
 

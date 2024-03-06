@@ -40,7 +40,7 @@ namespace UGoap.Unity
         public int GetCost() => _cost;        
         public virtual int GetCost(GoapState state, GoapGoal goal)
         {
-            var value = GoapQLearning.ParseToStateCode(state, goal);
+            var value = GoapQLearning.ParseToStateCode(state);
             var qValue = GoapQLearning.GetQValue(value, Name);
             if(Math.Abs(qValue - GoapQLearning.InitialValue) > 0.1f)
             {
