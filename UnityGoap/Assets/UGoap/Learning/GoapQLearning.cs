@@ -6,25 +6,44 @@ using UnityEngine;
 
 namespace UGoap.Learning
 {
-    public static class GoapQLearning
+    [CreateAssetMenu(fileName = "QLearning", menuName = "Goap Items/QLearning", order = 1)]
+    public class GoapQLearning : ScriptableObject, ISerializationCallbackReceiver, IQLearning
     {
-        public static readonly int InitialValue = 0;
-        private const float Alpha = 0.25f;
-        private const float Gamma = 0.9f;
-        private const int Range = 500;
+        public int InitialValue = 0;
+        [Range(0f,1f)]
+        public float Alpha = 0.25f;
+        [Range(0f,1f)]
+        public float Gamma = 0.9f;
+        public int ValueRange = 500;
+
+        public TextAsset QValuesJson;
+        public Dictionary<int, Dictionary<string, float>> QValues = new();
         
-        private static Dictionary<int, Dictionary<string, float>> _qValues = new();
+        public void OnAfterDeserialize()
+        {
+            if (QValuesJson != null)
+            {
+                // Deserialize JSON into QValues dictionary
+                //JsonUtility.FromJsonOverwrite(QValuesJson.text, this);
+            }
+        }
+
+        public void OnBeforeSerialize()
+        {
+            // Serialize QValues dictionary to JSON
+            //QValuesJson = new TextAsset(JsonUtility.ToJson(this));
+        }
         
-        public static float UpdateQValue(int state, string action, float r, int newState)
+        public float UpdateQValue(int state, string action, float r, int newState)
         {
             var qValue = (1 - Alpha) * GetQValue(state, action) + Alpha * r + Gamma * GetMaxQValue(newState);
             SetQValue(state, action, qValue);
             return qValue;
         }
         
-        public static float GetQValue(int state, string action)
+        public float GetQValue(int state, string action)
         {
-            if (_qValues.TryGetValue(state, out var actionValues))
+            if (QValues.TryGetValue(state, out var actionValues))
             {
                 if (actionValues.TryGetValue(action, out var qValue))
                 {
@@ -34,39 +53,39 @@ namespace UGoap.Learning
             }
             else
             {
-                _qValues[state] = new Dictionary<string, float> { { action, InitialValue } };
+                QValues[state] = new Dictionary<string, float> { { action, InitialValue } };
             }
 
-            return _qValues[state][action];
+            return QValues[state][action];
         }
         
-        private static float GetMaxQValue(int state)
+        private float GetMaxQValue(int state)
         {
-            if (!_qValues.ContainsKey(state)) return 0;
-            return _qValues[state].Max(value => value.Value);
+            if (!QValues.ContainsKey(state)) return 0;
+            return QValues[state].Max(value => value.Value);
         }
 
-        private static void SetQValue(int state, string action, float qValue)
+        private void SetQValue(int state, string action, float qValue)
         {
-            if (_qValues.TryGetValue(state, out var actionValues))
+            if (QValues.TryGetValue(state, out var actionValues))
             {
                 actionValues[action] = qValue;
             }
             else
             {
-                _qValues[state] = new Dictionary<string, float> { { action, qValue } };
+                QValues[state] = new Dictionary<string, float> { { action, qValue } };
             }
         }
 
-        public static int ParseToStateCode(GoapState goapState)
+        public int ParseToStateCode(GoapState goapState)
         {
             GoapState filteredGoapState = new GoapState(goapState);
             foreach (var pair in goapState)
             {
                 var result = pair.Value switch
                 {
-                    int iValue => iValue / Range * Range,
-                    float fValue => Mathf.Floor(fValue / Range) * Range,
+                    int iValue => iValue / ValueRange * ValueRange,
+                    float fValue => Mathf.Floor(fValue / ValueRange) * ValueRange,
                     _  => pair.Value,
                 };
                 filteredGoapState[pair.Key] = result;      
@@ -74,17 +93,17 @@ namespace UGoap.Learning
             return filteredGoapState.GetHashCode();
         }
 
-        public static int GetReward(Node startNode, Node finishNode)
+        public int GetReward(Node startNode, Node finishNode)
         {
             return startNode.TotalCost - finishNode.TotalCost;
         }
 
-        public static void DebugLearning()
+        public void DebugLearning()
         {
             string log = "";
             int generatedStates = 0;
             string morelog = "";
-            foreach (var state in _qValues)
+            foreach (var state in QValues)
             {
                 generatedStates++;
                 morelog += state.Key + " | ";

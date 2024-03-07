@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UGoap.Base;
+using UGoap.Learning;
 
 namespace UGoap.Planner
 {
@@ -9,24 +10,26 @@ namespace UGoap.Planner
         private readonly SortedSet<Node> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node> _expandedNodes;
         private readonly Func<GoapGoal, GoapState, int> _customHeuristic;
+        private readonly IQLearning _qLearning;
         private readonly GoapState _initialGoapState;
         
-        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null)
+        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null, IQLearning qLearning = null)
         {
             _initialGoapState = initialGoapState;
             
             _openList = new SortedSet<Node>();
             _expandedNodes = new HashSet<Node>();
             _customHeuristic = customHeuristic;
+            _qLearning = qLearning;
         }
 
         public Node CreateInitialNode(GoapState currentGoapState, GoapGoal goal)
         {
             var goalState = new GoapGoal(goal);
-            AStarNode node = new AStarNode(currentGoapState, goalState, this);
-            var initialHeuristic = node.GetHeuristic();
+            AStarNode node = new AStarNode(currentGoapState, goalState, _customHeuristic, _qLearning);
             node.GCost = 0;
-            node.HCost = initialHeuristic;
+            node.HCost = node.GetHeuristic();
+            node.LCost = node.GetQValue();
             return node;
         }
         

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
+using UGoap.Learning;
 
 namespace UGoap.Planner
 {
@@ -22,14 +23,16 @@ namespace UGoap.Planner
         
         //Fields
         public readonly GoapState State;
-        protected readonly INodeGenerator Generator;
+        protected readonly Func<GoapGoal,GoapState,int> CustomHeuristic;
+        protected readonly IQLearning QLearning;
         
         //Constructor
-        protected Node(GoapState state, GoapGoal goal, INodeGenerator generator)
+        protected Node(GoapState state, GoapGoal goal, Func<GoapGoal,GoapState,int> customHeuristic, IQLearning qLearning)
         {
             State = state;
             Goal = goal;
-            Generator = generator;
+            CustomHeuristic = customHeuristic;
+            QLearning = qLearning;
             Children = new List<Node>();
             ActionCount = 0;
         }
@@ -144,11 +147,13 @@ namespace UGoap.Planner
             ActionCount = parent.ActionCount + 1;
             Update(parent);
         }
-        
+
         /// <summary>
         /// Updates the Node to sets a new Parent and all the related info.
         /// </summary>
         /// <param name="parent"></param>
+        /// <param name="customHeuristic"></param>
+        /// <param name="learning"></param>
         public virtual void Update(Node parent)
         {
             //Se define la relación padre hijo.

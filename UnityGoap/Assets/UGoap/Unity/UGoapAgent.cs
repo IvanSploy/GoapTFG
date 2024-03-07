@@ -16,6 +16,8 @@ namespace UGoap.Unity
         [SerializeField] private UGoapState initialState;
         [SerializeField] private List<PriorityGoal> goalObjects;
         [SerializeField] private List<UGoapAction> actionObjects;
+        [SerializeField] private GoapQLearning _goapQLearning;
+        
         [SerializeField] private Rigidbody _rigidbody;
         
         public string Name { get; set; }
@@ -167,7 +169,7 @@ namespace UGoap.Unity
             
             
             DebugLogs(DebugRecord.GetRecords());
-            GoapQLearning.DebugLearning();
+            if(_goapQLearning) _goapQLearning.DebugLearning();
             if (plan == null) return false;
             _currentPlan = plan;
             return true;
@@ -255,21 +257,23 @@ namespace UGoap.Unity
         //QLearning
         private void UpdateQValue(Node node)
         {
+            if (!_goapQLearning) return;
             if (node.Parent == null) return;
-            int reward = GoapQLearning.GetReward(node.Parent, node);
-            int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State);
-            int finishNode = GoapQLearning.ParseToStateCode(node.State);
-            GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
+            int reward = _goapQLearning.GetReward(node.Parent, node);
+            int initialNode = _goapQLearning.ParseToStateCode(node.Parent.State);
+            int finishNode = _goapQLearning.ParseToStateCode(node.State);
+            _goapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
         }
         
         private void UpdatePlanQValue(Node node)
         {
+            if (!_goapQLearning) return;
             while (node.Parent != null)
             {
-                int reward = GoapQLearning.GetReward(node.Parent, node);
-                int initialNode = GoapQLearning.ParseToStateCode(node.Parent.State);
-                int finishNode = GoapQLearning.ParseToStateCode(node.State);
-                GoapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
+                int reward = _goapQLearning.GetReward(node.Parent, node);
+                int initialNode = _goapQLearning.ParseToStateCode(node.Parent.State);
+                int finishNode = _goapQLearning.ParseToStateCode(node.State);
+                _goapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
                 node = node.Parent;
             }
         }
