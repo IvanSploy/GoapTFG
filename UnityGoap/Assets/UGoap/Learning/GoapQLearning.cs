@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UGoap.Base;
 using UGoap.Planner;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace UGoap.Learning
@@ -15,23 +17,28 @@ namespace UGoap.Learning
         [Range(0f,1f)]
         public float Gamma = 0.9f;
         public int ValueRange = 500;
-
-        public TextAsset QValuesJson;
-        public Dictionary<int, Dictionary<string, float>> QValues = new();
+        public string FileName;
         
+        private Dictionary<int, Dictionary<string, float>> _qValues = new();
+
+        private string Path => Application.dataPath + "\\" + FileName + ".json";
+
         public void OnAfterDeserialize()
         {
-            if (QValuesJson != null)
-            {
-                // Deserialize JSON into QValues dictionary
-                //JsonUtility.FromJsonOverwrite(QValuesJson.text, this);
-            }
+            // Deserialize JSON into _qValues dictionary
+            var text = File.ReadAllText(Path);
+            _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text);
         }
 
         public void OnBeforeSerialize()
         {
-            // Serialize QValues dictionary to JSON
-            //QValuesJson = new TextAsset(JsonUtility.ToJson(this));
+            // Serialize _qValues dictionary to JSON
+            if (!File.Exists(Path))
+            {
+                File.Create(Path).Close();
+            }
+
+            File.WriteAllText(Path, JsonConvert.SerializeObject(_qValues));
         }
         
         public float UpdateQValue(int state, string action, float r, int newState)
@@ -43,7 +50,7 @@ namespace UGoap.Learning
         
         public float GetQValue(int state, string action)
         {
-            if (QValues.TryGetValue(state, out var actionValues))
+            if (_qValues.TryGetValue(state, out var actionValues))
             {
                 if (actionValues.TryGetValue(action, out var qValue))
                 {
@@ -53,27 +60,27 @@ namespace UGoap.Learning
             }
             else
             {
-                QValues[state] = new Dictionary<string, float> { { action, InitialValue } };
+                _qValues[state] = new Dictionary<string, float> { { action, InitialValue } };
             }
 
-            return QValues[state][action];
+            return _qValues[state][action];
         }
         
         private float GetMaxQValue(int state)
         {
-            if (!QValues.ContainsKey(state)) return 0;
-            return QValues[state].Max(value => value.Value);
+            if (!_qValues.ContainsKey(state)) return 0;
+            return _qValues[state].Max(value => value.Value);
         }
 
         private void SetQValue(int state, string action, float qValue)
         {
-            if (QValues.TryGetValue(state, out var actionValues))
+            if (_qValues.TryGetValue(state, out var actionValues))
             {
                 actionValues[action] = qValue;
             }
             else
             {
-                QValues[state] = new Dictionary<string, float> { { action, qValue } };
+                _qValues[state] = new Dictionary<string, float> { { action, qValue } };
             }
         }
 
@@ -103,7 +110,7 @@ namespace UGoap.Learning
             string log = "";
             int generatedStates = 0;
             string morelog = "";
-            foreach (var state in QValues)
+            foreach (var state in _qValues)
             {
                 generatedStates++;
                 morelog += state.Key + " | ";

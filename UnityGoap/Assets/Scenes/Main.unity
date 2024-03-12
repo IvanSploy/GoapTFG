@@ -873,6 +873,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 877137e29c5344a44be9561a0e6d35bc, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
+  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 406799091}
   active: 1
   wait: 1
@@ -1280,6 +1281,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
+  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 637611284}
   active: 1
   wait: 1
@@ -1549,6 +1551,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
   - {fileID: 11400000, guid: c8b168280ce795e4783ffd917fc7aa20, type: 2}
   - {fileID: 11400000, guid: 6a63fc15ec28e6b4bae2209e3d3802be, type: 2}
+  _goapQLearning: {fileID: 11400000, guid: 30f4a361344c6a74c8a370c89eba55f5, type: 2}
   _rigidbody: {fileID: 684706978}
   active: 1
   wait: 0
@@ -3172,6 +3175,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
+  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 1189433543}
   active: 1
   wait: 1
@@ -4620,6 +4624,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
+  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 1707259721}
   active: 1
   wait: 1
@@ -6219,6 +6224,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
+  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 8709107423552666153}
   active: 1
   wait: 0

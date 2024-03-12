@@ -16,4 +16,4 @@ MonoBehaviour:
   Alpha: 0.25
   Gamma: 0.9
   ValueRange: 500
-  QValuesJson: {fileID: 4900000, guid: 158df1fb4e95a884cbc49435edae5902, type: 3}
+  FileName: Learning
