@@ -32,7 +32,7 @@ namespace UGoap.Unity
         public bool performingAction;
 
         //Agent base related
-        private Stack<GoapActionData> _currentPlan;
+        private Stack<Node> _currentPlan;
         private List<GoapGoal> _goals;
         private List<IGoapAction> _actions;
         private GoapGoal _currentGoal;
@@ -160,13 +160,12 @@ namespace UGoap.Unity
         {
             var generator = new AStar(worldGoapState, customHeuristic);
             var planner = new GoapPlanner(generator);
+            
+            //TODO improve another learnings.
             //planner.OnNodeCreated += UpdateQValue;
-            planner.OnPlanCreated += UpdatePlanQValue;
+            //planner.OnPlanCreated += UpdatePlanQValue;
             
-            var plan = 
-                //!mixedPlan ? RegressivePlanner.CreatePlan(worldGoapState, goapGoal, _actions, customHeuristic) :
-                planner.CreatePlan(worldGoapState, goapGoal, _actions);
-            
+            var plan = planner.CreatePlan(worldGoapState, goapGoal, _actions);
             
             DebugLogs(DebugRecord.GetRecords());
             if(_goapQLearning) _goapQLearning.DebugLearning();
@@ -179,10 +178,10 @@ namespace UGoap.Unity
         {
             if (_currentPlan.Count == 0) return null;
 
-            foreach (var actionData in _currentPlan)
+            foreach (var node in _currentPlan)
             {
-                var stateInfo = new GoapStateInfo(worldGoapState, actionData.Goal, actionData.PredictedState);
-                worldGoapState = actionData.Action.Execute(stateInfo, this);
+                var stateInfo = new GoapStateInfo(worldGoapState, node.Parent.Goal, node.Parent.State);
+                worldGoapState = node.ParentAction.Execute(stateInfo, this);
             }
 
             _currentPlan.Clear();
@@ -193,10 +192,11 @@ namespace UGoap.Unity
         {
             if (_currentPlan.Count == 0) return null;
 
-            GoapActionData actionData = _currentPlan.Pop();
-            var stateInfo = new GoapStateInfo(worldGoapState, actionData.Goal, actionData.PredictedState);
-            worldGoapState = actionData.Action.Execute(stateInfo, this);
+            Node node = _currentPlan.Pop();
+            var stateInfo = new GoapStateInfo(worldGoapState, node.Parent.Goal, node.Parent.State);
+            worldGoapState = node.ParentAction.Execute(stateInfo, this);
             Debug.Log(worldGoapState);
+            UpdateQValue(node, worldGoapState != null);
             return worldGoapState;
         }
 
@@ -255,11 +255,11 @@ namespace UGoap.Unity
         }
         
         //QLearning
-        private void UpdateQValue(Node node)
+        private void UpdateQValue(Node node, bool positive)
         {
             if (!_goapQLearning) return;
             if (node.Parent == null) return;
-            int reward = _goapQLearning.GetReward(node.Parent, node);
+            int reward = _goapQLearning.GetReward(node.Parent, node) * (positive ? 1 : -1);
             int initialNode = _goapQLearning.ParseToStateCode(node.Parent.State);
             int finishNode = _goapQLearning.ParseToStateCode(node.State);
             _goapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);

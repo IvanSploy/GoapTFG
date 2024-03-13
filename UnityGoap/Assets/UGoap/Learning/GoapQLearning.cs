@@ -40,6 +40,13 @@ namespace UGoap.Learning
 
             File.WriteAllText(Path, JsonConvert.SerializeObject(_qValues));
         }
+
+        [ContextMenu("Clear Data")]
+        public void Clear()
+        {
+            _qValues.Clear();
+            OnBeforeSerialize();
+        }
         
         public float UpdateQValue(int state, string action, float r, int newState)
         {

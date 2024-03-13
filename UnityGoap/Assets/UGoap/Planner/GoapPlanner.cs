@@ -32,7 +32,7 @@ namespace UGoap.Planner
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Stack<GoapActionData> CreatePlan(GoapState initialGoapState, GoapGoal goal,
+        public Stack<Node> CreatePlan(GoapState initialGoapState, GoapGoal goal,
             List<IGoapAction> actions)
         {
             _goal = goal;
@@ -54,7 +54,7 @@ namespace UGoap.Planner
             }
         }
 
-        public override Stack<GoapActionData> GeneratePlan(GoapState initialGoapState,
+        public override Stack<Node> GeneratePlan(GoapState initialGoapState,
             List<IGoapAction> actions)
         {
             if (initialGoapState == null || actions == null) throw new ArgumentNullException();

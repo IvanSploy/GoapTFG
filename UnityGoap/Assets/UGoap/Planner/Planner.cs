@@ -90,7 +90,7 @@ namespace UGoap.Planner
         /// <param name="initialGoapState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<GoapActionData> GeneratePlan(GoapState initialGoapState,
+        public abstract Stack<Node> GeneratePlan(GoapState initialGoapState,
             List<IGoapAction> actions);
         
         /// <summary>
@@ -98,15 +98,13 @@ namespace UGoap.Planner
         /// </summary>
         /// <param name="nodeGoal">Objective node</param>
         /// <returns>Stack of actions.</returns>
-        public Stack<GoapActionData> GetPlan(Node nodeGoal)
+        public Stack<Node> GetPlan(Node nodeGoal)
         {
-            Stack<GoapActionData> plan = new Stack<GoapActionData>();
+            Stack<Node> plan = new Stack<Node>();
             while (nodeGoal.Parent != null)
             {
-                
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                var actionData = new GoapActionData(nodeGoal.ParentAction, nodeGoal.Parent.Goal, nodeGoal.Parent.State);
-                plan.Push(actionData);
+                plan.Push(nodeGoal);
                 nodeGoal = nodeGoal.Parent;
             }
             return plan;
@@ -117,10 +115,10 @@ namespace UGoap.Planner
         /// </summary>
         /// <param name="nodeGoal"></param>
         /// <returns></returns>
-        public Stack<GoapActionData> GetInvertedPlan(Node nodeGoal)
+        public Stack<Node> GetInvertedPlan(Node nodeGoal)
         {
-            Stack<GoapActionData> plan = GetPlan(nodeGoal);
-            Stack<GoapActionData> invertedPlan = new Stack<GoapActionData>();
+            Stack<Node> plan = GetPlan(nodeGoal);
+            Stack<Node> invertedPlan = new Stack<Node>();
             foreach (var actionData in plan)
             {
                 invertedPlan.Push(actionData);
