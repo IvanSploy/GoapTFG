@@ -11,8 +11,6 @@ namespace UGoap.Learning
 
         int ParseToStateCode(GoapState goapState);
 
-        int GetReward(Node startNode, Node finishNode);
-
         void DebugLearning();
     }
 }

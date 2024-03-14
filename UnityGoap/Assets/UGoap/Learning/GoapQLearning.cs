@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using UGoap.Base;
-using UGoap.Planner;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
@@ -17,6 +16,12 @@ namespace UGoap.Learning
         [Range(0f,1f)]
         public float Gamma = 0.9f;
         public int ValueRange = 500;
+        
+        [Header("Reward")] 
+        [Range(1,500)] public float PositiveMultiplier;
+        [Range(1,500)] public float NegativeMultiplier;
+        
+        [Header("Save")]
         public string FileName;
         
         private Dictionary<int, Dictionary<string, float>> _qValues = new();
@@ -50,7 +55,7 @@ namespace UGoap.Learning
         
         public float UpdateQValue(int state, string action, float r, int newState)
         {
-            var qValue = (1 - Alpha) * GetQValue(state, action) + Alpha * r + Gamma * GetMaxQValue(newState);
+            var qValue = (1 - Alpha) * GetQValue(state, action) + Alpha * (r + Gamma * GetMaxQValue(newState));
             SetQValue(state, action, qValue);
             return qValue;
         }
@@ -105,11 +110,6 @@ namespace UGoap.Learning
                 filteredGoapState[pair.Key] = result;      
             }
             return filteredGoapState.GetHashCode();
-        }
-
-        public int GetReward(Node startNode, Node finishNode)
-        {
-            return startNode.TotalCost - finishNode.TotalCost;
         }
 
         public void DebugLearning()
