@@ -39,19 +39,6 @@ namespace UGoap.Base
         /// <param name="worldGoapState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
         public int CreateNewPlan(GoapState worldGoapState);
-        /// <summary>
-        /// Performs all of the actions in the actual plan all at once.
-        /// </summary>
-        /// <param name="worldGoapState"></param>
-        /// <returns></returns>
-        public GoapState DoPlan(GoapState worldGoapState);
-        
-        /// <summary>
-        /// Performs the current action of the actual plan.
-        /// </summary>
-        /// <param name="worldGoapState"></param>
-        /// <returns></returns>
-        public GoapState PlanStep(GoapState worldGoapState);
         
         /// <summary>
         /// Current number of action that the actual plan has.

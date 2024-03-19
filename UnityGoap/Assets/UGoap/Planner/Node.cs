@@ -8,8 +8,6 @@ namespace UGoap.Planner
     /// <summary>
     /// Defines the Node used by the Planner Search.
     /// </summary>
-    /// <typeparam name="PropertyKey">Key type</typeparam>
-    /// <typeparam name="TValue">Value type</typeparam>
     public abstract class Node : IComparable
     {
         //Properties

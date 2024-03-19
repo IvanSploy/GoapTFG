@@ -14,6 +14,7 @@ namespace UGoap.Planner
         
         //Data
         protected INodeGenerator _nodeGenerator;
+        protected IGoapAgent _agent;
         protected Node _current;
         protected GoapGoal _goal;
         
@@ -21,9 +22,10 @@ namespace UGoap.Planner
         public Action<Node> OnNodeCreated;
         public Action<Node> OnPlanCreated;
 
-        protected Planner(INodeGenerator nodeGenerator)
+        protected Planner(INodeGenerator nodeGenerator, IGoapAgent agent)
         {
             _nodeGenerator = nodeGenerator;
+            _agent = agent;
         }
 
         public static bool CheckEffectCompatibility(object currentValue, EffectType effectType, object actionValue,
@@ -90,41 +92,8 @@ namespace UGoap.Planner
         /// <param name="initialGoapState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Stack<Node> GeneratePlan(GoapState initialGoapState,
+        public abstract Plan GeneratePlan(GoapState initialGoapState,
             List<IGoapAction> actions);
-        
-        /// <summary>
-        /// Gets the final plan that the researcher has found.
-        /// </summary>
-        /// <param name="nodeGoal">Objective node</param>
-        /// <returns>Stack of actions.</returns>
-        public Stack<Node> GetPlan(Node nodeGoal)
-        {
-            Stack<Node> plan = new Stack<Node>();
-            while (nodeGoal.Parent != null)
-            {
-                //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                plan.Push(nodeGoal);
-                nodeGoal = nodeGoal.Parent;
-            }
-            return plan;
-        }
-        
-        /// <summary>
-        /// Gets the final inverted plan that the researcher has found.
-        /// </summary>
-        /// <param name="nodeGoal"></param>
-        /// <returns></returns>
-        public Stack<Node> GetInvertedPlan(Node nodeGoal)
-        {
-            Stack<Node> plan = GetPlan(nodeGoal);
-            Stack<Node> invertedPlan = new Stack<Node>();
-            foreach (var actionData in plan)
-            {
-                invertedPlan.Push(actionData);
-            }
-            return invertedPlan;
-        }
 
         public void DebugPlan(Node node)
         {

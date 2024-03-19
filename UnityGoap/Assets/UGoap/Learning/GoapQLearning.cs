@@ -18,8 +18,8 @@ namespace UGoap.Learning
         public int ValueRange = 500;
         
         [Header("Reward")] 
-        [Range(1,500)] public float PositiveMultiplier;
-        [Range(1,500)] public float NegativeMultiplier;
+        [Range(1,500)] public float PositiveReward;
+        [Range(1,500)] public float NegativeReward;
         
         [Header("Save")]
         public string FileName;

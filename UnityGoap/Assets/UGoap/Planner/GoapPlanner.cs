@@ -17,8 +17,8 @@ namespace UGoap.Planner
         private readonly Dictionary<PropertyKey, List<IGoapAction>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new(); 
 
-        public GoapPlanner(INodeGenerator nodeGenerator, bool greedy = false)
-            : base(nodeGenerator)
+        public GoapPlanner(INodeGenerator nodeGenerator, IGoapAgent agent, bool greedy = false)
+            : base(nodeGenerator, agent)
         {
             _greedy = greedy;
         }
@@ -32,7 +32,7 @@ namespace UGoap.Planner
         /// <param name="newHeuristic">Custom heuristic if needed</param>
         /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Stack<Node> CreatePlan(GoapState initialGoapState, GoapGoal goal,
+        public Plan CreatePlan(GoapState initialGoapState, GoapGoal goal,
             List<IGoapAction> actions)
         {
             _goal = goal;
@@ -54,7 +54,7 @@ namespace UGoap.Planner
             }
         }
 
-        public override Stack<Node> GeneratePlan(GoapState initialGoapState,
+        public override Plan GeneratePlan(GoapState initialGoapState,
             List<IGoapAction> actions)
         {
             if (initialGoapState == null || actions == null) throw new ArgumentNullException();
@@ -99,7 +99,7 @@ namespace UGoap.Planner
                             DebugPlan(child);
                             if (_greedy)
                             {
-                                return GetInvertedPlan(child);
+                                return new Plan(_agent, child);
                             }
                         }
                         
@@ -116,7 +116,7 @@ namespace UGoap.Planner
                     {
                         DebugInfo(_current);
                         OnPlanCreated?.Invoke(_current);
-                        return GetInvertedPlan(_current);
+                        return new Plan(_agent, _current);
                     }
                     //If no more actions can be checked.
 
@@ -124,7 +124,7 @@ namespace UGoap.Planner
                     {
                         DebugInfo(_current);
                         _current.IsGoal = true; //To avoid recursive loop behaviour.
-                        return GetInvertedPlan(_current);
+                        return new Plan(_agent, _current);
                     }
                 }
             }
