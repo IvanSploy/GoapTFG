@@ -857,13 +857,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
-  goalObjects:
+  _initialState: {fileID: 0}
+  _goapQLearning: {fileID: 0}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 6609a9990e9a8e44da0b5f025be8294c, type: 2}
   - {fileID: 11400000, guid: b2c5dec3e75000f4490ba3558b55715a, type: 2}
@@ -873,12 +874,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 877137e29c5344a44be9561a0e6d35bc, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
-  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 406799091}
   active: 1
   wait: 1
-  greedy: 0
   speed: 60
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!54 &406799091
@@ -1265,13 +1265,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
-  goalObjects:
+  _initialState: {fileID: 0}
+  _goapQLearning: {fileID: 0}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 6609a9990e9a8e44da0b5f025be8294c, type: 2}
   - {fileID: 11400000, guid: b2c5dec3e75000f4490ba3558b55715a, type: 2}
@@ -1281,12 +1282,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
-  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 637611284}
   active: 1
   wait: 1
-  greedy: 0
   speed: 60
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!1001 &675069943
@@ -1532,13 +1532,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
-  goalObjects:
+  _initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
+  _goapQLearning: {fileID: 11400000, guid: 30f4a361344c6a74c8a370c89eba55f5, type: 2}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
     priority: 0
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 9839c62994c5cf948a35d7e0382de1c6, type: 2}
   - {fileID: 11400000, guid: 6a72a6f429f99f44a8b6dc947bb89a3d, type: 2}
@@ -1551,12 +1552,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
   - {fileID: 11400000, guid: c8b168280ce795e4783ffd917fc7aa20, type: 2}
   - {fileID: 11400000, guid: 6a63fc15ec28e6b4bae2209e3d3802be, type: 2}
-  _goapQLearning: {fileID: 11400000, guid: 30f4a361344c6a74c8a370c89eba55f5, type: 2}
   _rigidbody: {fileID: 684706978}
   active: 1
   wait: 0
-  greedy: 0
   speed: 70
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!1 &704893486
@@ -3160,13 +3160,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: d176c5d083c610644a3e1e48617cc3c0, type: 2}
-  goalObjects:
+  _initialState: {fileID: 0}
+  _goapQLearning: {fileID: 0}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: 55ff08a1d5765cf4fa8bf8a8edc5397f, type: 2}
     priority: 0
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 6609a9990e9a8e44da0b5f025be8294c, type: 2}
   - {fileID: 11400000, guid: b2c5dec3e75000f4490ba3558b55715a, type: 2}
@@ -3175,12 +3176,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
-  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 1189433543}
   active: 1
   wait: 1
-  greedy: 0
   speed: 60
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!1001 &1239231084
@@ -4610,13 +4610,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
-  goalObjects:
+  _initialState: {fileID: 0}
+  _goapQLearning: {fileID: 0}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
     priority: 2
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 6a72a6f429f99f44a8b6dc947bb89a3d, type: 2}
   - {fileID: 11400000, guid: 770bef44f819f6245bd9bb9dead0bfb2, type: 2}
@@ -4624,12 +4625,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 184dc16147c87904aa0e2bd09a34896e, type: 2}
   - {fileID: 11400000, guid: 11929f3dc145e02409a370fdfdb5991e, type: 2}
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
-  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 1707259721}
   active: 1
   wait: 1
-  greedy: 0
   speed: 70
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!1 &1782238542
@@ -6207,13 +6207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialState: {fileID: 11400000, guid: 46444dbc0043769449f99c00ade050ce, type: 2}
-  goalObjects:
+  _initialState: {fileID: 0}
+  _goapQLearning: {fileID: 0}
+  _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: 90edbb1234c812e4f90b678188ad691e, type: 2}
     priority: 1
   - priorityGoal: {fileID: 11400000, guid: d3f4d58612802b24da2790ef3c82d36a, type: 2}
     priority: 0
-  actionObjects:
+  _actionObjects:
   - {fileID: 11400000, guid: 258e8fcaa6a41744397518daccc219d2, type: 2}
   - {fileID: 11400000, guid: 9839c62994c5cf948a35d7e0382de1c6, type: 2}
   - {fileID: 11400000, guid: 6a72a6f429f99f44a8b6dc947bb89a3d, type: 2}
@@ -6224,12 +6225,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8c8fc73aaba2f084e9d06cf02975c6d1, type: 2}
   - {fileID: 11400000, guid: c078a90437206514da9f645a60aa502c, type: 2}
   - {fileID: 11400000, guid: 0fa5000ea3fd5b64aa240cc42e9c2235, type: 2}
-  _goapQLearning: {fileID: 0}
   _rigidbody: {fileID: 8709107423552666153}
   active: 1
   wait: 0
-  greedy: 0
   speed: 70
+  useLearning: 0
   hasPlan: 0
   performingAction: 0
 --- !u!4 &8709107423552666157

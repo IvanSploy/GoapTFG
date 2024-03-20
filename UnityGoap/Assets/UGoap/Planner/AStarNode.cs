@@ -50,7 +50,8 @@ namespace UGoap.Planner
         /// <returns>Heuristic cost.</returns>
         public int GetHeuristic()
         {
-            return CustomHeuristic?.Invoke(Goal, State) ?? Goal.CountConflicts(State);
+            return 0;
+            //return CustomHeuristic?.Invoke(Goal, State) ?? Goal.CountConflicts(State);
         }
 
         public int GetQValue() => (int)(QLearning?.GetQValue(QLearning.ParseToStateCode(State), ParentAction.Name) ?? 0);

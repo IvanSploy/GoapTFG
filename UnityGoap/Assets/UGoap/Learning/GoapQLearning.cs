@@ -10,7 +10,7 @@ namespace UGoap.Learning
     [CreateAssetMenu(fileName = "QLearning", menuName = "Goap Items/QLearning", order = 1)]
     public class GoapQLearning : ScriptableObject, ISerializationCallbackReceiver, IQLearning
     {
-        public int InitialValue = 0;
+        public Vector2 InitialRange = new(-500,500);
         [Range(0f,1f)]
         public float Alpha = 0.25f;
         [Range(0f,1f)]
@@ -18,8 +18,8 @@ namespace UGoap.Learning
         public int ValueRange = 500;
         
         [Header("Reward")] 
-        [Range(1,500)] public float PositiveReward;
-        [Range(1,500)] public float NegativeReward;
+        public float PositiveReward;
+        public float NegativeReward;
         
         [Header("Save")]
         public string FileName;
@@ -59,6 +59,8 @@ namespace UGoap.Learning
             SetQValue(state, action, qValue);
             return qValue;
         }
+
+        private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);
         
         public float GetQValue(int state, string action)
         {
@@ -68,11 +70,11 @@ namespace UGoap.Learning
                 {
                     return qValue;
                 }
-                actionValues[action] = InitialValue;
+                actionValues[action] = GetRandom();
             }
             else
             {
-                _qValues[state] = new Dictionary<string, float> { { action, InitialValue } };
+                _qValues[state] = new Dictionary<string, float> { { action, GetRandom() } };
             }
 
             return _qValues[state][action];

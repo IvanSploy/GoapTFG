@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
   m_Name: NewAgent
   m_EditorClassIdentifier: 
-  InitialValue: 0
-  Alpha: 0.25
-  Gamma: 0.9
+  InitialRange: {x: -100, y: 100}
+  Alpha: 0.7
+  Gamma: 0.8
   ValueRange: 500
+  PositiveReward: 121
+  NegativeReward: 500
   FileName: Learning
