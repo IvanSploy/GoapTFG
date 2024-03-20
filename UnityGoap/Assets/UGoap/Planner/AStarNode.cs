@@ -40,7 +40,7 @@ namespace UGoap.Planner
             
             AStarNode asnParent = (AStarNode) parent;
             HCost = GetHeuristic();
-            LCost = GetQValue();
+            LCost = -GetQValue();
             GCost = ParentAction.GetCost(parent.State, parent.Goal) + asnParent.GCost;
         }
 

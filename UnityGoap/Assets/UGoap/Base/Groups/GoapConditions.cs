@@ -97,7 +97,7 @@ namespace UGoap.Base
         }
 
         public int CountConflicts(GoapState goapState) =>
-            goapState.Count(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
+            this.Count(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
 
         public List<ConditionValue> GetConflictConditions(PropertyKey key, GoapState goapState)
         {

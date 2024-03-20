@@ -29,7 +29,7 @@ namespace UGoap.Planner
             AStarNode node = new AStarNode(currentGoapState, goalState, _customHeuristic, _qLearning);
             node.GCost = 0;
             node.HCost = node.GetHeuristic();
-            node.LCost = node.GetQValue();
+            node.LCost = 0;
             return node;
         }
         

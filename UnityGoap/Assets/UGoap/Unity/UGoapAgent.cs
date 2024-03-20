@@ -7,6 +7,7 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UGoap.Unity.UGoapData;
 using Debug = UnityEngine.Debug;
 
@@ -15,10 +16,12 @@ namespace UGoap.Unity
     [RequireComponent(typeof(Rigidbody))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
-        [SerializeField] private UGoapState initialState;
-        [SerializeField] private List<PriorityGoal> goalObjects;
-        [SerializeField] private List<UGoapAction> actionObjects;
+        [SerializeField] private UGoapState _initialState;
         [SerializeField] private GoapQLearning _goapQLearning;
+        [FormerlySerializedAs("goalObjects")] 
+        [SerializeField] private List<PriorityGoal> _goalObjects;
+        [FormerlySerializedAs("actionObjects")] 
+        [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
         
@@ -52,16 +55,16 @@ namespace UGoap.Unity
         {
             _goals = new();
             _actions = new();
-            CurrentGoapState = initialState != null ? initialState.Create() : new();
+            CurrentGoapState = _initialState != null ? _initialState.Create() : new();
             
             //OBJETIVOS
-            foreach (var goal in goalObjects)
+            foreach (var goal in _goalObjects)
             {
                 _goals.Add(goal.Create());
             }
 
             //ACCIONES
-            foreach (var action in actionObjects)
+            foreach (var action in _actionObjects)
             {
                 _actions.Add(action);
             }
@@ -106,7 +109,7 @@ namespace UGoap.Unity
             stopwatch.Stop();
             foreach (var node in _currentPlan.ExecutedNodes)
             {
-                UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : _goapQLearning.NegativeReward);
+                UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
             }
             
             hasPlan = false;
@@ -152,7 +155,7 @@ namespace UGoap.Unity
         public bool CreatePlan(GoapState worldGoapState, GoapGoal goapGoal,
             Func<GoapGoal, GoapState, int> customHeuristic)
         {
-            var generator = new AStar(worldGoapState, customHeuristic);
+            var generator = new AStar(worldGoapState, null, _goapQLearning);
             var planner = new GoapPlanner(generator, this);
             
             //TODO improve another learnings.
