@@ -4,6 +4,7 @@ using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UGoap.Learning
 {
@@ -20,6 +21,11 @@ namespace UGoap.Learning
         [Header("Reward")] 
         public float PositiveReward;
         public float NegativeReward;
+        
+        [Header("Explore")] 
+        [Range(0f,1f)]
+        public float ExploreChance;
+        public float ExploreValue = 10000;
         
         [Header("Save")]
         public string FileName;
@@ -64,6 +70,13 @@ namespace UGoap.Learning
         
         public float GetQValue(int state, string action)
         {
+            //Exploration
+            var randomExplore = Random.Range(0f, 1f);
+            if (randomExplore < ExploreChance)
+            {
+                return ExploreValue;
+            }
+            
             if (_qValues.TryGetValue(state, out var actionValues))
             {
                 if (actionValues.TryGetValue(action, out var qValue))
@@ -76,7 +89,7 @@ namespace UGoap.Learning
             {
                 _qValues[state] = new Dictionary<string, float> { { action, GetRandom() } };
             }
-
+            
             return _qValues[state][action];
         }
         

@@ -23,13 +23,23 @@ namespace UGoap.Planner
         public readonly GoapState State;
         protected readonly Func<GoapGoal,GoapState,int> CustomHeuristic;
         protected readonly IQLearning QLearning;
+
+        public bool UseLearning => QLearning != null;
         
         //Constructor
-        protected Node(GoapState state, GoapGoal goal, Func<GoapGoal,GoapState,int> customHeuristic, IQLearning qLearning)
+        protected Node(GoapState state, GoapGoal goal, Func<GoapGoal,GoapState,int> customHeuristic)
         {
             State = state;
             Goal = goal;
             CustomHeuristic = customHeuristic;
+            Children = new List<Node>();
+            ActionCount = 0;
+        }
+        
+        protected Node(GoapState state, GoapGoal goal, IQLearning qLearning)
+        {
+            State = state;
+            Goal = goal;
             QLearning = qLearning;
             Children = new List<Node>();
             ActionCount = 0;

@@ -18,4 +18,6 @@ MonoBehaviour:
   ValueRange: 500
   PositiveReward: 121
   NegativeReward: 500
+  ExploreChance: 0.9
+  ExploreValue: 10000
   FileName: Learning

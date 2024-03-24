@@ -10,23 +10,29 @@ namespace UGoap.Planner
         //Properties
         public int HCost { get; set; }
         public int GCost { get; set; }
-        public int LCost { get; set; }
 
-        public override int TotalCost => GCost + HCost + LCost;
+        public override int TotalCost => GCost + HCost;
 
         //Constructor
         public AStarNode(GoapState state,
-            GoapGoal goal, Func<GoapGoal,GoapState,int> generator, IQLearning qLearning) : base(state, goal, generator, qLearning)
+            GoapGoal goal, Func<GoapGoal,GoapState,int> generator) : base(state, goal, generator)
         {
             GCost = 0;
             HCost = 0;
-            LCost = 0;
+        }
+        
+        public AStarNode(GoapState state,
+            GoapGoal goal, IQLearning qLearning) : base(state, goal, qLearning)
+        {
+            GCost = 0;
+            HCost = 0;
         }
 
         protected override Node CreateChildNode(GoapState goapState, GoapGoal goapGoal,
             IGoapAction goapAction, int cost = -1)
         {
-            var aStarNode = new AStarNode(goapState, goapGoal, CustomHeuristic, QLearning);
+            var aStarNode = UseLearning ? new AStarNode(goapState, goapGoal, QLearning)
+                : new AStarNode(goapState, goapGoal, CustomHeuristic);
             aStarNode.Update(this, goapAction);
             if(cost >= 0) aStarNode.GCost = cost;
             aStarNode.IsGoal = goapGoal.GetState().IsEmpty();
@@ -39,8 +45,7 @@ namespace UGoap.Planner
             base.Update(parent);
             
             AStarNode asnParent = (AStarNode) parent;
-            HCost = GetHeuristic();
-            LCost = -GetQValue();
+            HCost = UseLearning ? GetLearning() : GetHeuristic();
             GCost = ParentAction.GetCost(parent.State, parent.Goal) + asnParent.GCost;
         }
 
@@ -50,11 +55,10 @@ namespace UGoap.Planner
         /// <returns>Heuristic cost.</returns>
         public int GetHeuristic()
         {
-            return 0;
-            //return CustomHeuristic?.Invoke(Goal, State) ?? Goal.CountConflicts(State);
+            return CustomHeuristic?.Invoke(Goal, State) ?? Goal.CountConflicts(State);
         }
 
-        public int GetQValue() => (int)(QLearning?.GetQValue(QLearning.ParseToStateCode(State), ParentAction.Name) ?? 0);
+        public int GetLearning() => -(int)(QLearning?.GetQValue(QLearning.ParseToStateCode(State), ParentAction.Name) ?? 0);
 
         #region Overrides
         

@@ -155,7 +155,7 @@ namespace UGoap.Unity
         public bool CreatePlan(GoapState worldGoapState, GoapGoal goapGoal,
             Func<GoapGoal, GoapState, int> customHeuristic)
         {
-            var generator = new AStar(worldGoapState, null, _goapQLearning);
+            var generator = new AStar(worldGoapState, _goapQLearning);
             var planner = new GoapPlanner(generator, this);
             
             //TODO improve another learnings.

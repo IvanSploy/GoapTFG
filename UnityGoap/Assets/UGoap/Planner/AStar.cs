@@ -13,23 +13,31 @@ namespace UGoap.Planner
         private readonly IQLearning _qLearning;
         private readonly GoapState _initialGoapState;
         
-        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null, IQLearning qLearning = null)
+        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null)
         {
             _initialGoapState = initialGoapState;
             
             _openList = new SortedSet<Node>();
             _expandedNodes = new HashSet<Node>();
             _customHeuristic = customHeuristic;
+        }
+        
+        public AStar(GoapState initialGoapState, IQLearning qLearning)
+        {
+            _initialGoapState = initialGoapState;
+            
+            _openList = new SortedSet<Node>();
+            _expandedNodes = new HashSet<Node>();
             _qLearning = qLearning;
         }
 
         public Node CreateInitialNode(GoapState currentGoapState, GoapGoal goal)
         {
             var goalState = new GoapGoal(goal);
-            AStarNode node = new AStarNode(currentGoapState, goalState, _customHeuristic, _qLearning);
+            AStarNode node = _qLearning != null ? new AStarNode(currentGoapState, goalState, _qLearning)
+                : new AStarNode(currentGoapState, goalState, _customHeuristic);
             node.GCost = 0;
-            node.HCost = node.GetHeuristic();
-            node.LCost = 0;
+            node.HCost = _qLearning != null ? 0 : node.GetHeuristic();
             return node;
         }
         
