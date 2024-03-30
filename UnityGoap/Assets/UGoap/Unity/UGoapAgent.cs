@@ -103,7 +103,7 @@ namespace UGoap.Unity
                 result = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
-                UpdateLearning(_currentPlan.CurrentNode, -stopwatch.ElapsedMilliseconds * 0.001f);
+                UpdateLearning(_currentPlan.CurrentNode, -stopwatch.ElapsedMilliseconds);
                 stopwatch.Restart();
             } while (result != null);
             stopwatch.Stop();

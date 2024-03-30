@@ -16,8 +16,9 @@ MonoBehaviour:
   Alpha: 0.7
   Gamma: 0.8
   ValueRange: 500
+  LearningKeys: 00000000
   PositiveReward: 121
   NegativeReward: 500
-  ExploreChance: 0.9
+  ExploreChance: 0
   ExploreValue: 10000
   FileName: Learning

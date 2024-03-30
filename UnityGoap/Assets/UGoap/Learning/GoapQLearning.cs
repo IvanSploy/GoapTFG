@@ -4,19 +4,20 @@ using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UGoap.Learning
 {
     [CreateAssetMenu(fileName = "QLearning", menuName = "Goap Items/QLearning", order = 1)]
     public class GoapQLearning : ScriptableObject, ISerializationCallbackReceiver, IQLearning
     {
+        [Header("Config")] 
         public Vector2 InitialRange = new(-500,500);
         [Range(0f,1f)]
         public float Alpha = 0.25f;
         [Range(0f,1f)]
         public float Gamma = 0.9f;
         public int ValueRange = 500;
+        public List<UGoapPropertyManager.PropertyKey> LearningKeys;
         
         [Header("Reward")] 
         public float PositiveReward;
@@ -113,9 +114,10 @@ namespace UGoap.Learning
 
         public int ParseToStateCode(GoapState goapState)
         {
-            GoapState filteredGoapState = new GoapState(goapState);
+            GoapState filteredGoapState = new GoapState();
             foreach (var pair in goapState)
             {
+                if(!LearningKeys.Contains(pair.Key)) continue;
                 var result = pair.Value switch
                 {
                     int iValue => iValue / ValueRange * ValueRange,
@@ -140,6 +142,8 @@ namespace UGoap.Learning
                 {
                     morelog += actionValue.Key + ": " + actionValue.Value + "\n";
                 }
+
+                morelog += "\n";
             }
             log += "GeneratedStates states: " + generatedStates + "\n";
             log += morelog;
