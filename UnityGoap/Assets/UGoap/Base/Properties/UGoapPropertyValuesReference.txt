@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace UGoap.Unity
+namespace UGoap.Base
 {
     public static partial class UGoapPropertyManager
     {
