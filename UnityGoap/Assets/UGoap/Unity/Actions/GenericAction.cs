@@ -1,6 +1,5 @@
 ﻿using UGoap.Base;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.Actions
 {

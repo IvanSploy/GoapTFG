@@ -124,7 +124,7 @@ namespace UGoap.Base
 
             GoapState otherPg = (GoapState)obj;
             
-            if (CountRelevanPropertyKeys() != otherPg.CountRelevanPropertyKeys()) return false;
+            if (CountRelevantPropertyKeys() != otherPg.CountRelevantPropertyKeys()) return false;
             foreach (var key in _values.Keys)
             {
                 if (!otherPg.HasKey(key)) return false;
@@ -143,7 +143,7 @@ namespace UGoap.Base
             foreach(KeyValuePair<PropertyKey, object> kvp in _values)
             {
                 //No se toman en cuenta las reglas desinformadas.
-                if (!IsRelevanPropertyKey(kvp.Key)) continue;
+                if (!IsRelevantPropertyKey(kvp.Key)) continue;
                 
                 hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
                 hash %= int.MaxValue;
@@ -152,12 +152,12 @@ namespace UGoap.Base
         }
         
         #region DefaultValues
-        private int CountRelevanPropertyKeys()
+        private int CountRelevantPropertyKeys()
         {
-            return _values.Keys.Count(IsRelevanPropertyKey);
+            return _values.Keys.Count(IsRelevantPropertyKey);
         }
 
-        private bool IsRelevanPropertyKey(PropertyKey key)
+        private bool IsRelevantPropertyKey(PropertyKey key)
         {
             return _values[key].GetHashCode() != _values[key].GetDefault().GetHashCode();
         }

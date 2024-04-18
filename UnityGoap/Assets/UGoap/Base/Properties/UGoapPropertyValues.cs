@@ -6,7 +6,7 @@ namespace UGoap.Base
     {
         public static Dictionary<PropertyKey, string[]> EnumNames = new()
         {
-            { PropertyKey.MentalState, new [] { "Good", "Regular", "Bad", }},
+            { PropertyKey.DoorState, new [] { "Opened", "Closed", "Locked", }},
 
         };
     }

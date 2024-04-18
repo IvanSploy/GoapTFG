@@ -7,7 +7,6 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static UGoap.Unity.UGoapData;
 using Debug = UnityEngine.Debug;
 
@@ -18,9 +17,7 @@ namespace UGoap.Unity
     {
         [SerializeField] private UGoapState _initialState;
         [SerializeField] private GoapQLearning _goapQLearning;
-        [FormerlySerializedAs("goalObjects")] 
         [SerializeField] private List<PriorityGoal> _goalObjects;
-        [FormerlySerializedAs("actionObjects")] 
         [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
@@ -30,7 +27,6 @@ namespace UGoap.Unity
         public bool active = true;
         public bool wait = true;
         public float speed = 5;
-        public bool useLearning;
         
         public bool hasPlan;
         public bool performingAction;
@@ -107,9 +103,13 @@ namespace UGoap.Unity
                 stopwatch.Restart();
             } while (result != null);
             stopwatch.Stop();
-            foreach (var node in _currentPlan.ExecutedNodes)
+            
+            if (_goapQLearning)
             {
-                UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                foreach (var node in _currentPlan.ExecutedNodes)
+                {
+                    UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                }
             }
             
             hasPlan = false;

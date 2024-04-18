@@ -7,11 +7,11 @@ namespace UGoap.Unity.CodeGenerator
 {
     public static class PropertyGenerator
     {
-        private const string CodeDirectory = "Assets/UGoap/Unity/Properties/";
+        private const string CodeDirectory = "Assets/UGoap/Base/Properties/";
         private const string CodeKeysName = "UGoapProperties.cs";
         private const string CodeValuesName = "UGoapPropertyValues.cs";
-        private const string ReferenceKeysPath = "Assets/UGoap/Unity/Properties/UGoapPropertiesReference.txt";
-        private const string ReferenceValuesPath = "Assets/UGoap/Unity/Properties/UGoapPropertyValuesReference.txt";
+        private const string ReferenceKeysPath = "Assets/UGoap/Base/Properties/UGoapPropertiesReference.txt";
+        private const string ReferenceValuesPath = "Assets/UGoap/Base/Properties/UGoapPropertyValuesReference.txt";
 
         public static void GenerateKeys(UGoapConfig config)
         {

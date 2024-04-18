@@ -32,7 +32,6 @@ namespace UGoap.Learning
         public string FileName;
         
         private Dictionary<int, Dictionary<string, float>> _qValues = new();
-
         private string Path => Application.dataPath + "\\" + FileName + ".json";
 
         public void OnAfterDeserialize()

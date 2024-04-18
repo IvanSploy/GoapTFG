@@ -9,24 +9,18 @@ namespace UGoap.Base
         public enum PropertyKey 
         {
             Target,
-Seeds,
-Fish,
-Money,
-Happiness,
-Fatigue,
-MentalState,
+Coins,
+DoorState,
+HasKey,
 
         }
         
         private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
         {
             { PropertyKey.Target, PropertyType.String },
-{ PropertyKey.Seeds, PropertyType.Integer },
-{ PropertyKey.Fish, PropertyType.Integer },
-{ PropertyKey.Money, PropertyType.Float },
-{ PropertyKey.Happiness, PropertyType.Float },
-{ PropertyKey.Fatigue, PropertyType.Float },
-{ PropertyKey.MentalState, PropertyType.Enum },
+{ PropertyKey.Coins, PropertyType.Integer },
+{ PropertyKey.DoorState, PropertyType.Enum },
+{ PropertyKey.HasKey, PropertyType.Boolean },
        
         };
     }

@@ -9,6 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Skybox
   m_Shader: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _SUNDISK_HIGH_QUALITY
   m_InvalidKeywords:
@@ -19,6 +21,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs: []
@@ -30,6 +33,6 @@ Material:
     - _SunSize: 0.04
     - _SunSizeConvergence: 5
     m_Colors:
-    - _GroundColor: {r: 0.078431375, g: 0.46274513, b: 0.52156866, a: 1}
-    - _SkyTint: {r: 0.6792453, g: 0.48528406, b: 0.45752937, a: 1}
+    - _GroundColor: {r: 0.427451, g: 0.6627451, b: 0.7607844, a: 1}
+    - _SkyTint: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
   m_BuildTextureStacks: []
