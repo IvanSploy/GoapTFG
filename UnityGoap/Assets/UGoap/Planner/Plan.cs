@@ -6,6 +6,7 @@ namespace UGoap.Planner
     public class Plan
     {
         public Node CurrentNode { get; private set; }
+        public IGoapEntity CurrentEntity { get; private set; }
         
         private readonly Stack<Node> _nodes = new();
         public List<Node> ExecutedNodes { get; private set; } = new();

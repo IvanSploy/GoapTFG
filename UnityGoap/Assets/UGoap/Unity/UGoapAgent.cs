@@ -177,29 +177,44 @@ namespace UGoap.Unity
         }
 
         //ACTIONS
+        public void GoGenericAction(string actionName, float seconds)
+        {
+            switch (actionName)
+            {
+                case "OpenDoor":
+                    UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
+                    entityDoor.GetComponent<Animator>()?.SetBool("Opened", true);
+                    break;
+                case "PickKey":
+                    UGoapEntity entityKey = UGoapWMM.Get("Key").Object;
+                    Destroy(entityKey.gameObject);
+                    break;
+                default:
+                    break;
+            }
+            
+            if(wait) StartCoroutine(Wait(seconds));
+        }
+        
         public void GoToTarget(string target, float speedFactor)
         {
             StartCoroutine(Movement(speed * speedFactor, UGoapWMM.Get(target).Position));
         }
         
-        public void GoGenericAction(float seconds)
-        {
-            if(wait) StartCoroutine(Wait(seconds));
-        }
-        
         //COROUTINES
-        private IEnumerator Movement(float vel, Vector3 finalPos)
+        private IEnumerator Movement(float vel, Vector3 target)
         {
             performingAction = true;
             bool reached = false;
             while (!reached)
             {
                 var position = transform.position;
-                finalPos.y = position.y;
-                position = Vector3.MoveTowards(position, finalPos,
+                target.y = position.y;
+                Vector3 newPos = Vector3.MoveTowards(position, target,
                     Time.deltaTime * vel);
-                transform.position = position;
-                Vector3 aux = finalPos;
+                transform.rotation = Quaternion.LookRotation(target - position, Vector3.up);
+                transform.position = newPos;
+                Vector3 aux = target;
                 aux.y = position.y;
                 if (Vector3.Distance(transform.position, aux) < float.Epsilon) reached = true;
                 yield return null;

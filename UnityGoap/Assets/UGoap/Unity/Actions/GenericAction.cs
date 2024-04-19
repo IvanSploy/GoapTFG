@@ -26,7 +26,7 @@ namespace UGoap.Unity.Actions
 
         protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(_waitSeconds);
+            agent.GoGenericAction(Name, _waitSeconds);
         }
     }
 }
