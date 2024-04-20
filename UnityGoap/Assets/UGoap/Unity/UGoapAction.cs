@@ -33,7 +33,7 @@ namespace UGoap.Unity
         protected abstract bool Validate(GoapStateInfo stateInfo);
         protected abstract GoapConditions GetProceduralConditions(GoapStateInfo stateInfo);
         protected abstract GoapEffects GetProceduralEffects(GoapStateInfo stateInfo);
-        protected abstract void PerformedActions(GoapState goapState, UGoapAgent agent);
+        protected abstract bool PerformedActions(GoapState goapState, UGoapAgent agent);
         
         //Cost related.
 
@@ -76,18 +76,24 @@ namespace UGoap.Unity
         }
 
         //Used only by the Agent.
-        public GoapState Execute(GoapStateInfo stateInfo,
+        public (GoapState, bool) Execute(GoapStateInfo stateInfo,
             IGoapAgent goapAgent)
         {
             if (!CheckAction(stateInfo))
             {
                 Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
-                CheckAction(stateInfo);
-                return null;
+                return (null, false);
             }
+            
             var state = stateInfo.State + GetEffects(stateInfo);
-            PerformedActions(state, (UGoapAgent) goapAgent);
-            return state;
+            var accomplished = PerformedActions(state, (UGoapAgent) goapAgent);
+            
+            if (!accomplished)
+            {
+                Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
+            }
+            
+            return (state, accomplished);
         }
 
         //Internal methods.

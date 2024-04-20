@@ -20,6 +20,6 @@ namespace UGoap.Base
 
         //GOAP utilities.
         (GoapState State, GoapGoal Goal) ApplyAction(GoapStateInfo info);
-        GoapState Execute(GoapStateInfo stateInfo, IGoapAgent agent);
+        (GoapState, bool) Execute(GoapStateInfo stateInfo, IGoapAgent agent);
     }
 }

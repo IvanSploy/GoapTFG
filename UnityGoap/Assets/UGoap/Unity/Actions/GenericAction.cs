@@ -24,9 +24,9 @@ namespace UGoap.Unity.Actions
             return null;
         }
 
-        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
+        protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(Name, _waitSeconds);
+            return agent.GoGenericAction(Name, goapState, _waitSeconds);
         }
     }
 }

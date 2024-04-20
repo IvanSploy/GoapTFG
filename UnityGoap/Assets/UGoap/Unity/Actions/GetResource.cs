@@ -70,9 +70,9 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
         
-        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
+        protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(Name, _waitSeconds);
+            var accomplished = agent.GoGenericAction(Name, goapState, _waitSeconds);
             
             var fact = UGoapWMM.Get(_resource);
             
@@ -92,6 +92,8 @@ namespace UGoap.Unity.Actions
                     throw new 
                         ArgumentOutOfRangeException(_resource.ToString(), "Resource has no valid resource type.");
             }
+
+            return accomplished;
         }
     }
 }

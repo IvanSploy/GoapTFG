@@ -90,25 +90,26 @@ namespace UGoap.Unity
 
         private IEnumerator ExecutePlan()
         {
+            bool accomplished = true;
             hasPlan = true;
             GoapState result;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
             {
-                result = _currentPlan.PlanStep(CurrentGoapState);
+                (result, accomplished) = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
                 UpdateLearning(_currentPlan.CurrentNode, -stopwatch.ElapsedMilliseconds);
                 stopwatch.Restart();
-            } while (result != null);
+            } while (result != null && accomplished);
             stopwatch.Stop();
             
             if (_goapQLearning)
             {
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    UpdateLearning(node, _currentPlan.IsDone || accomplished ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
                 }
             }
             
@@ -177,15 +178,33 @@ namespace UGoap.Unity
         }
 
         //ACTIONS
-        public void GoGenericAction(string actionName, float seconds)
+        public bool GoGenericAction(string actionName, GoapState state, float seconds)
         {
+            bool accomplished = true;
             switch (actionName)
             {
                 case "OpenDoor":
                     UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
-                    entityDoor.GetComponent<Animator>()?.SetBool("Opened", true);
+                    if (entityDoor.CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, 0) == 2)
+                    {
+                        if (state != null)
+                        {
+                            //TODO Arreglo momentaneo para la incapacidad de detectar que tiene que volver al sitio del que vino.
+                            state.Remove(UGoapPropertyManager.PropertyKey.Target);
+                            state.Set(UGoapPropertyManager.PropertyKey.DoorState, 2);
+                            accomplished = false;
+                        }
+                    }
+                    else
+                    {
+                        entityDoor.GetComponent<Animator>()?.SetBool("Opened", true);
+                    }
                     break;
-                case "PickKey":
+                case "UnlockDoor":
+                    UGoapEntity entityLockedDoor = UGoapWMM.Get("Door").Object;
+                    entityLockedDoor.GetComponent<Animator>()?.SetBool("Opened", true);
+                    break;
+                case "GetKey":
                     UGoapEntity entityKey = UGoapWMM.Get("Key").Object;
                     Destroy(entityKey.gameObject);
                     break;
@@ -194,6 +213,7 @@ namespace UGoap.Unity
             }
             
             if(wait) StartCoroutine(Wait(seconds));
+            return accomplished;
         }
         
         public void GoToTarget(string target, float speedFactor)

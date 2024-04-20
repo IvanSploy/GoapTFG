@@ -87,13 +87,13 @@ namespace UGoap.Base
         }
 
         //Used only by the Agent.
-        public GoapState Execute(GoapStateInfo stateInfo,
+        public (GoapState, bool) Execute(GoapStateInfo stateInfo,
             IGoapAgent goapAgent)
         {
-            if (!CheckAction(stateInfo)) return null;
+            if (!CheckAction(stateInfo)) return (null, false);
             var state = stateInfo.State + GetEffects(stateInfo);
             PerformedActions(state, goapAgent);
-            return state;
+            return (state, true);
         }
 
         //Internal methods.

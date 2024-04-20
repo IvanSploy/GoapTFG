@@ -39,31 +39,34 @@ namespace UGoap.Planner
         public bool IsDone => _nodes.Count == 0;
         
         //Methods
-        public GoapState DoPlan(GoapState worldGoapState)
+        public (GoapState, bool) DoPlan(GoapState worldGoapState)
         {
-            if (Count == 0) return null;
+            bool accomplished = true;
+            if (Count == 0) return (null, false);
 
             foreach (var node in _nodes)
             {
                 var stateInfo = new GoapStateInfo(worldGoapState, node.Parent.Goal, node.Parent.State);
-                worldGoapState = node.ParentAction.Execute(stateInfo, _agent);
+                (worldGoapState, accomplished) = node.ParentAction.Execute(stateInfo, _agent);
+                if (!accomplished) break;
             }
 
             ExecutedNodes.AddRange(_nodes);
             _nodes.Clear();
-            return worldGoapState;
+            return (worldGoapState, accomplished);
         }
 
-        public GoapState PlanStep(GoapState worldGoapState)
+        public (GoapState, bool) PlanStep(GoapState worldGoapState)
         {
-            if (Count == 0) return null;
+            bool accomplished;
+            if (Count == 0) return (null, false);
             if(CurrentNode != null) ExecutedNodes.Add(CurrentNode);
             
             CurrentNode = _nodes.Pop();
             var stateInfo = new GoapStateInfo(worldGoapState, CurrentNode.Parent.Goal, CurrentNode.Parent.State);
-            worldGoapState = CurrentNode.ParentAction.Execute(stateInfo, _agent);
+            (worldGoapState, accomplished) = CurrentNode.ParentAction.Execute(stateInfo, _agent);
             if(worldGoapState != null) DebugRecord.AddRecord(worldGoapState.ToString());
-            return worldGoapState;
+            return (worldGoapState, accomplished);
         }
     }
 }
