@@ -7,37 +7,40 @@ namespace UGoap.Planner
 {
     public class AStar : INodeGenerator
     {
+        //Properties
+        public GoapState InitialState { get; }
+        
+        //Fields
         private readonly SortedSet<Node> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node> _expandedNodes;
-        private readonly Func<GoapGoal, GoapState, int> _customHeuristic;
+        private readonly Func<GoapConditions, GoapState, int> _customHeuristic;
         private readonly IQLearning _qLearning;
-        private readonly GoapState _initialGoapState;
         
-        public AStar(GoapState initialGoapState, Func<GoapGoal, GoapState, int> customHeuristic = null)
+        public AStar(GoapState initialState, Func<GoapConditions, GoapState, int> customHeuristic = null)
         {
-            _initialGoapState = initialGoapState;
+            InitialState = initialState;
             
             _openList = new SortedSet<Node>();
             _expandedNodes = new HashSet<Node>();
             _customHeuristic = customHeuristic;
         }
         
-        public AStar(GoapState initialGoapState, IQLearning qLearning)
+        public AStar(GoapState initialState, IQLearning qLearning)
         {
-            _initialGoapState = initialGoapState;
+            InitialState = initialState;
             
             _openList = new SortedSet<Node>();
             _expandedNodes = new HashSet<Node>();
             _qLearning = qLearning;
         }
 
-        public Node CreateInitialNode(GoapState currentGoapState, GoapGoal goal)
+        public Node CreateInitialNode(GoapConditions goal)
         {
-            var goalState = new GoapGoal(goal);
-            AStarNode node = _qLearning != null ? new AStarNode(currentGoapState, goalState, _qLearning)
-                : new AStarNode(currentGoapState, goalState, _customHeuristic);
+            var goalState = new GoapConditions(goal);
+            AStarNode node = _qLearning != null ? new AStarNode(this, goalState, _qLearning)
+                : new AStarNode(this, goalState, _customHeuristic);
             node.GCost = 0;
-            node.HCost = _qLearning != null ? 0 : node.GetHeuristic();
+            node.HCost = _qLearning != null ? 0 : node.GetHeuristic(InitialState);
             return node;
         }
         
@@ -61,7 +64,7 @@ namespace UGoap.Planner
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    original.Update(parent, child.ParentAction);
+                    original.Update(parent, child.PreviousAction);
                     UpdateChildrenCost(original);
                 }
             }
@@ -104,16 +107,9 @@ namespace UGoap.Planner
                     if (!_openList.Remove(aStarChild)) continue;
                     
                     aStarChild.Update(node);
-                    var cost = node.GetUpdatedCost(_initialGoapState, child.ParentAction);
-                    aStarChild.GCost = cost;
                     _openList.Add(aStarChild);
                 }
             }
-        }
-        
-        public Func<GoapGoal, GoapState, int> GetCustomHeuristic()
-        {
-            return _customHeuristic;
         }
     }
 }

@@ -12,11 +12,11 @@ namespace UGoap.Unity.ScriptableObjects
         [HideInInspector] 
         public List<ConditionProperty> properties;
         
-        public GoapGoal Create(int priority)
+        public UGoapGoal Create(int priority)
         {
             GoapConditions state = new();
             AddIntoPropertyGroup(properties, in state);
-            return new GoapGoal(name, state, priority);
+            return new UGoapGoal(name, state, priority);
         }
     }
     
@@ -26,7 +26,7 @@ namespace UGoap.Unity.ScriptableObjects
         [SerializeField] private UGoapPriorityGoal priorityGoal;
         [Range(0, 10)] [SerializeField] private int priority;
 
-        public GoapGoal Create()
+        public UGoapGoal Create()
         {
             return priorityGoal.Create(priority);
         }

@@ -14,37 +14,13 @@ namespace UGoap.Unity.Actions
         [SerializeField] private float _count = 1;
         [SerializeField] private int _waitSeconds = 1;
 
-        //Conditions that couldnt be resolved by the planner.
-        protected override bool Validate(GoapStateInfo stateInfo)
-        {
-            var fact = UGoapWMM.Get(_resource);
-            if (fact == null) return false;
-            bool valid = true;
-            switch (GetPropertyType(_resource))
-            {
-                case PropertyType.Integer:
-                    var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
-                    if (ivalue <= 0) valid = false;
-                    break;
-                case PropertyType.Float:
-                    var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
-                    if (fvalue <= 0) valid = false;
-                    break;
-                default:
-                    throw new 
-                        ArgumentOutOfRangeException(_resource.ToString(), "Resource has no valid resource type.");
-            }
-            return valid;
-        }
-
         //Conditions that could be resolved by the planner.
-        protected override GoapConditions GetProceduralConditions(
-            GoapStateInfo stateInfo)
+        protected override GoapConditions GetProceduralConditions(UGoapGoal goal)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapStateInfo stateInfo)
+        protected override GoapEffects GetProceduralEffects(UGoapGoal goal)
         {
             var proceduralEffects = new GoapEffects();
             var fact = UGoapWMM.Get(_resource);
@@ -68,6 +44,29 @@ namespace UGoap.Unity.Actions
             
             
             return proceduralEffects;
+        }
+        
+        //Conditions that couldnt be resolved by the planner.
+        protected override bool Validate(GoapState state)
+        {
+            var fact = UGoapWMM.Get(_resource);
+            if (fact == null) return false;
+            bool valid = true;
+            switch (GetPropertyType(_resource))
+            {
+                case PropertyType.Integer:
+                    var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
+                    if (ivalue <= 0) valid = false;
+                    break;
+                case PropertyType.Float:
+                    var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
+                    if (fvalue <= 0) valid = false;
+                    break;
+                default:
+                    throw new 
+                        ArgumentOutOfRangeException(_resource.ToString(), "Resource has no valid resource type.");
+            }
+            return valid;
         }
         
         protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)

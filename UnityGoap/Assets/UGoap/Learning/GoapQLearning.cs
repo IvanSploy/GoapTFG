@@ -111,10 +111,11 @@ namespace UGoap.Learning
             }
         }
 
-        public int ParseToStateCode(GoapState goapState)
+        //TODO Find a way to transform goals into learning.
+        public int ParseToStateCode(GoapConditions goal)
         {
             GoapState filteredGoapState = new GoapState();
-            foreach (var pair in goapState)
+            foreach (var pair in goal)
             {
                 if(!LearningKeys.Contains(pair.Key)) continue;
                 var result = pair.Value switch

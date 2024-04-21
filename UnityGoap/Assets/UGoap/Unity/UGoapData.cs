@@ -12,7 +12,7 @@ namespace UGoap.Unity
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapGoal, GoapState, int> GetCustomHeuristic()
+        public static Func<GoapConditions, GoapState, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>
@@ -21,7 +21,7 @@ namespace UGoap.Unity
                 foreach (var goalPair in goal)
                 {
                     PropertyKey key = goalPair.Key;
-                    if (goal.GetState().GetConflictConditions(key, worldState).Count == 0) continue;
+                    if (goal.GetConflictConditions(key, worldState).Count == 0) continue;
                     foreach (var conditionValue in goal[key])
                     {
                         if (worldState.HasKey(key))

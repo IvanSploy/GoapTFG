@@ -1,5 +1,4 @@
 ﻿using UGoap.Base;
-using UGoap.Planner;
 
 namespace UGoap.Learning
 {
@@ -9,7 +8,7 @@ namespace UGoap.Learning
 
         float GetQValue(int state, string action);
 
-        int ParseToStateCode(GoapState goapState);
+        int ParseToStateCode(GoapConditions goal);
 
         void DebugLearning();
     }

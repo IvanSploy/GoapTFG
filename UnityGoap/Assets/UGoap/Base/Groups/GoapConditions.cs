@@ -74,6 +74,12 @@ namespace UGoap.Base
 
         public List<ConditionValue> this[PropertyKey key] => Get(key).ToList();
 
+        //Actions
+        public GoapConditions ApplyAction(IGoapAction action)
+        {
+            _conditions += action.GetEffects(this);
+        }
+        
         //GOAP Utilities, A* addons.
         public bool CheckConflict(GoapState goapState)
         {

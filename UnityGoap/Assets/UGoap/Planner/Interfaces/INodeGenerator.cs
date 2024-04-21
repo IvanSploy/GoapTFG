@@ -5,13 +5,14 @@ namespace UGoap.Planner
 {
     public interface INodeGenerator
     {
+        //Properties
+        GoapState InitialState { get; }
+
+        //Methods
         /// <summary>
-        /// Peforms the main planning cycle from the start to the end.
+        /// Performs the main planning cycle from the start to the end.
         /// </summary>
-        /// <param name="currentGoapState">Initial goapState of the world.</param>
-        /// <param name="goal">Goal expected to reach.</param>
-        /// <returns>Stack of actions for the agent.</returns>
-        Node CreateInitialNode(GoapState currentGoapState, GoapGoal goal);
+        Node CreateInitialNode(GoapConditions initialGoal);
 
         /// <summary>
         /// Retrieves the next node that has to be analyzed by the generator.
@@ -28,11 +29,5 @@ namespace UGoap.Planner
         /// <param name="action"></param>
         /// <param name="proceduralEffects"></param>
         void AddChildToParent(Node parent, Node child);
-        
-        /// <summary>   
-        /// Retrieves the custom heuristic of the generator if exists.
-        /// </summary>
-        /// <returns>Custom heuristic.</returns>
-        Func<GoapGoal, GoapState, int> GetCustomHeuristic();
     }
 }

@@ -12,11 +12,13 @@ namespace UGoap.Planner
         protected static int nodesSkipped = 0;
         public static int actionsApplied = 0;
         
-        //Data
+        //Initial data
         protected INodeGenerator _nodeGenerator;
         protected IGoapAgent _agent;
+        
+        //Plan data
+        protected IGoapGoal _goal;
         protected Node _current;
-        protected GoapGoal _goal;
         
         //Events
         public Action<Node> OnNodeCreated;
@@ -28,11 +30,12 @@ namespace UGoap.Planner
             _agent = agent;
         }
 
-        public static bool CheckEffectCompatibility(object currentValue, EffectType effectType, object actionValue,
+        //TODO Adapt to condition params.
+        public static bool CheckEffectCompatibility(object initialValue, EffectType effectType, object actionValue,
             List<ConditionValue> conditions)
         {
             bool compatible = true;
-            object resultValue = Evaluate(currentValue, effectType, actionValue);
+            object resultValue = Evaluate(initialValue, effectType, actionValue);
 
             for (var i = 0; i < conditions.Count && compatible; i++)
             {
@@ -89,10 +92,10 @@ namespace UGoap.Planner
         /// <summary>
         /// Generates the plan using the generator and the actions provided.
         /// </summary>
-        /// <param name="initialGoapState"></param>
+        /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Plan GeneratePlan(GoapState initialGoapState,
+        public abstract Plan GeneratePlan(GoapState initialState,
             List<IGoapAction> actions);
 
         public void DebugPlan(Node node)
@@ -104,7 +107,7 @@ namespace UGoap.Planner
             
             while (node.Parent != null)
             {
-                actionNames += node.ParentAction.Name + "\n";
+                actionNames += node.PreviousAction.Name + "\n";
                 count++;
                 node = node.Parent;
             }

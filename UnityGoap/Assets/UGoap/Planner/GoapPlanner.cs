@@ -26,18 +26,15 @@ namespace UGoap.Planner
         /// <summary>
         /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
         /// </summary>
-        /// <param name="initialGoapState">Current goapState of the world.</param>
-        /// <param name="goapGoal">Goal that is going to be reached.</param>
+        /// <param name="initialState">Current goapState of the world.</param>
+        /// <param name="goal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
-        /// <param name="newHeuristic">Custom heuristic if needed</param>
-        /// <param name="onNodeCreated">Executed when node is created</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Plan CreatePlan(GoapState initialGoapState, GoapGoal goal,
-            List<IGoapAction> actions)
+        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<IGoapAction> actions)
         {
             _goal = goal;
-            if (goal.IsReached(initialGoapState)) return null;
-            return GeneratePlan(initialGoapState, actions);
+            if (goal.IsReached(initialState)) return null;
+            return GeneratePlan(initialState, actions);
         }
         
         private void RegisterActions(List<IGoapAction> actions)
@@ -54,17 +51,16 @@ namespace UGoap.Planner
             }
         }
 
-        public override Plan GeneratePlan(GoapState initialGoapState,
-            List<IGoapAction> actions)
+        public override Plan GeneratePlan(GoapState initialState, List<IGoapAction> actions)
         {
-            if (initialGoapState == null || actions == null) throw new ArgumentNullException();
+            if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
 
             RegisterActions(actions);
 
             nodesCreated = 0;
             
-            _current = _nodeGenerator.CreateInitialNode(initialGoapState, _goal);
+            _current = _nodeGenerator.CreateInitialNode(_goal.Conditions);
             while (_current != null)
             {
                 _actionsVisited.Clear();
@@ -77,24 +73,23 @@ namespace UGoap.Planner
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
                         //If current goapState has key or is not a procedural effect.
-                        GoapEffects actionEffects =
-                            action.GetEffects(new GoapStateInfo(initialGoapState, _current.Goal, _current.State));
-                        if (_current.State.HasKey(key))
+                        GoapEffects actionEffects = action.GetEffects(_current.Goal);
+                        if (initialState.HasKey(key))
                         {
-                            if(!CheckEffectCompatibility(_current.State[key], actionEffects[key].EffectType, actionEffects[key].Value,
+                            if(!CheckEffectCompatibility(initialState[key], actionEffects[key].EffectType, actionEffects[key].Value,
                                    goalPair.Value)) continue;
                         }
                         
                         _actionsVisited.Add(action.Name);
                             
-                        var child = _current.ApplyAction(initialGoapState, action);
+                        var child = _current.ApplyAction(action);
                         actionsApplied++;
                         
                         if(child == null) continue;
                         
                         OnNodeCreated?.Invoke(child);
                         
-                        if (child.IsGoal) //Greedy result, could be worst.
+                        if (child.IsGoal(initialState)) //Greedy result, could be worst.
                         {
                             DebugPlan(child);
                             if (_greedy)
@@ -112,7 +107,7 @@ namespace UGoap.Planner
                 if (_current != null)
                 {
                     //If is goal
-                    if (_current.IsGoal)
+                    if (_current.IsGoal(initialState))
                     {
                         DebugInfo(_current);
                         OnPlanCreated?.Invoke(_current);
@@ -123,7 +118,6 @@ namespace UGoap.Planner
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         DebugInfo(_current);
-                        _current.IsGoal = true; //To avoid recursive loop behaviour.
                         return new Plan(_agent, _current);
                     }
                 }

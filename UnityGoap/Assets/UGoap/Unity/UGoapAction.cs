@@ -30,26 +30,26 @@ namespace UGoap.Unity
         }
 
         //Procedural related.
-        protected abstract bool Validate(GoapStateInfo stateInfo);
-        protected abstract GoapConditions GetProceduralConditions(GoapStateInfo stateInfo);
-        protected abstract GoapEffects GetProceduralEffects(GoapStateInfo stateInfo);
-        protected abstract bool PerformedActions(GoapState goapState, UGoapAgent agent);
+        protected abstract GoapConditions GetProceduralConditions(UGoapGoal goal);
+        protected abstract GoapEffects GetProceduralEffects(UGoapGoal goal);
+        protected abstract bool Validate(GoapState state);
+        protected abstract bool PerformedActions(GoapState state, UGoapAgent agent);
         
         //Cost related.
 
         public int GetCost() => _cost;        
-        public virtual int GetCost(GoapState state, GoapGoal goal) => _cost;
+        public virtual int GetCost(UGoapGoal goal) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public GoapConditions GetPreconditions(GoapStateInfo stateInfo)
+        public GoapConditions GetPreconditions(UGoapGoal goal)
         {
-            return _preconditions + GetProceduralConditions(stateInfo);
+            return _preconditions + GetProceduralConditions(goal);
         }
 
-        public GoapEffects GetEffects(GoapStateInfo stateInfo)
+        public GoapEffects GetEffects(UGoapGoal goal)
         {
-            return _effects + GetProceduralEffects(stateInfo);
+            return _effects + GetProceduralEffects(goal);
         }
         public HashSet<PropertyKey> GetAffectedKeys()
         {
@@ -59,11 +59,9 @@ namespace UGoap.Unity
                 affectedPropertyLists.Add(key);
             }
 
-            var stateInfo = new GoapStateInfo(new GoapState(),
-                new GoapGoal("", new GoapConditions(), 1),
-                new GoapState());
+            var goal = new UGoapGoal("", new GoapConditions(), 1);
             
-            var proceduralEffects = GetProceduralEffects(stateInfo);
+            var proceduralEffects = GetProceduralEffects(goal);
 
             if (proceduralEffects != null)
             {
@@ -76,16 +74,15 @@ namespace UGoap.Unity
         }
 
         //Used only by the Agent.
-        public (GoapState, bool) Execute(GoapStateInfo stateInfo,
-            IGoapAgent goapAgent)
+        public (GoapState, bool) Execute(GoapState currentState, UGoapGoal currentGoal, IGoapAgent goapAgent)
         {
-            if (!CheckAction(stateInfo))
+            if (!CheckAction(currentState, currentGoal))
             {
                 Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
                 return (null, false);
             }
             
-            var state = stateInfo.State + GetEffects(stateInfo);
+            var state = currentState + GetEffects(currentGoal);
             var accomplished = PerformedActions(state, (UGoapAgent) goapAgent);
             
             if (!accomplished)
@@ -97,38 +94,37 @@ namespace UGoap.Unity
         }
 
         //Internal methods.
-        private bool CheckAction(GoapStateInfo stateInfo)
+        private bool CheckAction(GoapState state, UGoapGoal goal)
         {
-            if (!GetPreconditions(stateInfo).CheckConflict(stateInfo.State))
+            if (!GetPreconditions(goal).CheckConflict(state))
             {
-                return Validate(stateInfo);
+                return Validate(state);
             }
             //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
             return false;
         }
         
-        private GoapState DoApplyAction(GoapStateInfo stateInfo)
+        //TODO Actions no longer apply themselfs, they apply to goals in this case.
+        private GoapState DoApplyAction(UGoapGoal goal)
         {
-            var result = stateInfo.State + GetEffects(stateInfo);
+            var result = goal + GetEffects(goal);
             return result;
         }
         
-        public (GoapState State, GoapGoal Goal) ApplyAction(GoapStateInfo stateInfo)
+        public UGoapGoal ApplyAction(UGoapGoal goal)
         {
-            //Check conflicts
-            if (!Validate(stateInfo)) return (null, null);
-            
+            //Check conflicts.
             var conflicts = GetPreconditions(stateInfo).GetConflict(stateInfo.State);
             
             //Apply action
             var resultState = DoApplyAction(stateInfo);
-            var resultGoal = conflicts == null ? GetVictoryGoal() : new GoapGoal(stateInfo.Goal.Name, conflicts, stateInfo.Goal.PriorityLevel);
+            var resultGoal = conflicts == null ? GetVictoryGoal() : new UGoapGoal(stateInfo.Goal.Name, conflicts, stateInfo.Goal.PriorityLevel);
             return (resultState, resultGoal);
         }
 
-        private GoapGoal GetVictoryGoal()
+        private UGoapGoal GetVictoryGoal()
         {
-            return new GoapGoal("Victory", new GoapConditions(), 1);
+            return new UGoapGoal("Victory", new GoapConditions(), 1);
         }
 
         public override string ToString()

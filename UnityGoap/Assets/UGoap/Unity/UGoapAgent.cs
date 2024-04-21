@@ -33,9 +33,9 @@ namespace UGoap.Unity
 
         //Agent base related
         private Plan _currentPlan;
-        private List<GoapGoal> _goals;
+        private List<IGoapGoal> _goals;
         private List<IGoapAction> _actions;
-        private GoapGoal _currentGoal;
+        private IGoapGoal _currentGoal;
         
         public GoapState CurrentGoapState { get; set; }
 
@@ -120,13 +120,13 @@ namespace UGoap.Unity
         public void AddAction(IGoapAction action) => _actions.Add(action);
         public void AddActions(List<IGoapAction> actionList) => _actions.AddRange(actionList);
 
-        public void AddGoal(GoapGoal goal)
+        public void AddGoal(IGoapGoal goal)
         {
             _goals.Add(goal);
             SortGoals();
         }
 
-        public void AddGoals(List<GoapGoal> goalList)
+        public void AddGoals(List<IGoapGoal> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -153,17 +153,17 @@ namespace UGoap.Unity
             return i - 1;
         }
 
-        public bool CreatePlan(GoapState worldGoapState, GoapGoal goapGoal,
-            Func<GoapGoal, GoapState, int> customHeuristic)
+        public bool CreatePlan(GoapState state, IGoapGoal goal,
+            Func<GoapConditions, GoapState, int> customHeuristic)
         {
-            var generator = new AStar(worldGoapState, _goapQLearning);
+            var generator = new AStar(state, _goapQLearning);
             var planner = new GoapPlanner(generator, this);
             
             //TODO improve another learnings.
             //planner.OnNodeCreated += UpdateLearning;
             //planner.OnPlanCreated += UpdatePlanQValue;
             
-            var plan = planner.CreatePlan(worldGoapState, goapGoal, _actions);
+            var plan = planner.CreatePlan(state, goal, _actions);
             
             DebugLogs(DebugRecord.GetRecords());
             if(_goapQLearning) _goapQLearning.DebugLearning();
@@ -267,9 +267,9 @@ namespace UGoap.Unity
             if (node.Parent == null) return;
             
             //Todo check if child is parent or what.
-            int initialNode = _goapQLearning.ParseToStateCode(node.State);
-            int finishNode = _goapQLearning.ParseToStateCode(node.Parent.State);
-            _goapQLearning.UpdateQValue(initialNode, node.ParentAction.Name, reward, finishNode);
+            int initialNode = _goapQLearning.ParseToStateCode(node.Goal);
+            int finishNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
+            _goapQLearning.UpdateQValue(initialNode, node.PreviousAction.Name, reward, finishNode);
         }
     }
 }

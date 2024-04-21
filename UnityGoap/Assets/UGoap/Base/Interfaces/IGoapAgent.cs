@@ -25,13 +25,13 @@ namespace UGoap.Base
         /// Add goal to the agent.
         /// </summary>
         /// <param name="goal"></param>
-        public void AddGoal(GoapGoal goal);
+        public void AddGoal(IGoapGoal goal);
         
         /// <summary>
         /// Add goals to the agent.
         /// </summary>
         /// <param name="goalList"></param>
-        public void AddGoals(List<GoapGoal> goalList);
+        public void AddGoals(List<IGoapGoal> goalList);
 
         /// <summary>
         /// Manages to create a new plan for the Agent.

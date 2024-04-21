@@ -9,17 +9,16 @@ namespace UGoap.Base
         bool IsCompleted { get; }
 
         //Cost related.
-        int GetCost(GoapState state, GoapGoal goal); 
+        int GetCost(GoapConditions goal); 
         int GetCost(); 
         int SetCost(int cost);
         
         //Getters
-        GoapConditions GetPreconditions(GoapStateInfo stateInfo);
-        GoapEffects GetEffects(GoapStateInfo stateInfo);
+        GoapConditions GetPreconditions(GoapConditions goal);
+        GoapEffects GetEffects(GoapConditions goal);
         HashSet<PropertyKey> GetAffectedKeys();
 
         //GOAP utilities.
-        (GoapState State, GoapGoal Goal) ApplyAction(GoapStateInfo info);
-        (GoapState, bool) Execute(GoapStateInfo stateInfo, IGoapAgent agent);
+        (GoapState, bool) Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent agent);
     }
 }

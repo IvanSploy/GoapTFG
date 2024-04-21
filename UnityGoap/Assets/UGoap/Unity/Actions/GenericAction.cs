@@ -8,20 +8,20 @@ namespace UGoap.Unity.Actions
     {
         [Header("Custom Data")]
         [SerializeField] private int _waitSeconds = 1;
+
+        protected override GoapConditions GetProceduralConditions(UGoapGoal goal)
+        {
+            return null;
+        }
+
+        protected override GoapEffects GetProceduralEffects(UGoapGoal goal)
+        {
+            return null;
+        }
         
-        protected override bool Validate(GoapStateInfo stateInfo)
+        protected override bool Validate(GoapState goapState)
         {
             return true;
-        }
-
-        protected override GoapConditions GetProceduralConditions(GoapStateInfo stateInfo)
-        {
-            return null;
-        }
-
-        protected override GoapEffects GetProceduralEffects(GoapStateInfo stateInfo)
-        {
-            return null;
         }
 
         protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
