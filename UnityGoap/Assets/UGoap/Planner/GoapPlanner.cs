@@ -15,7 +15,7 @@ namespace UGoap.Planner
         private const int ACTION_LIMIT = 50000;
         private bool _greedy;
         private readonly Dictionary<PropertyKey, List<IGoapAction>> _actions = new(); 
-        private readonly HashSet<string> _actionsVisited = new(); 
+        private readonly HashSet<string> _actionsVisited = new();
 
         public GoapPlanner(INodeGenerator nodeGenerator, IGoapAgent agent, bool greedy = false)
             : base(nodeGenerator, agent)
@@ -72,13 +72,11 @@ namespace UGoap.Planner
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
-                        //If current goapState has key or is not a procedural effect.
+                        //Check effect compatibility with initial state (the one getting closer).
                         GoapEffects actionEffects = action.GetEffects(_current.Goal);
-                        if (initialState.HasKey(key))
-                        {
-                            if(!CheckEffectCompatibility(initialState[key], actionEffects[key].EffectType, actionEffects[key].Value,
-                                   goalPair.Value)) continue;
-                        }
+                        if(!CheckEffectCompatibility(initialState.TryGetOrDefault(key), actionEffects[key].EffectType, 
+                               actionEffects[key].Value, goalPair.Value)) 
+                            continue;
                         
                         _actionsVisited.Add(action.Name);
                             
@@ -86,12 +84,13 @@ namespace UGoap.Planner
                         actionsApplied++;
                         
                         if(child == null) continue;
-                        
                         OnNodeCreated?.Invoke(child);
                         
-                        if (child.IsGoal(initialState)) //Greedy result, could be worst.
+                        //Greedy check for goal plan.
+                        if (child.IsGoal(initialState))
                         {
-                            DebugPlan(child);
+                            DebugPlan(child, _goal.Name);
+                            //If greedy, plan is returned.
                             if (_greedy)
                             {
                                 return new Plan(_agent, child);
@@ -113,8 +112,8 @@ namespace UGoap.Planner
                         OnPlanCreated?.Invoke(_current);
                         return new Plan(_agent, _current);
                     }
+                    
                     //If no more actions can be checked.
-
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         DebugInfo(_current);

@@ -7,6 +7,7 @@ namespace UGoap.Planner
     {
         public Node CurrentNode { get; private set; }
         public IGoapEntity CurrentEntity { get; private set; }
+        public bool IsDone { get; private set; }
         
         private readonly Stack<Node> _nodes = new();
         public List<Node> ExecutedNodes { get; private set; } = new();
@@ -36,35 +37,37 @@ namespace UGoap.Planner
         
         //Accesors
         public int Count => _nodes.Count;
-        public bool IsDone => _nodes.Count == 0;
         
         //Methods
-        public (GoapState, bool) DoPlan(GoapState currentState)
+        public GoapState DoPlan(GoapState currentState)
         {
-            bool accomplished = true;
-            if (Count == 0) return (null, false);
+            if (Count == 0) return null;
 
             foreach (var node in _nodes)
             {
-                (currentState, accomplished) = node.PreviousAction.Execute(currentState, node.Goal, _agent);
-                if (!accomplished) break;
+                currentState = node.PreviousAction.Execute(currentState, node.Goal, _agent);
+                if (currentState == null) return null;
             }
 
             ExecutedNodes.AddRange(_nodes);
             _nodes.Clear();
-            return (currentState, accomplished);
+            IsDone = true;
+            return currentState;
         }
 
-        public (GoapState, bool) PlanStep(GoapState currentState)
+        public GoapState PlanStep(GoapState currentState)
         {
-            bool accomplished;
-            if (Count == 0) return (null, false);
+            if (Count == 0)
+            {
+                IsDone = true;
+                return null;
+            }
             if(CurrentNode != null) ExecutedNodes.Add(CurrentNode);
             
             CurrentNode = _nodes.Pop();
-            (currentState, accomplished) = CurrentNode.PreviousAction.Execute(currentState, CurrentNode.Goal, _agent);
+            currentState = CurrentNode.PreviousAction.Execute(currentState, CurrentNode.Parent.Goal, _agent);
             if(currentState != null) DebugRecord.AddRecord(currentState.ToString());
-            return (currentState, accomplished);
+            return currentState;
         }
     }
 }

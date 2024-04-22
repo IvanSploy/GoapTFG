@@ -19,7 +19,7 @@ namespace UGoap.Planner
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
 
         public bool IsGoal(GoapState state) => !Goal.CheckConflict(state);
-        
+
         //Fields
         protected readonly INodeGenerator NodeGenerator;
         protected readonly Func<GoapConditions,GoapState,int> CustomHeuristic;

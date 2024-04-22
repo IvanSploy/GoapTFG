@@ -19,6 +19,6 @@ namespace UGoap.Base
         HashSet<PropertyKey> GetAffectedKeys();
 
         //GOAP utilities.
-        (GoapState, bool) Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent agent);
+        GoapState Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent agent);
     }
 }

@@ -111,22 +111,24 @@ namespace UGoap.Learning
             }
         }
 
-        //TODO Find a way to transform goals into learning.
         public int ParseToStateCode(GoapConditions goal)
         {
-            GoapState filteredGoapState = new GoapState();
+            GoapConditions filteredGoal = new GoapConditions();
             foreach (var pair in goal)
             {
                 if(!LearningKeys.Contains(pair.Key)) continue;
-                var result = pair.Value switch
+                foreach (var condition in pair.Value)
                 {
-                    int iValue => iValue / ValueRange * ValueRange,
-                    float fValue => Mathf.Floor(fValue / ValueRange) * ValueRange,
-                    _  => pair.Value,
-                };
-                filteredGoapState[pair.Key] = result;      
+                    var result = condition.Value switch
+                    {
+                        int iValue => iValue / ValueRange * ValueRange,
+                        float fValue => Mathf.Floor(fValue / ValueRange) * ValueRange,
+                        _  => condition.Value,
+                    };
+                    filteredGoal.Set(pair.Key, condition.ConditionType, result);  
+                }
             }
-            return filteredGoapState.GetHashCode();
+            return filteredGoal.GetHashCode();
         }
 
         public void DebugLearning()

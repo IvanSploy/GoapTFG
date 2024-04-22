@@ -90,26 +90,25 @@ namespace UGoap.Unity
 
         private IEnumerator ExecutePlan()
         {
-            bool accomplished = true;
             hasPlan = true;
             GoapState result;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
             {
-                (result, accomplished) = _currentPlan.PlanStep(CurrentGoapState);
+                result = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
                 UpdateLearning(_currentPlan.CurrentNode, -stopwatch.ElapsedMilliseconds);
                 stopwatch.Restart();
-            } while (result != null && accomplished);
+            } while (result != null);
             stopwatch.Stop();
             
             if (_goapQLearning)
             {
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    UpdateLearning(node, _currentPlan.IsDone || accomplished ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
                 }
             }
             
@@ -167,7 +166,11 @@ namespace UGoap.Unity
             
             DebugLogs(DebugRecord.GetRecords());
             if(_goapQLearning) _goapQLearning.DebugLearning();
-            if (plan == null) return false;
+            if (plan == null)
+            {
+                Debug.Log("Plan no encontrado para objetivo: " + goal.Name);
+                return false;
+            }
             _currentPlan = plan;
             return true;
         }
@@ -178,7 +181,7 @@ namespace UGoap.Unity
         }
 
         //ACTIONS
-        public bool GoGenericAction(string actionName, GoapState state, float seconds)
+        public bool ValidateGeneric(string actionName, GoapState state)
         {
             bool accomplished = true;
             switch (actionName)
@@ -189,17 +192,28 @@ namespace UGoap.Unity
                     {
                         if (state != null)
                         {
-                            //TODO Arreglo momentaneo para la incapacidad de detectar que tiene que volver al sitio del que vino.
-                            state.Remove(UGoapPropertyManager.PropertyKey.Target);
                             state.Set(UGoapPropertyManager.PropertyKey.DoorState, 2);
+                            CurrentGoapState = state;
                             accomplished = false;
                         }
                     }
-                    else
-                    {
-                        entityDoor.GetComponent<Animator>()?.SetBool("Opened", true);
-                    }
                     break;
+                case "UnlockDoor":
+                    break;
+                case "GetKey":
+                    break;
+                default:
+                    break;
+            }
+            
+            return accomplished;
+        }
+        
+        public void GoGenericAction(string actionName, GoapState state, float seconds)
+        {
+            switch (actionName)
+            {
+                case "OpenDoor":
                 case "UnlockDoor":
                     UGoapEntity entityLockedDoor = UGoapWMM.Get("Door").Object;
                     entityLockedDoor.GetComponent<Animator>()?.SetBool("Opened", true);
@@ -213,7 +227,6 @@ namespace UGoap.Unity
             }
             
             if(wait) StartCoroutine(Wait(seconds));
-            return accomplished;
         }
         
         public void GoToTarget(string target, float speedFactor)

@@ -30,24 +30,23 @@ namespace UGoap.Unity
         }
 
         //Procedural related.
-        protected abstract GoapConditions GetProceduralConditions(UGoapGoal goal);
-        protected abstract GoapEffects GetProceduralEffects(UGoapGoal goal);
-        protected abstract bool Validate(GoapState state);
-        protected abstract bool PerformedActions(GoapState state, UGoapAgent agent);
+        protected abstract GoapConditions GetProceduralConditions(GoapConditions goal);
+        protected abstract GoapEffects GetProceduralEffects(GoapConditions goal);
+        protected abstract bool Validate(GoapState state, UGoapAgent agent);
+        protected abstract void PerformedActions(GoapState state, UGoapAgent agent);
         
         //Cost related.
-
         public int GetCost() => _cost;        
-        public virtual int GetCost(UGoapGoal goal) => _cost;
+        public virtual int GetCost(GoapConditions goal) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public GoapConditions GetPreconditions(UGoapGoal goal)
+        public GoapConditions GetPreconditions(GoapConditions goal)
         {
             return _preconditions + GetProceduralConditions(goal);
         }
 
-        public GoapEffects GetEffects(UGoapGoal goal)
+        public GoapEffects GetEffects(GoapConditions goal)
         {
             return _effects + GetProceduralEffects(goal);
         }
@@ -59,9 +58,7 @@ namespace UGoap.Unity
                 affectedPropertyLists.Add(key);
             }
 
-            var goal = new UGoapGoal("", new GoapConditions(), 1);
-            
-            var proceduralEffects = GetProceduralEffects(goal);
+            var proceduralEffects = GetProceduralEffects(new GoapConditions());
 
             if (proceduralEffects != null)
             {
@@ -74,59 +71,35 @@ namespace UGoap.Unity
         }
 
         //Used only by the Agent.
-        public (GoapState, bool) Execute(GoapState currentState, UGoapGoal currentGoal, IGoapAgent goapAgent)
+        public GoapState Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent goapAgent)
         {
-            if (!CheckAction(currentState, currentGoal))
-            {
-                Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
-                return (null, false);
-            }
-            
+            if (!CheckAction(currentState, currentGoal, goapAgent)) return null;
+
             var state = currentState + GetEffects(currentGoal);
-            var accomplished = PerformedActions(state, (UGoapAgent) goapAgent);
+            PerformedActions(state, (UGoapAgent) goapAgent);
             
-            if (!accomplished)
-            {
-                Debug.Log("Ha habido un error al realizar el plan, siento las molestias :(");
-            }
-            
-            return (state, accomplished);
+            return state;
         }
 
         //Internal methods.
-        private bool CheckAction(GoapState state, UGoapGoal goal)
+        private bool CheckAction(GoapState state, GoapConditions goal, IGoapAgent goapAgent)
         {
             if (!GetPreconditions(goal).CheckConflict(state))
             {
-                return Validate(state);
+                bool valid = Validate(state, (UGoapAgent) goapAgent);
+                if (!valid)
+                {
+                    Debug.Log("La acción no ha podido completarse, plan detenido :(");
+                }
+                return valid;
             }
+            
+            Debug.Log("El agente no cumple con las precondiciones necesarias, plan detenido :(");
             //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
             return false;
         }
-        
-        //TODO Actions no longer apply themselfs, they apply to goals in this case.
-        private GoapState DoApplyAction(UGoapGoal goal)
-        {
-            var result = goal + GetEffects(goal);
-            return result;
-        }
-        
-        public UGoapGoal ApplyAction(UGoapGoal goal)
-        {
-            //Check conflicts.
-            var conflicts = GetPreconditions(stateInfo).GetConflict(stateInfo.State);
-            
-            //Apply action
-            var resultState = DoApplyAction(stateInfo);
-            var resultGoal = conflicts == null ? GetVictoryGoal() : new UGoapGoal(stateInfo.Goal.Name, conflicts, stateInfo.Goal.PriorityLevel);
-            return (resultState, resultGoal);
-        }
 
-        private UGoapGoal GetVictoryGoal()
-        {
-            return new UGoapGoal("Victory", new GoapConditions(), 1);
-        }
-
+        //Overrides
         public override string ToString()
         {
             return Name 

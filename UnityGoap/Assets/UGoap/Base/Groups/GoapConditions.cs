@@ -23,11 +23,11 @@ namespace UGoap.Base
         }
 
         //Value Access
-        public void Set(PropertyKey key, object value, ConditionType conditionType)
+        public void Set(PropertyKey key, ConditionType conditionType, object value)
         {
             AssertValidType(key, value);
             var condition = new ConditionValue(value, conditionType);
-            if (!HasKey(key))
+            if (!Has(key))
             {
                 HashSet<ConditionValue> conditions =
                     new HashSet<ConditionValue> { condition };
@@ -36,27 +36,54 @@ namespace UGoap.Base
             _values[key].Add(condition);
         }
 
-        public void Set(PropertyKey key, ConditionValue value) => Set(key, value.Value, value.ConditionType);
+        public void Set(PropertyKey key, ConditionValue value)
+        {
+            Set(key, value.ConditionType, value.Value);
+        }
 
         public void Set(GoapConditions goapConditions)
         {
             foreach (var pair in goapConditions)
             {
+                //Todo Decide if cleaning up equals conditions should be done here.
+                if (Has(pair.Key))
+                {
+                    bool hasEqualsCondition = false;
+                    foreach (var conditionValue in Get(pair.Key))
+                    {
+                        if (conditionValue.ConditionType == ConditionType.Equal) hasEqualsCondition = true;
+                    }
+
+                    if (hasEqualsCondition) continue;
+                }
+                
                 foreach (var condition in pair.Value)
                 {
-                    Set(pair.Key, condition.Value, condition.ConditionType);
+                    //TODO If equals condition added, removed the others.
+                    if (condition.ConditionType == ConditionType.Equal)
+                    {
+                        Remove(pair.Key);
+                    }
+                    
+                    Set(pair.Key, condition.ConditionType, condition.Value);
                 }
             }
         }
 
-        public HashSet<ConditionValue> Get(PropertyKey key)
+        public HashSet<ConditionValue> Get(PropertyKey key) => _values[key];
+
+        public object TryGetOrDefault(PropertyKey key)
         {
-            return _values[key];
+            if (Has(key)) return Get(key);
+            return new List<ConditionValue>
+            {
+                new(key.GetDefault(), ConditionType.Equal)
+            };
         }
 
         public List<ConditionValue> TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
-            if (HasKey(key))
+            if (Has(key))
             {
                 var original = Get(key);
                 List<ConditionValue> list = new List<ConditionValue>();
@@ -73,11 +100,19 @@ namespace UGoap.Base
         }
 
         public List<ConditionValue> this[PropertyKey key] => Get(key).ToList();
+        public int Count => _values.Count;
 
         //Actions
         public GoapConditions ApplyAction(IGoapAction action)
         {
-            _conditions += action.GetEffects(this);
+            //Apply action
+            var resultGoal = ApplyEffects(action.GetEffects(this));
+            if (resultGoal == null) return null;
+            
+            //Merge new conflicts.
+            resultGoal = resultGoal.Merge(action.GetPreconditions(this));
+            
+            return resultGoal;
         }
         
         //GOAP Utilities, A* addons.
@@ -111,7 +146,7 @@ namespace UGoap.Base
             foreach (var condition in Get(key))
             {
                 object defaultValue = condition.Value.GetDefault();
-                object mainValue = !goapState.HasKey(key) ? defaultValue : goapState[key];
+                object mainValue = !goapState.Has(key) ? defaultValue : goapState[key];
 
                 if (!condition.Evaluate(mainValue))
                 {
@@ -122,18 +157,16 @@ namespace UGoap.Base
             return conflicts;
         }
 
-        public bool CheckFilteredConflict(GoapState goapState,
-            out GoapConditions mismatches,
-            GoapState filter)
+        public bool CheckFilteredConflict(GoapState goapState, out GoapConditions mismatches, GoapState filter)
         {
             mismatches = new GoapConditions();
             foreach (var pair in this)
             {
-                if (!filter.HasKey(pair.Key))
+                if (!filter.Has(pair.Key))
                 {
                     foreach (var condition in pair.Value)
                     {
-                        mismatches.Set(pair.Key, condition.Value, condition.ConditionType);
+                        mismatches.Set(pair.Key, condition.ConditionType, condition.Value);
                     }
                 }
                 else
@@ -141,7 +174,7 @@ namespace UGoap.Base
                     var conditions = GetConflictConditions(pair.Key, goapState);
                     foreach (var condition in conditions)
                     {
-                        mismatches.Set(pair.Key, condition.Value, condition.ConditionType);
+                        mismatches.Set(pair.Key, condition.ConditionType, condition.Value);
                     }
                 }
             }
@@ -151,25 +184,93 @@ namespace UGoap.Base
             return thereIsConflict;
         }
 
-        public static GoapConditions Merge(GoapConditions cg,
-            GoapConditions newCg)
+        //Operators
+        private GoapConditions ApplyEffects(GoapEffects effects)
         {
-            if (cg == null) return newCg;
-            if (newCg == null) return cg;
-
-            foreach (var pair in cg)
+            GoapConditions result = new GoapConditions();
+            
+            //If effect doesnt affect properties, they are added to result.
+            foreach (var pair in this)
             {
-                if (!newCg.HasKey(pair.Key)) continue;
-                var newConditions = newCg[pair.Key];
+                if (effects.Has(pair.Key)) continue;
+                foreach (var condition in pair.Value)
+                {
+                    result.Set(pair.Key, condition);
+                }
+            }
+            
+            //Properties changed by effects.
+            foreach (var effectPair in effects)
+            {
+                if(!Has(effectPair.Key)) continue;
+                var effect = effectPair.Value;
+                switch (effect.EffectType)
+                {
+                    case EffectType.Set:
+                        //If accomplished, it does nothing, because conditions are removed.
+                        bool accomplished = true;
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            if (!condition.Evaluate(effect.Value))
+                            {
+                                accomplished = false;
+                                break;
+                            }
+                        }
+                        if (!accomplished) return null;
+                        break;
+                    case EffectType.Add:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Subtract, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Subtract:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Add, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Multiply:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Divide, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Divide:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Multiply, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return result;
+        }
+        
+        public GoapConditions Merge(GoapConditions goal)
+        {
+            if (goal == null) return this;
+
+            foreach (var pair in this)
+            {
+                if (!goal.Has(pair.Key)) continue;
+                var newConditions = goal[pair.Key];
                 if (newConditions.Any(conditionValue => !CheckCondition(pair.Value, conditionValue)))
                     return null;
             }
 
-            return cg + newCg;
+            return this + goal;
         }
 
-        public static GoapConditions operator +(GoapConditions a,
-            GoapConditions b)
+        public static GoapConditions operator +(GoapConditions a, GoapConditions b)
         {
             if (b == null) return a;
             if (a == null) return b;
@@ -203,23 +304,32 @@ namespace UGoap.Base
 
             GoapConditions otherPg = (GoapConditions)obj;
 
-            if (CountRelevanPropertyKeys() != otherPg.CountRelevanPropertyKeys()) return false;            
+            if (Count != otherPg.Count) return false;            
             foreach (var key in _values.Keys)
             {
-                if (!otherPg.HasKey(key)) return false;
+                if (!otherPg.Has(key)) return false;
                 if (!_values[key].SetEquals(otherPg._values[key])) return false;
             }
             return true;
         }
-        
-        #region DefaultValues
-        private int CountRelevanPropertyKeys()
+
+        /// <summary>
+        /// Evaluate hash code of the dictionary with sort order and xor exclusion.
+        /// </summary>
+        /// <returns>Hash Number</returns>
+        public override int GetHashCode()
         {
-            return _values.Keys.Sum(key =>
-                _values[key].Count(value =>
-                    value.Value.GetHashCode() != value.Value.GetDefault().GetHashCode()));
+            int hash = 18;
+            foreach(var kvp in _values)
+            {
+                foreach (var condition in kvp.Value)
+                {
+                    hash = 18 * hash + (kvp.Key.GetHashCode() ^ condition.Value.GetHashCode());
+                    hash %= int.MaxValue;
+                }
+            }
+            return hash;
         }
-        #endregion
 
         public new IEnumerator<KeyValuePair<PropertyKey, List<ConditionValue>>> GetEnumerator()
         {
@@ -283,26 +393,26 @@ namespace UGoap.Base
                         ConditionType.NotEqual => !condition.Value.Equals(conditionValue.Value),
                         ConditionType.LessThan => condition.Value switch
                         {
-                            int intValue => intValue < (int)(object)conditionValue.Value,
-                            float floatValue => floatValue < (float)(object)conditionValue.Value,
+                            int intValue => intValue < (int)conditionValue.Value,
+                            float floatValue => floatValue < (float)conditionValue.Value,
                             _ => !condition.Value.Equals(conditionValue.Value)
                         },
                         ConditionType.LessOrEqual => condition.Value switch
                         {
-                            int intValue => intValue <= (int)(object)conditionValue.Value,
-                            float floatValue => floatValue <= (float)(object)conditionValue.Value,
+                            int intValue => intValue <= (int)conditionValue.Value,
+                            float floatValue => floatValue <= (float)conditionValue.Value,
                             _ => condition.Value.Equals(conditionValue.Value)
                         },
                         ConditionType.GreaterThan => condition.Value switch
                         {
-                            int intValue => intValue > (int)(object)conditionValue.Value,
-                            float floatValue => floatValue > (float)(object)conditionValue.Value,
+                            int intValue => intValue > (int)conditionValue.Value,
+                            float floatValue => floatValue > (float)conditionValue.Value,
                             _ => !condition.Value.Equals(conditionValue.Value)
                         },
                         ConditionType.GreaterOrEqual => condition.Value switch
                         {
-                            int intValue => intValue >= (int)(object)conditionValue.Value,
-                            float floatValue => floatValue >= (float)(object)conditionValue.Value,
+                            int intValue => intValue >= (int)conditionValue.Value,
+                            float floatValue => floatValue >= (float)conditionValue.Value,
                             _ => condition.Value.Equals(conditionValue.Value)
                         },
                         _ => true
@@ -323,20 +433,20 @@ namespace UGoap.Base
                     {
                         ConditionType.Equal => conditionValue.Value switch
                         {
-                            int intValue => intValue < (int)(object)condition.Value,
-                            float floatValue => floatValue < (float)(object)condition.Value,
+                            int intValue => intValue < (int)condition.Value,
+                            float floatValue => floatValue < (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.GreaterThan => conditionValue.Value switch
                         {
-                            int intValue => intValue + 1 < (int)(object)condition.Value,
-                            float floatValue => floatValue + 0.1f < (float)(object)condition.Value,
+                            int intValue => intValue + 1 < (int)condition.Value,
+                            float floatValue => floatValue + 0.001f < (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.GreaterOrEqual => conditionValue.Value switch
                         {
-                            int intValue => intValue < (int)(object)condition.Value,
-                            float floatValue => floatValue < (float)(object)condition.Value,
+                            int intValue => intValue < (int)condition.Value,
+                            float floatValue => floatValue < (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         _ => true
@@ -348,20 +458,20 @@ namespace UGoap.Base
                     {
                         ConditionType.Equal => conditionValue.Value switch
                         {
-                            int intValue => intValue <= (int)(object)condition.Value,
-                            float floatValue => floatValue <= (float)(object)condition.Value,
+                            int intValue => intValue <= (int)condition.Value,
+                            float floatValue => floatValue <= (float)condition.Value,
                             _ => conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.GreaterThan => conditionValue.Value switch
                         {
-                            int intValue => intValue < (int)(object)condition.Value,
-                            float floatValue => floatValue < (float)(object)condition.Value,
+                            int intValue => intValue < (int)condition.Value,
+                            float floatValue => floatValue < (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.GreaterOrEqual => conditionValue.Value switch
                         {
-                            int intValue => intValue <= (int)(object)condition.Value,
-                            float floatValue => floatValue <= (float)(object)condition.Value,
+                            int intValue => intValue <= (int)condition.Value,
+                            float floatValue => floatValue <= (float)condition.Value,
                             _ => conditionValue.Value.Equals(condition.Value)
                         },
                         _ => true
@@ -373,20 +483,20 @@ namespace UGoap.Base
                     {
                         ConditionType.Equal => conditionValue.Value switch
                         {
-                            int intValue => intValue > (int)(object)condition.Value,
-                            float floatValue => floatValue > (float)(object)condition.Value,
+                            int intValue => intValue > (int)condition.Value,
+                            float floatValue => floatValue > (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.LessThan => conditionValue.Value switch
                         {
-                            int intValue => intValue + 1 > (int)(object)condition.Value,
-                            float floatValue => floatValue + 0.1f > (float)(object)condition.Value,
+                            int intValue => intValue + 1 > (int)condition.Value,
+                            float floatValue => floatValue + 0.001f > (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.LessOrEqual => conditionValue.Value switch
                         {
-                            int intValue => intValue > (int)(object)condition.Value,
-                            float floatValue => floatValue > (float)(object)condition.Value,
+                            int intValue => intValue > (int)condition.Value,
+                            float floatValue => floatValue > (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         _ => true
@@ -398,20 +508,20 @@ namespace UGoap.Base
                     {
                         ConditionType.Equal => conditionValue.Value switch
                         {
-                            int intValue => intValue >= (int)(object)condition.Value,
-                            float floatValue => floatValue >= (float)(object)condition.Value,
+                            int intValue => intValue >= (int)condition.Value,
+                            float floatValue => floatValue >= (float)condition.Value,
                             _ => conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.LessThan => conditionValue.Value switch
                         {
-                            int intValue => intValue > (int)(object)condition.Value,
-                            float floatValue => floatValue > (float)(object)condition.Value,
+                            int intValue => intValue > (int)condition.Value,
+                            float floatValue => floatValue > (float)condition.Value,
                             _ => !conditionValue.Value.Equals(condition.Value)
                         },
                         ConditionType.LessOrEqual => conditionValue.Value switch
                         {
-                            int intValue => intValue >= (int)(object)condition.Value,
-                            float floatValue => floatValue >= (float)(object)condition.Value,
+                            int intValue => intValue >= (int)condition.Value,
+                            float floatValue => floatValue >= (float)condition.Value,
                             _ => conditionValue.Value.Equals(condition.Value)
                         },
                         _ => true

@@ -15,40 +15,38 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _speedFactor = 1;
         [SerializeField] private string _excludedLocation = "none";
         
-        protected override GoapConditions GetProceduralConditions(UGoapGoal goal)
+        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
         {
             var condition = new GoapConditions();
-            condition.Set(_targetKey, _excludedLocation, ConditionType.NotEqual);
+            condition.Set(_targetKey, ConditionType.NotEqual, _excludedLocation);
             return condition;
         }
         
-        protected override GoapEffects GetProceduralEffects(UGoapGoal goal)
+        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
         {
             GoapEffects proceduralEffects = new GoapEffects();
-            string target = "";
+            string target = _excludedLocation;
             var targetList = goal.TryGetOrDefault(_targetKey, "");
             if (targetList != null)
             {
                 var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
-                if(condition != null)
-                    target = (string)condition.Value;
+                if(condition != null) target = (string)condition.Value;
             }
             proceduralEffects[_targetKey] = new EffectValue(target, EffectType.Set);
             return proceduralEffects;
         }
         
-        protected override bool Validate(GoapState state)
+        protected override bool Validate(GoapState state, UGoapAgent agent)
         {
             return true;
         }
 
-        protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
+        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
             agent.GoToTarget(goapState.TryGetOrDefault(_targetKey, ""), _speedFactor);
-            return true;
         }
 
-        public override int GetCost(UGoapGoal goal)
+        public override int GetCost(GoapConditions goal)
         {
             if (!goal.Has(_targetKey)) return 50 / _speedFactor;
             

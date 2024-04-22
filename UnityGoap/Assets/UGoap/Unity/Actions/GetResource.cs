@@ -15,12 +15,12 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _waitSeconds = 1;
 
         //Conditions that could be resolved by the planner.
-        protected override GoapConditions GetProceduralConditions(UGoapGoal goal)
+        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(UGoapGoal goal)
+        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
         {
             var proceduralEffects = new GoapEffects();
             var fact = UGoapWMM.Get(_resource);
@@ -47,7 +47,7 @@ namespace UGoap.Unity.Actions
         }
         
         //Conditions that couldnt be resolved by the planner.
-        protected override bool Validate(GoapState state)
+        protected override bool Validate(GoapState state, UGoapAgent agent)
         {
             var fact = UGoapWMM.Get(_resource);
             if (fact == null) return false;
@@ -69,9 +69,9 @@ namespace UGoap.Unity.Actions
             return valid;
         }
         
-        protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
+        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
-            var accomplished = agent.GoGenericAction(Name, goapState, _waitSeconds);
+            agent.GoGenericAction(Name, goapState, _waitSeconds);
             
             var fact = UGoapWMM.Get(_resource);
             
@@ -91,8 +91,6 @@ namespace UGoap.Unity.Actions
                     throw new 
                         ArgumentOutOfRangeException(_resource.ToString(), "Resource has no valid resource type.");
             }
-
-            return accomplished;
         }
     }
 }

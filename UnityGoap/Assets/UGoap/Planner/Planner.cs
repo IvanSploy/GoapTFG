@@ -30,7 +30,6 @@ namespace UGoap.Planner
             _agent = agent;
         }
 
-        //TODO Adapt to condition params.
         public static bool CheckEffectCompatibility(object initialValue, EffectType effectType, object actionValue,
             List<ConditionValue> conditions)
         {
@@ -54,6 +53,8 @@ namespace UGoap.Planner
                     case EffectType.Multiply:
                         switch (condition.ConditionType)
                         {
+                            //TODO Decide if not equal should be allowed.
+                            case ConditionType.NotEqual:
                             case ConditionType.GreaterThan:
                             case ConditionType.GreaterOrEqual:
                                 break;
@@ -67,6 +68,7 @@ namespace UGoap.Planner
                     case EffectType.Divide:
                         switch (condition.ConditionType)
                         {
+                            case ConditionType.NotEqual:
                             case ConditionType.LessThan:
                             case ConditionType.LessOrEqual:
                                 break;
@@ -98,9 +100,9 @@ namespace UGoap.Planner
         public abstract Plan GeneratePlan(GoapState initialState,
             List<IGoapAction> actions);
 
-        public void DebugPlan(Node node)
+        public void DebugPlan(Node node, string Name)
         {
-            var debugLog = "Acciones para conseguir el objetivo: ";
+            var debugLog = "Acciones para conseguir el objetivo: " + Name + "\n";
             var actionNames = "";
             int count = 0;
             int cost = node.TotalCost;
@@ -126,7 +128,7 @@ namespace UGoap.Planner
             info += "NODOS SALTADOS: " + nodesSkipped + "\n";
             info += "ACCIONES RECORRIDAS: " + actionsApplied + "\n";
             actionsApplied = 0;
-            DebugPlan(node);
+            DebugPlan(node, _goal.Name);
             DebugRecord.AddRecord(info);
         }
     }

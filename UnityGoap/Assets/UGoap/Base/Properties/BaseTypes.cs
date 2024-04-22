@@ -1,5 +1,6 @@
 ﻿using System;
 using Unity.VisualScripting;
+using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
 {
@@ -123,6 +124,20 @@ namespace UGoap.Base
             }
             return result;
         }
+
+        public static object GetDefault(this PropertyKey key)
+        {
+            object defaultValue = GetPropertyType(key) switch
+            {
+                PropertyType.Boolean => false,
+                PropertyType.Integer => 0,
+                PropertyType.Float => 0f,
+                PropertyType.String => "",
+                PropertyType.Enum => 0,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            return defaultValue;
+        }
         
         public static object GetDefault(this object value)
         {
@@ -134,7 +149,7 @@ namespace UGoap.Base
                 float => 0f,
                 double => 0d,
                 string => "",
-                _ => null,
+                _ => throw new ArgumentOutOfRangeException(),
             };
             return defaultValue;
         }

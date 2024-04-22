@@ -9,24 +9,24 @@ namespace UGoap.Unity.Actions
         [Header("Custom Data")]
         [SerializeField] private int _waitSeconds = 1;
 
-        protected override GoapConditions GetProceduralConditions(UGoapGoal goal)
+        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(UGoapGoal goal)
+        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
         {
             return null;
         }
         
-        protected override bool Validate(GoapState goapState)
+        protected override bool Validate(GoapState goapState, UGoapAgent agent)
         {
-            return true;
+            return agent.ValidateGeneric(Name, goapState);
         }
 
-        protected override bool PerformedActions(GoapState goapState, UGoapAgent agent)
+        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
         {
-            return agent.GoGenericAction(Name, goapState, _waitSeconds);
+            agent.GoGenericAction(Name, goapState, _waitSeconds);
         }
     }
 }

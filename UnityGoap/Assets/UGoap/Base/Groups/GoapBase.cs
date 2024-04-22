@@ -41,14 +41,14 @@ namespace UGoap.Base
             return new List<PropertyKey>(_values.Keys);
         }
         
-        public bool HasKey(PropertyKey key)
+        public bool Has(PropertyKey key)
         {
             return _values.ContainsKey(key);
         }
         
         public void Remove(PropertyKey key)
         {
-            if(HasKey(key)) _values.Remove(key);
+            if(Has(key)) _values.Remove(key);
         }
         
         public bool IsEmpty()

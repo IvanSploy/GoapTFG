@@ -37,7 +37,7 @@ namespace UGoap.Base
 
         public EffectValue TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
-            if(HasKey(key))
+            if(Has(key))
             {
                 var original = Get(key);
                 return new EffectValue((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);

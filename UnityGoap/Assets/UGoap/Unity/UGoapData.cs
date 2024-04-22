@@ -24,7 +24,7 @@ namespace UGoap.Unity
                     if (goal.GetConflictConditions(key, worldState).Count == 0) continue;
                     foreach (var conditionValue in goal[key])
                     {
-                        if (worldState.HasKey(key))
+                        if (worldState.Has(key))
                         {
                             if (conditionValue.Evaluate(worldState[key])) continue;
                         }
@@ -32,18 +32,18 @@ namespace UGoap.Unity
                         switch (GetPropertyType(key))
                         {
                             case Integer:
-                                if (worldState.HasKey(key))
+                                if (worldState.Has(key))
                                     heuristic += Math.Abs((int)conditionValue.Value - (int)worldState[key]);
                                 else heuristic += (int)conditionValue.Value;
                                 break;
                             case Float:
-                                if (worldState.HasKey(key))
+                                if (worldState.Has(key))
                                     heuristic +=
                                         (int)Mathf.Abs((float)conditionValue.Value - (float)worldState[key]);
                                 else heuristic += (int)conditionValue.Value;
                                 break;
                             default:
-                                if (!worldState.HasKey(key) || !conditionValue.Equals(worldState[key]))
+                                if (!worldState.Has(key) || !conditionValue.Equals(worldState[key]))
                                     heuristic += 1;
                                 break;
                         }

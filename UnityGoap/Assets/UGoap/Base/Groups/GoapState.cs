@@ -43,9 +43,11 @@ namespace UGoap.Base
             return _values[key];
         }
         
+        public object TryGetOrDefault(PropertyKey key) => Has(key) ? _values[key] : key.GetDefault();
+
         public T TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
-            if(HasKey(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
+            if(Has(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
             return defaultValue;
         }
 
@@ -81,7 +83,7 @@ namespace UGoap.Base
                 EffectValue bValue = pair.Value;
                 
                 object aux;
-                if (propertyGroup.HasKey(key))
+                if (propertyGroup.Has(key))
                 {
                     aux = bValue.Evaluate(propertyGroup[key]);
                 }
@@ -103,7 +105,7 @@ namespace UGoap.Base
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
-                if(a.HasKey(pair.Key)) propertyGroup.Remove(pair.Key);
+                if(a.Has(pair.Key)) propertyGroup.Remove(pair.Key);
             }
             return propertyGroup;
         }
@@ -127,7 +129,7 @@ namespace UGoap.Base
             if (CountRelevantPropertyKeys() != otherPg.CountRelevantPropertyKeys()) return false;
             foreach (var key in _values.Keys)
             {
-                if (!otherPg.HasKey(key)) return false;
+                if (!otherPg.Has(key)) return false;
                 if(!_values[key].Equals(otherPg._values[key])) return false;
             }
             return true;

@@ -24,4 +24,7 @@ MonoBehaviour:
   - name: 2
     value: 0
     effect: 0
+  - name: 1
+    value: 50
+    effect: 1
   _waitSeconds: 1
