@@ -282,7 +282,7 @@ namespace UGoap.Unity
             //Todo check if child is parent or what.
             int initialNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
             int finishNode = _goapQLearning.ParseToStateCode(node.Goal);
-            _goapQLearning.UpdateQValue(initialNode, node.PreviousAction.Name, reward, finishNode);
+            _goapQLearning.Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
         }
     }
 }

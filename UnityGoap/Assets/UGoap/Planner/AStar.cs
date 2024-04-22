@@ -86,7 +86,7 @@ namespace UGoap.Planner
         }
         
         /// <summary>
-        /// Update all the children of a node after a change of the parent.
+        /// Apply all the children of a node after a change of the parent.
         /// It could change the order of the nodes in the Open List.
         /// </summary>
         /// <param name="node">Parent Node</param>

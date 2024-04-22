@@ -4,6 +4,7 @@ using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UGoap.Learning
 {
@@ -26,13 +27,16 @@ namespace UGoap.Learning
         [Header("Explore")] 
         [Range(0f,1f)]
         public float ExploreChance;
-        public float ExploreValue = 10000;
+        
+        public float MinExploreValue = 0;
+        public float MaxExploreValue = 1000;
         
         [Header("Save")]
         public string FileName;
         
         private Dictionary<int, Dictionary<string, float>> _qValues = new();
         private string Path => Application.dataPath + "\\" + FileName + ".json";
+        private float _explorationValue;
 
         public void OnAfterDeserialize()
         {
@@ -59,24 +63,29 @@ namespace UGoap.Learning
             OnBeforeSerialize();
         }
         
-        public float UpdateQValue(int state, string action, float r, int newState)
+        public float Apply(int state, string action, float r, int newState)
         {
             var qValue = (1 - Alpha) * GetQValue(state, action) + Alpha * (r + Gamma * GetMaxQValue(newState));
             SetQValue(state, action, qValue);
             return qValue;
         }
-
-        private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);
         
-        public float GetQValue(int state, string action)
+        public float Get(int state, string action)
         {
             //Exploration
             var randomExplore = Random.Range(0f, 1f);
             if (randomExplore < ExploreChance)
             {
-                return ExploreValue;
+                return Random.Range(MinExploreValue, MaxExploreValue);
             }
-            
+
+            return GetQValue(state, action);
+        }
+
+        private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);
+        
+        private float GetQValue(int state, string action)
+        {
             if (_qValues.TryGetValue(state, out var actionValues))
             {
                 if (actionValues.TryGetValue(action, out var qValue))

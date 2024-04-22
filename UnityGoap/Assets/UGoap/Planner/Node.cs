@@ -68,7 +68,7 @@ namespace UGoap.Planner
         protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action);
 
         /// <summary>
-        /// Update the info related to the parent and the action that leads to this node.
+        /// Apply the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">PreviousAction that leads to this node.</param>

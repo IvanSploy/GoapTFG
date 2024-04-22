@@ -4,9 +4,9 @@ namespace UGoap.Learning
 {
     public interface IQLearning
     {
-        float UpdateQValue(int state, string action, float r, int newState);
+        float Apply(int state, string action, float r, int newState);
 
-        float GetQValue(int state, string action);
+        float Get(int state, string action);
 
         int ParseToStateCode(GoapConditions goal);
 
