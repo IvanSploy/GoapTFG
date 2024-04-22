@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   properties:
   - name: 1
-    value: 0
+    value: 1
   - name: 3
     value: False
   - name: 2

@@ -99,7 +99,7 @@ namespace UGoap.Unity
                 result = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
-                UpdateLearning(_currentPlan.CurrentNode, -stopwatch.ElapsedMilliseconds);
+                UpdateLearning(_currentPlan.CurrentNode, -(float)stopwatch.ElapsedMilliseconds / 1000f);
                 stopwatch.Restart();
             } while (result != null);
             stopwatch.Stop();
@@ -280,8 +280,8 @@ namespace UGoap.Unity
             if (node.Parent == null) return;
             
             //Todo check if child is parent or what.
-            int initialNode = _goapQLearning.ParseToStateCode(node.Goal);
-            int finishNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
+            int initialNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
+            int finishNode = _goapQLearning.ParseToStateCode(node.Goal);
             _goapQLearning.UpdateQValue(initialNode, node.PreviousAction.Name, reward, finishNode);
         }
     }

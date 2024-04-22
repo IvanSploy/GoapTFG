@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.20110083, g: 0.38679323, b: 0.52236, a: 1}
+  m_IndirectSpecularColor: {r: 0.19457176, g: 0.38160715, b: 0.5251345, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -722,13 +722,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1205379815}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.6482216, y: 0.34252626, z: -0.4082069, w: 0.5439225}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 100, y: 64.4, z: 0}
 --- !u!1001 &1781176505
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -792,10 +792,10 @@ PrefabInstance:
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goapQLearning
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f43ba6b6e2590d34fab1d4d2a1d5f91c, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _actionObjects.Array.size
@@ -819,11 +819,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 46a20c947aa133548a3e3252427a43e2, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[0].priority
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[1].priority
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[2].priority
@@ -832,11 +832,11 @@ PrefabInstance:
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[0].priorityGoal
       value: 
-      objectReference: {fileID: 11400000, guid: 9b320340b693b0345981750b992b6369, type: 2}
+      objectReference: {fileID: 11400000, guid: b9ac2a3c8dd663d49b11960a76e5de57, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[1].priorityGoal
       value: 
-      objectReference: {fileID: 11400000, guid: b9ac2a3c8dd663d49b11960a76e5de57, type: 2}
+      objectReference: {fileID: 11400000, guid: 4fbf38bfcffae9e469512a43be161e21, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.data[2].priorityGoal
       value: 
@@ -895,26 +895,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1986780076}
     m_Modifications:
-    - target: {fileID: 1951038006683569278, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
-      propertyPath: m_Size.x
-      value: 1.37
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951038006683569278, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
-      propertyPath: m_Size.y
-      value: 2.52
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951038006683569278, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
-      propertyPath: m_Center.x
-      value: -0.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951038006683569278, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
-      propertyPath: m_Center.y
-      value: 1.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1951038006683569278, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
-      propertyPath: m_Center.z
-      value: 0.46
-      objectReference: {fileID: 0}
     - target: {fileID: 3397982383887669361, guid: 01539498aca4cf74dba39e551dee0afc, type: 3}
       propertyPath: _initialState.Array.data[0].value
       value: 2

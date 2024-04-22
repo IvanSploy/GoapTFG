@@ -43,14 +43,14 @@ namespace UGoap.Planner
         {
             if (Count == 0) return null;
 
-            foreach (var node in _nodes)
+            while (_nodes.Count > 0)
             {
+                var node = _nodes.Pop();
+                ExecutedNodes.Add(node);
                 currentState = node.PreviousAction.Execute(currentState, node.Goal, _agent);
                 if (currentState == null) return null;
             }
 
-            ExecutedNodes.AddRange(_nodes);
-            _nodes.Clear();
             IsDone = true;
             return currentState;
         }
@@ -62,9 +62,9 @@ namespace UGoap.Planner
                 IsDone = true;
                 return null;
             }
-            if(CurrentNode != null) ExecutedNodes.Add(CurrentNode);
             
             CurrentNode = _nodes.Pop();
+            ExecutedNodes.Add(CurrentNode);
             currentState = CurrentNode.PreviousAction.Execute(currentState, CurrentNode.Parent.Goal, _agent);
             if(currentState != null) DebugRecord.AddRecord(currentState.ToString());
             return currentState;
