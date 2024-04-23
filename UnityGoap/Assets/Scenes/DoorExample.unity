@@ -1613,7 +1613,7 @@ PrefabInstance:
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goapQLearning
       value: 
-      objectReference: {fileID: 11400000, guid: f43ba6b6e2590d34fab1d4d2a1d5f91c, type: 2}
+      objectReference: {fileID: 11400000, guid: 8df38b134ca67434f847c8255481214d, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.size
       value: 2

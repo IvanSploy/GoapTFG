@@ -107,14 +107,7 @@ namespace UGoap.Unity
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
 
-                if (_goapQLearning)
-                {
-                    if(_goapQLearning.UseStatePrediction)
-                        UpdateLearning(_currentPlan.InitialState, _currentPlan.InitialState,
-                            _currentPlan.CurrentNode.PreviousAction,  -(float)stopwatch.ElapsedMilliseconds / 1000f);
-                    else
-                        UpdateLearning(_currentPlan.CurrentNode, -(float)stopwatch.ElapsedMilliseconds / 1000f);
-                }
+                _goapQLearning?.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
                 
                 stopwatch.Restart();
             } while (result != null);
@@ -124,11 +117,7 @@ namespace UGoap.Unity
             {
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    if(_goapQLearning.UseStatePrediction)
-                        UpdateLearning(_currentPlan.InitialState, _currentPlan.InitialState,
-                            node.PreviousAction, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
-                    else
-                        UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    _goapQLearning.UpdateLearning(node, _currentPlan.InitialState, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
                 }
             }
             
@@ -291,28 +280,6 @@ namespace UGoap.Unity
             {
                 Debug.Log(log);
             }
-        }
-        
-        //QLearning
-        private void UpdateLearning(Node node, float reward)
-        {
-            if (!_goapQLearning) return;
-            if (node.Parent == null) return;
-            
-            //Todo check if child is parent or what.
-            int initialNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
-            int finishNode = _goapQLearning.ParseToStateCode(node.Goal);
-            _goapQLearning.Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
-        }
-        
-        private void UpdateLearning(GoapState state1, GoapState state2, IGoapAction action, float reward)
-        {
-            if (!_goapQLearning) return;
-            
-            //Todo check if child is parent or what.
-            int initialNode = _goapQLearning.ParseToStateCode(state1);
-            int finishNode = _goapQLearning.ParseToStateCode(state2);
-            _goapQLearning.Apply(initialNode, action.Name, reward, finishNode);
         }
     }
 }

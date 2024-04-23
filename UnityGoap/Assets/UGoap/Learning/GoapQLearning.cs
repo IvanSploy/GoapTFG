@@ -1,14 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UGoap.Base;
+using UGoap.Planner;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace UGoap.Learning
 {
     [CreateAssetMenu(fileName = "QLearning", menuName = "Goap Items/QLearning", order = 1)]
-    public class GoapQLearning : ScriptableObject, ISerializationCallbackReceiver, IQLearning
+    public class GoapQLearning : ScriptableObject, IQLearning
     {
         [Header("Config")] 
         public Vector2 InitialRange = new(-500,500);
@@ -19,8 +22,8 @@ namespace UGoap.Learning
         public int ValueRange = 500;
         public List<UGoapPropertyManager.PropertyKey> LearningKeys;
 
-        public bool _useStatePrediction;
-        public bool UseStatePrediction => _useStatePrediction;
+        public LearningType _type;
+        public LearningType Type => _type;
 
         [Header("Reward")] 
         public float PositiveReward;
@@ -40,14 +43,19 @@ namespace UGoap.Learning
         private string Path => Application.dataPath + "\\" + FileName + ".json";
         private float _explorationValue;
 
-        public void OnAfterDeserialize()
+        public void OnEnable()
         {
+            if (!File.Exists(Path))
+            {
+                File.Create(Path).Close();
+            }
+            
             // Deserialize JSON into _qValues dictionary
             var text = File.ReadAllText(Path);
-            _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text);
+            _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text) ?? new();
         }
 
-        public void OnBeforeSerialize()
+        public void OnDisable()
         {
             // Serialize _qValues dictionary to JSON
             if (!File.Exists(Path))
@@ -62,7 +70,7 @@ namespace UGoap.Learning
         public void Clear()
         {
             _qValues.Clear();
-            OnBeforeSerialize();
+            OnDisable();
         }
 
         public float Apply(int state, string action, float r, int newState)
@@ -82,6 +90,30 @@ namespace UGoap.Learning
             }
 
             return GetQValue(state, action);
+        }
+        
+        public void UpdateLearning(Node node, GoapState initialState, float reward)
+        {
+            int initialNode;
+            int finishNode;
+            switch (Type)
+            {
+                case LearningType.State:
+                    initialNode = ParseToStateCode(initialState);
+                    finishNode = initialNode;
+                    break;
+                case LearningType.Goal:
+                    initialNode = ParseToStateCode(node.Parent.Goal);
+                    finishNode = ParseToStateCode(node.Goal);
+                    break;
+                case LearningType.Both:
+                    initialNode = ParseToStateCode(initialState, node.Parent.Goal);
+                    finishNode = ParseToStateCode(initialState, node.Goal);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
         }
 
         private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);
@@ -157,6 +189,13 @@ namespace UGoap.Learning
                 filteredState.Set(pair.Key, result);
             }
             return filteredState.GetHashCode();
+        }
+        
+        public int ParseToStateCode(GoapState state, GoapConditions goal)
+        {
+            int hashState = ParseToStateCode(state);
+            int hashGoal = ParseToStateCode(goal);
+            return hashState + hashGoal;
         }
 
         public void DebugLearning()

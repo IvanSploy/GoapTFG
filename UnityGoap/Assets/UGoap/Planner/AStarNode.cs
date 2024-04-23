@@ -57,9 +57,13 @@ namespace UGoap.Planner
 
         public int GetLearning()
         {
-            return QLearning.UseStatePrediction ?
-                -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState), PreviousAction.Name) :
-                -(int)QLearning.Get(QLearning.ParseToStateCode(Parent.Goal), PreviousAction.Name);
+            return QLearning.Type switch
+            {
+                LearningType.State => -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState), PreviousAction.Name),
+                LearningType.Goal => -(int)QLearning.Get(QLearning.ParseToStateCode(Parent.Goal), PreviousAction.Name),
+                LearningType.Both => -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState, Parent.Goal), PreviousAction.Name),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         #region Overrides

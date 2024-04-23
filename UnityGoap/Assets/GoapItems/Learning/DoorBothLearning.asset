@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
-  m_Name: DoorLearning
+  m_Name: DoorBothLearning
   m_EditorClassIdentifier: 
   InitialRange: {x: -100, y: 100}
   Alpha: 0.7
   Gamma: 0.3
   ValueRange: 1
   LearningKeys: 0400000002000000
-  _type: 0
+  _type: 2
   PositiveReward: 450
   NegativeReward: 300
   ExploreChance: 0
   MinExploreValue: 0
   MaxExploreValue: 1000
-  FileName: DoorLearning
+  FileName: DoorBothLearning
