@@ -93,7 +93,7 @@ namespace UGoap.Planner
                             //If greedy, plan is returned.
                             if (_greedy)
                             {
-                                return new Plan(_agent, child);
+                                return new Plan(initialState, _agent, child);
                             }
                         }
                         
@@ -110,14 +110,14 @@ namespace UGoap.Planner
                     {
                         DebugInfo(_current);
                         OnPlanCreated?.Invoke(_current);
-                        return new Plan(_agent, _current);
+                        return new Plan(initialState, _agent, _current);
                     }
                     
                     //If no more actions can be checked.
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         DebugInfo(_current);
-                        return new Plan(_agent, _current);
+                        return new Plan(initialState, _agent, _current);
                     }
                 }
             }

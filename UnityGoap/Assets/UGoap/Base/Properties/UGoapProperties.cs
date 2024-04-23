@@ -12,6 +12,7 @@ namespace UGoap.Base
 Coins,
 DoorState,
 HasKey,
+Indicator,
 
         }
         
@@ -21,6 +22,7 @@ HasKey,
 { PropertyKey.Coins, PropertyType.Integer },
 { PropertyKey.DoorState, PropertyType.Enum },
 { PropertyKey.HasKey, PropertyType.Boolean },
+{ PropertyKey.Indicator, PropertyType.Enum },
        
         };
     }

@@ -17,10 +17,15 @@ MonoBehaviour:
   - Coins
   - DoorState
   - HasKey
-  PropertyTypes: 03000000010000000400000000000000
+  - Indicator
+  PropertyTypes: 0300000001000000040000000000000004000000
   Enums:
   - EnumType: 2
     EnumValues:
     - Opened
     - Closed
     - Locked
+  - EnumType: 4
+    EnumValues:
+    - Blue
+    - Red

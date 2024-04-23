@@ -4,7 +4,6 @@ using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UGoap.Learning
 {
@@ -19,7 +18,10 @@ namespace UGoap.Learning
         public float Gamma = 0.9f;
         public int ValueRange = 500;
         public List<UGoapPropertyManager.PropertyKey> LearningKeys;
-        
+
+        public bool _useStatePrediction;
+        public bool UseStatePrediction => _useStatePrediction;
+
         [Header("Reward")] 
         public float PositiveReward;
         public float NegativeReward;
@@ -62,7 +64,7 @@ namespace UGoap.Learning
             _qValues.Clear();
             OnBeforeSerialize();
         }
-        
+
         public float Apply(int state, string action, float r, int newState)
         {
             var qValue = (1 - Alpha) * GetQValue(state, action) + Alpha * (r + Gamma * GetMaxQValue(newState));
@@ -138,6 +140,23 @@ namespace UGoap.Learning
                 }
             }
             return filteredGoal.GetHashCode();
+        }
+        
+        public int ParseToStateCode(GoapState state)
+        {
+            GoapState filteredState = new GoapState();
+            foreach (var pair in state)
+            {
+                if(!LearningKeys.Contains(pair.Key)) continue;
+                var result = pair.Value switch
+                {
+                    int iValue => iValue / ValueRange * ValueRange,
+                    float fValue => Mathf.Floor(fValue / ValueRange) * ValueRange,
+                    _  => pair.Value,
+                };
+                filteredState.Set(pair.Key, result);
+            }
+            return filteredState.GetHashCode();
         }
 
         public void DebugLearning()

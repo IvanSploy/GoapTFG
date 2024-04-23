@@ -5,6 +5,7 @@ namespace UGoap.Planner
 {
     public class Plan
     {
+        public GoapState InitialState { get; private set; }
         public Node CurrentNode { get; private set; }
         public IGoapEntity CurrentEntity { get; private set; }
         public bool IsDone { get; private set; }
@@ -15,8 +16,9 @@ namespace UGoap.Planner
         private readonly IGoapAgent _agent;
 
         //Constructor
-        public Plan(IGoapAgent agent, Node finalNode)
+        public Plan(GoapState initialState, IGoapAgent agent, Node finalNode)
         {
+            InitialState = initialState;
             _agent = agent;
             
             //Get nodes

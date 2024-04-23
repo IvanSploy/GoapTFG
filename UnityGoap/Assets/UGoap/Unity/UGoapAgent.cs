@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planner;
@@ -15,6 +16,7 @@ namespace UGoap.Unity
     [RequireComponent(typeof(Rigidbody))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
+        [SerializeField] private bool _runOnStart;
         [SerializeField] private UGoapState _initialState;
         [SerializeField] private GoapQLearning _goapQLearning;
         [SerializeField] private List<PriorityGoal> _goalObjects;
@@ -67,7 +69,12 @@ namespace UGoap.Unity
 
             SortGoals();
 
-            //Se crea el blackboard utilizado por las acciones de GOAP.
+            if (_runOnStart) Initialize(CurrentGoapState);
+        }
+
+        public void Initialize(GoapState initialState)
+        {
+            CurrentGoapState = initialState;
             StartCoroutine(Replan());
         }
 
@@ -99,7 +106,16 @@ namespace UGoap.Unity
                 result = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
-                UpdateLearning(_currentPlan.CurrentNode, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+
+                if (_goapQLearning)
+                {
+                    if(_goapQLearning.UseStatePrediction)
+                        UpdateLearning(_currentPlan.InitialState, _currentPlan.InitialState,
+                            _currentPlan.CurrentNode.PreviousAction,  -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                    else
+                        UpdateLearning(_currentPlan.CurrentNode, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                }
+                
                 stopwatch.Restart();
             } while (result != null);
             stopwatch.Stop();
@@ -108,7 +124,11 @@ namespace UGoap.Unity
             {
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    if(_goapQLearning.UseStatePrediction)
+                        UpdateLearning(_currentPlan.InitialState, _currentPlan.InitialState,
+                            node.PreviousAction, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    else
+                        UpdateLearning(node, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
                 }
             }
             
@@ -283,6 +303,16 @@ namespace UGoap.Unity
             int initialNode = _goapQLearning.ParseToStateCode(node.Parent.Goal);
             int finishNode = _goapQLearning.ParseToStateCode(node.Goal);
             _goapQLearning.Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
+        }
+        
+        private void UpdateLearning(GoapState state1, GoapState state2, IGoapAction action, float reward)
+        {
+            if (!_goapQLearning) return;
+            
+            //Todo check if child is parent or what.
+            int initialNode = _goapQLearning.ParseToStateCode(state1);
+            int finishNode = _goapQLearning.ParseToStateCode(state2);
+            _goapQLearning.Apply(initialNode, action.Name, reward, finishNode);
         }
     }
 }

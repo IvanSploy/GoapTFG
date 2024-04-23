@@ -15,13 +15,13 @@ namespace UGoap.Unity.ScriptableObjects
         public List<EnumConfig> Enums;
         
         
-        [ContextMenu("GenerateKeys")]
+        [ContextMenu("GenerateProperties")]
         public void GenerateKeys()
         {
             PropertyGenerator.GenerateKeys(this);
         }
         
-        [ContextMenu("GenerateValues")]
+        [ContextMenu("GenerateEnums")]
         public void GenerateValues()
         {
             PropertyGenerator.GenerateValues(this);

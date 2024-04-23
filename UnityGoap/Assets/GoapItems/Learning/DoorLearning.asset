@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialRange: {x: -100, y: 100}
   Alpha: 0.7
-  Gamma: 0.8
+  Gamma: 0.3
   ValueRange: 50
-  LearningKeys: 00000000
-  PositiveReward: 121
+  LearningKeys: 0400000002000000
+  _useStatePrediction: 1
+  PositiveReward: 450
   NegativeReward: 300
-  ExploreChance: 0
-  ExploreValue: 10000
+  ExploreChance: 1
+  MinExploreValue: 0
+  MaxExploreValue: 1000
   FileName: DoorLearning

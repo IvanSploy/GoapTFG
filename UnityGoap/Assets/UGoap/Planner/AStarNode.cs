@@ -55,7 +55,12 @@ namespace UGoap.Planner
             return CustomHeuristic?.Invoke(Goal, initialState) ?? Goal.CountConflicts(initialState);
         }
 
-        public int GetLearning() => -(int)(QLearning?.Get(QLearning.ParseToStateCode(Parent.Goal), PreviousAction.Name) ?? 0);
+        public int GetLearning()
+        {
+            return QLearning.UseStatePrediction ?
+                -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState), PreviousAction.Name) :
+                -(int)QLearning.Get(QLearning.ParseToStateCode(Parent.Goal), PreviousAction.Name);
+        }
 
         #region Overrides
         

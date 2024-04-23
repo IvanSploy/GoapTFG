@@ -578,6 +578,47 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 31.11, y: 120.192, z: 0}
+--- !u!1001 &1120717283
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5579563757910644268, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_Name
+      value: Indicator
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 55.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7393387856319817942, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 087b78eccb4365845b97dc91491e7b20, type: 3}
 --- !u!1001 &1137500861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -792,7 +833,7 @@ PrefabInstance:
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goapQLearning
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: f43ba6b6e2590d34fab1d4d2a1d5f91c, type: 2}
     - target: {fileID: 332048527092279583, guid: 873f20383a501984c89ba780ba2f3bdd, type: 3}
       propertyPath: _goalObjects.Array.size
       value: 2
@@ -973,3 +1014,4 @@ SceneRoots:
   - {fileID: 1781176505}
   - {fileID: 1137500861}
   - {fileID: 491055385}
+  - {fileID: 1120717283}
