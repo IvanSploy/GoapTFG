@@ -15,12 +15,12 @@ MonoBehaviour:
   InitialRange: {x: -100, y: 100}
   Alpha: 0.7
   Gamma: 0.3
-  ValueRange: 50
+  ValueRange: 1
   LearningKeys: 0400000002000000
   _useStatePrediction: 1
   PositiveReward: 450
   NegativeReward: 300
-  ExploreChance: 1
+  ExploreChance: 0
   MinExploreValue: 0
   MaxExploreValue: 1000
   FileName: DoorLearning

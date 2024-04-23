@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
         //Define starting simulation conditions.
         var agent = FindObjectOfType<UGoapAgent>();
         
+        //EXAMPLE 1: DOOR
         var random = Random.Range(0f, 1f);
         bool isLocked = random < 0.5f;
         
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour
         GoapState agentState = new GoapState();
         agentState[DoorState] = 1;
         agentState[Indicator] = isLocked ? 1 : 0;
+        
+        //EXAMPLE 2: ???
+        
         agent.Initialize(agentState);
     }
 }
