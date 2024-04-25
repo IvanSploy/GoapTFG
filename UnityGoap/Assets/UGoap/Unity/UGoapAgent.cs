@@ -107,17 +107,26 @@ namespace UGoap.Unity
                 if (result != null){ CurrentGoapState = result;}
                 yield return new WaitWhile(() => performingAction);
 
-                _goapQLearning?.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
-                
+                if (_goapQLearning)
+                {
+                    _goapQLearning.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                }
+                                    
                 stopwatch.Restart();
             } while (result != null);
             stopwatch.Stop();
             
             if (_goapQLearning)
             {
+                var reward = _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward;
+                var initialSign = Math.Sign(reward);
+                var decay = reward > 0 ? -_goapQLearning.PositiveRewardDecay : _goapQLearning.NegativeRewardDecay;
+                
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    _goapQLearning.UpdateLearning(node, _currentPlan.InitialState, _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward);
+                    _goapQLearning.UpdateLearning(node, _currentPlan.InitialState, reward);
+                    reward += decay;
+                    if (Math.Sign(reward) != initialSign) break;
                 }
             }
             

@@ -11,7 +11,7 @@ namespace UGoap.Planner
         public bool IsDone { get; private set; }
         
         private readonly Stack<Node> _nodes = new();
-        public List<Node> ExecutedNodes { get; private set; } = new();
+        public Stack<Node> ExecutedNodes { get; private set; } = new();
 
         private readonly IGoapAgent _agent;
 
@@ -48,7 +48,7 @@ namespace UGoap.Planner
             while (_nodes.Count > 0)
             {
                 var node = _nodes.Pop();
-                ExecutedNodes.Add(node);
+                ExecutedNodes.Push(node);
                 currentState = node.PreviousAction.Execute(currentState, node.Goal, _agent);
                 if (currentState == null) return null;
             }
@@ -66,7 +66,7 @@ namespace UGoap.Planner
             }
             
             CurrentNode = _nodes.Pop();
-            ExecutedNodes.Add(CurrentNode);
+            ExecutedNodes.Push(CurrentNode);
             currentState = CurrentNode.PreviousAction.Execute(currentState, CurrentNode.Parent.Goal, _agent);
             if(currentState != null) DebugRecord.AddRecord(currentState.ToString());
             return currentState;

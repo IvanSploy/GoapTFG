@@ -27,7 +27,9 @@ namespace UGoap.Learning
 
         [Header("Reward")] 
         public float PositiveReward;
+        public float PositiveRewardDecay;
         public float NegativeReward;
+        public float NegativeRewardDecay;
         
         [Header("Explore")] 
         [Range(0f,1f)]

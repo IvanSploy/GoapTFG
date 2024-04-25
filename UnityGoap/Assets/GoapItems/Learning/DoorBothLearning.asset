@@ -19,8 +19,10 @@ MonoBehaviour:
   LearningKeys: 0400000002000000
   _type: 2
   PositiveReward: 450
+  PositiveRewardDecay: 0
   NegativeReward: 300
-  ExploreChance: 0
+  NegativeRewardDecay: 75
+  ExploreChance: 1
   MinExploreValue: 0
   MaxExploreValue: 1000
   FileName: DoorBothLearning

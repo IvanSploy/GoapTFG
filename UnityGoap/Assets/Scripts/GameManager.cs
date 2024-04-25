@@ -5,6 +5,9 @@ using static UGoap.Base.UGoapPropertyManager.PropertyKey;
 
 public class GameManager : MonoBehaviour
 {
+    [Range(0f,1f)]
+    [SerializeField] private float _lockProbability;
+    
     // Start is called before the first frame update
     private void Start()
     {
@@ -13,7 +16,7 @@ public class GameManager : MonoBehaviour
         
         //EXAMPLE 1: DOOR
         var random = Random.Range(0f, 1f);
-        bool isLocked = random < 0.5f;
+        bool isLocked = random <= _lockProbability;
         
         GoapState doorState = new GoapState();
         doorState[DoorState] = isLocked ? 2 : 1;
