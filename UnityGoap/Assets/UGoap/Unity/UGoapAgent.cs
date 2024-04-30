@@ -2,13 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using Panda.Examples.PlayTag;
 using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
-using static UGoap.Unity.UGoapData;
 using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
@@ -23,12 +22,14 @@ namespace UGoap.Unity
         [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private Computer _computer;
         
         public string Name { get; set; }
         
         public bool active = true;
         public bool wait = true;
         public float speed = 5;
+        public float replanSeconds = 5;
         
         public bool hasPlan;
         public bool performingAction;
@@ -75,27 +76,32 @@ namespace UGoap.Unity
         public void Initialize(GoapState initialState)
         {
             CurrentGoapState = initialState;
-            StartCoroutine(Replan());
+            StartCoroutine(PlanCreator());
         }
 
-        //CORRUTINAS
-        private IEnumerator Replan()
+        private IEnumerator PlanCreator()
         {
             while (true)
             {
                 Debug.Log("Estado actual: " + CurrentGoapState);
                 var id = CreateNewPlan(CurrentGoapState);
-                if (id < 0) break;
-                
-                StartCoroutine(ExecutePlan());
-                yield return new WaitUntil(() => !hasPlan && active);
+                if (id >= 0)
+                {
+                    
+                    StartCoroutine(PlanExecute());
+                    yield return new WaitUntil(() => !hasPlan && active);
+                }
+                else
+                {
+                    Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
+                                     CurrentGoapState);
+                    yield return new WaitForSeconds(replanSeconds);
+                }
             }
-
-            Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
-                             CurrentGoapState);
         }
 
-        private IEnumerator ExecutePlan()
+        //CORRUTINAS
+        private IEnumerator PlanExecute()
         {
             hasPlan = true;
             GoapState result;
@@ -149,10 +155,7 @@ namespace UGoap.Unity
             SortGoals();
         }
 
-        public void SortGoals()
-        {
-            _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
-        }
+        private void SortGoals() => _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
 
         public int CreateNewPlan(GoapState worldGoapState)
         {
@@ -162,7 +165,7 @@ namespace UGoap.Unity
             while (i < _goals.Count && !created)
             {
                 _currentGoal = _goals[i];
-                created = CreatePlan(worldGoapState, _currentGoal, GetCustomHeuristic());
+                created = CreatePlan(worldGoapState, _currentGoal);
                 i++;
             }
 
@@ -170,19 +173,14 @@ namespace UGoap.Unity
             return i - 1;
         }
 
-        public bool CreatePlan(GoapState state, IGoapGoal goal,
-            Func<GoapConditions, GoapState, int> customHeuristic)
+        public bool CreatePlan(GoapState state, IGoapGoal goal)
         {
             var generator = new AStar(state, _goapQLearning);
             var planner = new GoapPlanner(generator, this);
             
-            //TODO improve another learnings.
-            //planner.OnNodeCreated += UpdateLearning;
-            //planner.OnPlanCreated += UpdatePlanQValue;
-            
             var plan = planner.CreatePlan(state, goal, _actions);
-            
             DebugLogs(DebugRecord.GetRecords());
+            
             if(_goapQLearning) _goapQLearning.DebugLearning();
             if (plan == null)
             {
@@ -191,11 +189,6 @@ namespace UGoap.Unity
             }
             _currentPlan = plan;
             return true;
-        }
-
-        public int Count()
-        {
-            return _currentPlan.Count;
         }
 
         //ACTIONS

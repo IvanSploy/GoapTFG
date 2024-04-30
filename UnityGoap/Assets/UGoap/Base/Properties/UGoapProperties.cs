@@ -13,6 +13,8 @@ Coins,
 DoorState,
 HasKey,
 Indicator,
+IsIt,
+PlayerNear,
 
         }
         
@@ -23,6 +25,8 @@ Indicator,
 { PropertyKey.DoorState, PropertyType.Enum },
 { PropertyKey.HasKey, PropertyType.Boolean },
 { PropertyKey.Indicator, PropertyType.Enum },
+{ PropertyKey.IsIt, PropertyType.Boolean },
+{ PropertyKey.PlayerNear, PropertyType.Boolean },
        
         };
     }
