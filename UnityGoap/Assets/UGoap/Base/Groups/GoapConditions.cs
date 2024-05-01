@@ -101,19 +101,6 @@ namespace UGoap.Base
 
         public List<ConditionValue> this[PropertyKey key] => Get(key).ToList();
         public int Count => _values.Count;
-
-        //Actions
-        public GoapConditions ApplyAction(IGoapAction action)
-        {
-            //Apply action
-            var resultGoal = ApplyEffects(action.GetEffects(this));
-            if (resultGoal == null) return null;
-            
-            //Merge new conflicts.
-            resultGoal = resultGoal.Merge(action.GetPreconditions(this));
-            
-            return resultGoal;
-        }
         
         //GOAP Utilities, A* addons.
         public bool CheckConflict(GoapState goapState)
@@ -185,7 +172,7 @@ namespace UGoap.Base
         }
 
         //Operators
-        private GoapConditions ApplyEffects(GoapEffects effects)
+        public GoapConditions ApplyEffects(GoapEffects effects)
         {
             GoapConditions result = new GoapConditions();
             

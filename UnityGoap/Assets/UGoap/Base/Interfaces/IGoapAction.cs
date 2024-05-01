@@ -6,7 +6,6 @@ namespace UGoap.Base
     public interface IGoapAction
     {
         string Name { get; }
-        bool IsCompleted { get; }
 
         //Cost related.
         int GetCost(GoapConditions goal); 
@@ -17,8 +16,9 @@ namespace UGoap.Base
         GoapConditions GetPreconditions(GoapConditions goal);
         GoapEffects GetEffects(GoapConditions goal);
         HashSet<PropertyKey> GetAffectedKeys();
-
-        //GOAP utilities.
-        GoapState Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent agent);
+        
+        //Apply
+        public bool Validate(GoapState state, IGoapAgent agent);
+        public void PerformedActions(GoapState state, IGoapAgent agent);
     }
 }

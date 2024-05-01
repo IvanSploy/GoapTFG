@@ -18,7 +18,6 @@ namespace UGoap.Unity
         public string Name { get; private set; }
         private readonly GoapConditions _preconditions = new();
         private readonly GoapEffects _effects = new();
-        public bool IsCompleted { get; } = false;
 
         //Updating data from the scriptable object.
         private void OnValidate()
@@ -32,8 +31,8 @@ namespace UGoap.Unity
         //Procedural related.
         protected abstract GoapConditions GetProceduralConditions(GoapConditions goal);
         protected abstract GoapEffects GetProceduralEffects(GoapConditions goal);
-        protected abstract bool Validate(GoapState state, UGoapAgent agent);
-        protected abstract void PerformedActions(GoapState state, UGoapAgent agent);
+        public abstract bool Validate(GoapState state, IGoapAgent agent);
+        public abstract void PerformedActions(GoapState state, IGoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        
@@ -68,35 +67,6 @@ namespace UGoap.Unity
                 }
             }
             return affectedPropertyLists;
-        }
-
-        //Used only by the Agent.
-        public GoapState Execute(GoapState currentState, GoapConditions currentGoal, IGoapAgent goapAgent)
-        {
-            if (!CheckAction(currentState, currentGoal, goapAgent)) return null;
-
-            var state = currentState + GetEffects(currentGoal);
-            PerformedActions(state, (UGoapAgent) goapAgent);
-            
-            return state;
-        }
-
-        //Internal methods.
-        private bool CheckAction(GoapState state, GoapConditions goal, IGoapAgent goapAgent)
-        {
-            if (!GetPreconditions(goal).CheckConflict(state))
-            {
-                bool valid = Validate(state, (UGoapAgent) goapAgent);
-                if (!valid)
-                {
-                    Debug.Log("La acción no ha podido completarse, plan detenido :(");
-                }
-                return valid;
-            }
-            
-            Debug.Log("El agente no cumple con las precondiciones necesarias, plan detenido :(");
-            //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
-            return false;
         }
 
         //Overrides

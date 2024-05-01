@@ -15,6 +15,8 @@ namespace UGoap.Planner
         public Node Parent { get; set; }
         public List<Node> Children { get; }
         public IGoapAction PreviousAction { get; set; }
+        public GoapConditions PreviousConditions { get; set; }
+        public GoapEffects PreviousEffects { get; set; }
         public virtual int TotalCost { get; set; }
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
 
@@ -49,12 +51,54 @@ namespace UGoap.Planner
         /// Do mixed apply for the current state and node.
         /// </summary>
         /// <param name="currentGoapState">The current state of the research.</param>
-        /// <param name="goapAction">PreviousAction applied to the node.</param>
+        /// <param name="action">PreviousAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node ApplyAction(IGoapAction goapAction)
+        public Node ApplyAction(IGoapAction action)
         {
-            var newGoal = Goal.ApplyAction(goapAction);
-            return newGoal == null ? null : CreateChildNode(newGoal, goapAction);
+           //Apply action
+           var effects = action.GetEffects(Goal);
+           var resultGoal = Goal.ApplyEffects(effects);
+           if (resultGoal == null) return null;
+           
+           //Merge new conflicts.
+           var conditions = action.GetPreconditions(Goal);
+           resultGoal = resultGoal.Merge(conditions);
+            
+            return resultGoal == null ? null : CreateChildNode(resultGoal, action, conditions, effects);
+        }
+        
+        private bool CheckAction(GoapState state, IGoapAgent agent)
+        {
+            if (!PreviousConditions.CheckConflict(state))
+            {
+                bool valid = PreviousAction.Validate(state, agent);
+                if (!valid)
+                {
+                    DebugRecord.AddRecord("La acción no ha podido completarse, plan detenido :(");
+                }
+                return valid;
+            }
+            
+            DebugRecord.AddRecord("El agente no cumple con las precondiciones necesarias, plan detenido :(");
+            //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
+            return false;
+        }
+        
+        /// <summary>
+        /// To execute an action related to a certain node.
+        /// </summary>
+        /// <param name="goapAction"></param>
+        /// <param name="state"></param>
+        /// <param name="agent"></param>
+        /// <returns></returns>
+        public GoapState ExecuteAction(GoapState state, IGoapAgent agent)
+        {
+            if (!CheckAction(state, agent)) return null;
+
+            state += PreviousEffects;
+            PreviousAction.PerformedActions(state, agent);
+            
+            return state;
         }
 
         /// <summary>
@@ -65,17 +109,19 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action);
+        protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapConditions conditions, GoapEffects effects);
 
         /// <summary>
         /// Apply the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">PreviousAction that leads to this node.</param>
-        public void Update(Node parent, IGoapAction goapAction)
+        public void Update(Node parent, IGoapAction action, GoapConditions conditions, GoapEffects effects)
         {
             //Se actualiza la accion de origen y el objetivo.
-            PreviousAction = goapAction;
+            PreviousAction = action;
+            PreviousConditions = conditions;
+            PreviousEffects = effects;
             Update(parent);
         }
 

@@ -28,11 +28,12 @@ namespace UGoap.Planner
             HCost = 0;
         }
 
-        protected override Node CreateChildNode(GoapConditions goal, IGoapAction action)
+        protected override Node CreateChildNode(GoapConditions goal, IGoapAction action, 
+            GoapConditions conditions, GoapEffects effects)
         {
             var aStarNode = UseLearning ? new AStarNode(NodeGenerator, goal, QLearning)
                 : new AStarNode(NodeGenerator, goal, CustomHeuristic);
-            aStarNode.Update(this, action);
+            aStarNode.Update(this, action, conditions, effects);
             Children.Add(aStarNode);
             return aStarNode;
         }

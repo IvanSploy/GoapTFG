@@ -49,7 +49,7 @@ namespace UGoap.Planner
             {
                 var node = _nodes.Pop();
                 ExecutedNodes.Push(node);
-                currentState = node.PreviousAction.Execute(currentState, node.Goal, _agent);
+                currentState = node.ExecuteAction(currentState, _agent);
                 if (currentState == null) return null;
             }
 
@@ -67,7 +67,7 @@ namespace UGoap.Planner
             
             CurrentNode = _nodes.Pop();
             ExecutedNodes.Push(CurrentNode);
-            currentState = CurrentNode.PreviousAction.Execute(currentState, CurrentNode.Parent.Goal, _agent);
+            currentState = CurrentNode.ExecuteAction(currentState, _agent);
             if(currentState != null) DebugRecord.AddRecord(currentState.ToString());
             return currentState;
         }

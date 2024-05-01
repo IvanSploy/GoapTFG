@@ -47,7 +47,7 @@ namespace UGoap.Unity.Actions
         }
         
         //Conditions that couldnt be resolved by the planner.
-        protected override bool Validate(GoapState state, UGoapAgent agent)
+        public override bool Validate(GoapState state, IGoapAgent agent)
         {
             var fact = UGoapWMM.Get(_resource);
             if (fact == null) return false;
@@ -69,10 +69,14 @@ namespace UGoap.Unity.Actions
             return valid;
         }
         
-        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
+        public override void PerformedActions(GoapState goapState, IGoapAgent agent)
         {
-            agent.GoGenericAction(Name, goapState, _waitSeconds);
-            
+            UGoapAgent uAgent = agent as UGoapAgent;
+            if (uAgent)
+            {
+                uAgent.GoGenericAction(Name, goapState, _waitSeconds);
+            }
+
             var fact = UGoapWMM.Get(_resource);
             
             switch (GetPropertyType(_resource))

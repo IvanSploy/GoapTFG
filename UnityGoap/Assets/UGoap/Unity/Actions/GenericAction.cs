@@ -19,14 +19,24 @@ namespace UGoap.Unity.Actions
             return null;
         }
         
-        protected override bool Validate(GoapState goapState, UGoapAgent agent)
+        public override bool Validate(GoapState goapState, IGoapAgent agent)
         {
-            return agent.ValidateGeneric(Name, goapState);
+            UGoapAgent uAgent = agent as UGoapAgent;
+            if (uAgent)
+            {
+                return uAgent.ValidateGeneric(Name, goapState);
+            }
+
+            return true;
         }
 
-        protected override void PerformedActions(GoapState goapState, UGoapAgent agent)
+        public override void PerformedActions(GoapState goapState, IGoapAgent agent)
         {
-            agent.GoGenericAction(Name, goapState, _waitSeconds);
+            UGoapAgent uAgent = agent as UGoapAgent;
+            if (uAgent)
+            {
+                uAgent.GoGenericAction(Name, goapState, _waitSeconds);
+            }
         }
     }
 }

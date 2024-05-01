@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Panda.Examples.PlayTag;
 using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planner;
@@ -22,7 +21,6 @@ namespace UGoap.Unity
         [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private Computer _computer;
         
         public string Name { get; set; }
         
