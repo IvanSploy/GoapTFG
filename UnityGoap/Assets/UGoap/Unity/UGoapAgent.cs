@@ -197,11 +197,11 @@ namespace UGoap.Unity
             {
                 case "OpenDoor":
                     UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
-                    if (entityDoor.CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, 0) == 2)
+                    if (entityDoor.CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, "Opened") == "Locked")
                     {
                         if (state != null)
                         {
-                            state.Set(UGoapPropertyManager.PropertyKey.DoorState, 2);
+                            state.Set(UGoapPropertyManager.PropertyKey.DoorState, "Locked");
                             CurrentGoapState = state;
                             accomplished = false;
                         }

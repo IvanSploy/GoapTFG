@@ -18,11 +18,11 @@ MonoBehaviour:
     value: Door
     condition: 0
   - name: 2
-    value: 1
+    value: Closed
     condition: 0
   effects:
   - name: 2
-    value: 0
+    value: Opened
     effect: 0
   - name: 1
     value: 50

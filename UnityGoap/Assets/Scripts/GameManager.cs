@@ -19,14 +19,14 @@ public class GameManager : MonoBehaviour
         bool isLocked = random <= _lockProbability;
         
         GoapState doorState = new GoapState();
-        doorState[DoorState] = isLocked ? 2 : 1;
+        doorState[DoorState] = isLocked ? "Locked" : "Closed";
         UGoapWMM.Get("Door").Object.CurrentGoapState = doorState;
         
         UGoapWMM.Get("Indicator").Object.GetComponent<MaterialSelector>().SetMaterial(isLocked ? 1 : 0);
         
         GoapState agentState = new GoapState();
-        agentState[DoorState] = 1;
-        agentState[Indicator] = isLocked ? 1 : 0;
+        agentState[DoorState] = "Closed";
+        agentState[Indicator] = isLocked ? "Red" : "Blue";
         
         //EXAMPLE 2: ???
         

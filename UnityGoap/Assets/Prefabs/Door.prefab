@@ -125,7 +125,7 @@ MonoBehaviour:
   _collider: {fileID: 1951038006683569278}
   _initialState:
   - name: 2
-    value: 1
+    value: Closed
 --- !u!1001 &7643975405558297617
 PrefabInstance:
   m_ObjectHideFlags: 0

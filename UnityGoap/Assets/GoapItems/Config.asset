@@ -20,7 +20,10 @@ MonoBehaviour:
   - Indicator
   - IsIt
   - PlayerNear
-  PropertyTypes: 03000000010000000400000000000000040000000000000000000000
+  - DestinationX
+  - DestinationZ
+  - MoveState
+  PropertyTypes: 03000000010000000400000000000000040000000000000000000000010000000100000004000000
   Enums:
   - EnumType: 2
     EnumValues:
@@ -31,3 +34,8 @@ MonoBehaviour:
     EnumValues:
     - Blue
     - Red
+  - EnumType: 9
+    EnumValues:
+    - Ready
+    - Set
+    - Required
