@@ -26,7 +26,7 @@ namespace UGoap.Base
                 PropertyType.Integer => value is int,
                 PropertyType.Float => value is float,
                 PropertyType.String => value is string,
-                PropertyType.Enum => value is int,
+                PropertyType.Enum => value is string,
                 _ => false
             };
             if (!valid)

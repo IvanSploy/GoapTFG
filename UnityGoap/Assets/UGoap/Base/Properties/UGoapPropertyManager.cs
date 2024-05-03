@@ -14,7 +14,7 @@ namespace UGoap.Base
             Integer = 1,
             Float = 2,
             String = 3,
-            Enum = 4
+            Enum = 4,
         }
         
         [Serializable]
@@ -77,8 +77,8 @@ namespace UGoap.Base
                         result = false;
                     }
                     break;
+                //case PropertyType.Enum:
                 case PropertyType.Integer:
-                case PropertyType.Enum:
                     try
                     {
                         result = int.Parse(value);
@@ -98,6 +98,7 @@ namespace UGoap.Base
                         result = 0f;
                     }
                     break;
+                case PropertyType.Enum:
                 case PropertyType.String:
                 default:
                     result = value;
