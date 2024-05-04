@@ -16,3 +16,6 @@ MonoBehaviour:
   - name: 5
     value: False
     condition: 0
+  - name: 6
+    value: True
+    condition: 0

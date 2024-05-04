@@ -12,13 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: SetPlayerDestination
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 2
   preconditions:
   - name: 9
     value: Ready
     condition: 0
+  - name: 5
+    value: True
+    condition: 0
   effects:
   - name: 9
     value: Set
+    effect: 0
+  - name: 6
+    value: True
     effect: 0
   _waitSeconds: 0

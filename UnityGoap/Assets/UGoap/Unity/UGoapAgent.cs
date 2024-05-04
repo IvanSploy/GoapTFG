@@ -212,6 +212,10 @@ namespace UGoap.Unity
                     break;
                 case "GetKey":
                     break;
+                case "Tag":
+                    var isIt = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, true);
+                    accomplished = !isIt;
+                    break;
                 default:
                     break;
             }
