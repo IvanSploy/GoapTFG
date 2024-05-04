@@ -96,7 +96,7 @@ namespace UGoap.Planner
             if (!CheckAction(state, agent)) return null;
 
             state += PreviousEffects;
-            PreviousAction.PerformedActions(state, agent);
+            PreviousAction.Execute(state, agent);
             
             return state;
         }

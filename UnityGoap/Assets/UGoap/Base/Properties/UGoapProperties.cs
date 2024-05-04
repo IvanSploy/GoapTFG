@@ -15,6 +15,9 @@ HasKey,
 Indicator,
 IsIt,
 PlayerNear,
+DestinationX,
+DestinationZ,
+MoveState,
 
         }
         
@@ -27,6 +30,9 @@ PlayerNear,
 { PropertyKey.Indicator, PropertyType.Enum },
 { PropertyKey.IsIt, PropertyType.Boolean },
 { PropertyKey.PlayerNear, PropertyType.Boolean },
+{ PropertyKey.DestinationX, PropertyType.Float },
+{ PropertyKey.DestinationZ, PropertyType.Float },
+{ PropertyKey.MoveState, PropertyType.Enum },
        
         };
     }

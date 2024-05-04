@@ -36,18 +36,14 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
         
-        public override bool Validate(GoapState state, IGoapAgent agent)
+        public override bool ProceduralValidate(GoapState state, UGoapAgent agent)
         {
             return true;
         }
 
-        public override void PerformedActions(GoapState goapState, IGoapAgent agent)
+        public override void ProceduralExecute(GoapState goapState, UGoapAgent agent)
         {
-            UGoapAgent uAgent = agent as UGoapAgent;
-            if (uAgent)
-            {   
-                uAgent.GoToTarget(goapState.TryGetOrDefault(_targetKey, ""), _speedFactor);
-            }
+            agent.GoTo(goapState.TryGetOrDefault(_targetKey, ""), _speedFactor);
         }
 
         public override int GetCost(GoapConditions goal)

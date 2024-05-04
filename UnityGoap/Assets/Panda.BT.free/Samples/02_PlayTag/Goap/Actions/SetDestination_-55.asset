@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: SetPlayerDestination
+  m_Name: SetDestination_-55
   m_EditorClassIdentifier: 
   _cost: 1
   preconditions:
@@ -18,6 +18,12 @@ MonoBehaviour:
     value: Ready
     condition: 0
   effects:
+  - name: 7
+    value: -5
+    effect: 0
+  - name: 8
+    value: 5
+    effect: 0
   - name: 9
     value: Set
     effect: 0

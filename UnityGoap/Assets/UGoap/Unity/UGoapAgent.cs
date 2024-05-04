@@ -7,6 +7,7 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
@@ -23,6 +24,7 @@ namespace UGoap.Unity
         [SerializeField] private Rigidbody _rigidbody;
         
         public string Name { get; set; }
+        public bool PerformingAction { get; set; }
         
         public bool active = true;
         public bool wait = true;
@@ -30,7 +32,6 @@ namespace UGoap.Unity
         public float replanSeconds = 5;
         
         public bool hasPlan;
-        public bool performingAction;
 
         //Agent base related
         private Plan _currentPlan;
@@ -109,7 +110,7 @@ namespace UGoap.Unity
             {
                 result = _currentPlan.PlanStep(CurrentGoapState);
                 if (result != null){ CurrentGoapState = result;}
-                yield return new WaitWhile(() => performingAction);
+                yield return new WaitWhile(() => PerformingAction);
 
                 if (_goapQLearning)
                 {
@@ -231,6 +232,32 @@ namespace UGoap.Unity
                     UGoapEntity entityKey = UGoapWMM.Get("Key").Object;
                     Destroy(entityKey.gameObject);
                     break;
+                case "SetPlayerDestination":
+                    UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, entityPlayer.transform.position.x);
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, entityPlayer.transform.position.z);
+                    break;
+                /*case "SetDestination55":
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, 5f);
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, 5f);
+                    break;
+                case "SetDestination-55":
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, -5f);
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, 5f);
+                    break;
+                case "SetDestination5-5":
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, 5f);
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, -5f);
+                    break;
+                case "SetDestination-5-5":
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, -5f);
+                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, -5f);
+                    break;*/
+                case "MoveToDestination":
+                    var x = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f);
+                    var z = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f);
+                    GoTo(new Vector3(x, transform.position.y, z), 1);
+                    return; //Wait involves modification of performing action.
                 default:
                     break;
             }
@@ -238,15 +265,19 @@ namespace UGoap.Unity
             if(wait) StartCoroutine(Wait(seconds));
         }
         
-        public void GoToTarget(string target, float speedFactor)
+        public void GoTo(string target, float speedFactor)
         {
             StartCoroutine(Movement(speed * speedFactor, UGoapWMM.Get(target).Position));
+        }
+        
+        public void GoTo(Vector3 target, float speedFactor)
+        {
+            StartCoroutine(Movement(speed * speedFactor, target));
         }
         
         //COROUTINES
         private IEnumerator Movement(float vel, Vector3 target)
         {
-            performingAction = true;
             bool reached = false;
             while (!reached)
             {
@@ -262,15 +293,15 @@ namespace UGoap.Unity
                 yield return null;
             }
 
-            performingAction = false;
+            PerformingAction = false;
         }
 
         
         IEnumerator Wait(float seconds)
         {
-            performingAction = true;
+            PerformingAction = true;
             yield return new WaitForSeconds(seconds);
-            performingAction = false;
+            PerformingAction = false;
         }
         
         //Debug
@@ -280,6 +311,25 @@ namespace UGoap.Unity
             {
                 Debug.Log(log);
             }
+        }
+
+        private void Update()
+        {
+            UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
+            bool near = Vector3.Distance(entityPlayer.transform.position, transform.position) <= 3f;
+            CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.PlayerNear, near);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            var tag = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
+            tag = !tag;
+            CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.IsIt, tag);
+        }
+        
+        private void OnTriggerExit(Collider other)
+        {
+            
         }
     }
 }

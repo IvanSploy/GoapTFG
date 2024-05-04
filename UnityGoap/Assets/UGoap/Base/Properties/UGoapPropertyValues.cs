@@ -8,6 +8,7 @@ namespace UGoap.Base
         {
             { PropertyKey.DoorState, new [] { "Opened", "Closed", "Locked", }},
 { PropertyKey.Indicator, new [] { "Blue", "Red", }},
+{ PropertyKey.MoveState, new [] { "Ready", "Set", "Required", }},
 
         };
     }

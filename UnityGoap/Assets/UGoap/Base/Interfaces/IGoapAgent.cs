@@ -10,34 +10,39 @@ namespace UGoap.Base
     public interface IGoapAgent : IGoapEntity
     {
         /// <summary>
+        /// If agent is performing action.
+        /// </summary>
+        bool PerformingAction { get; set; }
+        
+        /// <summary>
         /// Add posible action to the agent.
         /// </summary>
         /// <param name="action">Action to be added</param>
-        public void AddAction(IGoapAction action);
+        void AddAction(IGoapAction action);
 
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
         /// <param name="actionList">Actions to be added</param>
-        public void AddActions(List<IGoapAction> actionList);
+        void AddActions(List<IGoapAction> actionList);
         
         /// <summary>
         /// Add goal to the agent.
         /// </summary>
         /// <param name="goal"></param>
-        public void AddGoal(IGoapGoal goal);
+        void AddGoal(IGoapGoal goal);
         
         /// <summary>
         /// Add goals to the agent.
         /// </summary>
         /// <param name="goalList"></param>
-        public void AddGoals(List<IGoapGoal> goalList);
+        void AddGoals(List<IGoapGoal> goalList);
 
         /// <summary>
         /// Manages to create a new plan for the Agent.
         /// </summary>
         /// <param name="worldGoapState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        public int CreateNewPlan(GoapState worldGoapState);
+        int CreateNewPlan(GoapState worldGoapState);
     }
 }

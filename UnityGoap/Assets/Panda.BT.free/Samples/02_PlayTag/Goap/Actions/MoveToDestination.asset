@@ -13,6 +13,12 @@ MonoBehaviour:
   m_Name: MoveToDestination
   m_EditorClassIdentifier: 
   _cost: 1
-  preconditions: []
-  effects: []
-  _waitSeconds: 1
+  preconditions:
+  - name: 9
+    value: Set
+    condition: 0
+  effects:
+  - name: 9
+    value: Required
+    effect: 0
+  _waitSeconds: 0

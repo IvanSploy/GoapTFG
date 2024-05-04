@@ -9,16 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: SetPlayerDestination
+  m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
+  m_Name: InitialTagged
   m_EditorClassIdentifier: 
-  _cost: 1
-  preconditions:
+  properties:
+  - name: 5
+    value: True
   - name: 9
     value: Ready
-    condition: 0
-  effects:
-  - name: 9
-    value: Set
-    effect: 0
-  _waitSeconds: 0
