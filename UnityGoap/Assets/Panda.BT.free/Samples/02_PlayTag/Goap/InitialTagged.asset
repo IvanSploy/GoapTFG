@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: InitialTagged
   m_EditorClassIdentifier: 
   properties:
-  - name: 5
+  - name: IsIt
     value: True
-  - name: 9
-    value: Ready

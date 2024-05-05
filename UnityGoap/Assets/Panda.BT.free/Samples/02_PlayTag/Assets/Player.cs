@@ -13,6 +13,7 @@ namespace Panda.Examples.PlayTag
         void Start()
         {
             cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+            Update();
         }
 
         // Update is called once per frame

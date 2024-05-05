@@ -6,7 +6,7 @@ using static UGoap.Base.BaseTypes;
 using static UGoap.Base.UGoapPropertyManager;
 
 [RequireComponent(typeof(IGoapAgent))]
-public class DiscreteMovementGenerator : MonoBehaviour
+public class DiscreteDestinationGenerator : MonoBehaviour
 {
     public Vector3 PositionA;
     public Vector3 PositionB;
@@ -72,14 +72,14 @@ public class DiscreteMovementGenerator : MonoBehaviour
         return (initial, distance);
     }
 
-    private MainAction CreateAction(string actionName, float x, float y, float z)
+    private IGoapAction CreateAction(string actionName, float x, float y, float z)
     {
         var effects = new GoapEffects(_effects);
         
-        if(PropertyX != 0) effects.Set(PropertyX, EffectType.Set, x);
-        if(PropertyX != 0) effects.Set(PropertyY, EffectType.Set, y);
-        if(PropertyX != 0) effects.Set(PropertyZ, EffectType.Set, z);
+        if(PropertyX != PropertyKey.None) effects.Set(PropertyX, EffectType.Set, x);
+        if(PropertyY != PropertyKey.None) effects.Set(PropertyY, EffectType.Set, y);
+        if(PropertyZ != PropertyKey.None) effects.Set(PropertyZ, EffectType.Set, z);
             
-        return new MainAction(actionName, _conditions, effects, 0);
+        return new SetDestinationAction(actionName, _conditions, effects);
     }
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: InitialUnTagged
   m_EditorClassIdentifier: 
   properties:
-  - name: 5
-    value: False
-  - name: 9
-    value: Ready
+  - name: Indicator
+    value: Blue
+  - name: DestinationZ
+    value: 0

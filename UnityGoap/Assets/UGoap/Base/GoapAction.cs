@@ -7,8 +7,8 @@ namespace UGoap.Base
     {
         //Fields
         public string Name { get; private set; }
-        private readonly GoapConditions _preconditions = new();
-        private readonly GoapEffects _effects = new();
+        protected readonly GoapConditions _preconditions = new();
+        protected readonly GoapEffects _effects = new();
         private int _cost = 1;
 
         //Updating data from the scriptable object.

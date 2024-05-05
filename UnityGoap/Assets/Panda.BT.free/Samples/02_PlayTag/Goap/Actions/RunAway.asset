@@ -15,13 +15,13 @@ MonoBehaviour:
   _cost: 1
   preconditions:
   - name: MoveState
-    value: Ready
+    value: Required
     condition: 0
   effects:
   - name: PlayerNear
     value: False
     effect: 0
   - name: MoveState
-    value: Set
+    value: Ready
     effect: 0
   _waitSeconds: 0
