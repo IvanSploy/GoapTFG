@@ -28,12 +28,12 @@ namespace UGoap.Unity.Actions
             switch (GetPropertyType(_resource))
             {
                 case PropertyType.Integer:
-                    var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
+                    var ivalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0);
                     var icount = (int)Math.Min(_count, ivalue);
                     proceduralEffects.Set(_resource, EffectType.Add, icount);
                     break;
                 case PropertyType.Float:
-                    var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
+                    var fvalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0f);
                     var fcount = Math.Min(_count, fvalue);
                     proceduralEffects.Set(_resource, EffectType.Add, fcount);
                     break;
@@ -55,11 +55,11 @@ namespace UGoap.Unity.Actions
             switch (GetPropertyType(_resource))
             {
                 case PropertyType.Integer:
-                    var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
+                    var ivalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0);
                     if (ivalue <= 0) valid = false;
                     break;
                 case PropertyType.Float:
-                    var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
+                    var fvalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0f);
                     if (fvalue <= 0) valid = false;
                     break;
                 default:
@@ -69,23 +69,23 @@ namespace UGoap.Unity.Actions
             return valid;
         }
         
-        public override void ProceduralExecute(GoapState goapState, UGoapAgent agent)
+        public override void ProceduralExecute(ref GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(Name, goapState, _waitSeconds);
+            agent.GoGenericAction(Name, ref goapState, _waitSeconds);
 
             var fact = UGoapWMM.Get(_resource);
             
             switch (GetPropertyType(_resource))
             {
                 case PropertyType.Integer:
-                    var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
+                    var ivalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0);
                     var icount = (int)Math.Min(_count, ivalue);
-                    fact.Object.CurrentGoapState.Set(_resource, ivalue - icount);
+                    fact.Object.CurrentState.Set(_resource, ivalue - icount);
                     break;
                 case PropertyType.Float:
-                    var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
+                    var fvalue = fact.Object.CurrentState.TryGetOrDefault(_resource, 0f);
                     var fcount = (int)Math.Min(_count, fvalue);
-                    fact.Object.CurrentGoapState.Set(_resource, fvalue - fcount);
+                    fact.Object.CurrentState.Set(_resource, fvalue - fcount);
                     break;
                 default:
                     throw new 

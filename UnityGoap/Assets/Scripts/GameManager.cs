@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         
         GoapState doorState = new GoapState();
         doorState[DoorState] = isLocked ? "Locked" : "Closed";
-        UGoapWMM.Get("Door").Object.CurrentGoapState = doorState;
+        UGoapWMM.Get("Door").Object.CurrentState = doorState;
         
         UGoapWMM.Get("Indicator").Object.GetComponent<MaterialSelector>().SetMaterial(isLocked ? 1 : 0);
         

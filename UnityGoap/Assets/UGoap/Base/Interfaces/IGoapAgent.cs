@@ -15,6 +15,11 @@ namespace UGoap.Base
         bool PerformingAction { get; set; }
         
         /// <summary>
+        /// If current action executed has been interrupted.
+        /// </summary>
+        bool Interrupted { get; set; }
+        
+        /// <summary>
         /// Add posible action to the agent.
         /// </summary>
         /// <param name="action">Action to be added</param>
@@ -44,5 +49,15 @@ namespace UGoap.Base
         /// <param name="worldGoapState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
         int CreateNewPlan(GoapState worldGoapState);
+
+        /// <summary>
+        /// Completes current action.
+        /// </summary>
+        void Complete();
+
+        /// <summary>
+        /// Tries to stop current plan execution and waits x seconds.
+        /// </summary>
+        void Interrupt(float seconds = 0f);
     }
 }

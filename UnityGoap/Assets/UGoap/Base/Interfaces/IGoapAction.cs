@@ -19,6 +19,6 @@ namespace UGoap.Base
         
         //Apply
         public bool Validate(GoapState state, IGoapAgent agent);
-        public void Execute(GoapState state, IGoapAgent agent);
+        public void Execute(ref GoapState state, IGoapAgent agent);
     }
 }

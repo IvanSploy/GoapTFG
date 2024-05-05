@@ -52,9 +52,12 @@ namespace UGoap.Unity.Actions
             return true;
         }
 
-        public override void Execute(GoapState goapState, IGoapAgent agent)
+        public override void Execute(ref GoapState goapState, IGoapAgent agent)
         {
-            
+            if (agent is UGoapAgent uAgent)
+            {
+                uAgent.GoGenericAction(Name, ref goapState);
+            }
         }
     }
 }

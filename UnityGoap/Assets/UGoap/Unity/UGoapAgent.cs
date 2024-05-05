@@ -22,94 +22,108 @@ namespace UGoap.Unity
         [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
-        private bool Colliding = false;
-        
+        [SerializeField] private Renderer _renderer;
+
         public string Name { get; set; }
         public bool PerformingAction { get; set; }
+        public bool Interrupted { get; set; }
         
-        public bool active = true;
-        public bool wait = true;
-        public float speed = 5;
-        public float replanSeconds = 5;
-        
-        public bool hasPlan;
+        [FormerlySerializedAs("active")] public bool Active = true;
+        [FormerlySerializedAs("speed")] public float Speed = 5;
+        [FormerlySerializedAs("replanSeconds")] public float ReplanSeconds = 5;
+        [FormerlySerializedAs("hasPlan")] public bool HasPlan;
 
         //Agent base related
         private Plan _currentPlan;
         private readonly List<IGoapGoal> _goals = new();
         private readonly List<IGoapAction> _actions = new();
         private IGoapGoal _currentGoal;
+        private float _remainingSeconds;
+        private Coroutine _currentActionRoutine;
         
-        public GoapState CurrentGoapState { get; set; }
+        //States of agent
+        public GoapState CurrentState { get; set; }
+        private GoapState NextState;
+        private bool _colliding;
 
         // Start is called before the first frame update
-
         private void Awake()
         {
-            _rigidbody ??= GetComponent<Rigidbody>(); 
+            if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
+            if(!_renderer) _renderer = GetComponentInChildren<Renderer>();
             gameObject.layer = LayerMask.NameToLayer("Agent");
             
-            CurrentGoapState = _initialState != null ? _initialState.Create() : new();
+            CurrentState = _initialState != null ? _initialState.Create() : new();
+            UpdateTag();
         }
 
         void Start()
         {
-            if (_runOnStart) Initialize(CurrentGoapState);
+            if (_runOnStart) Initialize(CurrentState);
         }
 
         public void Initialize(GoapState initialState)
         {
-            CurrentGoapState = initialState;
+            CurrentState = initialState;
             
-            //OBJETIVOS
+            //GOALS
             foreach (var goal in _goalObjects)
             {
                 _goals.Add(goal.Create());
             }
             SortGoals();
 
-            //ACCIONES
+            //ACTIONS
             foreach (var action in _actionObjects)
             {
                 _actions.Add(action);
             }
             
-            StartCoroutine(PlanCreator());
+            StartCoroutine(PlanGenerator());
         }
 
-        private IEnumerator PlanCreator()
+        //COROUTINES
+        private IEnumerator PlanGenerator()
         {
             while (true)
             {
-                Debug.Log("Estado actual: " + CurrentGoapState);
-                var id = CreateNewPlan(CurrentGoapState);
+                Debug.Log("Estado actual: " + CurrentState);
+                var id = CreateNewPlan(CurrentState);
+                //If plan found.
                 if (id >= 0)
                 {
-                    
-                    StartCoroutine(PlanExecute());
-                    yield return new WaitUntil(() => !hasPlan && active);
+                    StartCoroutine(PlanExecution());
+                    yield return new WaitUntil(() => !HasPlan && Active);
                 }
+                //If no plan found.
                 else
                 {
-                    Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " +
-                                     CurrentGoapState);
-                    yield return new WaitForSeconds(replanSeconds);
+                    Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
+                    _remainingSeconds = ReplanSeconds;
+                    while (_remainingSeconds > 0)
+                    {
+                        _remainingSeconds -= Time.deltaTime;
+                        yield return null;
+                    }
                 }
             }
         }
 
-        //CORRUTINAS
-        private IEnumerator PlanExecute()
+        private IEnumerator PlanExecution()
         {
-            hasPlan = true;
-            GoapState result;
+            Interrupted = false;
+            HasPlan = true;
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
             {
-                result = _currentPlan.PlanStep(CurrentGoapState);
-                if (result != null){ CurrentGoapState = result;}
-                yield return new WaitWhile(() => PerformingAction);
+                PerformingAction = true;
+                NextState = _currentPlan.PlanStep(CurrentState);
+                if (NextState != null)
+                {
+                    yield return new WaitWhile(() => PerformingAction);
+                    if(!Interrupted) CurrentState = NextState;
+                }
 
                 if (_goapQLearning)
                 {
@@ -117,7 +131,7 @@ namespace UGoap.Unity
                 }
                                     
                 stopwatch.Restart();
-            } while (result != null);
+            } while (NextState != null && !Interrupted);
             stopwatch.Stop();
             
             if (_goapQLearning)
@@ -134,7 +148,7 @@ namespace UGoap.Unity
                 }
             }
             
-            hasPlan = false;
+            HasPlan = false;
         }
 
         //INTERFACE CLASSES
@@ -188,6 +202,52 @@ namespace UGoap.Unity
             _currentPlan = plan;
             return true;
         }
+        
+        public void Complete()
+        {
+            PerformingAction = false;
+        }
+        
+        public void Interrupt(float seconds = 0f)
+        {
+            Interrupted = false;
+            
+            //If current plan
+            if (HasPlan)
+            {
+                //If already accomplished
+                if (_currentGoal.IsGoal(CurrentState))
+                {
+                    Interrupted = true;
+                    _currentPlan.Interrupt(true);
+                }
+                
+                //If no longer accomplish the conditions for the current goal
+                else if (!_currentPlan.CurrentNode.IsGoal(CurrentState))
+                {
+                    Interrupted = true;
+                    _currentPlan.Interrupt(false);
+                }
+            }
+            //If no current plan
+            else
+            {
+                _remainingSeconds = 0f;
+            }
+
+            //If interruption worked
+            if (Interrupted)
+            {
+                PerformingAction = false;
+                StopAction(_currentActionRoutine);
+                CurrentState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
+                if(seconds > 0)
+                {
+                    PerformingAction = true;
+                    StartAction(Wait(seconds));
+                }
+            }
+        }
 
         //ACTIONS
         public bool ValidateGeneric(string actionName, GoapState state)
@@ -197,9 +257,9 @@ namespace UGoap.Unity
             {
                 case "OpenDoor":
                     UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
-                    if (entityDoor.CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, "Opened") == "Locked")
+                    if (entityDoor.CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, "Opened") == "Locked")
                     {
-                        CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.DoorState, "Locked");
+                        CurrentState.Set(UGoapPropertyManager.PropertyKey.DoorState, "Locked");
                         accomplished = false;
                     }
                     break;
@@ -208,10 +268,10 @@ namespace UGoap.Unity
                 case "GetKey":
                     break;
                 case "Tag":
-                    var isIt = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, true);
-                    if (isIt && !Colliding)
+                    var isIt = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, true);
+                    if (isIt && !_colliding)
                     {
-                        CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
+                        CurrentState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
                         accomplished = false;
                     }
                     break;
@@ -222,7 +282,7 @@ namespace UGoap.Unity
             return accomplished;
         }
         
-        public void GoGenericAction(string actionName, GoapState state, float seconds)
+        public void GoGenericAction(string actionName, ref GoapState state, float seconds = 0f)
         {
             switch (actionName)
             {
@@ -240,46 +300,34 @@ namespace UGoap.Unity
                     state.Set(UGoapPropertyManager.PropertyKey.DestinationX, entityPlayer.transform.position.x);
                     state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, entityPlayer.transform.position.z);
                     break;
-                /*case "SetDestination55":
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, 5f);
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, 5f);
-                    break;
-                case "SetDestination-55":
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, -5f);
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, 5f);
-                    break;
-                case "SetDestination5-5":
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, 5f);
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, -5f);
-                    break;
-                case "SetDestination-5-5":
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, -5f);
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, -5f);
-                    break;*/
                 case "MoveToDestination":
                     var x = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f);
                     var z = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f);
                     GoTo(new Vector3(x, transform.position.y, z), 1);
                     return; //Wait involves modification of performing action.
+                case "Tag":
+                    SetTag(false);
+                    break;
                 default:
                     break;
             }
             
-            if(wait) StartCoroutine(Wait(seconds));
+            if(seconds > 0) StartAction(Wait(seconds));
+            else Complete();
         }
         
         public void GoTo(string target, float speedFactor)
         {
-            StartCoroutine(Movement(speed * speedFactor, UGoapWMM.Get(target).Position));
+            GoTo(UGoapWMM.Get(target).Position, Speed * speedFactor);
         }
         
         public void GoTo(Vector3 target, float speedFactor)
         {
-            StartCoroutine(Movement(speed * speedFactor, target));
+            StartAction(Movement(target, Speed * speedFactor));
         }
         
         //COROUTINES
-        private IEnumerator Movement(float vel, Vector3 target)
+        private IEnumerator Movement(Vector3 target, float vel)
         {
             bool reached = false;
             while (!reached)
@@ -296,18 +344,31 @@ namespace UGoap.Unity
                 yield return null;
             }
 
-            PerformingAction = false;
+            Complete();
         }
-
         
         IEnumerator Wait(float seconds)
         {
-            PerformingAction = true;
             yield return new WaitForSeconds(seconds);
-            PerformingAction = false;
+            Complete();
         }
         
         //Debug
+        private Coroutine StartAction(IEnumerator routine)
+        {
+            _currentActionRoutine = StartCoroutine(routine);
+            return _currentActionRoutine;
+        }
+        
+        private void StopAction(Coroutine routine)
+        {
+            if (routine != null)
+            {
+                StopCoroutine(routine);
+                _currentActionRoutine = null;
+            }
+        }
+        
         private void DebugLogs(List<string> logs)
         {
             foreach (var log in logs)
@@ -316,29 +377,48 @@ namespace UGoap.Unity
             }
         }
 
+        private void UpdateTag()
+        {
+            bool isIt = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
+            SetTag(isIt);
+        }
+
+        private void SetTag(bool isIt)
+        {
+            _renderer.material.color = isIt ? Color.red : Color.cyan;
+        }
+
         private void Update()
         {
             UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
             bool near = Vector3.Distance(entityPlayer.transform.position, transform.position) <= 3f;
-            CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.PlayerNear, near);
+            bool previousNear = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.PlayerNear, false);
+
+            if (near != previousNear)
+            {
+                CurrentState.Set(UGoapPropertyManager.PropertyKey.PlayerNear, near);
+                if(near) Interrupt();
+            }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            var tag = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
+            var tag = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
             tag = !tag;
-            CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.IsIt, tag);
-            Colliding = true;
+            CurrentState.Set(UGoapPropertyManager.PropertyKey.IsIt, tag);
+            UpdateTag();
+            _colliding = true;
+            Interrupt(1f);
         }
 
         private void OnCollisionStay(Collision other)
         {
-            Colliding = true;
+            _colliding = true;
         }
 
         private void OnTriggerExit(Collider other)
         {
-            Colliding = false;
+            _colliding = false;
         }
     }
 }

@@ -91,14 +91,16 @@ namespace UGoap.Planner
         /// <param name="state"></param>
         /// <param name="agent"></param>
         /// <returns></returns>
-        public GoapState ExecuteAction(GoapState state, IGoapAgent agent)
+        public void ExecuteAction(ref GoapState state, IGoapAgent agent)
         {
-            if (!CheckAction(state, agent)) return null;
+            if (!CheckAction(state, agent))
+            {
+                state = null;
+                return;
+            }
 
             state += PreviousEffects;
-            PreviousAction.Execute(state, agent);
-            
-            return state;
+            PreviousAction.Execute(ref state, agent);
         }
 
         /// <summary>

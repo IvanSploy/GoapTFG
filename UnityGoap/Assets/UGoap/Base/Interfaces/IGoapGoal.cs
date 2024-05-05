@@ -12,6 +12,6 @@
         
         //Methods
         bool IsEmpty();
-        bool IsReached(GoapState state);
+        bool IsGoal(GoapState state);
     }
 }

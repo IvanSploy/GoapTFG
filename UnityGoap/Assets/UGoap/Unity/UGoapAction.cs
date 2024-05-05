@@ -43,18 +43,17 @@ namespace UGoap.Unity
             return true;
         }
         
-        public void Execute(GoapState state, IGoapAgent agent)
+        public void Execute(ref GoapState state, IGoapAgent agent)
         {
             UGoapAgent uAgent = agent as UGoapAgent;
             if (uAgent)
             {
-                agent.PerformingAction = true;
-                ProceduralExecute(state, uAgent);
+                ProceduralExecute(ref state, uAgent);
             }
         }
         
         public abstract bool ProceduralValidate(GoapState state, UGoapAgent agent);
-        public abstract void ProceduralExecute(GoapState state, UGoapAgent agent);
+        public abstract void ProceduralExecute(ref GoapState state, UGoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        

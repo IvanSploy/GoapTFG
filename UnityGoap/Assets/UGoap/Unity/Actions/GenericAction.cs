@@ -24,9 +24,9 @@ namespace UGoap.Unity.Actions
             return agent.ValidateGeneric(Name, goapState);
         }
 
-        public override void ProceduralExecute(GoapState goapState, UGoapAgent agent)
+        public override void ProceduralExecute(ref GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(Name, goapState, _waitSeconds);
+            agent.GoGenericAction(Name, ref goapState, _waitSeconds);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace UGoap.Unity
         
         public static MemoryFact<Vector3, UGoapEntity> Get(PropertyKey key)
         {
-            return WMemory.Find(memoryFact => memoryFact.Object.CurrentGoapState.Has(key));
+            return WMemory.Find(memoryFact => memoryFact.Object.CurrentState.Has(key));
         }
         
         public static void Update(string name, UGoapEntity ge)

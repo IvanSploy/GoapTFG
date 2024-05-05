@@ -29,7 +29,7 @@ namespace UGoap.Unity
         
         //GOAP Utilites
         public bool IsEmpty() => Conditions.IsEmpty();
-        public bool IsReached (GoapState state) => !Conditions.CheckConflict(state);
+        public bool IsGoal (GoapState state) => !Conditions.CheckConflict(state);
         public bool Has(PropertyKey key) => Conditions.Has(key);
         public List<ConditionValue> TryGetOrDefault(PropertyKey key, object defaultValue) => 
             Conditions.TryGetOrDefault(key, defaultValue);

@@ -23,7 +23,7 @@ namespace UGoap.Base
         protected abstract GoapConditions GetProceduralConditions(GoapConditions goal);
         protected abstract GoapEffects GetProceduralEffects(GoapConditions goal);
         public abstract bool Validate(GoapState state, IGoapAgent agent);
-        public abstract void Execute(GoapState state, IGoapAgent agent);
+        public abstract void Execute(ref GoapState state, IGoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        

@@ -33,7 +33,7 @@ namespace UGoap.Planner
         public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<IGoapAction> actions)
         {
             _goal = goal;
-            if (goal.IsReached(initialState)) return null;
+            if (goal.IsGoal(initialState)) return null;
             return GeneratePlan(initialState, actions);
         }
         

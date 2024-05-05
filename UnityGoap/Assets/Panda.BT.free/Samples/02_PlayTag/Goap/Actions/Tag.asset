@@ -24,4 +24,4 @@ MonoBehaviour:
   - name: MoveState
     value: Ready
     effect: 0
-  _waitSeconds: 0
+  _waitSeconds: 1

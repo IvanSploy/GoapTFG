@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
   m_Name: SetPlayerDestination
   m_EditorClassIdentifier: 
-  _cost: 2
+  _cost: 1
   preconditions:
   - name: MoveState
     value: Ready

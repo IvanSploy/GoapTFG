@@ -10,6 +10,6 @@
         /// <summary>
         /// Represents the goapState associated with the current entity.
         /// </summary>
-        public GoapState CurrentGoapState { get; set; }
+        public GoapState CurrentState { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace UGoap.Unity
         public string Name => nameEntity;
         public Collider Collider => _collider;
 
-        public GoapState CurrentGoapState { get; set; }
+        public GoapState CurrentState { get; set; }
 
         private void Awake()
         {
@@ -34,7 +34,7 @@ namespace UGoap.Unity
         {
             GoapState goapState = new ();
             AddIntoPropertyGroup(_initialState, in goapState);
-            CurrentGoapState = goapState;
+            CurrentState = goapState;
             UGoapWMM.Add(Name, this);
         }
     }

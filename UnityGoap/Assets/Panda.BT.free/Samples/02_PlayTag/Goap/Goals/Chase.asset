@@ -16,6 +16,3 @@ MonoBehaviour:
   - name: IsIt
     value: False
     condition: 0
-  - name: PlayerNear
-    value: True
-    condition: 0
