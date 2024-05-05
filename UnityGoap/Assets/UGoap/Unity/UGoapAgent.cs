@@ -22,6 +22,7 @@ namespace UGoap.Unity
         [SerializeField] private List<UGoapAction> _actionObjects;
         
         [SerializeField] private Rigidbody _rigidbody;
+        private bool Colliding = false;
         
         public string Name { get; set; }
         public bool PerformingAction { get; set; }
@@ -208,7 +209,7 @@ namespace UGoap.Unity
                     break;
                 case "Tag":
                     var isIt = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, true);
-                    if (isIt)
+                    if (isIt && !Colliding)
                     {
                         CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
                         accomplished = false;
@@ -327,11 +328,17 @@ namespace UGoap.Unity
             var tag = CurrentGoapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
             tag = !tag;
             CurrentGoapState.Set(UGoapPropertyManager.PropertyKey.IsIt, tag);
+            Colliding = true;
         }
-        
+
+        private void OnCollisionStay(Collision other)
+        {
+            Colliding = true;
+        }
+
         private void OnTriggerExit(Collider other)
         {
-            
+            Colliding = false;
         }
     }
 }
