@@ -300,6 +300,7 @@ namespace UGoap.Unity.Editor
             
             if (!Enum.TryParse(nameProperty.stringValue, out PropertyKey name))
             {
+                //Legacy
                 if(int.TryParse(nameProperty.boxedValue.ToString(), out int intName))
                 {
                     name = (PropertyKey)intName;

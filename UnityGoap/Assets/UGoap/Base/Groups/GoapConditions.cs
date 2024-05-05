@@ -132,7 +132,7 @@ namespace UGoap.Base
             List<ConditionValue> conflicts = new List<ConditionValue>();
             foreach (var condition in Get(key))
             {
-                object defaultValue = condition.Value.GetDefault();
+                object defaultValue = key.GetDefault();
                 object mainValue = !goapState.Has(key) ? defaultValue : goapState[key];
 
                 if (!condition.Evaluate(mainValue))

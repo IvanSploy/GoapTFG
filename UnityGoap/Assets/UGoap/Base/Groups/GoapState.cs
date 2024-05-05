@@ -89,7 +89,7 @@ namespace UGoap.Base
                 }
                 else
                 {
-                    object defValue = bValue.Value.GetDefault();
+                    object defValue = key.GetDefault();
                     aux = bValue.Evaluate(defValue);
                 }
                 propertyGroup.Set(key, aux);
@@ -161,7 +161,7 @@ namespace UGoap.Base
 
         private bool IsRelevantPropertyKey(PropertyKey key)
         {
-            return _values[key].GetHashCode() != _values[key].GetDefault().GetHashCode();
+            return _values[key].GetHashCode() != key.GetDefault().GetHashCode();
         }
         #endregion
         

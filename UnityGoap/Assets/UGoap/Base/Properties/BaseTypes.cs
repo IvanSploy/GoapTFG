@@ -133,23 +133,8 @@ namespace UGoap.Base
                 PropertyType.Integer => 0,
                 PropertyType.Float => 0f,
                 PropertyType.String => "",
-                PropertyType.Enum => 0,
+                PropertyType.Enum => EnumNames[key][0],
                 _ => throw new ArgumentOutOfRangeException()
-            };
-            return defaultValue;
-        }
-        
-        public static object GetDefault(this object value)
-        {
-            object defaultValue = value switch
-            {
-                bool => false,
-                int => 0,
-                long => 0,
-                float => 0f,
-                double => 0d,
-                string => "",
-                _ => throw new ArgumentOutOfRangeException(),
             };
             return defaultValue;
         }
