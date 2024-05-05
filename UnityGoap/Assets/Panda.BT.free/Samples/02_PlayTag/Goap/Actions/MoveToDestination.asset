@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 1
   preconditions:
-  - name: 9
+  - name: MoveState
     value: Set
     condition: 0
   effects:
-  - name: 9
+  - name: MoveState
     value: Required
     effect: 0
   _waitSeconds: 0

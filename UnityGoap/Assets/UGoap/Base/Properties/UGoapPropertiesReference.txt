@@ -8,6 +8,7 @@ namespace UGoap.Base
         [Serializable]
         public enum PropertyKey 
         {
+            None,
             [propertyKeys]
         }
         

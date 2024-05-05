@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 1
   preconditions:
-  - name: 9
-    value: Required
+  - name: MoveState
+    value: Ready
     condition: 0
   effects:
-  - name: 6
+  - name: PlayerNear
     value: False
     effect: 0
-  - name: 9
-    value: Ready
+  - name: MoveState
+    value: Set
     effect: 0
   _waitSeconds: 0

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: InitialState
   m_EditorClassIdentifier: 
   properties:
-  - name: 2
+  - name: DoorState
     value: Closed

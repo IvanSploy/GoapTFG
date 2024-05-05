@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 2
   preconditions:
-  - name: 0
+  - name: Target
     value: Key
     condition: 0
-  - name: 3
+  - name: HasKey
     value: False
     condition: 0
   effects:
-  - name: 3
+  - name: HasKey
     value: True
     effect: 0
   _waitSeconds: 2

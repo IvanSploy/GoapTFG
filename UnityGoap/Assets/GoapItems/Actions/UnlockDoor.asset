@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 2
   preconditions:
-  - name: 0
+  - name: Target
     value: Door
     condition: 0
-  - name: 2
+  - name: DoorState
     value: Opened
     condition: 1
-  - name: 3
+  - name: HasKey
     value: True
     condition: 0
   effects:
-  - name: 2
+  - name: DoorState
     value: Opened
     effect: 0
-  - name: 3
+  - name: HasKey
     value: False
     effect: 0
-  - name: 1
+  - name: Coins
     value: 99
     effect: 1
   _waitSeconds: 2

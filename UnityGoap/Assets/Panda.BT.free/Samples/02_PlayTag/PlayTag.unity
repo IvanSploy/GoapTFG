@@ -409,6 +409,7 @@ GameObject:
   - component: {fileID: 640428488}
   - component: {fileID: 640428487}
   - component: {fileID: 640428486}
+  - component: {fileID: 640428491}
   m_Layer: 0
   m_Name: Goap_1
   m_TagString: Untagged
@@ -441,17 +442,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45246bfdf736c85429c12a6191279e4d, type: 2}
   - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
-  - {fileID: 11400000, guid: 4a504a769fdaf904ca01a503df7aaac4, type: 2}
-  - {fileID: 11400000, guid: baa0e1d601df7504db6e9a13bf27e4cd, type: 2}
-  - {fileID: 11400000, guid: 541c58195c2d53d46b1df5776dbe2abe, type: 2}
-  - {fileID: 11400000, guid: 72a88ac03b477fd44b37513f471d3992, type: 2}
   _rigidbody: {fileID: 0}
   active: 1
   wait: 1
   speed: 5
   replanSeconds: 5
   hasPlan: 0
-  performingAction: 0
 --- !u!54 &640428487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -516,6 +512,21 @@ Transform:
   - {fileID: 1770132241}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &640428491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640428485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PositionA: {x: -5, y: 0, z: -5}
+  PositionB: {x: 5, y: 0, z: 5}
+  Count: {x: 2, y: 1, z: 2}
 --- !u!1 &856031072
 GameObject:
   m_ObjectHideFlags: 0
@@ -745,22 +756,16 @@ MonoBehaviour:
   - priorityGoal: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
     priority: 0
   _actionObjects:
-  - {fileID: 11400000, guid: 44965d9120d51f04da9ff1c4552952ab, type: 2}
   - {fileID: 11400000, guid: 158d811345b9b6646ab004c406ca1f81, type: 2}
   - {fileID: 11400000, guid: 45246bfdf736c85429c12a6191279e4d, type: 2}
   - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
-  - {fileID: 11400000, guid: 4a504a769fdaf904ca01a503df7aaac4, type: 2}
-  - {fileID: 11400000, guid: baa0e1d601df7504db6e9a13bf27e4cd, type: 2}
-  - {fileID: 11400000, guid: 541c58195c2d53d46b1df5776dbe2abe, type: 2}
-  - {fileID: 11400000, guid: 72a88ac03b477fd44b37513f471d3992, type: 2}
   _rigidbody: {fileID: 0}
   active: 1
   wait: 1
   speed: 5
   replanSeconds: 5
   hasPlan: 0
-  performingAction: 0
 --- !u!54 &1050967528
 Rigidbody:
   m_ObjectHideFlags: 0

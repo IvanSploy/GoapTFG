@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: AchieveScore
   m_EditorClassIdentifier: 
   properties:
-  - name: 1
+  - name: Coins
     value: 100
     condition: 5

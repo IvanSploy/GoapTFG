@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GoToGoal
   m_EditorClassIdentifier: 
   properties:
-  - name: 0
+  - name: Target
     value: Goal
     condition: 0

@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: OpenDoor
   m_EditorClassIdentifier: 
   properties:
-  - name: 2
+  - name: DoorState
     value: Opened
     condition: 0

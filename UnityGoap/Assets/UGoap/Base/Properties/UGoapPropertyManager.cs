@@ -19,10 +19,10 @@ namespace UGoap.Base
         
         [Serializable]
         public class Property {
-            public PropertyKey name;
+            public string name;
             public string value;
 
-            public Property(PropertyKey name, string value)
+            public Property(string name, string value)
             {
                 this.name = name;
                 this.value = value;
@@ -33,7 +33,7 @@ namespace UGoap.Base
         public class ConditionProperty : Property{
             public ConditionType condition;
 
-            public ConditionProperty(PropertyKey name, ConditionType condition, string value) : base(name, value)
+            public ConditionProperty(string name, ConditionType condition, string value) : base(name, value)
             {
                 this.condition = condition;
             }
@@ -43,7 +43,7 @@ namespace UGoap.Base
         public class EffectProperty : Property {
             public EffectType effect;
 
-            public EffectProperty(PropertyKey name, EffectType effect, string value) : base(name, value)
+            public EffectProperty(string name, EffectType effect, string value) : base(name, value)
             {
                 this.effect = effect;
             }
@@ -60,6 +60,13 @@ namespace UGoap.Base
         #endregion
         
         #region Parsers
+
+        public static PropertyKey ParseName(string name)
+        {
+            Enum.TryParse(name, out PropertyKey key);
+            return key;
+        }
+        
 
         public static object ParseValue(PropertyKey name, string value)
         {
@@ -107,9 +114,14 @@ namespace UGoap.Base
             return result;
         }
         
+        private static PropertyKey ParseName(Property prop)
+        {
+            return ParseName(prop.name);
+        }
+        
         private static object ParseValue(Property prop)
         {
-            var name = prop.name;
+            var name = ParseName(prop.name);
             var value = prop.value;
             return ParseValue(name, value);
         }
@@ -163,17 +175,17 @@ namespace UGoap.Base
         #region Converters
         private static void ApplyProperty(Property property, in GoapState pg)
         {
-            pg.Set(property.name, ParseValue(property));
+            pg.Set(ParseName(property), ParseValue(property));
         }
         
         private static void ApplyProperty(ConditionProperty property, in GoapConditions pg)
         {
-            pg.Set(property.name, new ConditionValue(ParseValue(property), property.condition));
+            pg.Set(ParseName(property), new ConditionValue(ParseValue(property), property.condition));
         }
 
         private static void ApplyProperty(EffectProperty property, in GoapEffects pg)
         {
-            pg.Set(property.name, new EffectValue(ParseValue(property), property.effect));
+            pg.Set(ParseName(property), new EffectValue(ParseValue(property), property.effect));
         } 
         #endregion
     }

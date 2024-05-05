@@ -16,14 +16,14 @@ namespace UGoap.Base
         { }
 
         //Value Access
-        public void Set(PropertyKey key, object value, EffectType effectType)
+        public void Set(PropertyKey key, EffectType effectType, object value)
         {
             AssertValidType(key, value);
             _values[key] = new EffectValue(value, effectType);
         }
         
         public void Set(PropertyKey key, EffectValue effectValue) =>
-            Set(key, effectValue.Value, effectValue.EffectType);
+            Set(key, effectValue.EffectType, effectValue.Value);
 
         public void Set(GoapEffects otherPg)
         {
@@ -70,7 +70,7 @@ namespace UGoap.Base
             var propertyGroup = new GoapEffects(a);
             foreach (var pair in b)
             {
-                propertyGroup.Set(pair.Key, pair.Value.Value, pair.Value.EffectType);
+                propertyGroup.Set(pair.Key, pair.Value);
             }
             return propertyGroup;
         }

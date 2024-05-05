@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Avoid
   m_EditorClassIdentifier: 
   properties:
-  - name: 6
+  - name: PlayerNear
     value: False
     condition: 0
-  - name: 5
+  - name: IsIt
     value: False
     condition: 0

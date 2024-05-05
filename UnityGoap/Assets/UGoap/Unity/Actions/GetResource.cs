@@ -30,12 +30,12 @@ namespace UGoap.Unity.Actions
                 case PropertyType.Integer:
                     var ivalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0);
                     var icount = (int)Math.Min(_count, ivalue);
-                    proceduralEffects.Set(_resource, icount, EffectType.Add);
+                    proceduralEffects.Set(_resource, EffectType.Add, icount);
                     break;
                 case PropertyType.Float:
                     var fvalue = fact.Object.CurrentGoapState.TryGetOrDefault(_resource, 0f);
                     var fcount = Math.Min(_count, fvalue);
-                    proceduralEffects.Set(_resource, fcount, EffectType.Add);
+                    proceduralEffects.Set(_resource, EffectType.Add, fcount);
                     break;
                 default:
                     throw new 

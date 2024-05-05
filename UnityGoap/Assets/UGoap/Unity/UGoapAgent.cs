@@ -35,8 +35,8 @@ namespace UGoap.Unity
 
         //Agent base related
         private Plan _currentPlan;
-        private List<IGoapGoal> _goals;
-        private List<IGoapAction> _actions;
+        private readonly List<IGoapGoal> _goals = new();
+        private readonly List<IGoapAction> _actions = new();
         private IGoapGoal _currentGoal;
         
         public GoapState CurrentGoapState { get; set; }
@@ -47,34 +47,32 @@ namespace UGoap.Unity
         {
             _rigidbody ??= GetComponent<Rigidbody>(); 
             gameObject.layer = LayerMask.NameToLayer("Agent");
+            
+            CurrentGoapState = _initialState != null ? _initialState.Create() : new();
         }
 
         void Start()
         {
-            _goals = new();
-            _actions = new();
-            CurrentGoapState = _initialState != null ? _initialState.Create() : new();
-            
-            //OBJETIVOS
-            foreach (var goal in _goalObjects)
-            {
-                _goals.Add(goal.Create());
-            }
-
-            //ACCIONES
-            foreach (var action in _actionObjects)
-            {
-                _actions.Add(action);
-            }
-
-            SortGoals();
-
             if (_runOnStart) Initialize(CurrentGoapState);
         }
 
         public void Initialize(GoapState initialState)
         {
             CurrentGoapState = initialState;
+            
+            //OBJETIVOS
+            foreach (var goal in _goalObjects)
+            {
+                _goals.Add(goal.Create());
+            }
+            SortGoals();
+
+            //ACCIONES
+            foreach (var action in _actionObjects)
+            {
+                _actions.Add(action);
+            }
+            
             StartCoroutine(PlanCreator());
         }
 

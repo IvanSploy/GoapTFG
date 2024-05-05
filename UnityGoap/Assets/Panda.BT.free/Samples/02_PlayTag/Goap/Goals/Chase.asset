@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Chase
   m_EditorClassIdentifier: 
   properties:
-  - name: 5
+  - name: IsIt
     value: False
     condition: 0
-  - name: 6
+  - name: PlayerNear
     value: True
     condition: 0

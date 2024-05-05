@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using UGoap.Base;
 using UGoap.Unity.ScriptableObjects;
@@ -121,10 +122,9 @@ namespace UGoap.Unity.Editor
                     height);
 
                 //       Draw fields
-                EditorGUI.LabelField(labelNameRect, "Name");
-                EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
+                DrawName(property, labelNameRect, nameRect);
+                
                 EditorGUI.LabelField(labelValueRect, "Value");
-
                 DrawValue(property, valueRect);
 
                 // Set indent back to what it was
@@ -181,8 +181,8 @@ namespace UGoap.Unity.Editor
                     valueWidth - PADDING, height);
 
                 //      Draw fields
-                EditorGUI.LabelField(labelNameRect, "Name");
-                EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
+                DrawName(property, labelNameRect, nameRect);
+                
                 EditorGUI.LabelField(labelValueRect, "Value");
                 
                 SerializedProperty conditionProperty = property.FindPropertyRelative("condition");
@@ -256,8 +256,8 @@ namespace UGoap.Unity.Editor
                     valueWidth - PADDING, height);
 
                 //      Draw fields
-                EditorGUI.LabelField(labelNameRect, "Name");
-                EditorGUI.PropertyField(nameRect, property.FindPropertyRelative("name"), GUIContent.none);
+                DrawName(property, labelNameRect, nameRect);
+                
                 EditorGUI.LabelField(labelValueRect, "Value");
                 
                 SerializedProperty effectProperty = property.FindPropertyRelative("effect");
@@ -293,10 +293,25 @@ namespace UGoap.Unity.Editor
             }
         }
 
+        public static void DrawName(SerializedProperty property, Rect labelNameRect, Rect nameRect)
+        {
+            EditorGUI.LabelField(labelNameRect, "Name");
+            SerializedProperty nameProperty = property.FindPropertyRelative("name");
+            
+            if (!Enum.TryParse(nameProperty.stringValue, out PropertyKey name))
+            {
+                if(int.TryParse(nameProperty.boxedValue.ToString(), out int intName))
+                {
+                    name = (PropertyKey)intName;
+                }
+            }
+            nameProperty.stringValue = EditorGUI.EnumPopup(nameRect, name).ToString();
+        }
+        
         public static void DrawValue(SerializedProperty property, Rect valueRect)
         {
             SerializedProperty value = property.FindPropertyRelative("value");
-            PropertyKey name = (PropertyKey)property.FindPropertyRelative("name").enumValueIndex;
+            Enum.TryParse(property.FindPropertyRelative("name").stringValue, out PropertyKey name);
             var typeValue = GetPropertyType(name);
 
             switch (typeValue)
