@@ -26,7 +26,6 @@ namespace UGoap.Unity.Actions
 
         public override bool Validate(GoapState goapState, IGoapAgent agent)
         {
-            bool valid = true;
             if (!goapState.TryGetOrDefault(PropertyKey.IsIt, false))
             {
                 if(agent is UGoapAgent uAgent)
@@ -36,17 +35,21 @@ namespace UGoap.Unity.Actions
                     destination.x = (float)_effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value;
                     destination.z = (float)_effects.TryGetOrDefault(PropertyKey.DestinationZ, 0f).Value;
 
-                    var direction = destination - uAgent.transform.position;
-                    var playerDirection = playerPosition - uAgent.transform.position;
-
-                    if (Vector3.Dot(direction, playerDirection) < 0.1f)
+                    var destinationDirection = destination - uAgent.transform.position;
+                    if (destinationDirection.magnitude < 0.1f)
                     {
-                        valid = false;
+                        return false;
+                    }
+                    
+                    var playerDirection = playerPosition - uAgent.transform.position;
+                    if (playerDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, playerDirection) <= 45.0f)
+                    {
+                        return false;
                     }
                 }
             }
 
-            return valid;
+            return true;
         }
 
         public override void Execute(GoapState goapState, IGoapAgent agent)
