@@ -31,7 +31,7 @@ namespace UGoap.Base
             };
             if (!valid)
             {
-                throw new ArgumentException("Type of value is not valid.");
+                throw new ArgumentException("[GOAP] Type of value is not valid.");
             }
         }
 
