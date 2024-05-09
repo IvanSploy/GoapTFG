@@ -22,7 +22,7 @@ namespace UGoap.Learning
         public int ValueRange = 500;
         public List<UGoapPropertyManager.PropertyKey> LearningKeys;
 
-        public LearningType _type;
+        [SerializeField] private LearningType _type;
         public LearningType Type => _type;
 
         [Header("Reward")] 
@@ -42,6 +42,7 @@ namespace UGoap.Learning
         public string FileName;
         
         private Dictionary<int, Dictionary<string, float>> _qValues = new();
+        internal Dictionary<int, Dictionary<string, float>> Values => _qValues;
         private string Path => Application.dataPath + "\\" + FileName + ".json";
         private float _explorationValue;
 
@@ -115,7 +116,7 @@ namespace UGoap.Learning
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
+            Apply(initialNode, node.PreviousActionInfo.Name, reward, finishNode);
         }
 
         private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);

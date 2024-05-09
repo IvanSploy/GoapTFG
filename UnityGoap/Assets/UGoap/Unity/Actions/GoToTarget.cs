@@ -7,7 +7,7 @@ using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget", order = 3)]
+    [CreateAssetMenu(fileName = "GoToTarget", menuName = "Goap Items/Actions/GoToTarget")]
     public class GoToTarget : UGoapAction
     {
         [Header("Custom Data")]
@@ -15,18 +15,18 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _speedFactor = 1;
         [SerializeField] private string _excludedLocation = "none";
         
-        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
+        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             var condition = new GoapConditions();
             condition.Set(_targetKey, ConditionType.NotEqual, _excludedLocation);
             return condition;
         }
         
-        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
+        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
             GoapEffects proceduralEffects = new GoapEffects();
             string target = _excludedLocation;
-            var targetList = goal.TryGetOrDefault(_targetKey, "");
+            var targetList = settings.Goal.TryGetOrDefault(_targetKey, "");
             if (targetList != null)
             {
                 var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
@@ -36,7 +36,7 @@ namespace UGoap.Unity.Actions
             return proceduralEffects;
         }
         
-        public override bool ProceduralValidate(GoapState state, UGoapAgent agent)
+        public override bool ProceduralValidate(GoapState state, GoapActionInfo actionInfo, UGoapAgent agent)
         {
             return true;
         }

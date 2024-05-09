@@ -100,16 +100,16 @@ namespace UGoap.Planner
         public abstract Plan GeneratePlan(GoapState initialState,
             List<IGoapAction> actions);
 
-        public void DebugPlan(Node node, string Name)
+        public void DebugPlan(Node node, string goalName)
         {
-            var debugLog = "Acciones para conseguir el objetivo: " + Name + "\n";
+            var debugLog = "Acciones para conseguir el objetivo: " + goalName + "\n";
             var actionNames = "";
             int count = 0;
             int cost = node.TotalCost;
             
             while (node.Parent != null)
             {
-                actionNames += node.PreviousAction.Name + "\n";
+                actionNames += node.PreviousActionInfo.Name + "\n";
                 count++;
                 node = node.Parent;
             }

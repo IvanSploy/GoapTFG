@@ -8,6 +8,7 @@ using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
+using static UGoap.Base.UGoapPropertyManager;
 using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
@@ -154,6 +155,7 @@ namespace UGoap.Unity
         //INTERFACE CLASSES
         public void AddAction(IGoapAction action) => _actions.Add(action);
         public void AddActions(List<IGoapAction> actionList) => _actions.AddRange(actionList);
+        public void RemoveAction(IGoapAction action) => _actions.Remove(action);
 
         public void AddGoal(IGoapGoal goal)
         {
@@ -189,8 +191,9 @@ namespace UGoap.Unity
         {
             var generator = new AStar(state, _goapQLearning);
             var planner = new GoapPlanner(generator, this);
-            
+
             var plan = planner.CreatePlan(state, goal, _actions);
+                
             DebugLogs(DebugRecord.GetRecords());
             
             if(_goapQLearning) _goapQLearning.DebugLearning();
@@ -240,7 +243,8 @@ namespace UGoap.Unity
             {
                 PerformingAction = false;
                 StopAction(_currentActionRoutine);
-                CurrentState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
+                //Properties that need to be restored.
+                CurrentState.Set(PropertyKey.MoveState, "Ready");
                 if(seconds > 0)
                 {
                     PerformingAction = true;
@@ -257,9 +261,9 @@ namespace UGoap.Unity
             {
                 case "OpenDoor":
                     UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
-                    if (entityDoor.CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DoorState, "Opened") == "Locked")
+                    if (entityDoor.CurrentState.TryGetOrDefault(PropertyKey.DoorState, "Opened") == "Locked")
                     {
-                        CurrentState.Set(UGoapPropertyManager.PropertyKey.DoorState, "Locked");
+                        CurrentState.Set(PropertyKey.DoorState, "Locked");
                         accomplished = false;
                     }
                     break;
@@ -268,10 +272,10 @@ namespace UGoap.Unity
                 case "GetKey":
                     break;
                 case "Tag":
-                    var isIt = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, true);
+                    var isIt = CurrentState.TryGetOrDefault(PropertyKey.IsIt, true);
                     if (isIt && !_colliding)
                     {
-                        CurrentState.Set(UGoapPropertyManager.PropertyKey.MoveState, "Ready");
+                        CurrentState.Set(PropertyKey.MoveState, "Ready");
                         accomplished = false;
                     }
                     break;
@@ -297,12 +301,12 @@ namespace UGoap.Unity
                     break;
                 case "SetPlayerDestination":
                     UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationX, entityPlayer.transform.position.x);
-                    state.Set(UGoapPropertyManager.PropertyKey.DestinationZ, entityPlayer.transform.position.z);
+                    state.Set(PropertyKey.DestinationX, entityPlayer.transform.position.x);
+                    state.Set(PropertyKey.DestinationZ, entityPlayer.transform.position.z);
                     break;
                 case "MoveToDestination":
-                    var x = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f);
-                    var z = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f);
+                    var x = state.TryGetOrDefault(PropertyKey.DestinationX, 0f);
+                    var z = state.TryGetOrDefault(PropertyKey.DestinationZ, 0f);
                     GoTo(new Vector3(x, transform.position.y, z), 1);
                     return; //Wait involves modification of performing action.
                 case "Tag":
@@ -379,7 +383,7 @@ namespace UGoap.Unity
 
         private void UpdateTag()
         {
-            bool isIt = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
+            bool isIt = CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
             SetTag(isIt);
         }
 
@@ -392,20 +396,20 @@ namespace UGoap.Unity
         {
             UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
             bool near = Vector3.Distance(entityPlayer.transform.position, transform.position) <= 3f;
-            bool previousNear = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.PlayerNear, false);
+            bool previousNear = CurrentState.TryGetOrDefault(PropertyKey.PlayerNear, false);
 
             if (near != previousNear)
             {
-                CurrentState.Set(UGoapPropertyManager.PropertyKey.PlayerNear, near);
+                CurrentState.Set(PropertyKey.PlayerNear, near);
                 if(near) Interrupt();
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            var tag = CurrentState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false);
+            var tag = CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
             tag = !tag;
-            CurrentState.Set(UGoapPropertyManager.PropertyKey.IsIt, tag);
+            CurrentState.Set(PropertyKey.IsIt, tag);
             UpdateTag();
             _colliding = true;
             Interrupt(1f);

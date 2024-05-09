@@ -431,7 +431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _runOnStart: 1
   _initialState: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
-  _goapQLearning: {fileID: 0}
+  _goapQLearning: {fileID: 11400000, guid: a38048b621f351541a69c1e668d2866e, type: 2}
   _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
     priority: 1
@@ -442,12 +442,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45246bfdf736c85429c12a6191279e4d, type: 2}
   - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
+  - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
+  - {fileID: 11400000, guid: 63ddf898b333e4d4d9d75c943fd51c28, type: 2}
   _rigidbody: {fileID: 0}
-  active: 1
-  wait: 1
-  speed: 5
-  replanSeconds: 5
-  hasPlan: 0
+  _renderer: {fileID: 0}
+  Active: 1
+  Speed: 5
+  ReplanSeconds: 5
+  HasPlan: 0
 --- !u!54 &640428487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -524,9 +526,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Active: 0
   PositionA: {x: -5, y: 0, z: -5}
   PositionB: {x: 5, y: 0, z: 5}
-  Count: {x: 2, y: 1, z: 2}
+  Count: {x: 5, y: 1, z: 5}
+  PropertyX: 8
+  PropertyY: 0
+  PropertyZ: 9
 --- !u!1 &856031072
 GameObject:
   m_ObjectHideFlags: 0
@@ -761,11 +767,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
   _rigidbody: {fileID: 0}
-  active: 1
-  wait: 1
-  speed: 5
-  replanSeconds: 5
-  hasPlan: 0
+  _renderer: {fileID: 0}
+  Active: 1
+  Speed: 5
+  ReplanSeconds: 5
+  HasPlan: 0
 --- !u!54 &1050967528
 Rigidbody:
   m_ObjectHideFlags: 0

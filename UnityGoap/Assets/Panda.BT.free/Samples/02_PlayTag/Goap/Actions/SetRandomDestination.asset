@@ -9,22 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: Tag
+  m_Script: {fileID: 11500000, guid: 9c67c6a6d47e4673bc06bf7a7a2c0fd3, type: 3}
+  m_Name: SetRandomDestination
   m_EditorClassIdentifier: 
-  _cost: 1
-  preconditions:
-  - name: MoveState
-    value: Required
-    condition: 0
-  effects:
-  - name: IsIt
-    value: False
-    effect: 0
+  _cost: 3
+  Preconditions:
   - name: MoveState
     value: Ready
+    condition: 0
+  Effects:
+  - name: MoveState
+    value: Set
     effect: 0
-  - name: PlayerNear
-    value: True
-    effect: 0
-  _waitSeconds: 1
+  _name: Move_
+  _xLimits: {x: -5, y: 5}
+  _zLimits: {x: -5, y: 5}

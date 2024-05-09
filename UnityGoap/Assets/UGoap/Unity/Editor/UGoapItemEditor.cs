@@ -72,8 +72,8 @@ namespace UGoap.Unity.Editor
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("preconditions"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("effects"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Preconditions"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Effects"), true);
 
                 //Guarda los cambios realizados en los property fields.
                 serializedObject.ApplyModifiedProperties();

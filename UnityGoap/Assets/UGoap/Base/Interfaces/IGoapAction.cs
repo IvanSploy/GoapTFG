@@ -5,20 +5,20 @@ namespace UGoap.Base
 {
     public interface IGoapAction
     {
+        //Definition.
         string Name { get; }
+        string GetName(GoapConditions conditions, GoapEffects effects);
+        GoapConditions GetPreconditions(GoapSettings settings);
+        GoapEffects GetEffects(GoapSettings settings);
+        HashSet<PropertyKey> GetAffectedKeys();
 
         //Cost related.
         int GetCost(GoapConditions goal); 
         int GetCost(); 
         int SetCost(int cost);
         
-        //Getters
-        GoapConditions GetPreconditions(GoapConditions goal);
-        GoapEffects GetEffects(GoapConditions goal);
-        HashSet<PropertyKey> GetAffectedKeys();
-        
         //Apply
-        public bool Validate(GoapState state, IGoapAgent agent);
+        public bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent agent);
         public void Execute(ref GoapState state, IGoapAgent agent);
     }
 }

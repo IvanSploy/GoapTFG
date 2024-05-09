@@ -73,7 +73,7 @@ namespace UGoap.Planner
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
                         //Check effect compatibility with initial state (the one getting closer).
-                        GoapEffects actionEffects = action.GetEffects(_current.Goal);
+                        GoapEffects actionEffects = action.GetEffects(_current.Settings);
                         if(!CheckEffectCompatibility(initialState.TryGetOrDefault(key), actionEffects[key].EffectType, 
                                actionEffects[key].Value, goalPair.Value)) 
                             continue;

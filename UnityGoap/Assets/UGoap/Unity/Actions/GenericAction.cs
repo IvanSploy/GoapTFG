@@ -3,23 +3,23 @@ using UnityEngine;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 1)]
+    [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 0)]
     public class GenericAction : UGoapAction
     {
         [Header("Custom Data")]
         [SerializeField] private int _waitSeconds = 1;
 
-        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
+        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
+        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
             return null;
         }
         
-        public override bool ProceduralValidate(GoapState goapState, UGoapAgent agent)
+        public override bool ProceduralValidate(GoapState goapState, GoapActionInfo actionInfo, UGoapAgent agent)
         {
             return agent.ValidateGeneric(Name, goapState);
         }

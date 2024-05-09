@@ -64,7 +64,7 @@ namespace UGoap.Planner
                 //pudiendo afectar a algun nodo ubicado en la lista abierta.
                 if (child.TotalCost < original.TotalCost)
                 {
-                    original.Update(parent, child.PreviousAction, child.PreviousConditions, child.PreviousEffects);
+                    original.Update(parent, child.PreviousAction, child.PreviousActionInfo);
                     UpdateChildrenCost(original);
                 }
             }

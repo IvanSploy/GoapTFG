@@ -9,12 +9,12 @@ namespace UGoap.Unity.Actions
         public SetDestinationAction(string name, GoapConditions conditions, GoapEffects effects) : base(name, conditions, effects)
         { }
 
-        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
+        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
+        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
             return null;
         }
@@ -24,7 +24,7 @@ namespace UGoap.Unity.Actions
             return Random.Range(2, 50);
         }
 
-        public override bool Validate(GoapState goapState, IGoapAgent agent)
+        public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent agent)
         {
             if (!goapState.TryGetOrDefault(PropertyKey.IsIt, false))
             {
@@ -32,8 +32,8 @@ namespace UGoap.Unity.Actions
                 {
                     var playerPosition = UGoapWMM.Get("Player").Object.transform.position;
                     var destination = playerPosition;
-                    destination.x = (float)_effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value;
-                    destination.z = (float)_effects.TryGetOrDefault(PropertyKey.DestinationZ, 0f).Value;
+                    destination.x = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value;
+                    destination.z = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationZ, 0f).Value;
 
                     var destinationDirection = destination - uAgent.transform.position;
                     if (destinationDirection.magnitude < 0.1f)

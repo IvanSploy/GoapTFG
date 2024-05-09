@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
+  m_Name: PlayerTag
+  m_EditorClassIdentifier: 
+  InitialRange: {x: -500, y: 500}
+  Alpha: 0.5
+  Gamma: 0.6
+  ValueRange: 1
+  LearningKeys: 060000000800000009000000
+  _type: 2
+  PositiveReward: 200
+  PositiveRewardDecay: 50
+  NegativeReward: 300
+  NegativeRewardDecay: 25
+  ExploreChance: 0
+  MinExploreValue: -1000
+  MaxExploreValue: 1000
+  FileName: PlayerTag

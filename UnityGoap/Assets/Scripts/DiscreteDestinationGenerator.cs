@@ -8,6 +8,8 @@ using static UGoap.Base.UGoapPropertyManager;
 [RequireComponent(typeof(IGoapAgent))]
 public class DiscreteDestinationGenerator : MonoBehaviour
 {
+    public bool Active = true;
+    
     public Vector3 PositionA;
     public Vector3 PositionB;
     public Vector3Int Count;
@@ -35,7 +37,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         _effects = new GoapEffects();
         _effects.Set(PropertyKey.MoveState, EffectType.Set, "Set");
 
-        GenerateActions();
+        if(Active) GenerateActions();
     }
 
     private void GenerateActions()
@@ -54,7 +56,11 @@ public class DiscreteDestinationGenerator : MonoBehaviour
                 for (int k = 0; k < Count.z; k++)
                 {
                     var z = configZ.initial + configZ.distance * k;
-                    var action = CreateAction("Destination_" + i + "_" + j + "_" + k, x, y, z);
+                    string actionName = "Move";
+                    if(PropertyX != PropertyKey.None) actionName += "_" + i;
+                    if(PropertyY != PropertyKey.None) actionName += "_" + j;
+                    if(PropertyZ != PropertyKey.None) actionName += "_" + k;
+                    var action = CreateAction(actionName, x, y, z);
                     goapActions.Add(action);
                 }
             }

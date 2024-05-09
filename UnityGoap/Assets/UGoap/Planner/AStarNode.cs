@@ -28,12 +28,11 @@ namespace UGoap.Planner
             HCost = 0;
         }
 
-        protected override Node CreateChildNode(GoapConditions goal, IGoapAction action, 
-            GoapConditions conditions, GoapEffects effects)
+        protected override Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapActionInfo actionInfo)
         {
             var aStarNode = UseLearning ? new AStarNode(NodeGenerator, goal, QLearning)
                 : new AStarNode(NodeGenerator, goal, CustomHeuristic);
-            aStarNode.Update(this, action, conditions, effects);
+            aStarNode.Update(this, action, actionInfo);
             Children.Add(aStarNode);
             return aStarNode;
         }
@@ -58,13 +57,7 @@ namespace UGoap.Planner
 
         public int GetLearning()
         {
-            return QLearning.Type switch
-            {
-                LearningType.State => -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState), PreviousAction.Name),
-                LearningType.Goal => -(int)QLearning.Get(QLearning.ParseToStateCode(Parent.Goal), PreviousAction.Name),
-                LearningType.Both => -(int)QLearning.Get(QLearning.ParseToStateCode(NodeGenerator.InitialState, Parent.Goal), PreviousAction.Name),
-                _ => throw new ArgumentOutOfRangeException()
-            };
+            return -(int)QLearning.Get(Parent.Settings.LearningStateCode, PreviousActionInfo.Name);
         }
 
         #region Overrides
@@ -73,7 +66,7 @@ namespace UGoap.Planner
         {
             string text = "";
             if (PreviousAction == null) text += "Initial Node";
-            else text += PreviousAction.Name;
+            else text += PreviousActionInfo.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
             text += " | Objetivo: " + Goal + "\n";
             return text;

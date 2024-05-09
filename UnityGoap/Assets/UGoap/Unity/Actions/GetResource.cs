@@ -6,7 +6,7 @@ using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "GetResource", menuName = "Goap Items/Actions/GetResource", order = 0)]
+    [CreateAssetMenu(fileName = "GetResource", menuName = "Goap Items/Actions/GetResource")]
     public class GetResource : UGoapAction
     {
         [Header("Custom Data")]
@@ -15,12 +15,12 @@ namespace UGoap.Unity.Actions
         [SerializeField] private int _waitSeconds = 1;
 
         //Conditions that could be resolved by the planner.
-        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
+        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
+        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
             var proceduralEffects = new GoapEffects();
             var fact = UGoapWMM.Get(_resource);
@@ -47,7 +47,7 @@ namespace UGoap.Unity.Actions
         }
         
         //Conditions that couldnt be resolved by the planner.
-        public override bool ProceduralValidate(GoapState state, UGoapAgent agent)
+        public override bool ProceduralValidate(GoapState state, GoapActionInfo actionInfo, UGoapAgent agent)
         {
             var fact = UGoapWMM.Get(_resource);
             if (fact == null) return false;

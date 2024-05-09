@@ -12,17 +12,17 @@ namespace UGoap.Unity.Actions
             _waitSeconds = waitSeconds;
         }
 
-        protected override GoapConditions GetProceduralConditions(GoapConditions goal)
+        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapConditions goal)
+        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
             return null;
         }
         
-        public override bool Validate(GoapState goapState, IGoapAgent agent)
+        public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent agent)
         {
             UGoapAgent uAgent = agent as UGoapAgent;
             if (uAgent)

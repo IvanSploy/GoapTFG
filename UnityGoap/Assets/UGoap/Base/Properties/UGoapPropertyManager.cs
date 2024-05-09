@@ -54,6 +54,7 @@ namespace UGoap.Base
 
         public static PropertyType GetPropertyType(PropertyKey property)
         {
+            if (property == PropertyKey.None) return PropertyType.Boolean;
             return PropertyTypes[property];
         }
         

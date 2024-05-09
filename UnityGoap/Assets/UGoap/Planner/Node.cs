@@ -11,23 +11,22 @@ namespace UGoap.Planner
     public abstract class Node : IComparable
     {
         //Properties
-        public GoapConditions Goal { get; set; }
-        public Node Parent { get; set; }
-        public List<Node> Children { get; }
-        public IGoapAction PreviousAction { get; set; }
-        public GoapConditions PreviousConditions { get; set; }
-        public GoapEffects PreviousEffects { get; set; }
-        public virtual int TotalCost { get; set; }
+        public GoapConditions Goal { get; }
+        public Node Parent { get; private set; }
+        public List<Node> Children { get; private set; }
+        public IGoapAction PreviousAction { get; private set; }
+        public GoapActionInfo PreviousActionInfo { get; private set; }
+        public virtual int TotalCost { get; private set; }
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
+        public GoapSettings Settings { get; private set; }
 
         public bool IsGoal(GoapState state) => !Goal.CheckConflict(state);
+        public bool UseLearning => QLearning != null;
 
         //Fields
         protected readonly INodeGenerator NodeGenerator;
         protected readonly Func<GoapConditions,GoapState,int> CustomHeuristic;
         protected readonly IQLearning QLearning;
-
-        public bool UseLearning => QLearning != null;
         
         //Constructor
         protected Node(INodeGenerator nodeGenerator, GoapConditions goal, Func<GoapConditions,GoapState,int> customHeuristic)
@@ -36,6 +35,7 @@ namespace UGoap.Planner
             Goal = goal;
             CustomHeuristic = customHeuristic;
             Children = new List<Node>();
+            CreateSettings();
         }
         
         protected Node(INodeGenerator nodeGenerator, GoapConditions goal, IQLearning qLearning)
@@ -44,6 +44,17 @@ namespace UGoap.Planner
             Goal = goal;
             QLearning = qLearning;
             Children = new List<Node>();
+            CreateSettings();
+        }
+        
+        private void CreateSettings()
+        {
+            Settings = new GoapSettings
+            {
+                Goal = Goal,
+                IsUsingLearning = UseLearning,
+                LearningStateCode = GetLearningStateCode()
+            };
         }
 
             //Used By Generator
@@ -56,22 +67,30 @@ namespace UGoap.Planner
         public Node ApplyAction(IGoapAction action)
         {
            //Apply action
-           var effects = action.GetEffects(Goal);
+           var effects = action.GetEffects(Settings);
            var resultGoal = Goal.ApplyEffects(effects);
            if (resultGoal == null) return null;
            
            //Merge new conflicts.
-           var conditions = action.GetPreconditions(Goal);
+           var conditions = action.GetPreconditions(Settings);
            resultGoal = resultGoal.Merge(conditions);
-            
-            return resultGoal == null ? null : CreateChildNode(resultGoal, action, conditions, effects);
+
+           //Store action dynamic info.
+           var actionInfo = new GoapActionInfo
+           {
+               Name = action.GetName(conditions, effects),
+               Conditions = conditions,
+               Effects = effects,
+           };
+
+           return resultGoal == null ? null : CreateChildNode(resultGoal, action, actionInfo);
         }
         
         private bool CheckAction(GoapState state, IGoapAgent agent)
         {
-            if (!PreviousConditions.CheckConflict(state))
+            if (!PreviousActionInfo.Conditions.CheckConflict(state))
             {
-                bool valid = PreviousAction.Validate(state, agent);
+                bool valid = PreviousAction.Validate(state, PreviousActionInfo, agent);
                 if (!valid)
                 {
                     DebugRecord.AddRecord("La acción no ha podido completarse, plan detenido :(");
@@ -99,7 +118,7 @@ namespace UGoap.Planner
                 return;
             }
 
-            state += PreviousEffects;
+            state += PreviousActionInfo.Effects;
             PreviousAction.Execute(ref state, agent);
         }
 
@@ -111,19 +130,18 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapConditions conditions, GoapEffects effects);
+        protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapActionInfo actionInfo);
 
         /// <summary>
         /// Apply the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">PreviousAction that leads to this node.</param>
-        public void Update(Node parent, IGoapAction action, GoapConditions conditions, GoapEffects effects)
+        public void Update(Node parent, IGoapAction action, GoapActionInfo actionInfo)
         {
             //Se actualiza la accion de origen y el objetivo.
             PreviousAction = action;
-            PreviousConditions = conditions;
-            PreviousEffects = effects;
+            PreviousActionInfo = actionInfo;
             Update(parent);
         }
 
@@ -138,6 +156,17 @@ namespace UGoap.Planner
             //Se define la relación padre hijo.
             Parent = parent;
             TotalCost = PreviousAction.GetCost(parent.Goal);
+        }
+        
+        protected int GetLearningStateCode()
+        {
+            return QLearning.Type switch
+            {
+                LearningType.State => QLearning.ParseToStateCode(NodeGenerator.InitialState),
+                LearningType.Goal => QLearning.ParseToStateCode(Goal),
+                LearningType.Both => QLearning.ParseToStateCode(NodeGenerator.InitialState, Goal),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         public int CompareTo(object obj)

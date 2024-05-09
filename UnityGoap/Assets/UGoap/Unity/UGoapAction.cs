@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
+using UGoap.Planner;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity
 {
     public abstract class UGoapAction : ScriptableObject, IGoapAction
     {
-        //Scriptable 
+        //Scriptable
         [Header("Common Data")]
         [SerializeField] private int _cost = 1;
-        [HideInInspector] public List<ConditionProperty> preconditions = new();
-        [HideInInspector] public List<EffectProperty> effects = new();
+        [FormerlySerializedAs("preconditions")] 
+        [HideInInspector] public List<ConditionProperty> Preconditions = new();
+        [FormerlySerializedAs("effects")] 
+        [HideInInspector] public List<EffectProperty> Effects = new();
         
         //Fields
         public string Name { get; private set; }
@@ -24,20 +28,21 @@ namespace UGoap.Unity
         {
             Name = name;
             _cost = Math.Max(0, _cost);
-            AddIntoPropertyGroup(preconditions, in _preconditions);
-            AddIntoPropertyGroup(effects, in _effects);
+            AddIntoPropertyGroup(Preconditions, in _preconditions);
+            AddIntoPropertyGroup(Effects, in _effects);
         }
 
         //Procedural related.
-        protected abstract GoapConditions GetProceduralConditions(GoapConditions goal);
-        protected abstract GoapEffects GetProceduralEffects(GoapConditions goal);
+        public virtual string GetName(GoapConditions conditions, GoapEffects effects) => Name;
+        protected abstract GoapConditions GetProceduralConditions(GoapSettings settings);
+        protected abstract GoapEffects GetProceduralEffects(GoapSettings settings);
         
-        public bool Validate(GoapState state, IGoapAgent agent)
+        public bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent agent)
         {
             UGoapAgent uAgent = agent as UGoapAgent;
             if (uAgent)
             {
-                return ProceduralValidate(state, uAgent);
+                return ProceduralValidate(state, actionInfo, uAgent);
             }
 
             return true;
@@ -52,7 +57,7 @@ namespace UGoap.Unity
             }
         }
         
-        public abstract bool ProceduralValidate(GoapState state, UGoapAgent agent);
+        public abstract bool ProceduralValidate(GoapState state, GoapActionInfo actionInfo, UGoapAgent agent);
         public abstract void ProceduralExecute(ref GoapState state, UGoapAgent agent);
         
         //Cost related.
@@ -61,14 +66,14 @@ namespace UGoap.Unity
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public GoapConditions GetPreconditions(GoapConditions goal)
+        public GoapConditions GetPreconditions(GoapSettings settings)
         {
-            return _preconditions + GetProceduralConditions(goal);
+            return _preconditions + GetProceduralConditions(settings);
         }
 
-        public GoapEffects GetEffects(GoapConditions goal)
+        public GoapEffects GetEffects(GoapSettings settings)
         {
-            return _effects + GetProceduralEffects(goal);
+            return _effects + GetProceduralEffects(settings);
         }
         public HashSet<PropertyKey> GetAffectedKeys()
         {
@@ -78,7 +83,7 @@ namespace UGoap.Unity
                 affectedPropertyLists.Add(key);
             }
 
-            var proceduralEffects = GetProceduralEffects(new GoapConditions());
+            var proceduralEffects = GetProceduralEffects(GoapSettings.GetDefault());
 
             if (proceduralEffects != null)
             {

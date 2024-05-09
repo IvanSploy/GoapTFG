@@ -7,8 +7,8 @@ namespace UGoap.Base
     {
         //Fields
         public string Name { get; private set; }
-        protected readonly GoapConditions _preconditions = new();
-        protected readonly GoapEffects _effects = new();
+        private readonly GoapConditions _preconditions = new();
+        private readonly GoapEffects _effects = new();
         private int _cost = 1;
 
         //Updating data from the scriptable object.
@@ -20,9 +20,10 @@ namespace UGoap.Base
         }
 
         //Procedural related.
-        protected abstract GoapConditions GetProceduralConditions(GoapConditions goal);
-        protected abstract GoapEffects GetProceduralEffects(GoapConditions goal);
-        public abstract bool Validate(GoapState state, IGoapAgent agent);
+        public virtual string GetName(GoapConditions conditions, GoapEffects effects) => Name;
+        protected abstract GoapConditions GetProceduralConditions(GoapSettings settings);
+        protected abstract GoapEffects GetProceduralEffects(GoapSettings settings);
+        public abstract bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent agent);
         public abstract void Execute(ref GoapState state, IGoapAgent agent);
         
         //Cost related.
@@ -31,14 +32,14 @@ namespace UGoap.Base
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public GoapConditions GetPreconditions(GoapConditions goal)
+        public GoapConditions GetPreconditions(GoapSettings settings)
         {
-            return _preconditions + GetProceduralConditions(goal);
+            return _preconditions + GetProceduralConditions(settings);
         }
 
-        public GoapEffects GetEffects(GoapConditions goal)
+        public GoapEffects GetEffects(GoapSettings settings)
         {
-            return _effects + GetProceduralEffects(goal);
+            return _effects + GetProceduralEffects(settings);
         }
         public HashSet<PropertyKey> GetAffectedKeys()
         {
@@ -48,7 +49,7 @@ namespace UGoap.Base
                 affectedPropertyLists.Add(key);
             }
 
-            var proceduralEffects = GetProceduralEffects(new GoapConditions());
+            var proceduralEffects = GetProceduralEffects(GoapSettings.GetDefault());
 
             if (proceduralEffects != null)
             {
