@@ -46,6 +46,11 @@ namespace UGoap.Learning
         private string Path => Application.dataPath + "\\" + FileName + ".json";
         private float _explorationValue;
 
+        private void Awake()
+        {
+            OnEnable();
+        }
+
         public void OnEnable()
         {
             if (!File.Exists(Path))
@@ -67,6 +72,11 @@ namespace UGoap.Learning
             }
 
             File.WriteAllText(Path, JsonConvert.SerializeObject(_qValues));
+        }
+        
+        private void OnDestroy()
+        {
+            OnDisable();
         }
 
         [ContextMenu("Clear Data")]

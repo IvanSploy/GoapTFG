@@ -136,13 +136,14 @@ GameObject:
   - component: {fileID: 376903268}
   - component: {fileID: 376903271}
   - component: {fileID: 376903274}
+  - component: {fileID: 376903275}
   m_Layer: 0
   m_Name: Computer (SEE BT HERE)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &376903268
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +156,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a55430cfde9d3044a8c52c1d59ffcad1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  target: {fileID: 640428485}
+  targetExtent: 3
   speed: 5
+  startOnIt: 0
   it: {r: 1, g: 0, b: 0, a: 1}
   notIt: {r: 0.28930813, g: 0.52889425, b: 1, a: 1}
   tagDialogue: {fileID: 1983905765}
@@ -251,6 +255,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &376903275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376903267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 264710be6e01473087aced268c023c61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameEntity: Player
+  _collider: {fileID: 376903271}
+  _initialState: []
 --- !u!1 &605849545
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,7 +289,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &605849546
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -410,6 +429,7 @@ GameObject:
   - component: {fileID: 640428487}
   - component: {fileID: 640428486}
   - component: {fileID: 640428491}
+  - component: {fileID: 640428492}
   m_Layer: 0
   m_Name: Goap_1
   m_TagString: Untagged
@@ -431,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _runOnStart: 1
   _initialState: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
-  _goapQLearning: {fileID: 11400000, guid: a38048b621f351541a69c1e668d2866e, type: 2}
+  _goapQLearning: {fileID: 11400000, guid: ad82d44a9df638248b948a65cd3a3cc9, type: 2}
   _goalObjects:
   - priorityGoal: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
     priority: 1
@@ -450,6 +470,7 @@ MonoBehaviour:
   Speed: 5
   ReplanSeconds: 5
   HasPlan: 0
+  _remainingSeconds: 0
 --- !u!54 &640428487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -533,6 +554,23 @@ MonoBehaviour:
   PropertyX: 8
   PropertyY: 0
   PropertyZ: 9
+--- !u!114 &640428492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640428485}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a622b264d2c40b4b2751ee88b8be633, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Active: 1
+  Target: {fileID: 376903267}
+  PropertyX: 11
+  PropertyY: 0
+  PropertyZ: 12
 --- !u!1 &856031072
 GameObject:
   m_ObjectHideFlags: 0
@@ -772,6 +810,7 @@ MonoBehaviour:
   Speed: 5
   ReplanSeconds: 5
   HasPlan: 0
+  _remainingSeconds: 0
 --- !u!54 &1050967528
 Rigidbody:
   m_ObjectHideFlags: 0

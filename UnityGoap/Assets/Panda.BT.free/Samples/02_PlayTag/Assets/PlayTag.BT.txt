@@ -10,7 +10,8 @@ tree "ChasePlayer"
 		sequence
 			SetDestination_Player
 			MoveToDestination
-			Wait 1.0
+			not IsCollisionReady
+			Wait(1.0)
 
 // Avoid the player while we are not 'it'.
 tree "AvoidPlayer" 

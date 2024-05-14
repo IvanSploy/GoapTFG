@@ -9,8 +9,10 @@ namespace Panda.Examples.PlayTag
 {
     public class Computer : MonoBehaviour
     {
-
+        public GameObject target;
+        public float targetExtent = 3f;
         public float speed = 1.0f; // per second.
+        public bool startOnIt;
 
         public Color it;
         public Color notIt;
@@ -19,14 +21,17 @@ namespace Panda.Examples.PlayTag
 
         Vector3 destination = Vector3.zero;
 
-        Player player;
         private Renderer _renderer;
 
         #region Tasks
 
         [Task]
-        bool IsIt = true; // Whether the agent is "It".
+        bool IsIt = false; // Whether the agent is "It".
 
+        
+        [Task]
+        bool IsCollisionReady = true;
+        
         bool _IsColliding_Player = false;
 
         [Task]
@@ -34,7 +39,7 @@ namespace Panda.Examples.PlayTag
         {
             get
             {
-                return _IsColliding_Player;
+                return _IsColliding_Player && IsCollisionReady;
             }
         }
 
@@ -44,7 +49,7 @@ namespace Panda.Examples.PlayTag
         [Task]
         void IsPlayerNear()
         {
-            float distanceToPlayer = Vector3.Distance(player.transform.position, this.transform.position);
+            float distanceToPlayer = Vector3.Distance(target.transform.position, this.transform.position);
             ThisTask.Complete(  distanceToPlayer < 4.0f );
         }
 
@@ -92,7 +97,7 @@ namespace Panda.Examples.PlayTag
         [Task]
         bool SetDestination_Player()
         {
-            destination = player.transform.position;
+            destination = target.transform.position;
             return true;
         }
 
@@ -102,7 +107,7 @@ namespace Panda.Examples.PlayTag
         [Task]
         bool SetDestination_Random()
         {
-            destination = Random.insideUnitSphere * player.extend;
+            destination = Random.insideUnitSphere * targetExtent;
             destination.y = 0.0f;
 
             return true;
@@ -116,7 +121,7 @@ namespace Panda.Examples.PlayTag
         { 
             get
             {
-                Vector3 playerDirection = (player.transform.position - this.transform.position).normalized;
+                Vector3 playerDirection = (target.transform.position - this.transform.position).normalized;
                 Vector3 destinatioDirection = (destination - this.transform.position).normalized;
                 bool isSafe = Vector3.Angle(destinatioDirection, playerDirection) > 45.0f;
                 return isSafe;
@@ -150,6 +155,7 @@ namespace Panda.Examples.PlayTag
         {
             IsIt = !IsIt;
             _renderer.material.color = IsIt ? it : notIt;
+            IsCollisionReady = false;
         }
         
         void Awake()
@@ -160,22 +166,26 @@ namespace Panda.Examples.PlayTag
         // Use this for initialization
         void Start()
         {
-            player = FindObjectOfType<Player>();
-            DoTag();
+            if(startOnIt) DoTag();
         }
 
 
 
         void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject == player.gameObject )
-                _IsColliding_Player = true;      
+            if (other.gameObject == target.gameObject)
+            {
+                _IsColliding_Player = true;   
+            }   
         }
 
         void OnTriggerExit(Collider other)
         {
-            if (other.gameObject == player.gameObject)
-                _IsColliding_Player = false;       
+            if (other.gameObject == target.gameObject)
+            {
+                _IsColliding_Player = false;  
+                IsCollisionReady = true;
+            }     
         }
 
     }

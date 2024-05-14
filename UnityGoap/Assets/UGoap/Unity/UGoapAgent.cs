@@ -39,13 +39,13 @@ namespace UGoap.Unity
         private readonly List<IGoapGoal> _goals = new();
         private readonly List<IGoapAction> _actions = new();
         private IGoapGoal _currentGoal;
-        private float _remainingSeconds;
+        [Header("Debug")]
+        [SerializeField] private float _remainingSeconds;
         private Coroutine _currentActionRoutine;
         
         //States of agent
         public GoapState CurrentState { get; set; }
         private GoapState NextState;
-        private bool _colliding;
 
         // Start is called before the first frame update
         private void Awake()
@@ -118,12 +118,23 @@ namespace UGoap.Unity
             stopwatch.Start();
             do
             {
+                if(PerformingAction)
+                    Debug.LogError("SE ESTABA EJECUTANDO UNA ACCIÓN");
+                
                 PerformingAction = true;
                 NextState = _currentPlan.PlanStep(CurrentState);
                 if (NextState != null)
                 {
-                    yield return new WaitWhile(() => PerformingAction);
+                    //Using WaitWhile creates race conditions.
+                    while (PerformingAction)
+                    {
+                        yield return null;
+                    }
                     if(!Interrupted) CurrentState = NextState;
+                }
+                else
+                {
+                    PerformingAction = false;
                 }
 
                 if (_goapQLearning)
@@ -241,14 +252,18 @@ namespace UGoap.Unity
             //If interruption worked
             if (Interrupted)
             {
-                PerformingAction = false;
-                StopAction(_currentActionRoutine);
+                Debug.Log("INTERRUPTED");
+                StopAction();
                 //Properties that need to be restored.
                 CurrentState.Set(PropertyKey.MoveState, "Ready");
                 if(seconds > 0)
                 {
                     PerformingAction = true;
                     StartAction(Wait(seconds));
+                }
+                else
+                {
+                    Complete();
                 }
             }
         }
@@ -273,7 +288,7 @@ namespace UGoap.Unity
                     break;
                 case "Tag":
                     var isIt = CurrentState.TryGetOrDefault(PropertyKey.IsIt, true);
-                    if (isIt && !_colliding)
+                    if (isIt)
                     {
                         CurrentState.Set(PropertyKey.MoveState, "Ready");
                         accomplished = false;
@@ -311,6 +326,7 @@ namespace UGoap.Unity
                     return; //Wait involves modification of performing action.
                 case "Tag":
                     SetTag(false);
+                    Debug.LogError("SE HA APLICADO LA ACCIÓN TAG, ESTO NO DEBERÍA OCURRIR EN TEORÍA");
                     break;
                 default:
                     break;
@@ -364,11 +380,11 @@ namespace UGoap.Unity
             return _currentActionRoutine;
         }
         
-        private void StopAction(Coroutine routine)
+        private void StopAction()
         {
-            if (routine != null)
+            if (_currentActionRoutine != null)
             {
-                StopCoroutine(routine);
+                StopCoroutine(_currentActionRoutine);
                 _currentActionRoutine = null;
             }
         }
@@ -411,18 +427,8 @@ namespace UGoap.Unity
             tag = !tag;
             CurrentState.Set(PropertyKey.IsIt, tag);
             UpdateTag();
-            _colliding = true;
-            Interrupt(1f);
-        }
-
-        private void OnCollisionStay(Collision other)
-        {
-            _colliding = true;
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-            _colliding = false;
+            Debug.Log("COLISIÓN GOAP");
+            Interrupt(0.5f);
         }
     }
 }

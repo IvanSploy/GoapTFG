@@ -19,6 +19,8 @@ PlayerNear,
 DestinationX,
 DestinationZ,
 MoveState,
+TargetX,
+TargetZ,
 
         }
         
@@ -34,6 +36,8 @@ MoveState,
 { PropertyKey.DestinationX, PropertyType.Float },
 { PropertyKey.DestinationZ, PropertyType.Float },
 { PropertyKey.MoveState, PropertyType.Enum },
+{ PropertyKey.TargetX, PropertyType.Float },
+{ PropertyKey.TargetZ, PropertyType.Float },
        
         };
     }
