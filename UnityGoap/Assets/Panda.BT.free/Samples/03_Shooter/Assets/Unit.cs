@@ -114,10 +114,20 @@ namespace Panda.Examples.Shooter
         public bool SetDestination(Vector3 p)
         {
             destination =  p;
-            navMeshAgent.destination = destination;
+            UnityEngine.AI.NavMeshPath selfPath = new UnityEngine.AI.NavMeshPath();
+            if (navMeshAgent.CalculatePath(p, selfPath) &&
+                selfPath.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
+            {
+                navMeshAgent.SetPath(selfPath);
+            }
+            else
+            {
+                navMeshAgent.SetDestination(p);
+            }
+
 
             if( Task.isInspected )
-                ThisTask.debugInfo = string.Format("({0}, {1})", destination.x, destination.y);
+                ThisTask.debugInfo = string.Format("({0}, {1})", destination.x, destination.z);
             return true;
         }
 

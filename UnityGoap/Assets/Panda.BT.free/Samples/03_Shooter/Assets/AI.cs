@@ -8,7 +8,7 @@ namespace Panda.Examples.Shooter
 {
     public class AI : MonoBehaviour
     {
-        Unit enemy;
+        public Unit enemy { get; private set; }
         Unit self;
         AIVision vision;
 
@@ -218,7 +218,7 @@ namespace Panda.Examples.Shooter
 
             bool isSet = false;
 
-            var attacker = self.shotBy != null ? self.shotBy : enemy;
+            var  attacker = self.shotBy != null ? self.shotBy : enemy;
 
             if (attacker != null)
             {
