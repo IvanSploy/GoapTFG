@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
-using UGoap.Planner;
 using UnityEngine;
 using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;

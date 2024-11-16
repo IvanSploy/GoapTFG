@@ -2,16 +2,15 @@
 {
     public struct GoapSettings
     {
+        public GoapState InitialState;
         public GoapConditions Goal;
-        public bool IsUsingLearning;
-        public int LearningStateCode;
 
         public static GoapSettings GetDefault()
         {
             return new GoapSettings()
             {
+                InitialState = new GoapState(),
                 Goal = new GoapConditions(),
-                LearningStateCode = 0,
             };
         }
     }

@@ -10,7 +10,7 @@ namespace UGoap.Learning
         Both
     }
     
-    public interface IQLearning
+    public interface ILearningConfig
     {
         //Properties
         LearningType Type { get; }
@@ -19,9 +19,6 @@ namespace UGoap.Learning
         float Apply(int state, string action, float r, int newState);
         float Get(int state, string action);
         void UpdateLearning(Node node, GoapState initialState, float reward);
-        int ParseToStateCode(GoapConditions goal);
-        int ParseToStateCode(GoapState state);
-        int ParseToStateCode(GoapState state, GoapConditions goal);
-        void DebugLearning();
+        int GetLearningStateCode(GoapState state, GoapConditions goal);
     }
 }

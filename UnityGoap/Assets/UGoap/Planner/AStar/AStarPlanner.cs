@@ -8,16 +8,18 @@ namespace UGoap.Planner
     /// <summary>
     /// Planner used to find the plan required.
     /// </summary>
-    /// <typeparam name="PropertyKey">Key type</typeparam>
-    /// <typeparam name="TValue">String type</typeparam>
-    public class GoapPlanner : Planner
+    public class AStarPlanner : Planner
     {
         private const int ACTION_LIMIT = 50000;
-        private bool _greedy;
+        private readonly bool _greedy;
         private readonly Dictionary<PropertyKey, List<IGoapAction>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
+        
+        //Events
+        public event Action<Node> OnNodeCreated;
+        public event Action<Node> OnPlanCreated;
 
-        public GoapPlanner(INodeGenerator nodeGenerator, IGoapAgent agent, bool greedy = false)
+        public AStarPlanner(INodeGenerator nodeGenerator, IGoapAgent agent, bool greedy = false)
             : base(nodeGenerator, agent)
         {
             _greedy = greedy;
@@ -58,7 +60,7 @@ namespace UGoap.Planner
 
             RegisterActions(actions);
 
-            nodesCreated = 0;
+            _nodesCreated = 0;
             
             _current = _nodeGenerator.CreateInitialNode(_goal.Conditions);
             while (_current != null)
@@ -81,7 +83,7 @@ namespace UGoap.Planner
                         _actionsVisited.Add(action.Name);
                             
                         var child = _current.ApplyAction(action);
-                        actionsApplied++;
+                        _actionsApplied++;
                         
                         if(child == null) continue;
                         OnNodeCreated?.Invoke(child);
@@ -98,7 +100,7 @@ namespace UGoap.Planner
                         }
                         
                         _nodeGenerator.AddChildToParent(_current, child);
-                        nodesCreated += 1;
+                        _nodesCreated += 1;
                     }
                 }
                 

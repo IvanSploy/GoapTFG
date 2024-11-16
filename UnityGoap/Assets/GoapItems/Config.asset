@@ -25,18 +25,20 @@ MonoBehaviour:
   - MoveState
   - TargetX
   - TargetZ
-  PropertyTypes: 030000000100000004000000000000000400000000000000000000000200000002000000040000000200000002000000
+  - GoalReached
+  - Hp
+  PropertyTypes: 0300000001000000040000000000000004000000000000000000000002000000020000000400000002000000020000000000000002000000
   Enums:
-  - EnumType: 2
+  - EnumType: 3
     EnumValues:
     - Opened
     - Closed
     - Locked
-  - EnumType: 4
+  - EnumType: 5
     EnumValues:
     - Blue
     - Red
-  - EnumType: 9
+  - EnumType: 10
     EnumValues:
     - Ready
     - Set

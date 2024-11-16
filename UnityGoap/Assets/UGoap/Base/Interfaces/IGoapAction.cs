@@ -7,7 +7,6 @@ namespace UGoap.Base
     {
         //Definition.
         string Name { get; }
-        string GetName(GoapConditions conditions, GoapEffects effects);
         GoapConditions GetPreconditions(GoapSettings settings);
         GoapEffects GetEffects(GoapSettings settings);
         HashSet<PropertyKey> GetAffectedKeys();

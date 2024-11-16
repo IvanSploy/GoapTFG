@@ -79,7 +79,7 @@ tree("IsThreatened")
 	//- The unit has no more ammo.
 	sequence
 		IsHealth_PercentLessThan(60.0)
-		HasAmmo_Ememy
+		HasAmmo_Enemy
 		fallback
 			LastShotTime_LessThan(3.0)
 			LastBulletSeenTime_LessThan(1.0)

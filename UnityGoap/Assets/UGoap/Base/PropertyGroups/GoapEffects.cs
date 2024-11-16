@@ -10,7 +10,7 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class GoapEffects : GoapBase< EffectValue>
+    public class GoapEffects : GoapBase<EffectValue>
     {
         public GoapEffects(GoapEffects baseGroup = null) : base(baseGroup)
         { }

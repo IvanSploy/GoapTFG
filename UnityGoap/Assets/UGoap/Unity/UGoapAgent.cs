@@ -7,7 +7,6 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;
 using Debug = UnityEngine.Debug;
 
@@ -16,36 +15,35 @@ namespace UGoap.Unity
     [RequireComponent(typeof(Rigidbody))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
-        [SerializeField] private bool _runOnStart;
-        [SerializeField] private UGoapState _initialState;
-        [SerializeField] private GoapQLearning _goapQLearning;
-        [SerializeField] private List<PriorityGoal> _goalObjects;
-        [SerializeField] private List<UGoapAction> _actionObjects;
-        
         [SerializeField] private Rigidbody _rigidbody;
         [SerializeField] private Renderer _renderer;
-
-        public string Name { get; set; }
-        public bool PerformingAction { get; set; }
-        public bool Interrupted { get; set; }
         
-        [FormerlySerializedAs("active")] public bool Active = true;
-        [FormerlySerializedAs("speed")] public float Speed = 5;
-        [FormerlySerializedAs("replanSeconds")] public float ReplanSeconds = 5;
-        [FormerlySerializedAs("hasPlan")] public bool HasPlan;
-
+        [Header("Planner")]
+        [SerializeField] private bool _runOnStart;
+        [SerializeField] private bool _active = true;
+        private float _remainingSeconds;
+        [SerializeField] private float _rePlanSeconds = 5;
+        [SerializeField] private UGoapState _initialState;
+        [SerializeField] private List<PriorityGoal> _goalObjects;
+        [SerializeField] private List<UGoapAction> _actionObjects;
+        [SerializeField] private LearningConfig _learningConfig;
+        
         //Agent base related
+        private bool _hasPlan;
         private Plan _currentPlan;
         private readonly List<IGoapGoal> _goals = new();
         private readonly List<IGoapAction> _actions = new();
         private IGoapGoal _currentGoal;
-        [Header("Debug")]
-        [SerializeField] private float _remainingSeconds;
         private Coroutine _currentActionRoutine;
         
-        //States of agent
+        [Header("Movement")]
+        [SerializeField] private float _speed = 5;
+        
+        //Agent Properties
+        public string Name { get; set; }
+        public bool PerformingAction { get; set; }
+        public bool Interrupted { get; set; }
         public GoapState CurrentState { get; set; }
-        private GoapState NextState;
 
         // Start is called before the first frame update
         private void Awake()
@@ -94,13 +92,13 @@ namespace UGoap.Unity
                 if (id >= 0)
                 {
                     StartCoroutine(PlanExecution());
-                    yield return new WaitUntil(() => !HasPlan && Active);
+                    yield return new WaitUntil(() => !_hasPlan && _active);
                 }
                 //If no plan found.
                 else
                 {
                     Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
-                    _remainingSeconds = ReplanSeconds;
+                    _remainingSeconds = _rePlanSeconds;
                     while (_remainingSeconds > 0)
                     {
                         _remainingSeconds -= Time.deltaTime;
@@ -113,54 +111,49 @@ namespace UGoap.Unity
         private IEnumerator PlanExecution()
         {
             Interrupted = false;
-            HasPlan = true;
+            _hasPlan = true;
+            GoapState nextState;
+            
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             do
             {
-                if(PerformingAction)
-                    Debug.LogError("SE ESTABA EJECUTANDO UNA ACCIÓN");
-                
-                PerformingAction = true;
-                NextState = _currentPlan.PlanStep(CurrentState);
-                if (NextState != null)
+                PerformingAction = false;
+                nextState = _currentPlan.PlanStep(CurrentState);
+                if (nextState != null)
                 {
+                    PerformingAction = true;
+                    
                     //Using WaitWhile creates race conditions.
-                    while (PerformingAction)
-                    {
-                        yield return null;
-                    }
-                    if(!Interrupted) CurrentState = NextState;
-                }
-                else
-                {
-                    PerformingAction = false;
+                    while (PerformingAction) yield return null;
+                    
+                    if(!Interrupted) CurrentState = nextState;
                 }
 
-                if (_goapQLearning)
+                if (_learningConfig)
                 {
-                    _goapQLearning.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                    _learningConfig.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
                 }
                                     
                 stopwatch.Restart();
-            } while (NextState != null && !Interrupted);
+            } while (nextState != null && !Interrupted);
             stopwatch.Stop();
             
-            if (_goapQLearning)
+            if (_learningConfig)
             {
-                var reward = _currentPlan.IsDone ? _goapQLearning.PositiveReward : -_goapQLearning.NegativeReward;
+                var reward = _currentPlan.IsDone ? _learningConfig.PositiveReward : -_learningConfig.NegativeReward;
                 var initialSign = Math.Sign(reward);
-                var decay = reward > 0 ? -_goapQLearning.PositiveRewardDecay : _goapQLearning.NegativeRewardDecay;
+                var decay = reward > 0 ? -_learningConfig.PositiveRewardDecay : _learningConfig.NegativeRewardDecay;
                 
                 foreach (var node in _currentPlan.ExecutedNodes)
                 {
-                    _goapQLearning.UpdateLearning(node, _currentPlan.InitialState, reward);
+                    _learningConfig.UpdateLearning(node, _currentPlan.InitialState, reward);
                     reward += decay;
                     if (Math.Sign(reward) != initialSign) break;
                 }
             }
             
-            HasPlan = false;
+            _hasPlan = false;
         }
 
         //INTERFACE CLASSES
@@ -200,14 +193,14 @@ namespace UGoap.Unity
 
         public bool CreatePlan(GoapState state, IGoapGoal goal)
         {
-            var generator = new AStar(state, _goapQLearning);
-            var planner = new GoapPlanner(generator, this);
+            var generator = new AStar(state, _learningConfig);
+            var planner = new AStarPlanner(generator, this);
 
             var plan = planner.CreatePlan(state, goal, _actions);
                 
             DebugLogs(DebugRecord.GetRecords());
             
-            if(_goapQLearning) _goapQLearning.DebugLearning();
+            if(_learningConfig) _learningConfig.DebugLearning();
             if (plan == null)
             {
                 Debug.Log("Plan no encontrado para objetivo: " + goal.Name);
@@ -227,7 +220,7 @@ namespace UGoap.Unity
             Interrupted = false;
             
             //If current plan
-            if (HasPlan)
+            if (_hasPlan)
             {
                 //If already accomplished
                 if (_currentGoal.IsGoal(CurrentState))
@@ -338,12 +331,12 @@ namespace UGoap.Unity
         
         public void GoTo(string target, float speedFactor)
         {
-            GoTo(UGoapWMM.Get(target).Position, Speed * speedFactor);
+            GoTo(UGoapWMM.Get(target).Position, _speed * speedFactor);
         }
         
         public void GoTo(Vector3 target, float speedFactor)
         {
-            StartAction(Movement(target, Speed * speedFactor));
+            StartAction(Movement(target, _speed * speedFactor));
         }
         
         //COROUTINES
@@ -352,15 +345,17 @@ namespace UGoap.Unity
             bool reached = false;
             while (!reached)
             {
-                var position = transform.position;
-                target.y = position.y;
-                Vector3 newPos = Vector3.MoveTowards(position, target,
-                    Time.deltaTime * vel);
-                transform.rotation = Quaternion.LookRotation(target - position, Vector3.up);
-                transform.position = newPos;
+                var t = transform;
+                var p = t.position;
+                target.y = p.y;
+                t.position = Vector3.MoveTowards(p, target, Time.deltaTime * vel);
+                t.rotation = Quaternion.LookRotation(target - p, Vector3.up);
                 Vector3 aux = target;
-                aux.y = position.y;
-                if (Vector3.Distance(transform.position, aux) < float.Epsilon) reached = true;
+                aux.y = p.y;
+                if (Vector3.Distance(transform.position, aux) < float.Epsilon)
+                {
+                    reached = true;
+                }
                 yield return null;
             }
 
@@ -373,7 +368,6 @@ namespace UGoap.Unity
             Complete();
         }
         
-        //Debug
         private Coroutine StartAction(IEnumerator routine)
         {
             _currentActionRoutine = StartCoroutine(routine);
@@ -389,6 +383,7 @@ namespace UGoap.Unity
             }
         }
         
+        //Debug
         private void DebugLogs(List<string> logs)
         {
             foreach (var log in logs)

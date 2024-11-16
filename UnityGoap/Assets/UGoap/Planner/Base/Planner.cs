@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
@@ -7,22 +6,17 @@ namespace UGoap.Planner
 {
     public abstract class Planner
     {
-        //Stats
-        protected static int nodesCreated = 0;
-        protected static int nodesSkipped = 0;
-        public static int actionsApplied = 0;
-        
-        //Initial data
-        protected INodeGenerator _nodeGenerator;
-        protected IGoapAgent _agent;
+        protected readonly INodeGenerator _nodeGenerator;
+        protected readonly IGoapAgent _agent;
         
         //Plan data
         protected IGoapGoal _goal;
         protected Node _current;
         
-        //Events
-        public Action<Node> OnNodeCreated;
-        public Action<Node> OnPlanCreated;
+        //Stats
+        protected static int _actionsApplied;
+        protected static int _nodesCreated;
+        private static int _nodesSkipped;
 
         protected Planner(INodeGenerator nodeGenerator, IGoapAgent agent)
         {
@@ -85,7 +79,7 @@ namespace UGoap.Planner
 
             if (!compatible)
             {
-                nodesSkipped++;
+                _nodesSkipped++;
                 //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
             }
             return compatible;
@@ -102,21 +96,21 @@ namespace UGoap.Planner
 
         public void DebugPlan(Node node, string goalName)
         {
-            var debugLog = "Acciones para conseguir el objetivo: " + goalName + "\n";
+            var debugLog = "Actions to reach goal: " + goalName + "\n";
             var actionNames = "";
             int count = 0;
             int cost = node.TotalCost;
             
             while (node.Parent != null)
             {
-                actionNames += node.PreviousActionInfo.Name + "\n";
+                actionNames += node.PreviousAction.Name + "\n";
                 count++;
                 node = node.Parent;
             }
 
             debugLog += count + "\n";
-            debugLog += "con coste: " + cost + "\n";
-            debugLog += actionNames + "\n";
+            debugLog += $"with cost: {cost}\n";
+            debugLog += $"{actionNames}\n";
 
             DebugRecord.AddRecord(debugLog);
         }
@@ -124,10 +118,10 @@ namespace UGoap.Planner
         protected void DebugInfo(Node node)
         {
             string info = "";
-            info += "NODOS CREADOS: " + nodesCreated + "\n";
-            info += "NODOS SALTADOS: " + nodesSkipped + "\n";
-            info += "ACCIONES RECORRIDAS: " + actionsApplied + "\n";
-            actionsApplied = 0;
+            info += "NODES CREATED: " + _nodesCreated + "\n";
+            info += "NODES SKIPPED: " + _nodesSkipped + "\n";
+            info += "ACTIONS APPLIED: " + _actionsApplied + "\n";
+            _actionsApplied = 0;
             DebugPlan(node, _goal.Name);
             DebugRecord.AddRecord(info);
         }

@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using UGoap.Base;
 using UGoap.Learning;
-using UGoap.Planner;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.Actions
@@ -10,7 +10,8 @@ namespace UGoap.Unity.Actions
     [CreateAssetMenu(fileName = "SetBestDestination", menuName = "Goap Items/Actions/SetBestDestination")]
     public class SetBestDestinationAction : UGoapAction
     {
-        [SerializeField] private GoapQLearning _learning;
+        [SerializeField] private bool _active = true;
+        [SerializeField] private LearningConfig _learningConfig;
         [SerializeField] private string _name;
         
         protected override GoapConditions GetProceduralConditions(GoapSettings settings)
@@ -20,10 +21,11 @@ namespace UGoap.Unity.Actions
 
         protected override GoapEffects GetProceduralEffects(GoapSettings settings)
         {
-            if (settings.IsUsingLearning)
+            if (_active)
             {
                 GoapEffects goapEffects = new GoapEffects();
-                var bestActionName = _learning.FindMax(settings.LearningStateCode, _name);
+                var learningState = _learningConfig.GetLearningStateCode(settings.InitialState, settings.Goal);
+                var bestActionName = _learningConfig.FindMax(learningState, _name);
 
                 if (bestActionName != null)
                 {

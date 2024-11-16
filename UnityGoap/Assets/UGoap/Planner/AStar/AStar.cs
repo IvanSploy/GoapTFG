@@ -14,7 +14,7 @@ namespace UGoap.Planner
         private readonly SortedSet<Node> _openList; //Para acceder más rapidamente al elemento prioritario.
         private readonly HashSet<Node> _expandedNodes;
         private readonly Func<GoapConditions, GoapState, int> _customHeuristic;
-        private readonly IQLearning _qLearning;
+        private readonly ILearningConfig _learningConfig;
         
         public AStar(GoapState initialState, Func<GoapConditions, GoapState, int> customHeuristic = null)
         {
@@ -25,22 +25,22 @@ namespace UGoap.Planner
             _customHeuristic = customHeuristic;
         }
         
-        public AStar(GoapState initialState, IQLearning qLearning)
+        public AStar(GoapState initialState, ILearningConfig learningConfig)
         {
             InitialState = initialState;
             
             _openList = new SortedSet<Node>();
             _expandedNodes = new HashSet<Node>();
-            _qLearning = qLearning;
+            _learningConfig = learningConfig;
         }
 
         public Node CreateInitialNode(GoapConditions goal)
         {
             var goalState = new GoapConditions(goal);
-            AStarNode node = _qLearning != null ? new AStarNode(this, goalState, _qLearning)
-                : new AStarNode(this, goalState, _customHeuristic);
+            AStarNode node = _learningConfig != null ? new AStarNode(this, InitialState, goalState, _learningConfig)
+                : new AStarNode(this, InitialState, goalState, _customHeuristic);
             node.GCost = 0;
-            node.HCost = _qLearning != null ? 0 : node.GetHeuristic(InitialState);
+            node.HCost = _learningConfig != null ? 0 : node.GetHeuristic(InitialState);
             return node;
         }
         

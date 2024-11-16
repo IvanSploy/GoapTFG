@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace UGoap.Learning
 {
-    public static class QGoapExtensions
+    public static class Politics
     {
-        public static string FindMax(this GoapQLearning qLearning, int state, string search)
+        public static string FindMax(this LearningConfig learningConfig, int state, string search)
         {
-            if (qLearning.Values.TryGetValue(state, out var values))
+            if (learningConfig.Values.TryGetValue(state, out var values))
             {
                 try
                 {

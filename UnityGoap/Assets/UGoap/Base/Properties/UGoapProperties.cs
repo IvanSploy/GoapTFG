@@ -21,6 +21,8 @@ DestinationZ,
 MoveState,
 TargetX,
 TargetZ,
+GoalReached,
+Hp,
 
         }
         
@@ -38,6 +40,8 @@ TargetZ,
 { PropertyKey.MoveState, PropertyType.Enum },
 { PropertyKey.TargetX, PropertyType.Float },
 { PropertyKey.TargetZ, PropertyType.Float },
+{ PropertyKey.GoalReached, PropertyType.Boolean },
+{ PropertyKey.Hp, PropertyType.Float },
        
         };
     }

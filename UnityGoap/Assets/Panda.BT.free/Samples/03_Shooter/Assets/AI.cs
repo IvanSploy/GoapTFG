@@ -90,7 +90,7 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool HasAmmo_Ememy()
+        bool HasAmmo_Enemy()
         {
             bool has = false;
             if (enemy != null)

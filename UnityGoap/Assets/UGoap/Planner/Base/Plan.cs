@@ -7,7 +7,7 @@ namespace UGoap.Planner
     {
         public GoapState InitialState { get; private set; }
         public Node CurrentNode { get; private set; }
-        public Stack<Node> ExecutedNodes { get; private set; } = new();
+        public Stack<Node> ExecutedNodes { get; } = new();
         public IGoapEntity CurrentEntity { get; private set; }
         public bool IsDone { get; private set; }
         

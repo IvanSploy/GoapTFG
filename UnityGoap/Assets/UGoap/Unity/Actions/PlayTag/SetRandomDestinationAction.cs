@@ -37,6 +37,8 @@ namespace UGoap.Unity.Actions
             return actionName;
         }
 
+        
+        //TODO Maybe better to check it before. Only random available postions, for better performance.
         public override bool ProceduralValidate(GoapState goapState, GoapActionInfo actionInfo, UGoapAgent agent)
         {
             if (!goapState.TryGetOrDefault(PropertyKey.IsIt, false))

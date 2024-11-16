@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UGoap.Base;
 using UGoap.Learning;
 
@@ -14,15 +13,15 @@ namespace UGoap.Planner
         public override int TotalCost => GCost + HCost;
 
         //Constructor
-        public AStarNode(INodeGenerator nodeGenerator, GoapConditions goal, Func<GoapConditions,GoapState,int> heuristic) :
-            base(nodeGenerator, goal, heuristic)
+        public AStarNode(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal, Func<GoapConditions,GoapState,int> heuristic) :
+            base(nodeGenerator, initialState, goal, heuristic)
         {
             GCost = 0;
             HCost = 0;
         }
         
-        public AStarNode(INodeGenerator nodeGenerator, GoapConditions goal, IQLearning qLearning) :
-            base(nodeGenerator, goal, qLearning)
+        public AStarNode(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal, ILearningConfig learningConfig) :
+            base(nodeGenerator, initialState, goal, learningConfig)
         {
             GCost = 0;
             HCost = 0;
@@ -30,8 +29,8 @@ namespace UGoap.Planner
 
         protected override Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapActionInfo actionInfo)
         {
-            var aStarNode = UseLearning ? new AStarNode(NodeGenerator, goal, QLearning)
-                : new AStarNode(NodeGenerator, goal, CustomHeuristic);
+            var aStarNode = UseLearning ? new AStarNode(NodeGenerator, InitialState, goal, LearningConfig)
+                : new AStarNode(NodeGenerator, InitialState, goal, CustomHeuristic);
             aStarNode.Update(this, action, actionInfo);
             Children.Add(aStarNode);
             return aStarNode;
@@ -57,7 +56,8 @@ namespace UGoap.Planner
 
         public int GetLearning()
         {
-            return -(int)QLearning.Get(Parent.Settings.LearningStateCode, PreviousActionInfo.Name);
+            var state = LearningConfig.GetLearningStateCode(InitialState, Goal);
+            return -(int)LearningConfig.Get(state, PreviousActionInfo.Name);
         }
 
         #region Overrides

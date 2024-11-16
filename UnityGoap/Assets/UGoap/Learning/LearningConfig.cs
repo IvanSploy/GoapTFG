@@ -10,8 +10,8 @@ using Random = UnityEngine.Random;
 
 namespace UGoap.Learning
 {
-    [CreateAssetMenu(fileName = "QLearning", menuName = "Goap Items/QLearning", order = 1)]
-    public class GoapQLearning : ScriptableObject, IQLearning
+    [CreateAssetMenu(fileName = "LearningConfig", menuName = "Goap Items/LearningConfig", order = 1)]
+    public class LearningConfig : ScriptableObject, ILearningConfig
     {
         [Header("Config")] 
         public Vector2 InitialRange = new(-500,500);
@@ -126,7 +126,7 @@ namespace UGoap.Learning
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Apply(initialNode, node.PreviousActionInfo.Name, reward, finishNode);
+            Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
         }
 
         private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);
@@ -165,6 +165,17 @@ namespace UGoap.Learning
             {
                 _qValues[state] = new Dictionary<string, float> { { action, qValue } };
             }
+        }
+
+        public int GetLearningStateCode(GoapState state, GoapConditions goal)
+        {
+            return Type switch
+            {
+                LearningType.State => ParseToStateCode(state),
+                LearningType.Goal => ParseToStateCode(goal),
+                LearningType.Both => ParseToStateCode(state, goal),
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         public int ParseToStateCode(GoapConditions goal)
