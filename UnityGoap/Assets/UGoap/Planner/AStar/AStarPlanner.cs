@@ -69,7 +69,9 @@ namespace UGoap.Planner
                 foreach (var goalPair in _current.Goal)
                 {
                     PropertyKey key = goalPair.Key;
-                    foreach (var action in _actions[goalPair.Key])
+                    if (!_actions.ContainsKey(key)) break;
+                    
+                    foreach (var action in _actions[key])
                     {
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
