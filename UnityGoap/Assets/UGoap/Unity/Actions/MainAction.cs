@@ -1,15 +1,15 @@
-﻿using UGoap.Base;
+﻿/*using UGoap.Base;
 using UnityEngine;
 
 namespace UGoap.Unity.Actions
 {
     public class MainAction : GoapAction
     {
-        private float _waitSeconds;
+        private float WaitSeconds;
         
         public MainAction(string name, GoapConditions conditions, GoapEffects effects, float waitSeconds = 1f) : base(name, conditions, effects)
         {
-            _waitSeconds = waitSeconds;
+            WaitSeconds = waitSeconds;
         }
 
         protected override GoapConditions GetProceduralConditions(GoapSettings settings)
@@ -38,8 +38,8 @@ namespace UGoap.Unity.Actions
             UGoapAgent uAgent = agent as UGoapAgent;
             if (uAgent)
             {
-                uAgent.GoGenericAction(Name, ref goapState, _waitSeconds);
+                uAgent.GoGenericAction(Name, ref goapState, WaitSeconds);
             }
         }
     }
-}
+}*/

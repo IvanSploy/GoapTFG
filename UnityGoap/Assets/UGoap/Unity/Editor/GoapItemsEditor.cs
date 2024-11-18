@@ -51,16 +51,12 @@ namespace UGoap.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(ActionConfig))]
+        [CustomEditor(typeof(ActionConfig), true)]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
-
-                var config = (ActionConfig)target;
-
-                config.Create();
                 
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
@@ -68,13 +64,12 @@ namespace UGoap.Unity.Editor
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("_preconditions"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("_effects"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("GoapAction"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Preconditions"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Effects"), true);
                 
                 EditorGUI.indentLevel--;
                 
-                //Save changes inside properties.
+                //Save changes inside Properties.
                 serializedObject.ApplyModifiedProperties();
             }
         }

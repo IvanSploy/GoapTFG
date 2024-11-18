@@ -41,7 +41,7 @@ namespace UGoap.Planner
         public int Count => _nodes.Count;
         
         //Methods
-        public GoapState ExecuteNext(GoapState currentState)
+        public async Task<GoapState> ExecuteNext(GoapState currentState)
         {
             if (Count == 0)
             {
@@ -52,15 +52,17 @@ namespace UGoap.Planner
             CurrentNode = _nodes.Pop();
             ExecutedNodes.Push(CurrentNode);
             
-            comprobar async
-            var actionTask = CurrentNode.ExecuteAction(currentState, _agent);
-            while (!actionTask.IsCompleted) Task.Yield();
-            actionTask.Dispose();
+            var result = await Task.Run(() =>
+            {
+                var task = CurrentNode.ExecuteAction(currentState, _agent);
+                while (!task.IsCompleted) Task.Yield();
+                return task.Result;
+            });
             
             if (currentState != null) 
                 DebugRecord.AddRecord(currentState.ToString());
             
-            return actionTask.Result;
+            return result;
         }
 
         public void Interrupt(bool goalReached)

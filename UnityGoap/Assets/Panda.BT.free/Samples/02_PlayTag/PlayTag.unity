@@ -449,28 +449,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runOnStart: 1
-  _initialState: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
-  _goapQLearning: {fileID: 11400000, guid: ad82d44a9df638248b948a65cd3a3cc9, type: 2}
-  _goalObjects:
-  - priorityGoal: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
-    priority: 1
-  - priorityGoal: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
-    priority: 0
-  _actionObjects:
-  - {fileID: 11400000, guid: 158d811345b9b6646ab004c406ca1f81, type: 2}
-  - {fileID: 11400000, guid: 45246bfdf736c85429c12a6191279e4d, type: 2}
-  - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
-  - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
-  - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
-  - {fileID: 11400000, guid: 63ddf898b333e4d4d9d75c943fd51c28, type: 2}
   _rigidbody: {fileID: 0}
   _renderer: {fileID: 0}
-  Active: 1
-  Speed: 5
-  ReplanSeconds: 5
-  HasPlan: 0
-  _remainingSeconds: 0
+  _runOnStart: 1
+  _active: 1
+  _rePlanSeconds: 5
+  _initialStateConfig: {fileID: 11400000, guid: 17bc6927d5b76c9438e7b533cf9b71e9, type: 2}
+  _goalList:
+  - _goalConfig: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
+    _priority: 1
+  - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
+    _priority: 0
+  - _goalConfig: {fileID: 11400000, guid: 0c8231737c81f774a8a8f7f143ec7b7f, type: 2}
+    _priority: 2
+  _actionList:
+  - {fileID: 11400000, guid: 3045a5f08959c60429ed28bae602adc8, type: 2}
+  _learningConfig: {fileID: 0}
+  _speed: 5
 --- !u!54 &640428487
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -566,7 +561,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a622b264d2c40b4b2751ee88b8be633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 1
   Target: {fileID: 376903267}
   PropertyX: 11
   PropertyY: 0
@@ -791,26 +785,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _runOnStart: 0
-  _initialState: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
-  _goapQLearning: {fileID: 0}
-  _goalObjects:
-  - priorityGoal: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
-    priority: 1
-  - priorityGoal: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
-    priority: 0
-  _actionObjects:
-  - {fileID: 11400000, guid: 158d811345b9b6646ab004c406ca1f81, type: 2}
-  - {fileID: 11400000, guid: 45246bfdf736c85429c12a6191279e4d, type: 2}
-  - {fileID: 11400000, guid: cf6e28a350a35604383e9faa4d90ab61, type: 2}
-  - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
   _rigidbody: {fileID: 0}
   _renderer: {fileID: 0}
-  Active: 1
-  Speed: 5
-  ReplanSeconds: 5
-  HasPlan: 0
-  _remainingSeconds: 0
+  _runOnStart: 0
+  _active: 1
+  _rePlanSeconds: 5
+  _initialStateConfig: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
+  _goalList:
+  - _goalConfig: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
+    _priority: 1
+  - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
+    _priority: 0
+  _actionList: []
+  _learningConfig: {fileID: 0}
+  _speed: 5
 --- !u!54 &1050967528
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -1,4 +1,4 @@
-﻿using UGoap.Base;
+﻿/*using UGoap.Base;
 using UnityEngine;
 
 namespace UGoap.Unity.Actions
@@ -26,4 +26,4 @@ namespace UGoap.Unity.Actions
             agent.GoGenericAction(Name, ref goapState);
         }
     }
-}
+}*/

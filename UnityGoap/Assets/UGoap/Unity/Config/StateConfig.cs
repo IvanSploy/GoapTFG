@@ -9,12 +9,13 @@ namespace UGoap.Unity.ScriptableObjects
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
     public class StateConfig : ScriptableObject
     {
-        [HideInInspector] public List<Property> properties;
+        [FormerlySerializedAs("properties")] 
+        [HideInInspector] public List<Property> Properties;
 
         public GoapState Create()
         {
             GoapState goapState = new();
-            goapState.ApplyProperties(properties);
+            goapState.ApplyProperties(Properties);
             return goapState;
         }
     }

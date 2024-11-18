@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
@@ -12,7 +12,7 @@ namespace UGoap.Unity.Actions
         [Header("Custom Data")]
         [SerializeField] private PropertyKey _resource;
         [SerializeField] private float _count = 1;
-        [SerializeField] private int _waitSeconds = 1;
+        [SerializeField] private int WaitSeconds = 1;
 
         //Conditions that could be resolved by the planner.
         protected override GoapConditions GetProceduralConditions(GoapSettings settings)
@@ -71,7 +71,7 @@ namespace UGoap.Unity.Actions
         
         public override void ProceduralExecute(ref GoapState goapState, UGoapAgent agent)
         {
-            agent.GoGenericAction(Name, ref goapState, _waitSeconds);
+            agent.GoGenericAction(Name, ref goapState, WaitSeconds);
 
             var fact = UGoapWMM.Get(_resource);
             
@@ -93,4 +93,4 @@ namespace UGoap.Unity.Actions
             }
         }
     }
-}
+}*/

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UGoap.Base;
-using UGoap.Unity.Actions;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
 using static UGoap.Base.UGoapPropertyManager;
@@ -86,6 +85,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         if(PropertyY != PropertyKey.None) effects.Set(PropertyY, EffectType.Set, y);
         if(PropertyZ != PropertyKey.None) effects.Set(PropertyZ, EffectType.Set, z);
             
-        return new SetDestinationAction(actionName, _conditions, effects);
+        //return new SetDestinationAction(actionName, _conditions, effects);
+        return null;
     }
 }

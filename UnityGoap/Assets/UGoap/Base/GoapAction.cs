@@ -7,14 +7,12 @@ namespace UGoap.Base
     public abstract class GoapAction
     {
         //Fields
-        public string Name { get; }
-        private readonly GoapConditions _preconditions = new();
-        private readonly GoapEffects _effects = new();
+        public string Name { get; private set; }
+        private GoapConditions _preconditions = new();
+        private GoapEffects _effects = new();
         private int _cost = 1;
-
-        protected GoapAction() { }
         
-        protected GoapAction(string name, GoapConditions conditions, GoapEffects effects)
+        public void Initialize(string name, GoapConditions conditions, GoapEffects effects)
         {
             Name = name;
             if (conditions != null) _preconditions = conditions;

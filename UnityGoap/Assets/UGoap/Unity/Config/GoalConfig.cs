@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace UGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Goal", menuName = "Goap Items/Goal", order = 2)]
+    [CreateAssetMenu(fileName = "Goal", menuName = "Goap Items/Goal")]
     public class GoalConfig : ScriptableObject
     {
         [FormerlySerializedAs("properties")] 

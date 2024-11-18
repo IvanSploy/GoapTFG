@@ -24,8 +24,8 @@ namespace UGoap.Unity
         [SerializeField] private bool _active = true;
         private float _remainingSeconds;
         [SerializeField] private float _rePlanSeconds = 5;
-        [FormerlySerializedAs("_initialState")] [SerializeField] private StateConfig _initialStateConfig;
-        [FormerlySerializedAs("_goalObjects")] [SerializeField] private List<PriorityGoal> _goalList;
+        [SerializeField] private StateConfig _initialStateConfig;
+        [SerializeField] private List<PriorityGoal> _goalList;
         [SerializeField] private List<ActionConfig> _actionList;
         [SerializeField] private LearningConfig _learningConfig;
         
@@ -76,7 +76,7 @@ namespace UGoap.Unity
             //ACTIONS
             foreach (var action in _actionList)
             {
-                _actions.Add(action.GoapAction);
+                _actions.Add(action.Create());
             }
             
             StartCoroutine(PlanGenerator());
@@ -121,13 +121,14 @@ namespace UGoap.Unity
             do
             {
                 PerformingAction = true;
-                nextState = _currentPlan.ExecuteNext(CurrentState);
+                
+                var task = _currentPlan.ExecuteNext(CurrentState);
+                while (!task.IsCompleted) yield return null;
+                nextState = task.Result;
+                
                 if (nextState == null) PerformingAction = false;
                 else
                 {
-                    //Bug: Using WaitWhile creates race conditions.
-                    while (PerformingAction) yield return null;
-
                     if (!Interrupted) CurrentState = nextState;
                 }
 

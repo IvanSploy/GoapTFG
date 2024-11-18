@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using UGoap.Base;
-using UnityEngine;
 
 namespace UGoap.Unity.Actions
 {
-    [Serializable]
     public class GenericAction : GoapAction
     {
-        [Header("Custom Data")]
-        [SerializeField] private int _waitSeconds = 1;
-
+        public int WaitSeconds = 1;
+        
         protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             return null;
@@ -29,7 +24,7 @@ namespace UGoap.Unity.Actions
 
         public override async Task<GoapState> Execute(GoapState goapState, IGoapAgent agent)
         {
-            await Task.Delay(_waitSeconds);
+            await Task.Delay(WaitSeconds * 1000);
             return goapState;
         }
     }
