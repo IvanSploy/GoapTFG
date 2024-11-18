@@ -1,10 +1,13 @@
-﻿using UGoap.Base;
+﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
+using UGoap.Base;
 using UnityEngine;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "GenericAction", menuName = "Goap Items/Actions/GenericAction", order = 0)]
-    public class GenericAction : UGoapAction
+    [Serializable]
+    public class GenericAction : GoapAction
     {
         [Header("Custom Data")]
         [SerializeField] private int _waitSeconds = 1;
@@ -19,14 +22,15 @@ namespace UGoap.Unity.Actions
             return null;
         }
         
-        public override bool ProceduralValidate(GoapState goapState, GoapActionInfo actionInfo, UGoapAgent agent)
+        public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent agent)
         {
-            return agent.ValidateGeneric(Name, goapState);
+            return true;
         }
 
-        public override void ProceduralExecute(ref GoapState goapState, UGoapAgent agent)
+        public override async Task<GoapState> Execute(GoapState goapState, IGoapAgent agent)
         {
-            agent.GoGenericAction(Name, ref goapState, _waitSeconds);
+            await Task.Delay(_waitSeconds);
+            return goapState;
         }
     }
 }

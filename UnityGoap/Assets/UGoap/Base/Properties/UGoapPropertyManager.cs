@@ -129,18 +129,18 @@ namespace UGoap.Base
 
         #endregion
 
-        #region Usos externos
+        #region Utilities
         
         /// <summary>
         /// Converts a Property into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="goapState">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<Property> properties, in GoapState goapState)
+        public static void ApplyProperties(this GoapState goapState, List<Property> properties)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, in goapState);
+                goapState.ApplyProperty(property);
             }
         }
     
@@ -150,11 +150,11 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<ConditionProperty> properties, in GoapConditions state)
+        public static void ApplyProperties(this GoapConditions state, List<ConditionProperty> properties)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, in state);
+                state.ApplyProperty(property);
             }
         }
     
@@ -163,28 +163,28 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void AddIntoPropertyGroup(List<EffectProperty> properties, in GoapEffects state)
+        public static void ApplyProperties(this GoapEffects state, List<EffectProperty> properties)
         {
             foreach (var property in properties)
             {
-                ApplyProperty(property, in state);
+                state.ApplyProperty(property);
             }
         }
         
         #endregion
 
         #region Converters
-        private static void ApplyProperty(Property property, in GoapState pg)
+        private static void ApplyProperty(this GoapState pg, Property property)
         {
             pg.Set(ParseName(property), ParseValue(property));
         }
         
-        private static void ApplyProperty(ConditionProperty property, in GoapConditions pg)
+        private static void ApplyProperty(this GoapConditions pg, ConditionProperty property)
         {
             pg.Set(ParseName(property), new ConditionValue(ParseValue(property), property.condition));
         }
 
-        private static void ApplyProperty(EffectProperty property, in GoapEffects pg)
+        private static void ApplyProperty(this GoapEffects pg, EffectProperty property)
         {
             pg.Set(ParseName(property), new EffectValue(ParseValue(property), property.effect));
         } 

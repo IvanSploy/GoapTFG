@@ -10,9 +10,9 @@ namespace UGoap.Unity.Editor
 {
     #region ScriptableObjects
 
-    public static class UGoapItemEditor
+    public static class GoapItemsEditor
     {
-        [CustomEditor(typeof(UGoapState))]
+        [CustomEditor(typeof(StateConfig))]
         public class StateEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
@@ -25,60 +25,57 @@ namespace UGoap.Unity.Editor
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("properties"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Properties"), true);
                 serializedObject.ApplyModifiedProperties();
 
                 EditorGUI.indentLevel--;
             }
         }
 
-        [CustomEditor(typeof(UGoapPriorityGoal))]
+        [CustomEditor(typeof(GoalConfig))]
         public class GoalEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
                 
-                /*if (GUILayout.Button("Generate Goal Names"))
-                {
-                    CreateGoalEnum();
-                }
-                EditorGUILayout.Space();*/
-                
                 EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("properties"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("Properties"), true);
                 serializedObject.ApplyModifiedProperties();
 
                 EditorGUI.indentLevel--;
             }
         }
 
-        [CustomEditor(typeof(UGoapAction), true)]
+        [CustomEditor(typeof(ActionConfig))]
         public class ActionEditor : UnityEditor.Editor
         {
             public override void OnInspectorGUI()
             {
                 base.OnInspectorGUI();
 
-                UGoapAction actionScriptableObject = (UGoapAction)target;
+                var config = (ActionConfig)target;
 
+                config.Create();
+                
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
 
                 EditorGUI.indentLevel++;
 
                 EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Preconditions"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Effects"), true);
-
-                //Guarda los cambios realizados en los property fields.
-                serializedObject.ApplyModifiedProperties();
-
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_preconditions"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_effects"), true);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("GoapAction"), true);
+                
                 EditorGUI.indentLevel--;
+                
+                //Save changes inside properties.
+                serializedObject.ApplyModifiedProperties();
             }
         }
 

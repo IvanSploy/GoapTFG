@@ -13,7 +13,7 @@ namespace UGoap.Unity.CodeGenerator
         private const string ReferenceKeysPath = "Assets/UGoap/Base/Properties/UGoapPropertiesReference.txt";
         private const string ReferenceValuesPath = "Assets/UGoap/Base/Properties/UGoapPropertyValuesReference.txt";
 
-        public static void GenerateKeys(UGoapConfig config)
+        public static void GenerateKeys(MainConfig mainConfig)
         {
             if (!File.Exists(ReferenceKeysPath))
             {
@@ -31,17 +31,17 @@ namespace UGoap.Unity.CodeGenerator
             }
             
             string keys = "";
-            foreach (var propertyKey in config.PropertyKeys)
+            foreach (var propertyKey in mainConfig.PropertyKeys)
             {
                 keys += propertyKey + ",\n";
             }
             code = code.Replace("[propertyKeys]", keys);
             
             string types = "";
-            for (var i = 0; i < config.PropertyKeys.Count; i++)
+            for (var i = 0; i < mainConfig.PropertyKeys.Count; i++)
             {
-                var propertyKey = config.PropertyKeys[i];
-                var propertyType = config.PropertyTypes[i];
+                var propertyKey = mainConfig.PropertyKeys[i];
+                var propertyType = mainConfig.PropertyTypes[i];
                 types += "{ PropertyKey." + propertyKey + ", PropertyType." + propertyType + " },\n";
             }
 
@@ -53,7 +53,7 @@ namespace UGoap.Unity.CodeGenerator
             }
         }
         
-        public static void GenerateValues(UGoapConfig config)
+        public static void GenerateValues(MainConfig mainConfig)
         {
             if (!File.Exists(ReferenceValuesPath))
             {
@@ -71,7 +71,7 @@ namespace UGoap.Unity.CodeGenerator
             }
             
             string customEnums = "";
-            foreach (var customEnum in config.Enums)
+            foreach (var customEnum in mainConfig.Enums)
             {
                 string enums = ", new [] { ";
                 foreach (var enumName in customEnum.EnumValues)

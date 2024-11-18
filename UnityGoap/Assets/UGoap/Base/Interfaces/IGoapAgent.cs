@@ -23,13 +23,13 @@ namespace UGoap.Base
         /// Add posible action to the agent.
         /// </summary>
         /// <param name="action">Action to be added</param>
-        void AddAction(IGoapAction action);
+        void AddAction(GoapAction action);
 
         /// <summary>
         /// Add posible actions to the agent.
         /// </summary>
         /// <param name="actionList">Actions to be added</param>
-        void AddActions(List<IGoapAction> actionList);
+        void AddActions(List<GoapAction> actionList);
         
         /// <summary>
         /// Add goal to the agent.
@@ -51,13 +51,13 @@ namespace UGoap.Base
         int CreateNewPlan(GoapState worldGoapState);
 
         /// <summary>
+        /// Tries to stop current plan execution and waits x seconds.
+        /// </summary>
+        void Interrupt();
+        
+        /// <summary>
         /// Completes current action.
         /// </summary>
         void Complete();
-
-        /// <summary>
-        /// Tries to stop current plan execution and waits x seconds.
-        /// </summary>
-        void Interrupt(float seconds = 0f);
     }
 }

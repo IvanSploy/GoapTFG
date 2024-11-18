@@ -27,7 +27,7 @@ namespace UGoap.Planner
             HCost = 0;
         }
 
-        protected override Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapActionInfo actionInfo)
+        protected override Node CreateChildNode(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo)
         {
             var aStarNode = UseLearning ? new AStarNode(NodeGenerator, InitialState, goal, LearningConfig)
                 : new AStarNode(NodeGenerator, InitialState, goal, CustomHeuristic);
@@ -57,7 +57,7 @@ namespace UGoap.Planner
         public int GetLearning()
         {
             var state = LearningConfig.GetLearningStateCode(InitialState, Goal);
-            return -(int)LearningConfig.Get(state, PreviousActionInfo.Name);
+            return -(int)LearningConfig.Get(state, PreviousAction.Name);
         }
 
         #region Overrides
@@ -66,7 +66,7 @@ namespace UGoap.Planner
         {
             string text = "";
             if (PreviousAction == null) text += "Initial Node";
-            else text += PreviousActionInfo.Name;
+            else text += PreviousAction.Name;
             text += " | Costes: " + GCost + " | " + HCost + " | " + TotalCost + "\n";
             text += " | Objetivo: " + Goal + "\n";
             return text;

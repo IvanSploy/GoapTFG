@@ -7,14 +7,14 @@ using static UGoap.Base.UGoapPropertyManager;
 namespace UGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
-    public class UGoapState : ScriptableObject
+    public class StateConfig : ScriptableObject
     {
         [HideInInspector] public List<Property> properties;
 
         public GoapState Create()
         {
             GoapState goapState = new();
-            AddIntoPropertyGroup(properties, in goapState);
+            goapState.ApplyProperties(properties);
             return goapState;
         }
     }

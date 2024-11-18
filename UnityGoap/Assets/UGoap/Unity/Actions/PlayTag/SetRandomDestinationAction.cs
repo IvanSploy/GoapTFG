@@ -1,12 +1,14 @@
-﻿using UGoap.Base;
+﻿using System;
+using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
 using static UGoap.Base.UGoapPropertyManager;
+using Random = UnityEngine.Random;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "SetRandomDestination", menuName = "Goap Items/Actions/SetRandomDestination")]
-    public class SetRandomDestinationAction : UGoapAction
+    [Serializable]
+    public class SetRandomDestinationAction : GoapAction
     {
         [SerializeField] private string _name;
         [SerializeField] private Vector2 _xLimits;
@@ -29,7 +31,7 @@ namespace UGoap.Unity.Actions
             return effects;
         }
 
-        public override string GetName(GoapConditions conditions, GoapEffects effects)
+        public string GetName(GoapConditions conditions, GoapEffects effects)
         {
             string actionName = _name;
             actionName += effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value + "_";
@@ -39,8 +41,10 @@ namespace UGoap.Unity.Actions
 
         
         //TODO Maybe better to check it before. Only random available postions, for better performance.
-        public override bool ProceduralValidate(GoapState goapState, GoapActionInfo actionInfo, UGoapAgent agent)
+        public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent agent)
         {
+            if (agent is not UGoapAgent uGoapAgent) return false;
+            
             if (!goapState.TryGetOrDefault(PropertyKey.IsIt, false))
             {
                     var playerPosition = UGoapWMM.Get("Player").Object.transform.position;
@@ -48,13 +52,13 @@ namespace UGoap.Unity.Actions
                     destination.x = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value;
                     destination.z = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationZ, 0f).Value;
 
-                    var destinationDirection = destination - agent.transform.position;
+                    var destinationDirection = destination - uGoapAgent.transform.position;
                     if (destinationDirection.magnitude < 0.1f)
                     {
                         return false;
                     }
                     
-                    var playerDirection = playerPosition - agent.transform.position;
+                    var playerDirection = playerPosition - uGoapAgent.transform.position;
                     if (playerDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, playerDirection) <= 45.0f)
                     {
                         return false;
@@ -64,9 +68,11 @@ namespace UGoap.Unity.Actions
             return true;
         }
 
-        public override void ProceduralExecute(ref GoapState goapState, UGoapAgent agent)
+        public override void Execute(ref GoapState goapState, IGoapAgent agent)
         {
-            agent.GoGenericAction(Name, ref goapState);
+            if (agent is not UGoapAgent uGoapAgent) return;
+            
+            uGoapAgent.GoGenericAction(Name, ref goapState);
         }
     }
 }

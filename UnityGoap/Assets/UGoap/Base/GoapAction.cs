@@ -1,17 +1,19 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
 {
-    public abstract class GoapAction : IGoapAction
+    public abstract class GoapAction
     {
         //Fields
-        public string Name { get; private set; }
+        public string Name { get; }
         private readonly GoapConditions _preconditions = new();
         private readonly GoapEffects _effects = new();
         private int _cost = 1;
 
-        //Updating data from the scriptable object.
+        protected GoapAction() { }
+        
         protected GoapAction(string name, GoapConditions conditions, GoapEffects effects)
         {
             Name = name;
@@ -20,11 +22,10 @@ namespace UGoap.Base
         }
 
         //Procedural related.
-        public virtual string GetName(GoapConditions conditions, GoapEffects effects) => Name;
         protected abstract GoapConditions GetProceduralConditions(GoapSettings settings);
         protected abstract GoapEffects GetProceduralEffects(GoapSettings settings);
         public abstract bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent agent);
-        public abstract void Execute(ref GoapState state, IGoapAgent agent);
+        public abstract Task<GoapState> Execute(GoapState state, IGoapAgent agent);
         
         //Cost related.
         public int GetCost() => _cost;        

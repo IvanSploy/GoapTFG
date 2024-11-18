@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UGoap.Base;
 
 namespace UGoap.Planner
@@ -40,23 +41,7 @@ namespace UGoap.Planner
         public int Count => _nodes.Count;
         
         //Methods
-        public GoapState DoPlan(GoapState currentState)
-        {
-            if (Count == 0) return null;
-
-            while (_nodes.Count > 0)
-            {
-                var node = _nodes.Pop();
-                ExecutedNodes.Push(node);
-                node.ExecuteAction(ref currentState, _agent);
-                if (currentState == null) return null;
-            }
-
-            IsDone = true;
-            return currentState;
-        }
-
-        public GoapState PlanStep(GoapState currentState)
+        public GoapState ExecuteNext(GoapState currentState)
         {
             if (Count == 0)
             {
@@ -66,12 +51,16 @@ namespace UGoap.Planner
             
             CurrentNode = _nodes.Pop();
             ExecutedNodes.Push(CurrentNode);
-            CurrentNode.ExecuteAction(ref currentState, _agent);
-            if (currentState != null)
-            {
+            
+            comprobar async
+            var actionTask = CurrentNode.ExecuteAction(currentState, _agent);
+            while (!actionTask.IsCompleted) Task.Yield();
+            actionTask.Dispose();
+            
+            if (currentState != null) 
                 DebugRecord.AddRecord(currentState.ToString());
-            }
-            return currentState;
+            
+            return actionTask.Result;
         }
 
         public void Interrupt(bool goalReached)

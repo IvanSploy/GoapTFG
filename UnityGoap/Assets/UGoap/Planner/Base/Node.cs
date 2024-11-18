@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Learning;
 
@@ -15,7 +16,7 @@ namespace UGoap.Planner
         public GoapConditions Goal { get; }
         public Node Parent { get; private set; }
         public List<Node> Children { get; private set; }
-        public IGoapAction PreviousAction { get; private set; }
+        public GoapAction PreviousAction { get; private set; }
         public GoapActionInfo PreviousActionInfo { get; private set; }
         public virtual int TotalCost { get; private set; }
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
@@ -66,7 +67,7 @@ namespace UGoap.Planner
         /// <param name="currentGoapState">The current state of the research.</param>
         /// <param name="action">PreviousAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node ApplyAction(IGoapAction action)
+        public Node ApplyAction(GoapAction action)
         {
            //Apply action
            var effects = action.GetEffects(Settings);
@@ -111,16 +112,13 @@ namespace UGoap.Planner
         /// <param name="state"></param>
         /// <param name="agent"></param>
         /// <returns></returns>
-        public void ExecuteAction(ref GoapState state, IGoapAgent agent)
+        public Task<GoapState> ExecuteAction(GoapState state, IGoapAgent agent)
         {
             if (!CheckAction(state, agent))
-            {
-                state = null;
-                return;
-            }
+                return null;
 
             state += PreviousActionInfo.Effects;
-            PreviousAction.Execute(ref state, agent);
+            return PreviousAction.Execute(state, agent);
         }
 
         /// <summary>
@@ -131,14 +129,14 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node CreateChildNode(GoapConditions goal, IGoapAction action, GoapActionInfo actionInfo);
+        protected abstract Node CreateChildNode(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo);
 
         /// <summary>
         /// Apply the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
         /// <param name="goapAction">PreviousAction that leads to this node.</param>
-        public void Update(Node parent, IGoapAction action, GoapActionInfo actionInfo)
+        public void Update(Node parent, GoapAction action, GoapActionInfo actionInfo)
         {
             //Se actualiza la accion de origen y el objetivo.
             PreviousAction = action;

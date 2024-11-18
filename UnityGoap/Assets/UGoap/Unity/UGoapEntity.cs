@@ -32,8 +32,8 @@ namespace UGoap.Unity
 
         private void AddToWorkingMemoryManager()
         {
-            GoapState goapState = new ();
-            AddIntoPropertyGroup(_initialState, in goapState);
+            GoapState goapState = new();
+            goapState.ApplyProperties(_initialState);
             CurrentState = goapState;
             UGoapWMM.Add(Name, this);
         }

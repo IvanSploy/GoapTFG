@@ -12,7 +12,7 @@ namespace UGoap.Planner
     {
         private const int ACTION_LIMIT = 50000;
         private readonly bool _greedy;
-        private readonly Dictionary<PropertyKey, List<IGoapAction>> _actions = new(); 
+        private readonly Dictionary<PropertyKey, List<GoapAction>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
         
         //Events
@@ -32,28 +32,28 @@ namespace UGoap.Planner
         /// <param name="goal">Goal that is going to be reached.</param>
         /// <param name="actions">Actions aviable for the agent.</param>
         /// <returns>Stack of the plan actions.</returns>
-        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<IGoapAction> actions)
+        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
         {
             _goal = goal;
             if (goal.IsGoal(initialState)) return null;
             return GeneratePlan(initialState, actions);
         }
         
-        private void RegisterActions(List<IGoapAction> actions)
+        private void RegisterActions(List<GoapAction> actions)
         {
             foreach (var action in actions)
             {
                 foreach (var key in action.GetAffectedKeys())
                 {
                     if(!_actions.ContainsKey(key))
-                        _actions[key] = new List<IGoapAction>{action};
+                        _actions[key] = new List<GoapAction>{action};
                     else
                         _actions[key].Add(action);
                 }
             }
         }
 
-        public override Plan GeneratePlan(GoapState initialState, List<IGoapAction> actions)
+        public override Plan GeneratePlan(GoapState initialState, List<GoapAction> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;

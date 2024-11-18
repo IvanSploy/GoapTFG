@@ -42,7 +42,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
 
     private void GenerateActions()
     {
-        List<IGoapAction> goapActions = new(); 
+        List<GoapAction> goapActions = new(); 
         var configX = DimensionConfig(PositionA.x, PositionB.x, Count.x);
         var configY = DimensionConfig(PositionA.y, PositionB.y, Count.y);
         var configZ = DimensionConfig(PositionA.z, PositionB.z, Count.z);
@@ -78,7 +78,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         return (initial, distance);
     }
 
-    private IGoapAction CreateAction(string actionName, float x, float y, float z)
+    private GoapAction CreateAction(string actionName, float x, float y, float z)
     {
         var effects = new GoapEffects(_effects);
         

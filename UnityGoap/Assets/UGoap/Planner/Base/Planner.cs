@@ -92,7 +92,7 @@ namespace UGoap.Planner
         /// <param name="actions"></param>
         /// <returns></returns>
         public abstract Plan GeneratePlan(GoapState initialState,
-            List<IGoapAction> actions);
+            List<GoapAction> actions);
 
         public void DebugPlan(Node node, string goalName)
         {

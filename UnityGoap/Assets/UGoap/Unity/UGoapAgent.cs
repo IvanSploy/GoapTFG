@@ -7,6 +7,7 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;
 using Debug = UnityEngine.Debug;
 
@@ -23,16 +24,16 @@ namespace UGoap.Unity
         [SerializeField] private bool _active = true;
         private float _remainingSeconds;
         [SerializeField] private float _rePlanSeconds = 5;
-        [SerializeField] private UGoapState _initialState;
-        [SerializeField] private List<PriorityGoal> _goalObjects;
-        [SerializeField] private List<UGoapAction> _actionObjects;
+        [FormerlySerializedAs("_initialState")] [SerializeField] private StateConfig _initialStateConfig;
+        [FormerlySerializedAs("_goalObjects")] [SerializeField] private List<PriorityGoal> _goalList;
+        [SerializeField] private List<ActionConfig> _actionList;
         [SerializeField] private LearningConfig _learningConfig;
         
         //Agent base related
         private bool _hasPlan;
         private Plan _currentPlan;
         private readonly List<IGoapGoal> _goals = new();
-        private readonly List<IGoapAction> _actions = new();
+        private readonly List<GoapAction> _actions = new();
         private IGoapGoal _currentGoal;
         private Coroutine _currentActionRoutine;
         
@@ -52,7 +53,7 @@ namespace UGoap.Unity
             if(!_renderer) _renderer = GetComponentInChildren<Renderer>();
             gameObject.layer = LayerMask.NameToLayer("Agent");
             
-            CurrentState = _initialState != null ? _initialState.Create() : new();
+            CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
             UpdateTag();
         }
 
@@ -66,16 +67,16 @@ namespace UGoap.Unity
             CurrentState = initialState;
             
             //GOALS
-            foreach (var goal in _goalObjects)
+            foreach (var goal in _goalList)
             {
                 _goals.Add(goal.Create());
             }
             SortGoals();
 
             //ACTIONS
-            foreach (var action in _actionObjects)
+            foreach (var action in _actionList)
             {
-                _actions.Add(action);
+                _actions.Add(action.GoapAction);
             }
             
             StartCoroutine(PlanGenerator());
@@ -110,26 +111,27 @@ namespace UGoap.Unity
 
         private IEnumerator PlanExecution()
         {
-            Interrupted = false;
             _hasPlan = true;
-            GoapState nextState;
+            Interrupted = false;
             
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
+            
+            GoapState nextState;
             do
             {
-                PerformingAction = false;
-                nextState = _currentPlan.PlanStep(CurrentState);
-                if (nextState != null)
+                PerformingAction = true;
+                nextState = _currentPlan.ExecuteNext(CurrentState);
+                if (nextState == null) PerformingAction = false;
+                else
                 {
-                    PerformingAction = true;
-                    
-                    //Using WaitWhile creates race conditions.
+                    //Bug: Using WaitWhile creates race conditions.
                     while (PerformingAction) yield return null;
-                    
-                    if(!Interrupted) CurrentState = nextState;
+
+                    if (!Interrupted) CurrentState = nextState;
                 }
 
+                //Seconds awaited learning.
                 if (_learningConfig)
                 {
                     _learningConfig.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
@@ -139,6 +141,7 @@ namespace UGoap.Unity
             } while (nextState != null && !Interrupted);
             stopwatch.Stop();
             
+            //Plan performance learning
             if (_learningConfig)
             {
                 var reward = _currentPlan.IsDone ? _learningConfig.PositiveReward : -_learningConfig.NegativeReward;
@@ -157,9 +160,9 @@ namespace UGoap.Unity
         }
 
         //INTERFACE CLASSES
-        public void AddAction(IGoapAction action) => _actions.Add(action);
-        public void AddActions(List<IGoapAction> actionList) => _actions.AddRange(actionList);
-        public void RemoveAction(IGoapAction action) => _actions.Remove(action);
+        public void AddAction(GoapAction action) => _actions.Add(action);
+        public void AddActions(List<GoapAction> actionList) => _actions.AddRange(actionList);
+        public void RemoveAction(GoapAction action) => _actions.Remove(action);
 
         public void AddGoal(IGoapGoal goal)
         {
@@ -191,6 +194,11 @@ namespace UGoap.Unity
             return i - 1;
         }
 
+        public void Interrupt(float seconds = 0)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool CreatePlan(GoapState state, IGoapGoal goal)
         {
             var generator = new AStar(state, _learningConfig);
@@ -215,7 +223,7 @@ namespace UGoap.Unity
             PerformingAction = false;
         }
         
-        public void Interrupt(float seconds = 0f)
+        public void Interrupt()
         {
             Interrupted = false;
             
@@ -228,7 +236,6 @@ namespace UGoap.Unity
                     Interrupted = true;
                     _currentPlan.Interrupt(true);
                 }
-                
                 //If no longer accomplish the conditions for the current goal
                 else if (!_currentPlan.CurrentNode.IsGoal(CurrentState))
                 {
@@ -249,15 +256,7 @@ namespace UGoap.Unity
                 StopAction();
                 //Properties that need to be restored.
                 CurrentState.Set(PropertyKey.MoveState, "Ready");
-                if(seconds > 0)
-                {
-                    PerformingAction = true;
-                    StartAction(Wait(seconds));
-                }
-                else
-                {
-                    Complete();
-                }
+                Complete();
             }
         }
 
@@ -294,7 +293,7 @@ namespace UGoap.Unity
             return accomplished;
         }
         
-        public void GoGenericAction(string actionName, ref GoapState state, float seconds = 0f)
+        public void GoGenericAction(string actionName, ref GoapState state)
         {
             switch (actionName)
             {
@@ -325,8 +324,7 @@ namespace UGoap.Unity
                     break;
             }
             
-            if(seconds > 0) StartAction(Wait(seconds));
-            else Complete();
+            Complete();
         }
         
         public void GoTo(string target, float speedFactor)
@@ -362,16 +360,9 @@ namespace UGoap.Unity
             Complete();
         }
         
-        IEnumerator Wait(float seconds)
-        {
-            yield return new WaitForSeconds(seconds);
-            Complete();
-        }
-        
-        private Coroutine StartAction(IEnumerator routine)
+        private void StartAction(IEnumerator routine)
         {
             _currentActionRoutine = StartCoroutine(routine);
-            return _currentActionRoutine;
         }
         
         private void StopAction()
@@ -408,7 +399,7 @@ namespace UGoap.Unity
             UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
             bool near = Vector3.Distance(entityPlayer.transform.position, transform.position) <= 3f;
             bool previousNear = CurrentState.TryGetOrDefault(PropertyKey.PlayerNear, false);
-
+            
             if (near != previousNear)
             {
                 CurrentState.Set(PropertyKey.PlayerNear, near);
@@ -422,8 +413,8 @@ namespace UGoap.Unity
             tag = !tag;
             CurrentState.Set(PropertyKey.IsIt, tag);
             UpdateTag();
-            Debug.Log("COLISIÓN GOAP");
-            Interrupt(0.5f);
+            Debug.Log("COLLISION GOAP");
+            Interrupt();
         }
     }
 }
