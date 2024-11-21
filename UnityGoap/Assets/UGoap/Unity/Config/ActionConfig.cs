@@ -6,6 +6,12 @@ using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
+    public abstract class ActionConfig<TAction> : ActionConfig where TAction : GoapAction, new()
+    {
+        protected override GoapAction CreateActionBase() => Install(new TAction());
+        protected abstract TAction Install(TAction action);
+    }
+    
     public abstract class ActionConfig : ScriptableObject
     {
         [Header("Main")]
@@ -21,15 +27,19 @@ namespace UGoap.Unity.ScriptableObjects
 
         public GoapAction Create()
         {
+            var goapAction = CreateActionBase();
+            
             var preconditions = new GoapConditions();
             preconditions.ApplyProperties(Preconditions);
             
             var effects = new GoapEffects();
             effects.ApplyProperties(Effects);
+            
+            goapAction.Initialize(name, preconditions, effects);
 
-            return CreateAction(preconditions, effects);
+            return goapAction;
         }
 
-        public abstract GoapAction CreateAction(GoapConditions conditions, GoapEffects effects);
+        protected abstract GoapAction CreateActionBase();
     }
 }

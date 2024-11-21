@@ -7,8 +7,6 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
-using static UGoap.Base.UGoapPropertyManager;
 using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
@@ -17,7 +15,6 @@ namespace UGoap.Unity
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField] private Renderer _renderer;
         
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
@@ -38,7 +35,7 @@ namespace UGoap.Unity
         private Coroutine _currentActionRoutine;
         
         [Header("Movement")]
-        [SerializeField] private float _speed = 5;
+        public float Speed = 5;
         
         //Agent Properties
         public string Name { get; set; }
@@ -50,11 +47,9 @@ namespace UGoap.Unity
         private void Awake()
         {
             if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
-            if(!_renderer) _renderer = GetComponentInChildren<Renderer>();
             gameObject.layer = LayerMask.NameToLayer("Agent");
             
             CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
-            UpdateTag();
         }
 
         void Start()
@@ -195,15 +190,10 @@ namespace UGoap.Unity
             return i - 1;
         }
 
-        public void Interrupt(float seconds = 0)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool CreatePlan(GoapState state, IGoapGoal goal)
         {
             var generator = new AStar(state, _learningConfig);
-            var planner = new AStarPlanner(generator, this);
+            var planner = new BackwardPlanner(generator, this);
 
             var plan = planner.CreatePlan(state, goal, _actions);
                 
@@ -212,16 +202,11 @@ namespace UGoap.Unity
             if(_learningConfig) _learningConfig.DebugLearning();
             if (plan == null)
             {
-                Debug.Log("Plan no encontrado para objetivo: " + goal.Name);
+                Debug.Log("[GOAP] Plan not found for: " + goal.Name);
                 return false;
             }
             _currentPlan = plan;
             return true;
-        }
-        
-        public void Complete()
-        {
-            PerformingAction = false;
         }
         
         public void Interrupt()
@@ -249,130 +234,6 @@ namespace UGoap.Unity
             {
                 _remainingSeconds = 0f;
             }
-
-            //If interruption worked
-            if (Interrupted)
-            {
-                Debug.Log("INTERRUPTED");
-                StopAction();
-                //Properties that need to be restored.
-                CurrentState.Set(PropertyKey.MoveState, "Ready");
-                Complete();
-            }
-        }
-
-        //ACTIONS
-        public bool ValidateGeneric(string actionName, GoapState state)
-        {
-            bool accomplished = true;
-            switch (actionName)
-            {
-                case "OpenDoor":
-                    UGoapEntity entityDoor = UGoapWMM.Get("Door").Object;
-                    if (entityDoor.CurrentState.TryGetOrDefault(PropertyKey.DoorState, "Opened") == "Locked")
-                    {
-                        CurrentState.Set(PropertyKey.DoorState, "Locked");
-                        accomplished = false;
-                    }
-                    break;
-                case "UnlockDoor":
-                    break;
-                case "GetKey":
-                    break;
-                case "Tag":
-                    var isIt = CurrentState.TryGetOrDefault(PropertyKey.IsIt, true);
-                    if (isIt)
-                    {
-                        CurrentState.Set(PropertyKey.MoveState, "Ready");
-                        accomplished = false;
-                    }
-                    break;
-                default:
-                    break;
-            }
-            
-            return accomplished;
-        }
-        
-        public void GoGenericAction(string actionName, ref GoapState state)
-        {
-            switch (actionName)
-            {
-                case "OpenDoor":
-                case "UnlockDoor":
-                    UGoapEntity entityLockedDoor = UGoapWMM.Get("Door").Object;
-                    entityLockedDoor.GetComponent<Animator>()?.SetBool("Opened", true);
-                    break;
-                case "GetKey":
-                    UGoapEntity entityKey = UGoapWMM.Get("Key").Object;
-                    Destroy(entityKey.gameObject);
-                    break;
-                case "SetPlayerDestination":
-                    UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
-                    state.Set(PropertyKey.DestinationX, entityPlayer.transform.position.x);
-                    state.Set(PropertyKey.DestinationZ, entityPlayer.transform.position.z);
-                    break;
-                case "MoveToDestination":
-                    var x = state.TryGetOrDefault(PropertyKey.DestinationX, 0f);
-                    var z = state.TryGetOrDefault(PropertyKey.DestinationZ, 0f);
-                    GoTo(new Vector3(x, transform.position.y, z), 1);
-                    return; //Wait involves modification of performing action.
-                case "Tag":
-                    SetTag(false);
-                    Debug.LogError("SE HA APLICADO LA ACCIÓN TAG, ESTO NO DEBERÍA OCURRIR EN TEORÍA");
-                    break;
-                default:
-                    break;
-            }
-            
-            Complete();
-        }
-        
-        public void GoTo(string target, float speedFactor)
-        {
-            GoTo(UGoapWMM.Get(target).Position, _speed * speedFactor);
-        }
-        
-        public void GoTo(Vector3 target, float speedFactor)
-        {
-            StartAction(Movement(target, _speed * speedFactor));
-        }
-        
-        //COROUTINES
-        private IEnumerator Movement(Vector3 target, float vel)
-        {
-            bool reached = false;
-            while (!reached)
-            {
-                var t = transform;
-                var p = t.position;
-                target.y = p.y;
-                t.position = Vector3.MoveTowards(p, target, Time.deltaTime * vel);
-                t.rotation = Quaternion.LookRotation(target - p, Vector3.up);
-                Vector3 aux = target;
-                aux.y = p.y;
-                if (Vector3.Distance(transform.position, aux) < float.Epsilon)
-                {
-                    reached = true;
-                }
-                yield return null;
-            }
-
-            Complete();
-        }
-        
-        private void StartAction(IEnumerator routine)
-        {
-            _currentActionRoutine = StartCoroutine(routine);
-        }
-        
-        private void StopAction()
-        {
-            if (_currentActionRoutine != null)
-            {
-                StopCoroutine(_currentActionRoutine);
-                _currentActionRoutine = null;
-            }
         }
         
         //Debug
@@ -382,40 +243,6 @@ namespace UGoap.Unity
             {
                 Debug.Log(log);
             }
-        }
-
-        private void UpdateTag()
-        {
-            bool isIt = CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
-            SetTag(isIt);
-        }
-
-        private void SetTag(bool isIt)
-        {
-            _renderer.material.color = isIt ? Color.red : Color.cyan;
-        }
-
-        private void Update()
-        {
-            UGoapEntity entityPlayer = UGoapWMM.Get("Player").Object;
-            bool near = Vector3.Distance(entityPlayer.transform.position, transform.position) <= 3f;
-            bool previousNear = CurrentState.TryGetOrDefault(PropertyKey.PlayerNear, false);
-            
-            if (near != previousNear)
-            {
-                CurrentState.Set(PropertyKey.PlayerNear, near);
-                if(near) Interrupt();
-            }
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            var tag = CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
-            tag = !tag;
-            CurrentState.Set(PropertyKey.IsIt, tag);
-            UpdateTag();
-            Debug.Log("COLLISION GOAP");
-            Interrupt();
         }
     }
 }

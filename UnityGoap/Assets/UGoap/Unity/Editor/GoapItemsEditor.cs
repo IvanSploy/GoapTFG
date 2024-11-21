@@ -149,7 +149,7 @@ namespace UGoap.Unity.Editor
                 EditorGUI.indentLevel = 0;
 
                 //      Calculate rects
-                //Generic
+                //GenericAction
                 var height = (position.height - PADDING * 2) * 0.5f;
 
                 //First row
@@ -224,7 +224,7 @@ namespace UGoap.Unity.Editor
                 EditorGUI.indentLevel = 0;
 
                 //      Calculate rects
-                //Generic
+                //GenericAction
                 var height = (position.height - PADDING * 2) * 0.5f;
 
                 //First row

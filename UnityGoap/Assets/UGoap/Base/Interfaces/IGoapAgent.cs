@@ -54,10 +54,5 @@ namespace UGoap.Base
         /// Tries to stop current plan execution and waits x seconds.
         /// </summary>
         void Interrupt();
-        
-        /// <summary>
-        /// Completes current action.
-        /// </summary>
-        void Complete();
     }
 }

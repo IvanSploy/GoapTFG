@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using static UGoap.Base.UGoapPropertyManager;
 
@@ -22,8 +23,8 @@ namespace UGoap.Base
         //Procedural related.
         protected abstract GoapConditions GetProceduralConditions(GoapSettings settings);
         protected abstract GoapEffects GetProceduralEffects(GoapSettings settings);
-        public abstract bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent agent);
-        public abstract Task<GoapState> Execute(GoapState state, IGoapAgent agent);
+        public abstract bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent);
+        public abstract Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token);
         
         //Cost related.
         public int GetCost() => _cost;        

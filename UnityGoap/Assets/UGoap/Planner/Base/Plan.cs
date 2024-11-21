@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
 
@@ -14,6 +15,8 @@ namespace UGoap.Planner
         
         private readonly Stack<Node> _nodes = new();
         private readonly IGoapAgent _agent;
+
+        private CancellationTokenSource _cancellationTokenSource;
 
         //Constructor
         public Plan(GoapState initialState, IGoapAgent agent, Node finalNode)
@@ -51,10 +54,12 @@ namespace UGoap.Planner
             
             CurrentNode = _nodes.Pop();
             ExecutedNodes.Push(CurrentNode);
+
+            _cancellationTokenSource = new CancellationTokenSource();
             
             var result = await Task.Run(() =>
             {
-                var task = CurrentNode.ExecuteAction(currentState, _agent);
+                var task = CurrentNode.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
                 while (!task.IsCompleted) Task.Yield();
                 return task.Result;
             });
@@ -68,6 +73,7 @@ namespace UGoap.Planner
         public void Interrupt(bool goalReached)
         {
             IsDone = goalReached;
+            _cancellationTokenSource.Cancel();
         }
     }
 }

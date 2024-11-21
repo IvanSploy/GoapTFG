@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Learning;
@@ -92,7 +93,7 @@ namespace UGoap.Planner
         {
             if (!PreviousActionInfo.Conditions.CheckConflict(state))
             {
-                bool valid = PreviousAction.Validate(state, PreviousActionInfo, agent);
+                bool valid = PreviousAction.Validate(ref state, PreviousActionInfo, agent);
                 if (!valid)
                 {
                     DebugRecord.AddRecord("La acción no ha podido completarse, plan detenido :(");
@@ -112,13 +113,13 @@ namespace UGoap.Planner
         /// <param name="state"></param>
         /// <param name="agent"></param>
         /// <returns></returns>
-        public Task<GoapState> ExecuteAction(GoapState state, IGoapAgent agent)
+        public Task<GoapState> ExecuteAction(GoapState state, IGoapAgent agent, CancellationToken token)
         {
             if (!CheckAction(state, agent))
                 return null;
 
             state += PreviousActionInfo.Effects;
-            return PreviousAction.Execute(state, agent);
+            return PreviousAction.Execute(state, agent, token);
         }
 
         /// <summary>
