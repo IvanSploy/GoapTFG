@@ -1,9 +1,24 @@
-using System.Threading;
 using UnityEngine;
+using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity;
+using UGoap.Unity.ScriptableObjects;
 using static UGoap.Base.UGoapPropertyManager;
+
+[CreateAssetMenu(fileName = "Open", menuName = "Goap Items/Actions/Open")]
+public class Open : ActionConfig<OpenAction>
+{
+    public PropertyKey OpenState;
+    public string Target;
+    
+    protected override OpenAction Install(OpenAction action)
+    {
+        action.OpenState = OpenState;
+        action.Target = Target;
+        return action;
+    }
+}
 
 public class OpenAction : GoapAction
 {
@@ -20,7 +35,7 @@ public class OpenAction : GoapAction
         return null;
     }
     
-    public override bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
     {
         if (iAgent is not UGoapAgent agent) return false;
         

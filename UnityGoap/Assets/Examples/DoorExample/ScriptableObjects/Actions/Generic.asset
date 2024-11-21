@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e30cdaa7b6404168ae0d85bb3ac9d733, type: 3}
-  m_Name: GoToTarget
+  m_Script: {fileID: 11500000, guid: b2d51f3077c842caadc93f0a6d86e7b0, type: 3}
+  m_Name: Generic
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions: []
+  Preconditions:
+  - name: None
+    value: False
+    condition: 0
+  - name: None
+    value: False
+    condition: 0
   Effects: []
-  TargetKey: 0
-  SpeedFactor: 1
-  ExcludedLocation: none
+  WaitSeconds: 1

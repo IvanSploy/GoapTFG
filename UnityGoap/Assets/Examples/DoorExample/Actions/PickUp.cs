@@ -1,9 +1,21 @@
-using System.Threading;
 using UnityEngine;
+using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity;
-using static UGoap.Base.UGoapPropertyManager;
+using UGoap.Unity.ScriptableObjects;
+
+[CreateAssetMenu(fileName = "PickUp", menuName = "Goap Items/Actions/PickUp")]
+public class PickUp : ActionConfig<PickUpAction>
+{
+    public string Target;
+    
+    protected override PickUpAction Install(PickUpAction action)
+    {
+        action.Target = Target;
+        return action;
+    }
+}
 
 public class PickUpAction : GoapAction
 {
@@ -19,7 +31,7 @@ public class PickUpAction : GoapAction
         return null;
     }
     
-    public override bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
     {
         if (iAgent is not UGoapAgent agent) return false;
         

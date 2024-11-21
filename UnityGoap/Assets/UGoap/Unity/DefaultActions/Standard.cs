@@ -2,12 +2,23 @@
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
-using UGoap.Unity;
-using static UGoap.Base.UGoapPropertyManager;
+using UGoap.Unity.ScriptableObjects;
 
 namespace UGoap.Unity.Actions
 {
-    public class GenericAction : GoapAction
+    [CreateAssetMenu(fileName = "Standard", menuName = "UGoap/Standard Action")]
+    public class Standard : ActionConfig<StandardAction>
+    {
+        public int WaitSeconds = 1;
+        
+        protected override StandardAction Install(StandardAction action)
+        {
+            action.WaitSeconds = WaitSeconds;
+            return action;
+        }
+    }
+    
+    public class StandardAction : GoapAction
     {
         public int WaitSeconds = 1;
         
@@ -21,7 +32,7 @@ namespace UGoap.Unity.Actions
             return null;
         }
         
-        public override bool Validate(ref GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
+        public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
         {
             return true;
         }

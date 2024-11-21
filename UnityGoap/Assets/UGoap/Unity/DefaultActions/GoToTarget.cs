@@ -1,14 +1,31 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
-using UnityEngine;
-using static UGoap.Base.BaseTypes;
+using UGoap.Unity.ScriptableObjects;
 using static UGoap.Base.UGoapPropertyManager;
 
-namespace UGoap.Unity.Actions
+namespace UGoap.Unity.Action
 {
+    [CreateAssetMenu(fileName = "GoTo", menuName = "UGoap/Actions/GoTo")]
+    public class GoToTarget : ActionConfig<GoToTargetAction>
+    {
+        [Header("Custom Data")]
+        public PropertyKey TargetKey;
+        public int SpeedFactor = 1;
+        public string ExcludedLocation = "none";
+        
+        protected override GoToTargetAction Install(GoToTargetAction targetAction)
+        {
+            targetAction.TargetKey = TargetKey;
+            targetAction.SpeedFactor = SpeedFactor;
+            targetAction.ExcludedLocation = ExcludedLocation;
+            return targetAction;
+        }
+    }
+    
     public class GoToTargetAction : GoapAction
     {
         public PropertyKey TargetKey;
@@ -18,7 +35,7 @@ namespace UGoap.Unity.Actions
         protected override GoapConditions GetProceduralConditions(GoapSettings settings)
         {
             var condition = new GoapConditions();
-            condition.Set(TargetKey, ConditionType.NotEqual, ExcludedLocation);
+            condition.Set(TargetKey, BaseTypes.ConditionType.NotEqual, ExcludedLocation);
             return condition;
         }
         
@@ -29,10 +46,10 @@ namespace UGoap.Unity.Actions
             var targetList = settings.Goal.TryGetOrDefault(TargetKey, "");
             if (targetList != null)
             {
-                var condition = targetList.FirstOrDefault(condition => condition.ConditionType == ConditionType.Equal);
+                var condition = targetList.FirstOrDefault(condition => condition.ConditionType == BaseTypes.ConditionType.Equal);
                 if(condition != null) target = (string)condition.Value;
             }
-            proceduralEffects[TargetKey] = new EffectValue(target, EffectType.Set);
+            proceduralEffects[TargetKey] = new EffectValue(target, BaseTypes.EffectType.Set);
             return proceduralEffects;
         }
         
@@ -40,7 +57,7 @@ namespace UGoap.Unity.Actions
         {
             if (!goal.Has(TargetKey)) return 50 / SpeedFactor;
             
-            var target = (string) goal[TargetKey].First(condition => condition.ConditionType == ConditionType.Equal).Value;
+            var target = (string) goal[TargetKey].First(condition => condition.ConditionType == BaseTypes.ConditionType.Equal).Value;
 
             var pos = UGoapWMM.Get(target).Position;
             
@@ -48,7 +65,7 @@ namespace UGoap.Unity.Actions
             return cost;
         }
         
-        public override bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+        public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
         {
             return true;
         }

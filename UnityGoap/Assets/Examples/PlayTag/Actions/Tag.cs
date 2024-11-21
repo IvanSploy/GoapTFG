@@ -1,42 +1,48 @@
+using UnityEngine;
 using System.Threading;
-using UGoap.Base;
 using System.Threading.Tasks;
+using UGoap.Base;
+using UGoap.Unity;
+using UGoap.Unity.ScriptableObjects;
 using static UGoap.Base.UGoapPropertyManager;
 
-namespace UGoap.Unity.Actions
+[CreateAssetMenu(fileName = "Tag", menuName = "UGoap/Actions/PlayTag/Tag")]
+public class Tag : ActionConfig<TagAction>
 {
-    public class TagAction : GoapAction
+    protected override TagAction Install(TagAction action)
     {
-        
-        
-        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+        return action;
+    }
+}
+
+public class TagAction : GoapAction
+{
+    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+    {
+        return null;
+    }
+
+    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    {
+        return null;
+    }
+
+    public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    {
+        if (iAgent is not UGoapAgent agent) return false;
+
+        var isIt = state.TryGetOrDefault(PropertyKey.IsIt, true);
+        if (isIt)
         {
-            return null;
+            return false;
         }
-        
-        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
-        {
-            return null;
-        }
-        
-        public override bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
-        {
-            if (iAgent is not UGoapAgent agent) return false;
-            
-            var isIt = state.TryGetOrDefault(PropertyKey.IsIt, true);
-            if (isIt)
-            {
-                state.Set(PropertyKey.MoveState, "Ready");
-                return false;
-            }
-            
-            return true;
-        }
-        
-        public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
-        {
-            if (iAgent is not UGoapAgent agent) return null;
-            return state;
-        }
+
+        return true;
+    }
+
+    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    {
+        if (iAgent is not UGoapAgent agent) return null;
+        return state;
     }
 }

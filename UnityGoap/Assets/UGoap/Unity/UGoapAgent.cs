@@ -209,6 +209,7 @@ namespace UGoap.Unity
             return true;
         }
         
+        [ContextMenu("Interrupt")]
         public void Interrupt()
         {
             Interrupted = false;

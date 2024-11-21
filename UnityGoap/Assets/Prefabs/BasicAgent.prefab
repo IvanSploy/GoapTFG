@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 332048527092279579}
   - component: {fileID: 332048527092279578}
   - component: {fileID: 332048527092279583}
-  - component: {fileID: 5371051809900903284}
   m_Layer: 0
   m_Name: BasicAgent
   m_TagString: Untagged
@@ -150,42 +149,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialState: {fileID: 0}
-  _goapQLearning: {fileID: 0}
-  _goalObjects:
-  - priorityGoal: {fileID: 0}
-    priority: 3
-  - priorityGoal: {fileID: 0}
-    priority: 2
-  - priorityGoal: {fileID: 0}
-    priority: 1
-  - priorityGoal: {fileID: 0}
-    priority: 0
-  _actionObjects:
-  - {fileID: 11400000, guid: 0b2e0e21c3a8418439e00e2c60cc4400, type: 2}
-  - {fileID: 11400000, guid: d4dd602a06c264f4db5cfeea25c6ba99, type: 2}
-  - {fileID: 11400000, guid: 2bf280d48ce26bb44bbf1618a47d8b69, type: 2}
-  - {fileID: 11400000, guid: 0327dcdb5fd17de4292ac4ffa54e8c93, type: 2}
-  - {fileID: 11400000, guid: 3ce0277f50689b9438ff26db731103ca, type: 2}
   _rigidbody: {fileID: 0}
-  active: 1
-  wait: 1
-  speed: 10
-  useLearning: 0
-  hasPlan: 0
-  performingAction: 0
---- !u!114 &5371051809900903284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 332048527092279653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0334a17f8fe0d5648983bf23c9d8e1be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _runOnStart: 0
+  _active: 1
+  _rePlanSeconds: 5
+  _initialStateConfig: {fileID: 0}
+  _goalList: []
+  _actionList: []
+  _learningConfig: {fileID: 0}
+  Speed: 5
 --- !u!1 &7490015755105865814
 GameObject:
   m_ObjectHideFlags: 0

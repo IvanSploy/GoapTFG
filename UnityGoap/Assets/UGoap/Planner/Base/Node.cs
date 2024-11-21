@@ -93,7 +93,7 @@ namespace UGoap.Planner
         {
             if (!PreviousActionInfo.Conditions.CheckConflict(state))
             {
-                bool valid = PreviousAction.Validate(ref state, PreviousActionInfo, agent);
+                bool valid = PreviousAction.Validate(state, PreviousActionInfo, agent);
                 if (!valid)
                 {
                     DebugRecord.AddRecord("La acción no ha podido completarse, plan detenido :(");
