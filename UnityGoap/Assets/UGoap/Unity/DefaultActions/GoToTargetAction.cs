@@ -71,8 +71,7 @@ namespace UGoap.Unity.Actions
             {
                 if (token.IsCancellationRequested)
                 {
-                    //TODO: Should not be ready if is not already on target?
-                    state.Set(PropertyKey.MoveState, "Ready");
+                    state.Set(PropertyKey.MoveState, "Set");
                     return state;
                 }
                 var p = t.position;

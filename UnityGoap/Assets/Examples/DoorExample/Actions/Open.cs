@@ -28,6 +28,7 @@ public class OpenAction : GoapAction
         if (entityDoor.CurrentState.TryGetOrDefault(OpenState, "Opened") == "Locked")
         {
             state.Set(OpenState, "Locked");
+            if (!state.TryGetOrDefault(PropertyKey.HasKey, false)) return false;
         }
         
         return true;

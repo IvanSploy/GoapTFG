@@ -43,7 +43,11 @@ namespace UGoap.Unity.Actions
             
             while (!reached)
             {
-                if (token.IsCancellationRequested) return state;
+                if (token.IsCancellationRequested)
+                {
+                    
+                    return state;
+                }
 
                 var p = t.position;
                 target.y = p.y;
