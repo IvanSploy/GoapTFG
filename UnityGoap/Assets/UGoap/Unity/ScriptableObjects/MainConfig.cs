@@ -6,7 +6,7 @@ using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Config", menuName = "Goap Items/Config", order = 0)]
+    [CreateAssetMenu(fileName = "Config", menuName = "UGoap/Config", order = 0)]
     public class MainConfig : ScriptableObject
     {
         public List<string> PropertyKeys;

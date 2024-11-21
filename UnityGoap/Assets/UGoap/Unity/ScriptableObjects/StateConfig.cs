@@ -6,7 +6,7 @@ using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "State", menuName = "Goap Items/State", order = 1)]
+    [CreateAssetMenu(fileName = "State", menuName = "UGoap/State", order = 1)]
     public class StateConfig : ScriptableObject
     {
         [FormerlySerializedAs("properties")] 

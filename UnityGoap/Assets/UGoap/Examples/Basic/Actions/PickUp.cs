@@ -5,7 +5,7 @@ using UGoap.Base;
 using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
 
-[CreateAssetMenu(fileName = "PickUp", menuName = "Goap Items/Actions/PickUp")]
+[CreateAssetMenu(fileName = "PickUp", menuName = "UGoap/Actions/Basic/PickUp")]
 public class PickUp : ActionConfig<PickUpAction>
 {
     public string Target;

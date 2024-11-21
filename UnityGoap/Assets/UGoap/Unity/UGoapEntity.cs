@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Unity
@@ -8,11 +9,12 @@ namespace UGoap.Unity
     [RequireComponent(typeof(Collider))]
     public class UGoapEntity : MonoBehaviour, IGoapEntity
     {
-        [SerializeField] private string nameEntity;
+        [FormerlySerializedAs("nameEntity")] 
+        [SerializeField] private string _nameEntity;
         [SerializeField] private Collider _collider;
         [SerializeField] private List<Property> _initialState;
 
-        public string Name => nameEntity;
+        public string Name => _nameEntity;
         public Collider Collider => _collider;
 
         public GoapState CurrentState { get; set; }
@@ -27,7 +29,7 @@ namespace UGoap.Unity
 
         private void OnValidate()
         {
-            nameEntity ??= gameObject.name;
+            _nameEntity ??= gameObject.name;
         }
 
         private void AddToWorkingMemoryManager()

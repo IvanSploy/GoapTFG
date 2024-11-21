@@ -6,7 +6,7 @@ using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
 using static UGoap.Base.UGoapPropertyManager;
 
-[CreateAssetMenu(fileName = "Open", menuName = "Goap Items/Actions/Open")]
+[CreateAssetMenu(fileName = "Open", menuName = "UGoap/Actions/Basic/Open")]
 public class Open : ActionConfig<OpenAction>
 {
     public PropertyKey OpenState;
