@@ -125,8 +125,8 @@ MonoBehaviour:
   _nameEntity: Door
   _collider: {fileID: 1951038006683569278}
   _initialState:
-  - name: 2
-    value: Closed
+  - name: Coins
+    value: 0
 --- !u!114 &3506811651132588524
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,11 +10,6 @@ namespace UGoap.Base
     public interface IGoapAgent : IGoapEntity
     {
         /// <summary>
-        /// If agent is performing action.
-        /// </summary>
-        bool PerformingAction { get; set; }
-        
-        /// <summary>
         /// If current action executed has been interrupted.
         /// </summary>
         bool Interrupted { get; set; }

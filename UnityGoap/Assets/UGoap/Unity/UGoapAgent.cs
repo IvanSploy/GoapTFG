@@ -11,20 +11,26 @@ using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(UGoapAgentView))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
-        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private UGoapAgentView _agentView;
         
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
         [SerializeField] private bool _active = true;
-        private float _remainingSeconds;
+        private float _rePlanCooldown;
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
         [SerializeField] private List<PriorityGoal> _goalList;
         [SerializeField] private List<ActionConfig> _actionList;
         [SerializeField] private LearningConfig _learningConfig;
+        
+        [Header("View")]
+        [Tooltip("Time that simulates that agent is thinking.")]
+        public float ThinkTime = 0.5f;
+        [Tooltip("Meters/Seconds moved by the agent.")]
+        public float Speed = 5;
         
         //Agent base related
         private bool _hasPlan;
@@ -34,19 +40,15 @@ namespace UGoap.Unity
         private IGoapGoal _currentGoal;
         private Coroutine _currentActionRoutine;
         
-        [Header("Movement")]
-        public float Speed = 5;
-        
         //Agent Properties
         public string Name { get; set; }
-        public bool PerformingAction { get; set; }
         public bool Interrupted { get; set; }
         public GoapState CurrentState { get; set; }
 
         // Start is called before the first frame update
         private void Awake()
         {
-            if(!_rigidbody) _rigidbody = GetComponent<Rigidbody>();
+            _agentView ??= GetComponent<UGoapAgentView>();
             gameObject.layer = LayerMask.NameToLayer("Agent");
             
             CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
@@ -83,6 +85,12 @@ namespace UGoap.Unity
             while (true)
             {
                 Debug.Log("Estado actual: " + CurrentState);
+                
+                //Simular pensamiento.
+                _agentView.Show();
+                yield return new WaitForSeconds(ThinkTime);
+                _agentView.Hide();
+                
                 var id = CreateNewPlan(CurrentState);
                 //If plan found.
                 if (id >= 0)
@@ -94,10 +102,10 @@ namespace UGoap.Unity
                 else
                 {
                     Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
-                    _remainingSeconds = _rePlanSeconds;
-                    while (_remainingSeconds > 0)
+                    _rePlanCooldown = _rePlanSeconds;
+                    while (_rePlanCooldown > 0)
                     {
-                        _remainingSeconds -= Time.deltaTime;
+                        _rePlanCooldown -= Time.deltaTime;
                         yield return null;
                     }
                 }
@@ -112,17 +120,21 @@ namespace UGoap.Unity
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             
-            GoapState nextState;
+            GoapState nextState = CurrentState;
             do
             {
-                PerformingAction = true;
-                
                 var task = _currentPlan.ExecuteNext(CurrentState);
-                while (!task.IsCompleted) yield return null;
-                nextState = task.Result;
-                
-                if (nextState == null) PerformingAction = false;
+                if (task != null)
+                {
+                    while (!task.IsCompleted) yield return null;
+                    nextState = task.Result;
+                }
                 else
+                {
+                    nextState = null;
+                }
+
+                if (nextState != null)
                 {
                     if (!Interrupted) CurrentState = nextState;
                 }
@@ -208,6 +220,13 @@ namespace UGoap.Unity
             _currentPlan = plan;
             return true;
         }
+
+        [ContextMenu("ForceInterrupt")]
+        public void ForceInterrupt()
+        {
+            Interrupted = true;
+            _currentPlan.Interrupt();
+        }
         
         [ContextMenu("Interrupt")]
         public void Interrupt()
@@ -221,19 +240,20 @@ namespace UGoap.Unity
                 if (_currentGoal.IsGoal(CurrentState))
                 {
                     Interrupted = true;
-                    _currentPlan.Interrupt(true);
+                    _currentPlan.Interrupt();
+                    _currentPlan.IsDone = true;
                 }
-                //If no longer accomplish the conditions for the current goal
+                //If no longer accomplish the conditions for the current goal INCOMPLETE, CHECK FULL PLAN.
                 else if (!_currentPlan.CurrentNode.IsGoal(CurrentState))
                 {
                     Interrupted = true;
-                    _currentPlan.Interrupt(false);
+                    _currentPlan.Interrupt();
                 }
             }
             //If no current plan
             else
             {
-                _remainingSeconds = 0f;
+                _rePlanCooldown = 0f;
             }
         }
         
@@ -244,6 +264,11 @@ namespace UGoap.Unity
             {
                 Debug.Log(log);
             }
+        }
+
+        private void OnDestroy()
+        {
+            _currentPlan.Interrupt();
         }
     }
 }

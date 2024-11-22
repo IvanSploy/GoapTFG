@@ -54,7 +54,12 @@ public class OpenAction : GoapAction
         if (iAgent is not UGoapAgent agent) return null;
         
         UGoapEntity entityLocked = UGoapWMM.Get(Target).Object;
-        entityLocked.GetComponent<Animator>()?.SetBool("Opened", true);
+        var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();
+        openBehaviour.Open();
+        while (!openBehaviour.IsOpen)
+        {
+            await Task.Yield();
+        }
         return state;
     }
 }

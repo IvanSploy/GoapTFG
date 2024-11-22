@@ -13,10 +13,7 @@ MonoBehaviour:
   m_Name: GoToTarget
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions:
-  - name: MoveState
-    value: Ready
-    condition: 0
+  Preconditions: []
   Effects: []
   TargetKey: 1
   SpeedFactor: 1

@@ -11,7 +11,7 @@ namespace UGoap.Planner
         public Node CurrentNode { get; private set; }
         public Stack<Node> ExecutedNodes { get; } = new();
         public IGoapEntity CurrentEntity { get; private set; }
-        public bool IsDone { get; private set; }
+        public bool IsDone { get; set; }
         
         private readonly Stack<Node> _nodes = new();
         private readonly IGoapAgent _agent;
@@ -44,7 +44,7 @@ namespace UGoap.Planner
         public int Count => _nodes.Count;
         
         //Methods
-        public async Task<GoapState> ExecuteNext(GoapState currentState)
+        public Task<GoapState> ExecuteNext(GoapState currentState)
         {
             if (Count == 0)
             {
@@ -57,22 +57,19 @@ namespace UGoap.Planner
 
             _cancellationTokenSource = new CancellationTokenSource();
             
-            var result = await Task.Run(() =>
-            {
-                var task = CurrentNode.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
-                while (!task.IsCompleted) Task.Yield();
-                return task.Result;
-            });
+            var result = CurrentNode.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
+            if (result == null) return null;
             
-            if (currentState != null) 
-                DebugRecord.AddRecord(currentState.ToString());
+            result.ContinueWith(goapState =>
+            {
+                if (goapState.Result != null) DebugRecord.AddRecord(goapState.ToString());
+            });
             
             return result;
         }
 
-        public void Interrupt(bool goalReached)
+        public void Interrupt()
         {
-            IsDone = goalReached;
             _cancellationTokenSource.Cancel();
         }
     }

@@ -73,12 +73,15 @@ namespace UGoap.Unity.Action
         public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
         {
             if (iAgent is not UGoapAgent goapAgent) return null;
-            
-            var x = state.TryGetOrDefault(PropertyKey.DestinationX, 0f);
-            var z = state.TryGetOrDefault(PropertyKey.DestinationZ, 0f);
-            var target = new Vector3(x, 0, z);
+
+            var targetName = state.TryGetOrDefault(TargetKey, "None");
+            UGoapEntity targetEntity = UGoapWMM.Get(targetName).Object;
+            var target = targetEntity.transform.position;
             
             var t = goapAgent.transform;
+
+            target.y = t.position.y;
+            var rotationTarget = Quaternion.LookRotation(target - t.position, Vector3.up);
             
             bool reached = false;
 
@@ -88,13 +91,29 @@ namespace UGoap.Unity.Action
             {
                 if (token.IsCancellationRequested)
                 {
-                    state.Set(PropertyKey.MoveState, "Set");
+                    return state;
+                }
+                
+                t.rotation = Quaternion.RotateTowards(t.rotation, rotationTarget, speed * 20 * Time.deltaTime );
+                
+                if (Vector3.Distance(t.eulerAngles, rotationTarget.eulerAngles) < float.Epsilon)
+                {
+                    reached = true;
+                }
+                await Task.Yield();
+            }
+
+            reached = false;
+            
+            while (!reached)
+            {
+                if (token.IsCancellationRequested)
+                {
                     return state;
                 }
                 var p = t.position;
                 target.y = p.y;
                 t.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
-                t.rotation = Quaternion.LookRotation(target - p, Vector3.up);
                 target.y = p.y;
                 if (Vector3.Distance(t.position, target) < float.Epsilon)
                 {

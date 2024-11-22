@@ -17,6 +17,9 @@ MonoBehaviour:
   - name: Target
     value: Door
     condition: 0
+  - name: DoorState
+    value: Closed
+    condition: 0
   Effects:
   - name: DoorState
     value: Opened

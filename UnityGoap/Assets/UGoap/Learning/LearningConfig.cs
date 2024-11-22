@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace UGoap.Learning
 {
-    [CreateAssetMenu(fileName = "LearningConfig", menuName = "Goap Items/LearningConfig", order = 1)]
+    [CreateAssetMenu(fileName = "LearningConfig", menuName = "UGoap/LearningConfig", order = 1)]
     public class LearningConfig : ScriptableObject, ILearningConfig
     {
         [Header("Config")] 
