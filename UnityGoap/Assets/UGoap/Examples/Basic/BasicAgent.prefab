@@ -149,7 +149,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a678f783a4a91bf4c995002c3d6d0f44, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 744eef1f9d0db2c419465e2a811ea151, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1825519284758387565}
-  - component: {fileID: 4533741936264204563}
+  - component: {fileID: 1433726327369171400}
   - component: {fileID: 5618865412640746753}
   - component: {fileID: 1200906014820208810}
   m_Layer: 0
@@ -207,7 +207,7 @@ Transform:
   - {fileID: 6385245497067901290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4533741936264204563
+--- !u!114 &1433726327369171400
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 131aa59c529de9648b4d3c8892ae7a3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _icon: {fileID: 6639870903431581553}
+  _image: {fileID: 6639870903431581553}
+  _indicators:
+    _entries:
+    - Key: Think
+      Value: {fileID: 21300000, guid: a678f783a4a91bf4c995002c3d6d0f44, type: 3}
+    - Key: Victory
+      Value: {fileID: 21300000, guid: 5dccdfd73486ec24b9d78f8281b40ab7, type: 3}
 --- !u!114 &5618865412640746753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b6327f3c675d8547950c90766b68099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agentView: {fileID: 4533741936264204563}
+  _agentView: {fileID: 1433726327369171400}
   _runOnStart: 0
   _active: 1
   _rePlanSeconds: 5
@@ -248,7 +254,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0ed741e0b53273d44ab71a1fbba27851, type: 2}
   - {fileID: 11400000, guid: b71ab7be22f564148a04c36b0c7ec353, type: 2}
   _learningConfig: {fileID: 0}
-  ThinkTime: 0.5
+  IndicatorTime: 0.5
   Speed: 5
 --- !u!54 &1200906014820208810
 Rigidbody:

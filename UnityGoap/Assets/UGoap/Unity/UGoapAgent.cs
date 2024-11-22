@@ -7,6 +7,7 @@ using UGoap.Learning;
 using UGoap.Planner;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
@@ -26,9 +27,10 @@ namespace UGoap.Unity
         [SerializeField] private List<ActionConfig> _actionList;
         [SerializeField] private LearningConfig _learningConfig;
         
+        [FormerlySerializedAs("ThinkTime")]
         [Header("View")]
         [Tooltip("Time that simulates that agent is thinking.")]
-        public float ThinkTime = 0.5f;
+        public float IndicatorTime = 0.5f;
         [Tooltip("Meters/Seconds moved by the agent.")]
         public float Speed = 5;
         
@@ -87,9 +89,9 @@ namespace UGoap.Unity
                 Debug.Log("Estado actual: " + CurrentState);
                 
                 //Simular pensamiento.
-                _agentView.Show();
-                yield return new WaitForSeconds(ThinkTime);
-                _agentView.Hide();
+                _agentView.Set("Think");
+                yield return new WaitForSeconds(IndicatorTime);
+                _agentView.Clear();
                 
                 var id = CreateNewPlan(CurrentState);
                 //If plan found.
@@ -162,6 +164,14 @@ namespace UGoap.Unity
                     reward += decay;
                     if (Math.Sign(reward) != initialSign) break;
                 }
+            }
+
+            if (_currentPlan.IsDone)
+            {
+                //Simulate victory.
+                _agentView.Set("Victory");
+                yield return new WaitForSeconds(IndicatorTime);
+                _agentView.Clear();
             }
             
             _hasPlan = false;

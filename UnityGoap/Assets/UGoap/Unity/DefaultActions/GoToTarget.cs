@@ -87,6 +87,7 @@ namespace UGoap.Unity.Action
 
             var speed = goapAgent.Speed * SpeedFactor;
             
+            //Rotate
             while (!reached)
             {
                 if (token.IsCancellationRequested)
@@ -94,7 +95,7 @@ namespace UGoap.Unity.Action
                     return state;
                 }
                 
-                t.rotation = Quaternion.RotateTowards(t.rotation, rotationTarget, speed * 20 * Time.deltaTime );
+                t.rotation = Quaternion.RotateTowards(t.rotation, rotationTarget, speed * 45 * Time.deltaTime );
                 
                 if (Vector3.Distance(t.eulerAngles, rotationTarget.eulerAngles) < float.Epsilon)
                 {
@@ -105,6 +106,7 @@ namespace UGoap.Unity.Action
 
             reached = false;
             
+            //Move
             while (!reached)
             {
                 if (token.IsCancellationRequested)

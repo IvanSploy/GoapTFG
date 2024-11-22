@@ -450,22 +450,13 @@ GameObject:
   m_Component:
   - component: {fileID: 318107108}
   - component: {fileID: 318107107}
-  - component: {fileID: 318107106}
   m_Layer: 0
   m_Name: Secondary Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &318107106
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 318107105}
-  m_Enabled: 1
 --- !u!20 &318107107
 Camera:
   m_ObjectHideFlags: 0
@@ -1152,10 +1143,9 @@ GameObject:
   m_Component:
   - component: {fileID: 863812720}
   - component: {fileID: 863812722}
-  - component: {fileID: 863812721}
   m_Layer: 0
   m_Name: UI_Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1175,14 +1165,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 732264106}
   m_LocalEulerAnglesHint: {x: 31.11, y: 120.192, z: 0}
---- !u!81 &863812721
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863812719}
-  m_Enabled: 1
 --- !u!20 &863812722
 Camera:
   m_ObjectHideFlags: 0
@@ -1216,7 +1198,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 26.991467
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: 0

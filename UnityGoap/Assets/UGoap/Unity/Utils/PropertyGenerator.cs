@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using UGoap.Unity.ScriptableObjects;
-using UnityEditor;
 using UnityEngine;
 
-namespace UGoap.Unity.CodeGenerator
+namespace UGoap.Unity.Utils
 {
     public static class PropertyGenerator
     {

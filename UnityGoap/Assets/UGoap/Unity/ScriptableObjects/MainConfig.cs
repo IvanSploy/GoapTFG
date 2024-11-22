@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using UGoap.Unity.CodeGenerator;
+using UGoap.Unity.Utils;
 using UnityEngine;
 using static UGoap.Base.UGoapPropertyManager;
 
