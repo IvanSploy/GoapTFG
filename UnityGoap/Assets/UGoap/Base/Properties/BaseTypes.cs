@@ -1,5 +1,4 @@
 ﻿using System;
-using Unity.VisualScripting;
 using static UGoap.Base.UGoapPropertyManager;
 
 namespace UGoap.Base
