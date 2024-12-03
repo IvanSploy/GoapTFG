@@ -15,7 +15,6 @@ namespace UGoap.Planner
         }
         
         //Properties
-        public GoapState InitialState { get; }
         public HeuristicMode Mode { get; private set; }
         
         //Fields
@@ -27,15 +26,12 @@ namespace UGoap.Planner
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
         
-        public AStar(GoapState initialState)
-        {
-            InitialState = initialState;
-        }
+        public AStar() { }
         
-        public Node CreateNode(GoapConditions goal)
+        public Node CreateNode(GoapState initialState, GoapConditions goal)
         {
             var node = NodeFactory.Get();
-            node.Setup(this, InitialState, goal);
+            node.Setup(this, initialState, goal);
             return node;
         }
 
@@ -56,10 +52,10 @@ namespace UGoap.Planner
             Mode = HeuristicMode.Learning;
         }
 
-        public Node Initialize(GoapConditions goal)
+        public Node Initialize(GoapState initialState, GoapConditions goal)
         {
             var goalState = new GoapConditions(goal);
-            AStarNode node = (AStarNode) CreateNode(goalState);
+            AStarNode node = (AStarNode) CreateNode(initialState, goalState);
             node.GCost = 0;
             node.HCost = GetHeuristicCost(node);
             return node;
@@ -114,18 +110,24 @@ namespace UGoap.Planner
         {
             return Mode switch
             {
-                HeuristicMode.Default => node.Goal.CountConflicts(InitialState),
+                HeuristicMode.Default => node.Goal.CountConflicts(node.InitialState),
                 HeuristicMode.Custom => GetHeuristic(node),
                 HeuristicMode.Learning => GetLearning(node),
                 _ => 0
             };
         }
         
-        /// <summary>
-        /// Apply all the children of a node after a change of the parent.
-        /// It could change the order of the nodes in the Open List.
-        /// </summary>
-        /// <param name="node">Parent Node</param>
+        private int GetHeuristic(Node node)
+        {
+            return _customHeuristic.Invoke(node.Goal, node.InitialState);
+        }
+        
+        private int GetLearning(Node node)
+        {
+            var state = _learningConfig.GetLearningStateCode(node.InitialState, node.Goal);
+            return -(int)_learningConfig.Get(state, node.PreviousAction.Name);
+        }
+        
         private void UpdateChildrenCost(Node node)
         {
             if (node.Children.Count == 0) return;
@@ -148,28 +150,19 @@ namespace UGoap.Planner
             }
         }
 
-        private int GetHeuristic(Node node)
-        {
-            return _customHeuristic.Invoke(node.Goal, InitialState);
-        }
-        
-        private int GetLearning(Node node)
-        {
-            var state = _learningConfig.GetLearningStateCode(InitialState, node.Goal);
-            return -(int)_learningConfig.Get(state, node.PreviousAction.Name);
-        }
-
         public void Dispose()
         {
             foreach (var node in _openList)
             {
                 DisposeNode(node);
             }
+            _openList.Clear();
             
             foreach (var node in _expandedNodes)
             {
                 DisposeNode(node);
             }
+            _expandedNodes.Clear();
         }
     }
 }

@@ -38,7 +38,8 @@ namespace UGoap.Unity
         private readonly List<IGoapGoal> _goals = new();
         private readonly List<GoapAction> _actions = new();
         private IGoapGoal _currentGoal;
-        private Coroutine _currentActionRoutine;
+
+        private Planner.Planner _planner;
         
         //Agent Properties
         public string Name { get; set; }
@@ -55,8 +56,12 @@ namespace UGoap.Unity
         private void Awake()
         {
             gameObject.layer = LayerMask.NameToLayer("Agent");
-            
             CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
+            
+            //Creation of planner
+            var generator = new AStar();
+            if(_learningConfig) generator.SetLearning(_learningConfig);
+            _planner = new BackwardPlanner(generator, this);
         }
 
         void Start()
@@ -206,27 +211,23 @@ namespace UGoap.Unity
 
         private void SortGoals() => _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
 
-        public int CreateNewPlan(GoapState worldGoapState)
+        public int CreateNewPlan(GoapState initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
 
             for (int i = 0; i < _goals.Count; i++)
             {
                 _currentGoal = _goals[i];
-                var found = CreatePlan(worldGoapState, _currentGoal);
+                var found = CreatePlan(initialState, _currentGoal);
                 if (found) return i;
             }
 
             return -1;
         }
 
-        public bool CreatePlan(GoapState state, IGoapGoal goal)
+        public bool CreatePlan(GoapState initialState, IGoapGoal goal)
         {
-            var generator = new AStar(state);
-            if(_learningConfig) generator.SetLearning(_learningConfig);
-            var planner = new BackwardPlanner(generator, this);
-
-            var plan = planner.CreatePlan(goal, state, _actions);
+            var plan = _planner.CreatePlan(initialState, goal, _actions);
                 
             DebugLogs(DebugRecord.GetRecords());
             

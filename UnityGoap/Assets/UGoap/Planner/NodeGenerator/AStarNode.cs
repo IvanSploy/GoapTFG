@@ -11,14 +11,6 @@ namespace UGoap.Planner
         public override int TotalCost => GCost + HCost;
         
         //Methods
-        protected override Node CreateChild(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo)
-        {
-            var child = _nodeGenerator.CreateNode(goal);
-            child.Update(this, action, actionInfo);
-            Children.Add(child);
-            return child;
-        }
-
         public override void UpdateCost()
         {
             AStarNode parent = (AStarNode) Parent;

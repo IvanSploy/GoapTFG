@@ -5,14 +5,11 @@ namespace UGoap.Planner
 {
     public interface INodeGenerator : IDisposable
     {
-        //Properties
-        GoapState InitialState { get; }
-
         /// <summary>
         /// Creates a new Node from the factory.
         /// </summary>
         /// <returns></returns>
-        Node CreateNode(GoapConditions goal);
+        Node CreateNode(GoapState initialState, GoapConditions goal);
         
         /// <summary>
         /// Disposes a node to be used by the factory.
@@ -24,7 +21,7 @@ namespace UGoap.Planner
         /// <summary>
         /// Performs the main planning cycle from the start to the end.
         /// </summary>
-        Node Initialize(GoapConditions initialGoal);
+        Node Initialize(GoapState initialState, GoapConditions initialGoal);
         
         /// <summary>
         /// Add node to generator.

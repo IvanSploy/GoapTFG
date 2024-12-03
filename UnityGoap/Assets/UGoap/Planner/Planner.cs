@@ -10,6 +10,7 @@ namespace UGoap.Planner
         protected readonly IGoapAgent _agent;
         
         //Plan data
+        protected GoapState _initialState;
         protected IGoapGoal _goal;
         protected Node _current;
         
@@ -85,11 +86,13 @@ namespace UGoap.Planner
             return compatible;
         }
 
-        public Plan CreatePlan(IGoapGoal goal, GoapState initialState, List<GoapAction> actions)
+        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
         {
+            _initialState = initialState;
             _goal = goal;
+            
             if (goal.IsGoal(initialState)) return null;
-            var plan = GeneratePlan(initialState, actions);
+            var plan = GeneratePlan(actions);
             _nodeGenerator.Dispose();
             return plan;
         }
@@ -100,7 +103,7 @@ namespace UGoap.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        protected abstract Plan GeneratePlan(GoapState initialState, List<GoapAction> actions);
+        protected abstract Plan GeneratePlan(List<GoapAction> actions);
 
         public void DebugPlan(Node node, string goalName)
         {

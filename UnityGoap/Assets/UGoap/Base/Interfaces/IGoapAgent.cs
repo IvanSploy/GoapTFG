@@ -41,9 +41,9 @@ namespace UGoap.Base
         /// <summary>
         /// Manages to create a new plan for the Agent.
         /// </summary>
-        /// <param name="worldGoapState"></param>
+        /// <param name="initialState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        int CreateNewPlan(GoapState worldGoapState);
+        int CreateNewPlan(GoapState initialState);
 
         /// <summary>
         /// Tries to stop current plan execution and waits x seconds.

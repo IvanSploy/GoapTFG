@@ -10,6 +10,7 @@ namespace UGoap.Planner
     public abstract class Node : IComparable
     {
         //Properties
+        public GoapState InitialState { get; private set; }
         public GoapConditions Goal { get; private set; }
         public Node Parent { get; private set; }
         public GoapAction PreviousAction { get; private set; }
@@ -28,19 +29,20 @@ namespace UGoap.Planner
         public void Setup(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal)
         {
             _nodeGenerator = nodeGenerator;
+            InitialState = initialState;
             Goal = goal;
             Parent = null;
             PreviousAction = null;
             PreviousActionInfo = new GoapActionInfo();
             Children.Clear();
-            CreateSettings(initialState);
+            CreateSettings();
         }
         
-        private void CreateSettings(GoapState initialState)
+        private void CreateSettings()
         {
             Settings = new GoapSettings
             {
-                InitialState = initialState,
+                InitialState = InitialState,
                 Goal = Goal,
             };
         }
@@ -71,16 +73,14 @@ namespace UGoap.Planner
 
            return resultGoal == null ? null : CreateChild(resultGoal, action, actionInfo);
         }
-
-        /// <summary>
-        /// Performs the creation of a new Node based on an existent PG.
-        /// </summary>
-        /// <param name="goapState">Property Group</param>
-        /// <param name="goapGoal"></param>
-        /// <param name="goapAction"></param>
-        /// <param name="cost">Custom cost</param>
-        /// <returns></returns>
-        protected abstract Node CreateChild(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo);
+        
+        private Node CreateChild(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo)
+        {
+            var child = _nodeGenerator.CreateNode(InitialState, goal);
+            child.Update(this, action, actionInfo);
+            Children.Add(child);
+            return child;
+        }
 
         /// <summary>
         /// Apply the info related to the parent and the action that leads to this node.

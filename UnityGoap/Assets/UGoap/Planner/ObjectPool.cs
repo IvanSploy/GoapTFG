@@ -16,13 +16,19 @@ namespace UGoap.Planner
 
         public TObject Get()
         {
-            if (_pool.Count > 0) return _pool.Dequeue();
-            return _createObject();
+            lock (_pool)
+            {
+                if (_pool.Count > 0) return _pool.Dequeue();
+                return _createObject();
+            }
         }
 
         public void Release(TObject o)
         {
-            _pool.Enqueue(o);
+            lock (_pool)
+            {
+                _pool.Enqueue(o);
+            }
         }
     }
 }
