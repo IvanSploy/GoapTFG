@@ -105,7 +105,7 @@ namespace UGoap.Learning
             return GetQValue(state, action);
         }
         
-        public void UpdateLearning(Node node, GoapState initialState, float reward)
+        public void UpdateLearning(PlanNode node, PlanNode nextNode, GoapState initialState, float reward)
         {
             int initialNode;
             int finishNode;
@@ -116,17 +116,17 @@ namespace UGoap.Learning
                     finishNode = initialNode;
                     break;
                 case LearningType.Goal:
-                    initialNode = ParseToStateCode(node.Parent.Goal);
+                    initialNode = ParseToStateCode(nextNode.Goal);
                     finishNode = ParseToStateCode(node.Goal);
                     break;
                 case LearningType.Both:
-                    initialNode = ParseToStateCode(initialState, node.Parent.Goal);
+                    initialNode = ParseToStateCode(initialState, nextNode.Goal);
                     finishNode = ParseToStateCode(initialState, node.Goal);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Apply(initialNode, node.PreviousAction.Name, reward, finishNode);
+            Apply(initialNode, node.Action.Name, reward, finishNode);
         }
 
         private float GetRandom() => Random.Range(InitialRange.x, InitialRange.y);

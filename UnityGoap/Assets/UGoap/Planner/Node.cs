@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using UGoap.Base;
-using UGoap.Learning;
 
 namespace UGoap.Planner
 {
@@ -13,50 +10,37 @@ namespace UGoap.Planner
     public abstract class Node : IComparable
     {
         //Properties
-        public GoapState InitialState { get; }
-        public GoapConditions Goal { get; }
+        public GoapConditions Goal { get; private set; }
         public Node Parent { get; private set; }
-        public List<Node> Children { get; private set; }
         public GoapAction PreviousAction { get; private set; }
         public GoapActionInfo PreviousActionInfo { get; private set; }
         public virtual int TotalCost { get; private set; }
-        public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
         public GoapSettings Settings { get; private set; }
 
+        public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
         public bool IsGoal(GoapState state) => !Goal.CheckConflict(state);
-        public bool UseLearning => LearningConfig != null;
 
         //Fields
-        protected readonly INodeGenerator NodeGenerator;
-        protected readonly Func<GoapConditions,GoapState,int> CustomHeuristic;
-        protected readonly ILearningConfig LearningConfig;
+        public readonly List<Node> Children = new();
+        protected INodeGenerator _nodeGenerator;
         
-        //Constructor
-        protected Node(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal, Func<GoapConditions,GoapState,int> customHeuristic)
+        //Methods
+        public void Setup(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal)
         {
-            NodeGenerator = nodeGenerator;
-            InitialState = initialState;
+            _nodeGenerator = nodeGenerator;
             Goal = goal;
-            CustomHeuristic = customHeuristic;
-            Children = new List<Node>();
-            CreateSettings();
+            Parent = null;
+            PreviousAction = null;
+            PreviousActionInfo = new GoapActionInfo();
+            Children.Clear();
+            CreateSettings(initialState);
         }
         
-        protected Node(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal, ILearningConfig learningConfig)
-        {
-            NodeGenerator = nodeGenerator;
-            InitialState = initialState;
-            Goal = goal;
-            this.LearningConfig = learningConfig;
-            Children = new List<Node>();
-            CreateSettings();
-        }
-        
-        private void CreateSettings()
+        private void CreateSettings(GoapState initialState)
         {
             Settings = new GoapSettings
             {
-                InitialState = InitialState,
+                InitialState = initialState,
                 Goal = Goal,
             };
         }
@@ -65,7 +49,6 @@ namespace UGoap.Planner
         /// <summary>
         /// Do mixed apply for the current state and node.
         /// </summary>
-        /// <param name="currentGoapState">The current state of the research.</param>
         /// <param name="action">PreviousAction applied to the node.</param>
         /// <returns>Node result and unchecked conditions.</returns>
         public Node ApplyAction(GoapAction action)
@@ -86,40 +69,7 @@ namespace UGoap.Planner
                Effects = effects,
            };
 
-           return resultGoal == null ? null : CreateChildNode(resultGoal, action, actionInfo);
-        }
-        
-        private bool CheckAction(GoapState state, IGoapAgent agent)
-        {
-            if (!PreviousActionInfo.Conditions.CheckConflict(state))
-            {
-                bool valid = PreviousAction.Validate(state, PreviousActionInfo, agent);
-                if (!valid)
-                {
-                    DebugRecord.AddRecord("La acción no ha podido completarse, plan detenido :(");
-                }
-                return valid;
-            }
-            
-            DebugRecord.AddRecord("El agente no cumple con las precondiciones necesarias, plan detenido :(");
-            //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
-            return false;
-        }
-        
-        /// <summary>
-        /// To execute an action related to a certain node.
-        /// </summary>
-        /// <param name="goapAction"></param>
-        /// <param name="state"></param>
-        /// <param name="agent"></param>
-        /// <returns></returns>
-        public Task<GoapState> ExecuteAction(GoapState state, IGoapAgent agent, CancellationToken token)
-        {
-            if (!CheckAction(state, agent))
-                return null;
-
-            state += PreviousActionInfo.Effects;
-            return PreviousAction.Execute(state, agent, token);
+           return resultGoal == null ? null : CreateChild(resultGoal, action, actionInfo);
         }
 
         /// <summary>
@@ -130,7 +80,7 @@ namespace UGoap.Planner
         /// <param name="goapAction"></param>
         /// <param name="cost">Custom cost</param>
         /// <returns></returns>
-        protected abstract Node CreateChildNode(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo);
+        protected abstract Node CreateChild(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo);
 
         /// <summary>
         /// Apply the info related to the parent and the action that leads to this node.
@@ -142,21 +92,21 @@ namespace UGoap.Planner
             //Se actualiza la accion de origen y el objetivo.
             PreviousAction = action;
             PreviousActionInfo = actionInfo;
-            Update(parent);
+            SetParent(parent);
         }
 
         /// <summary>
         /// Updates the Node to sets a new Parent and all the related info.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="customHeuristic"></param>
-        /// <param name="learning"></param>
-        public virtual void Update(Node parent)
+        public void SetParent(Node parent)
         {
             //Se define la relación padre hijo.
             Parent = parent;
-            TotalCost = PreviousAction.GetCost(parent.Goal);
+            UpdateCost();
         }
+
+        public virtual void UpdateCost() => TotalCost = PreviousAction.GetCost(Parent.Goal);
 
         public int CompareTo(object obj)
         {

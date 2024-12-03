@@ -77,7 +77,7 @@ namespace Panda.Examples.Shooter
             enemies.RemoveAll( (u) => u.team == player.team) ;
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
 

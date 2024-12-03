@@ -43,7 +43,7 @@ namespace Panda.Examples.PlayTag
             bt.enabled = false;
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
             Vector2 screenPoint = RectTransformUtility.WorldToScreenPoint(Camera.main, speaker.transform.position + Vector3.forward*1.0f);

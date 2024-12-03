@@ -19,7 +19,7 @@ namespace Panda.Examples.Shooter
 
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
             if (player != null)

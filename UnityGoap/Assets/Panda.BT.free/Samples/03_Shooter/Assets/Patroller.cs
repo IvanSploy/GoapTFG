@@ -17,7 +17,7 @@ namespace Panda.Examples.Shooter
             self = GetComponent<Unit>();
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
 

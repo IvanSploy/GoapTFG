@@ -21,7 +21,7 @@ namespace Panda.Examples
             }
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
             if( target != null)

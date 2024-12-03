@@ -84,6 +84,15 @@ namespace UGoap.Planner
             }
             return compatible;
         }
+
+        public Plan CreatePlan(IGoapGoal goal, GoapState initialState, List<GoapAction> actions)
+        {
+            _goal = goal;
+            if (goal.IsGoal(initialState)) return null;
+            var plan = GeneratePlan(initialState, actions);
+            _nodeGenerator.Dispose();
+            return plan;
+        }
         
         /// <summary>
         /// Generates the plan using the generator and the actions provided.
@@ -91,8 +100,7 @@ namespace UGoap.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        public abstract Plan GeneratePlan(GoapState initialState,
-            List<GoapAction> actions);
+        protected abstract Plan GeneratePlan(GoapState initialState, List<GoapAction> actions);
 
         public void DebugPlan(Node node, string goalName)
         {

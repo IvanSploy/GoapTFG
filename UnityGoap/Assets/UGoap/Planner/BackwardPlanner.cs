@@ -24,20 +24,6 @@ namespace UGoap.Planner
         {
             _greedy = greedy;
         }
-
-        /// <summary>
-        /// Creates a plan that finds using A* the path that finds the cheapest way to reach it.
-        /// </summary>
-        /// <param name="initialState">Current goapState of the world.</param>
-        /// <param name="goal">Goal that is going to be reached.</param>
-        /// <param name="actions">Actions aviable for the agent.</param>
-        /// <returns>Stack of the plan actions.</returns>
-        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
-        {
-            _goal = goal;
-            if (goal.IsGoal(initialState)) return null;
-            return GeneratePlan(initialState, actions);
-        }
         
         private void RegisterActions(List<GoapAction> actions)
         {
@@ -53,7 +39,7 @@ namespace UGoap.Planner
             }
         }
 
-        public override Plan GeneratePlan(GoapState initialState, List<GoapAction> actions)
+        protected override Plan GeneratePlan(GoapState initialState, List<GoapAction> actions)
         {
             if (initialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
@@ -62,7 +48,7 @@ namespace UGoap.Planner
 
             _nodesCreated = 0;
             
-            _current = _nodeGenerator.CreateInitialNode(_goal.Conditions);
+            _current = _nodeGenerator.Initialize(_goal.Conditions);
             while (_current != null)
             {
                 _actionsVisited.Clear();
@@ -101,7 +87,7 @@ namespace UGoap.Planner
                             }
                         }
                         
-                        _nodeGenerator.AddChildToParent(_current, child);
+                        _nodeGenerator.Add(child);
                         _nodesCreated += 1;
                     }
                 }

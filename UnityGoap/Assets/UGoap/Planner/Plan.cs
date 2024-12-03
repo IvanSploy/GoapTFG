@@ -8,15 +8,16 @@ namespace UGoap.Planner
     public class Plan
     {
         public GoapState InitialState { get; private set; }
-        public Node CurrentNode { get; private set; }
-        public Stack<Node> ExecutedNodes { get; } = new();
+        public PlanNode Current { get; private set; }
+        public Stack<PlanNode> ExecutedActions { get; } = new();
         public IGoapEntity CurrentEntity { get; private set; }
         public bool IsDone { get; set; }
         
-        private readonly Stack<Node> _nodes = new();
+        private readonly Stack<PlanNode> _nodes = new();
         private readonly IGoapAgent _agent;
-
         private CancellationTokenSource _cancellationTokenSource;
+
+        public PlanNode Next => _nodes.Peek();
 
         //Constructor
         public Plan(GoapState initialState, IGoapAgent agent, Node finalNode)
@@ -25,15 +26,17 @@ namespace UGoap.Planner
             _agent = agent;
             
             //Get nodes
-            Stack<Node> aux = new();
+            Stack<PlanNode> aux = new();
             while (finalNode.Parent != null)
             {
-                //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
-                aux.Push(finalNode);
+                var planAction = new PlanNode(finalNode.Parent.Goal, finalNode.PreviousAction, finalNode.PreviousActionInfo);
+                aux.Push(planAction);
+                
                 finalNode = finalNode.Parent;
+                //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
             }
 
-            //Stores the nodes in order.
+            //Stores the actions in order.
             while (aux.Count > 0)
             {
                 _nodes.Push(aux.Pop());
@@ -52,12 +55,12 @@ namespace UGoap.Planner
                 return null;
             }
             
-            CurrentNode = _nodes.Pop();
-            ExecutedNodes.Push(CurrentNode);
+            Current = _nodes.Pop();
+            ExecutedActions.Push(Current);
 
             _cancellationTokenSource = new CancellationTokenSource();
             
-            var result = CurrentNode.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
+            var result = Current.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
             if (result == null) return null;
             
             result.ContinueWith(goapState =>

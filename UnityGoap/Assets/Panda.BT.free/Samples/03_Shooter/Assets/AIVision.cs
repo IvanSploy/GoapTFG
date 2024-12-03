@@ -119,7 +119,7 @@ namespace Panda.Examples.Shooter
             lastBulletSeenTime = float.NegativeInfinity;
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
             UpdateVisibility();

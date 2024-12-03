@@ -21,7 +21,7 @@ namespace Panda.Examples.Shooter
                 startIntensity = flash.intensity;
             }
 
-            // Update is called once per frame
+            // SetParent is called once per frame
             void Update()
             {
 

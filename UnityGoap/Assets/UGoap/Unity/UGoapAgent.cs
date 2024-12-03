@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planner;
@@ -12,11 +13,8 @@ using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
 {
-    [RequireComponent(typeof(UGoapAgentView))]
     public class UGoapAgent : MonoBehaviour, IGoapAgent
     {
-        [SerializeField] private UGoapAgentView _agentView;
-        
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
         [SerializeField] private bool _active = true;
@@ -47,10 +45,15 @@ namespace UGoap.Unity
         public bool Interrupted { get; set; }
         public GoapState CurrentState { get; set; }
 
+        //Events
+        public event System.Action PlanningStarted;
+        public event System.Action PlanningEnded;
+        public event System.Action PlanAchieved;
+        public event System.Action PlanFailed;
+
         // Start is called before the first frame update
         private void Awake()
         {
-            _agentView ??= GetComponent<UGoapAgentView>();
             gameObject.layer = LayerMask.NameToLayer("Agent");
             
             CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
@@ -89,16 +92,16 @@ namespace UGoap.Unity
                 Debug.Log("Estado actual: " + CurrentState);
                 
                 //Simular pensamiento.
-                _agentView.Set("Think");
+                PlanningStarted?.Invoke();
                 yield return new WaitForSeconds(IndicatorTime);
-                _agentView.Clear();
                 
                 var id = CreateNewPlan(CurrentState);
+                PlanningEnded?.Invoke();
                 //If plan found.
                 if (id >= 0)
                 {
-                    StartCoroutine(PlanExecution());
-                    yield return new WaitUntil(() => !_hasPlan && _active);
+                    yield return StartCoroutine(PlanExecution());
+                    yield return new WaitUntil(() => _active);
                 }
                 //If no plan found.
                 else
@@ -144,7 +147,7 @@ namespace UGoap.Unity
                 //Seconds awaited learning.
                 if (_learningConfig)
                 {
-                    _learningConfig.UpdateLearning(_currentPlan.CurrentNode, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                    _learningConfig.UpdateLearning(_currentPlan.Current, _currentPlan.Next, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
                 }
                                     
                 stopwatch.Restart();
@@ -157,10 +160,14 @@ namespace UGoap.Unity
                 var reward = _currentPlan.IsDone ? _learningConfig.PositiveReward : -_learningConfig.NegativeReward;
                 var initialSign = Math.Sign(reward);
                 var decay = reward > 0 ? -_learningConfig.PositiveRewardDecay : _learningConfig.NegativeRewardDecay;
-                
-                foreach (var node in _currentPlan.ExecutedNodes)
+
+                var nodes = _currentPlan.ExecutedActions.ToList();
+                for (var i = 0; i < nodes.Count - 1; i++)
                 {
-                    _learningConfig.UpdateLearning(node, _currentPlan.InitialState, reward);
+                    var node = nodes[i+1];
+                    var nextNode = nodes[i];
+                    _learningConfig.UpdateLearning(node, nextNode, _currentPlan.InitialState,
+                        reward);
                     reward += decay;
                     if (Math.Sign(reward) != initialSign) break;
                 }
@@ -169,10 +176,13 @@ namespace UGoap.Unity
             if (_currentPlan.IsDone)
             {
                 //Simulate victory.
-                _agentView.Set("Victory");
-                yield return new WaitForSeconds(IndicatorTime);
-                _agentView.Clear();
+                PlanAchieved?.Invoke();
             }
+            else
+            {
+                PlanFailed?.Invoke();
+            }
+            yield return new WaitForSeconds(IndicatorTime);
             
             _hasPlan = false;
         }
@@ -199,25 +209,24 @@ namespace UGoap.Unity
         public int CreateNewPlan(GoapState worldGoapState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
-            var i = 0;
-            var created = false;
-            while (i < _goals.Count && !created)
+
+            for (int i = 0; i < _goals.Count; i++)
             {
                 _currentGoal = _goals[i];
-                created = CreatePlan(worldGoapState, _currentGoal);
-                i++;
+                var found = CreatePlan(worldGoapState, _currentGoal);
+                if (found) return i;
             }
 
-            if (!created) return -1;
-            return i - 1;
+            return -1;
         }
 
         public bool CreatePlan(GoapState state, IGoapGoal goal)
         {
-            var generator = new AStar(state, _learningConfig);
+            var generator = new AStar(state);
+            if(_learningConfig) generator.SetLearning(_learningConfig);
             var planner = new BackwardPlanner(generator, this);
 
-            var plan = planner.CreatePlan(state, goal, _actions);
+            var plan = planner.CreatePlan(goal, state, _actions);
                 
             DebugLogs(DebugRecord.GetRecords());
             
@@ -253,8 +262,8 @@ namespace UGoap.Unity
                     _currentPlan.Interrupt();
                     _currentPlan.IsDone = true;
                 }
-                //If no longer accomplish the conditions for the current goal INCOMPLETE, CHECK FULL PLAN.
-                else if (!_currentPlan.CurrentNode.IsGoal(CurrentState))
+                //TODO: If no longer accomplish the conditions for the current goal INCOMPLETE, CHECK FULL PLAN.
+                else if (!_currentPlan.Current.Goal.CheckConflict(CurrentState))
                 {
                     Interrupted = true;
                     _currentPlan.Interrupt();

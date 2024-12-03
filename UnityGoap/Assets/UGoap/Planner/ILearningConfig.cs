@@ -18,7 +18,7 @@ namespace UGoap.Learning
         //Methods
         float Apply(int state, string action, float r, int newState);
         float Get(int state, string action);
-        void UpdateLearning(Node node, GoapState initialState, float reward);
+        void UpdateLearning(PlanNode node, PlanNode nextNode, GoapState initialState, float reward);
         int GetLearningStateCode(GoapState state, GoapConditions goal);
     }
 }

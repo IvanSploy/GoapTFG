@@ -16,7 +16,7 @@ namespace Panda.Examples.PlayTag
             Update();
         }
 
-        // Update is called once per frame
+        // SetParent is called once per frame
         void Update()
         {
             // Place the object under the mouse position
