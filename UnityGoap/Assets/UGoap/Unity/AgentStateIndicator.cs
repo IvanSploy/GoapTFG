@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using UGoap.Unity.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,29 +8,43 @@ namespace UGoap.Unity
     [DisallowMultipleComponent]
     public class AgentStateIndicator : MonoBehaviour
     {
+        public enum AgentState
+        {
+            None,
+            Planning,
+            Achieved,
+            Failed
+        }
+        
         [SerializeField] private Image _image;
-        [SerializeField] private SerializableDictionary<string, Sprite> _indicators;
+        [SerializeField] private Sprite _planning;
+        [SerializeField] private Sprite _achieved;
+        [SerializeField] private Sprite _failed;
 
         private UGoapAgent _agent;
-        
-        private Dictionary<string, Sprite> _dictionary;
 
         private void Awake()
         {
             _image.enabled = false;
-            _dictionary = _indicators.ToDictionary();
 
             _agent = GetComponent<UGoapAgent>();
             
-            _agent.PlanningStarted += () => Set("Think");
+            _agent.PlanningStarted += () => Set(AgentState.Planning);
             _agent.PlanningEnded += Clear;
-            _agent.PlanAchieved += () => Set("Victory", 1);
-            _agent.PlanFailed += () => Set("Fail", 1);
+            _agent.PlanAchieved += () => Set(AgentState.Achieved, 1);
+            _agent.PlanFailed += () => Set(AgentState.Failed, 1);
         }
 
-        public async void Set(string key, int seconds = 0)
+        public async void Set(AgentState state, int seconds = 0)
         {
-            _dictionary.TryGetValue(key, out var sprite);
+            var sprite = state switch
+            {
+                AgentState.Planning => _planning,
+                AgentState.Achieved => _achieved,
+                AgentState.Failed => _failed,
+                _ => null
+            };
+            
             if (sprite)
             {
                 _image.enabled = true;
@@ -41,6 +53,7 @@ namespace UGoap.Unity
             else
             {
                 _image.enabled = false;
+                return;
             }
 
             if (seconds > 0)

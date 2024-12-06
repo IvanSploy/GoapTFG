@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace UGoap.Base
 {
@@ -43,7 +44,14 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="initialState"></param>
         /// <returns>Id of the goal whose plan has been created.</returns>
-        int CreateNewPlan(GoapState initialState);
+        int CreatePlan(GoapState initialState);
+        
+        /// <summary>
+        /// Manages to create a new plan for the Agent.
+        /// </summary>
+        /// <param name="initialState"></param>
+        /// <returns>Id of the goal whose plan has been created.</returns>
+        Task<int> CreatePlanAsync(GoapState initialState);
 
         /// <summary>
         /// Tries to stop current plan execution and waits x seconds.
