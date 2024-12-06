@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planner;
@@ -18,6 +19,7 @@ namespace UGoap.Unity
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
         [SerializeField] private bool _active = true;
+        [SerializeField] private bool _async;
         private float _rePlanCooldown;
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
@@ -61,6 +63,7 @@ namespace UGoap.Unity
             //Creation of planner
             var generator = new AStar();
             if(_learningConfig) generator.SetLearning(_learningConfig);
+            else generator.SetHeuristic(UGoapData.GetCustomHeuristic());
             _planner = new BackwardPlanner(generator, this);
         }
 
@@ -85,8 +88,15 @@ namespace UGoap.Unity
             {
                 _actions.Add(action.Create());
             }
-            
-            StartCoroutine(PlanGenerator());
+
+            if (_async)
+            {
+                StartCoroutine(PlanGeneratorAsync());
+            }
+            else
+            {
+                StartCoroutine(PlanGenerator());
+            }
         }
 
         //COROUTINES
@@ -100,10 +110,43 @@ namespace UGoap.Unity
                 PlanningStarted?.Invoke();
                 yield return new WaitForSeconds(IndicatorTime);
                 
-                var id = CreateNewPlan(CurrentState);
+                var id = CreatePlan(CurrentState);
                 PlanningEnded?.Invoke();
                 //If plan found.
                 if (id >= 0)
+                {
+                    yield return StartCoroutine(PlanExecution());
+                    yield return new WaitUntil(() => _active);
+                }
+                //If no plan found.
+                else
+                {
+                    Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
+                    _rePlanCooldown = _rePlanSeconds;
+                    while (_rePlanCooldown > 0)
+                    {
+                        _rePlanCooldown -= Time.deltaTime;
+                        yield return null;
+                    }
+                }
+            }
+        }
+        
+        private IEnumerator PlanGeneratorAsync()
+        {
+            while (true)
+            {
+                Debug.Log("Estado actual: " + CurrentState);
+                
+                //Simular pensamiento.
+                PlanningStarted?.Invoke();
+                
+                var planTask = CreatePlanAsync(CurrentState);
+                while (!planTask.IsCompleted) yield return null;
+                
+                PlanningEnded?.Invoke();
+                //If plan found.
+                if (planTask.Result >= 0)
                 {
                     yield return StartCoroutine(PlanExecution());
                     yield return new WaitUntil(() => _active);
@@ -211,24 +254,24 @@ namespace UGoap.Unity
 
         private void SortGoals() => _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
 
-        public int CreateNewPlan(GoapState initialState)
+        public int CreatePlan(GoapState initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
 
             for (int i = 0; i < _goals.Count; i++)
             {
                 _currentGoal = _goals[i];
-                var found = CreatePlan(initialState, _currentGoal);
+                var found = CreatePlanForGoal(initialState, _currentGoal);
                 if (found) return i;
             }
 
             return -1;
         }
 
-        public bool CreatePlan(GoapState initialState, IGoapGoal goal)
+        public bool CreatePlanForGoal(GoapState initialState, IGoapGoal goal)
         {
             var plan = _planner.CreatePlan(initialState, goal, _actions);
-                
+            
             DebugLogs(DebugRecord.GetRecords());
             
             if(_learningConfig) _learningConfig.DebugLearning();
@@ -238,6 +281,35 @@ namespace UGoap.Unity
                 return false;
             }
             _currentPlan = plan;
+            return true;
+        }
+        
+        public async Task<int> CreatePlanAsync(GoapState initialState)
+        {
+            if (_goals == null || _actions.Count == 0) return -1;
+
+            for (int i = 0; i < _goals.Count; i++)
+            {
+                _currentGoal = _goals[i];
+                var found = await CreatePlanForGoalAsync(initialState, _currentGoal);
+                if (found) return i;
+            }
+
+            return -1;
+        }
+
+        public async Task<bool> CreatePlanForGoalAsync(GoapState initialState, IGoapGoal goal)
+        {
+            _currentPlan = await _planner.CreatePlanAsync(initialState, goal, _actions);
+            
+            DebugLogs(DebugRecord.GetRecords());
+            
+            if(_learningConfig) _learningConfig.DebugLearning();
+            if (_currentPlan == null)
+            {
+                Debug.Log("[GOAP] Plan not found for: " + goal.Name);
+                return false;
+            }
             return true;
         }
 
@@ -288,7 +360,7 @@ namespace UGoap.Unity
 
         private void OnDestroy()
         {
-            _currentPlan.Interrupt();
+            _currentPlan?.Interrupt();
         }
     }
 }

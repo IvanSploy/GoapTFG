@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
@@ -23,6 +24,29 @@ namespace UGoap.Planner
         {
             _nodeGenerator = nodeGenerator;
             _agent = agent;
+        }
+        
+        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
+        {
+            _initialState = initialState;
+            _goal = goal;
+            
+            if (goal.IsGoal(initialState)) return null;
+            var plan = GeneratePlan(actions);
+            _nodeGenerator.Dispose();
+            return plan;
+        }
+        
+        public async Task<Plan> CreatePlanAsync(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
+        {
+            _initialState = initialState;
+            _goal = goal;
+            
+            if (goal.IsGoal(initialState)) return null;
+            var plan = await Task.Run(() => GeneratePlan(actions));
+            
+            _nodeGenerator.Dispose();
+            return plan;
         }
 
         public static bool CheckEffectCompatibility(object initialValue, EffectType effectType, object actionValue,
@@ -84,17 +108,6 @@ namespace UGoap.Planner
                 //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
             }
             return compatible;
-        }
-
-        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
-        {
-            _initialState = initialState;
-            _goal = goal;
-            
-            if (goal.IsGoal(initialState)) return null;
-            var plan = GeneratePlan(actions);
-            _nodeGenerator.Dispose();
-            return plan;
         }
         
         /// <summary>
