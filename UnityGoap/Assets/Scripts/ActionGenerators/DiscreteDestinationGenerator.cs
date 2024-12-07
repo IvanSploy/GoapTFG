@@ -85,7 +85,8 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         if(PropertyY != PropertyKey.None) effects.Set(PropertyY, EffectType.Set, y);
         if(PropertyZ != PropertyKey.None) effects.Set(PropertyZ, EffectType.Set, z);
             
-        //return new SetDestinationAction(actionName, _conditions, effects);
-        return null;
+        var action = new SetDestinationAction();
+        action.Initialize(actionName, _conditions, effects);
+        return action;
     }
 }

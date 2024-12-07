@@ -49,25 +49,45 @@ namespace UGoap.Base
             }
         }
         #endregion
-
-        #region Getters
-
+        
         public static PropertyType GetPropertyType(PropertyKey property)
         {
             if (property == PropertyKey.None) return PropertyType.Boolean;
             return PropertyTypes[property];
         }
+
+        public static Type GetType(PropertyType pType)
+        {
+            return pType switch
+            {
+                PropertyType.Boolean => typeof(bool),
+                PropertyType.Integer => typeof(int),
+                PropertyType.Float => typeof(float),
+                PropertyType.String => typeof(string),
+                PropertyType.Enum => typeof(string),
+                _ => typeof(bool)
+            };
+        }
         
-        #endregion
-        
-        #region Parsers
+        public static Type GetType(PropertyKey property)
+        {
+            var pType = GetPropertyType(property);
+            return pType switch
+            {
+                PropertyType.Boolean => typeof(bool),
+                PropertyType.Integer => typeof(int),
+                PropertyType.Float => typeof(float),
+                PropertyType.String => typeof(string),
+                PropertyType.Enum => typeof(string),
+                _ => typeof(bool)
+            };
+        }
 
         public static PropertyKey ParseName(string name)
         {
             Enum.TryParse(name, out PropertyKey key);
             return key;
         }
-        
 
         public static object ParseValue(PropertyKey name, string value)
         {
@@ -126,8 +146,6 @@ namespace UGoap.Base
             var value = prop.value;
             return ParseValue(name, value);
         }
-
-        #endregion
 
         #region Utilities
         

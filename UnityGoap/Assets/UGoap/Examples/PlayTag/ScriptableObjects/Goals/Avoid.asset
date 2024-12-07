@@ -12,10 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
   m_Name: Avoid
   m_EditorClassIdentifier: 
-  properties:
+  Properties:
   - name: PlayerNear
-    value: False
-    condition: 0
-  - name: IsIt
     value: False
     condition: 0

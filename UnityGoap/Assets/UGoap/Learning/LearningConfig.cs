@@ -43,7 +43,7 @@ namespace UGoap.Learning
         
         private Dictionary<int, Dictionary<string, float>> _qValues = new();
         internal Dictionary<int, Dictionary<string, float>> Values => _qValues;
-        private string Path => Application.dataPath + "\\" + FileName + ".json";
+        private string Path => Application.dataPath + "/LearningData/" + FileName + ".json";
         private float _explorationValue;
 
         private void Awake()
@@ -71,7 +71,7 @@ namespace UGoap.Learning
                 File.Create(Path).Close();
             }
 
-            File.WriteAllText(Path, JsonConvert.SerializeObject(_qValues));
+            File.WriteAllText(Path, JsonConvert.SerializeObject(_qValues, Formatting.Indented));
         }
         
         private void OnDestroy()

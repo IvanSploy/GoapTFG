@@ -9,19 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 147b630893a94efebd596230a1f6ef09, type: 3}
-  m_Name: RunAway
+  m_Script: {fileID: 11500000, guid: 140e312bd9393934abd5c8cde9f7f1db, type: 3}
+  m_Name: GoToDestination
   m_EditorClassIdentifier: 
   _cost: 1
-  preconditions:
+  Preconditions:
   - name: MoveState
     value: Required
     condition: 0
-  effects:
-  - name: PlayerNear
-    value: False
-    effect: 0
+  Effects:
   - name: MoveState
-    value: Ready
+    value: Set
     effect: 0
-  _waitSeconds: 0
+  SpeedFactor: 1

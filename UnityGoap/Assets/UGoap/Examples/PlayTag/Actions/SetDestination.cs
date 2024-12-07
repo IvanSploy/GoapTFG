@@ -7,22 +7,29 @@ using UGoap.Unity.ScriptableObjects;
 using UGoap.Learning;
 using System.Globalization;
 
-[CreateAssetMenu(fileName = "SetBestDestination", menuName = "UGoap/Actions/PlayTag/SetBestDestination")]
-public class SetBestDestination : ActionConfig<SetBestDestinationAction>
+[CreateAssetMenu(fileName = "SetDestination", menuName = "UGoap/Actions/PlayTag/SetDestination")]
+public class SetDestination : ActionConfig<SetDestinationAction>
 {
-    public LearningConfig LearningConfig;
+    public float DestinationX;
+    public float DestinationZ;
     
-    protected override SetBestDestinationAction Install(SetBestDestinationAction action)
+    protected override SetDestinationAction Install(SetDestinationAction action)
     {
-        action.LearningConfig = LearningConfig;
+        action.Init(DestinationX, DestinationZ);
         return action;
     }
 }
 
-public class SetBestDestinationAction : GoapAction
+public class SetDestinationAction : GoapAction
 {
-    //TODO: Implementar aprendizaje local.
-    public LearningConfig LearningConfig;
+    private float _destinationX;
+    private float _destinationZ;
+
+    public void Init(float x, float z)
+    {
+        _destinationX = x;
+        _destinationZ = z;
+    }
     
     protected override GoapConditions GetProceduralConditions(GoapSettings settings)
     {
@@ -32,18 +39,10 @@ public class SetBestDestinationAction : GoapAction
     protected override GoapEffects GetProceduralEffects(GoapSettings settings)
     {
         GoapEffects goapEffects = new GoapEffects();
-        var learningState = LearningConfig.GetLearningStateCode(settings.InitialState, settings.Goal);
-        var bestActionName = LearningConfig.FindMax(learningState, LearningConfig.name);
 
-        if (bestActionName != null)
-        {
-            var split = bestActionName.Split("_");
-            goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, float.Parse(split[1], NumberStyles.Any));
-            goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, float.Parse(split[2], NumberStyles.Any));
-            return goapEffects;
-        }
-
-        return null;
+        goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, _destinationX);
+        goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, _destinationZ);
+        return goapEffects;
     }
 
     public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
@@ -54,13 +53,12 @@ public class SetBestDestinationAction : GoapAction
         {
             var playerPosition = UGoapWMM.Get("Player").Object.transform.position;
             var destination = playerPosition;
-            destination.x = (float)actionInfo.Effects.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f).Value;
-            destination.z = (float)actionInfo.Effects.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f).Value;
+            destination.x = _destinationX;
+            destination.z = _destinationZ;
 
             var destinationDirection = destination - goapAgent.transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
-                //TODO: Add learning reward.
                 return false;
             }
             

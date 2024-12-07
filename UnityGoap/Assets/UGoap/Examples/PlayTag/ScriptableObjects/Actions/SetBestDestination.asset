@@ -9,17 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5825751e5efc4c839de177fe8c4fb8ef, type: 3}
+  m_Script: {fileID: 11500000, guid: b91233ba2480c1c47ad4c6f24af2e5c7, type: 3}
   m_Name: SetBestDestination
   m_EditorClassIdentifier: 
-  _cost: 2
+  _cost: 1
   Preconditions:
   - name: MoveState
     value: Ready
     condition: 0
   Effects:
   - name: MoveState
-    value: Set
+    value: Required
     effect: 0
-  _learning: {fileID: 11400000, guid: a38048b621f351541a69c1e668d2866e, type: 2}
-  _name: Move_
+  LearningConfig: {fileID: 0}

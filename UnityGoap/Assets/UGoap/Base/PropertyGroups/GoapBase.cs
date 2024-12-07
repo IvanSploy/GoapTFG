@@ -20,16 +20,8 @@ namespace UGoap.Base
 
         protected internal void AssertValidType(PropertyKey key, object value)
         {
-            var valid = GetPropertyType(key) switch
-            {
-                PropertyType.Boolean => value is bool,
-                PropertyType.Integer => value is int,
-                PropertyType.Float => value is float,
-                PropertyType.String => value is string,
-                PropertyType.Enum => value is string,
-                _ => false
-            };
-            if (!valid)
+            var type = UGoapPropertyManager.GetType(key);
+            if (value.GetType() != type)
             {
                 throw new ArgumentException("[GOAP] Type of value is not valid.");
             }

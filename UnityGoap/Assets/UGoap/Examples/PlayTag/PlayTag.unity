@@ -538,7 +538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 0
+  Active: 1
   PositionA: {x: -5, y: 0, z: -5}
   PositionB: {x: 5, y: 0, z: 5}
   Count: {x: 5, y: 1, z: 5}
