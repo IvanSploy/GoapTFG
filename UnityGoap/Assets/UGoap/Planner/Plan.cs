@@ -1,37 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
+using UGoap.Learning;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public class Plan
     {
-        public GoapState InitialState { get; private set; }
-        public PlanNode Current { get; private set; }
-        public Stack<PlanNode> ExecutedActions { get; } = new();
-        public IGoapEntity CurrentEntity { get; private set; }
-        public bool IsDone { get; set; }
+        public NodeAction Current { get; private set; }
+        public Stack<NodeAction> ExecutedActions { get; } = new();
+        public IEntity CurrentEntity { get; private set; }
+        public bool IsCompleted { get; set; }
         
-        private readonly Stack<PlanNode> _nodes = new();
-        private readonly IGoapAgent _agent;
+        private readonly Stack<NodeAction> _nodes = new();
         private CancellationTokenSource _cancellationTokenSource;
+        private Stopwatch stopwatch = new();
 
-        public PlanNode Next => _nodes.Peek();
+        public NodeAction Next => _nodes.Peek();
+        public int Count => _nodes.Count;
 
-        //Constructor
-        public Plan(GoapState initialState, IGoapAgent agent, Node finalNode)
+        public Plan(Node finalNode)
         {
-            InitialState = initialState;
-            _agent = agent;
-            
             //Get nodes
-            Stack<PlanNode> aux = new();
+            Stack<NodeAction> aux = new();
             while (finalNode.Parent != null)
             {
-                var planAction = new PlanNode(finalNode.Parent.Goal, finalNode.PreviousAction, finalNode.PreviousActionInfo);
-                aux.Push(planAction);
-                
+                aux.Push(finalNode.ActionData);
                 finalNode = finalNode.Parent;
                 //Debug.Log("Estado: " + nodeGoal.State + "| Goal: " + nodeGoal.Goal);
             }
@@ -43,34 +40,97 @@ namespace UGoap.Planner
             }
         }
         
-        //Accesors
-        public int Count => _nodes.Count;
-        
-        //Methods
-        public Task<GoapState> ExecuteNext(GoapState currentState)
+        public Task<State> ExecuteNext(IAgent agent)
         {
-            if (Count == 0)
-            {
-                IsDone = true;
-                return null;
-            }
-            
             Current = _nodes.Pop();
             ExecutedActions.Push(Current);
 
-            _cancellationTokenSource = new CancellationTokenSource();
-            
-            var result = Current.ExecuteAction(currentState, _agent, _cancellationTokenSource.Token);
+            stopwatch.Start();
+            var initialState = agent.CurrentState;
+            var result = ExecuteCurrent(agent);
             if (result == null) return null;
             
-            result.ContinueWith(goapState =>
+            result.ContinueWith(state =>
             {
-                if (goapState.Result != null) DebugRecord.AddRecord(goapState.ToString());
+                DebugRecord.Record(state.Result != null ? state.ToString() : "Plan failed.");
+                if (state.Result != null && Count == 0) IsCompleted = true;
+                ApplyLearning(initialState, state, agent);
+                stopwatch.Stop();
             });
             
             return result;
         }
+        
+        public void ApplyLearning(State initialState, Task<State> state, IAgent agent)
+        {
+            if (Count == 0)
+            {
+                if (agent is ILearningAgent { Learning: not null } learningAgent)
+                {
+                    var reward = state.Result != null ?
+                        learningAgent.Learning.SucceedReward : learningAgent.Learning.FailReward;
+                    var finalState = state.Result ?? agent.CurrentState;
+                    
+                    learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState,
+                        Current.Action.Name, reward, finalState);
+                }
+            }
+            else
+            {
+                if (agent is ILearningAgent { Learning: not null } learningAgent)
+                {
+                    var reward = -((int)Math.Round(stopwatch.ElapsedMilliseconds / 1000f) + 1);
+                    var finalState = state.Result ?? agent.CurrentState;
+                    
+                    learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState, Current.Action.Name,
+                        reward, finalState);
+                }
+            }
+        }
 
+        public bool VerifyCurrent(IAgent agent)
+        {
+            var currentAction = ExecutedActions.Peek();
+            var isConflict = currentAction.Conditions.CheckConflict(agent.CurrentState);
+            if (isConflict) return false;
+
+            var state = agent.CurrentState + currentAction.Effects;
+            foreach (var nextAction in _nodes)
+            {
+                isConflict = nextAction.Conditions.CheckConflict(state);
+                if (isConflict) return false;
+                state += nextAction.Effects;
+            }
+
+            return !agent.CurrentGoal.Conditions.CheckConflict(state);
+        }
+        
+        private Task<State> ExecuteCurrent(IAgent agent)
+        {
+            var nextState = agent.CurrentState + Current.Effects;
+            if (!CheckCurrent(nextState, agent)) return null;
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            return Current.Action.Execute(nextState, agent, Current.Parameters, _cancellationTokenSource.Token);
+        }
+        
+        private bool CheckCurrent(State nextState, IAgent agent)
+        {
+            if (!Current.Conditions.CheckConflict(agent.CurrentState))
+            {
+                bool valid = Current.Action.Validate(nextState, agent, Current.Parameters);
+                if (!valid)
+                {
+                    DebugRecord.Record("[GOAP] Plan detenido. La acción no ha podido completarse.");
+                }
+                return valid;
+            }
+            
+            DebugRecord.Record("[GOAP] Plan detenido. El agente no cumple con las precondiciones necesarias.");
+            //Debug.Log("Accion:" + Name + " | Estado actual: " + stateInfo.WorldState + " | Precondiciones accion: " + _preconditions);
+            return false;
+        }
+        
         public void Interrupt()
         {
             _cancellationTokenSource.Cancel();

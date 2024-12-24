@@ -1,12 +1,9 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Learning;
-using UGoap.Planner;
+using UGoap.Planning;
 using UGoap.Unity.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,18 +11,17 @@ using Debug = UnityEngine.Debug;
 
 namespace UGoap.Unity
 {
-    public class UGoapAgent : MonoBehaviour, IGoapAgent
+    public class UGoapAgent : MonoBehaviour, IAgent
     {
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
         [SerializeField] private bool _active = true;
         [SerializeField] private bool _async;
-        private float _rePlanCooldown;
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
         [SerializeField] private List<PriorityGoal> _goalList;
         [SerializeField] private List<ActionConfig> _actionList;
-        [SerializeField] private LearningConfig _learningConfig;
+        [SerializeField] private bool _useHeuristic;
         
         [FormerlySerializedAs("ThinkTime")]
         [Header("View")]
@@ -35,18 +31,20 @@ namespace UGoap.Unity
         public float Speed = 5;
         
         //Agent base related
+        private readonly List<IGoal> _goals = new();
+        private readonly List<Base.Action> _actions = new();
+        private Planner _planner;
+        private QLearning _qLearning;
+        
         private bool _hasPlan;
         private Plan _currentPlan;
-        private readonly List<IGoapGoal> _goals = new();
-        private readonly List<GoapAction> _actions = new();
-        private IGoapGoal _currentGoal;
-
-        private Planner.Planner _planner;
+        private float _rePlanCooldown;
         
         //Agent Properties
         public string Name { get; set; }
         public bool Interrupted { get; set; }
-        public GoapState CurrentState { get; set; }
+        public State CurrentState { get; set; }
+        public IGoal CurrentGoal { get; set; }
 
         //Events
         public event System.Action PlanningStarted;
@@ -55,24 +53,31 @@ namespace UGoap.Unity
         public event System.Action PlanFailed;
 
         // Start is called before the first frame update
-        private void Awake()
+        public void Awake()
         {
             gameObject.layer = LayerMask.NameToLayer("Agent");
-            CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new GoapState();
-            
-            //Creation of planner
+            CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new State();
+            _planner = CreatePlanner();
+        }
+
+        protected virtual Planner CreatePlanner()
+        {
             var generator = new AStar();
-            if(_learningConfig) generator.SetLearning(_learningConfig);
-            else generator.SetHeuristic(UGoapData.GetCustomHeuristic());
-            _planner = new BackwardPlanner(generator, this);
+            if (_useHeuristic) generator.SetHeuristic(UGoapData.GetCustomHeuristic());
+            return new BackwardPlanner(generator, this);
         }
 
         void Start()
         {
             if (_runOnStart) Initialize(CurrentState);
         }
+        
+        void OnDestroy()
+        {
+            _currentPlan?.Interrupt();
+        }
 
-        public void Initialize(GoapState initialState)
+        public void Initialize(State initialState)
         {
             CurrentState = initialState;
             
@@ -170,83 +175,41 @@ namespace UGoap.Unity
             _hasPlan = true;
             Interrupted = false;
             
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            
-            GoapState nextState = CurrentState;
+            State nextState;
             do
             {
-                var task = _currentPlan.ExecuteNext(CurrentState);
+                nextState = null;
+                var task = _currentPlan.ExecuteNext(this);
                 if (task != null)
                 {
                     while (!task.IsCompleted) yield return null;
-                    nextState = task.Result;
-                }
-                else
-                {
-                    nextState = null;
-                }
-
-                if (nextState != null)
-                {
-                    if (!Interrupted) CurrentState = nextState;
-                }
-
-                //Seconds awaited learning.
-                if (_learningConfig)
-                {
-                    _learningConfig.UpdateLearning(_currentPlan.Current, _currentPlan.Next, _currentPlan.InitialState, -(float)stopwatch.ElapsedMilliseconds / 1000f);
+                    if (!Interrupted)
+                    {
+                        CurrentState = nextState = task.Result;
+                    }
                 }
                                     
-                stopwatch.Restart();
-            } while (nextState != null && !Interrupted);
-            stopwatch.Stop();
-            
-            //Plan performance learning
-            if (_learningConfig)
-            {
-                var reward = _currentPlan.IsDone ? _learningConfig.PositiveReward : -_learningConfig.NegativeReward;
-                var initialSign = Math.Sign(reward);
-                var decay = reward > 0 ? -_learningConfig.PositiveRewardDecay : _learningConfig.NegativeRewardDecay;
+            } while (nextState != null && !_currentPlan.IsCompleted && !Interrupted);
 
-                var nodes = _currentPlan.ExecutedActions.ToList();
-                for (var i = 0; i < nodes.Count - 1; i++)
-                {
-                    var node = nodes[i+1];
-                    var nextNode = nodes[i];
-                    _learningConfig.UpdateLearning(node, nextNode, _currentPlan.InitialState,
-                        reward);
-                    reward += decay;
-                    if (Math.Sign(reward) != initialSign) break;
-                }
-            }
-
-            if (_currentPlan.IsDone)
-            {
-                //Simulate victory.
-                PlanAchieved?.Invoke();
-            }
-            else
-            {
-                PlanFailed?.Invoke();
-            }
+            if (_currentPlan.IsCompleted) PlanAchieved?.Invoke();
+            else PlanFailed?.Invoke();
             yield return new WaitForSeconds(IndicatorTime);
             
             _hasPlan = false;
         }
 
         //INTERFACE CLASSES
-        public void AddAction(GoapAction action) => _actions.Add(action);
-        public void AddActions(List<GoapAction> actionList) => _actions.AddRange(actionList);
-        public void RemoveAction(GoapAction action) => _actions.Remove(action);
+        public void AddAction(Base.Action action) => _actions.Add(action);
+        public void AddActions(List<Base.Action> actionList) => _actions.AddRange(actionList);
+        public void RemoveAction(Base.Action action) => _actions.Remove(action);
 
-        public void AddGoal(IGoapGoal goal)
+        public void AddGoal(IGoal goal)
         {
             _goals.Add(goal);
             SortGoals();
         }
 
-        public void AddGoals(List<IGoapGoal> goalList)
+        public void AddGoals(List<IGoal> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -254,27 +217,26 @@ namespace UGoap.Unity
 
         private void SortGoals() => _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
 
-        public int CreatePlan(GoapState initialState)
+        public int CreatePlan(State initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
 
             for (int i = 0; i < _goals.Count; i++)
             {
-                _currentGoal = _goals[i];
-                var found = CreatePlanForGoal(initialState, _currentGoal);
+                CurrentGoal = _goals[i];
+                var found = CreatePlanForGoal(initialState, CurrentGoal);
                 if (found) return i;
             }
 
             return -1;
         }
 
-        public bool CreatePlanForGoal(GoapState initialState, IGoapGoal goal)
+        public bool CreatePlanForGoal(State initialState, IGoal goal)
         {
             var plan = _planner.CreatePlan(initialState, goal, _actions);
             
             DebugLogs(DebugRecord.GetRecords());
             
-            if(_learningConfig) _learningConfig.DebugLearning();
             if (plan == null)
             {
                 Debug.Log("[GOAP] Plan not found for: " + goal.Name);
@@ -284,27 +246,26 @@ namespace UGoap.Unity
             return true;
         }
         
-        public async Task<int> CreatePlanAsync(GoapState initialState)
+        public async Task<int> CreatePlanAsync(State initialState)
         {
             if (_goals == null || _actions.Count == 0) return -1;
 
             for (int i = 0; i < _goals.Count; i++)
             {
-                _currentGoal = _goals[i];
-                var found = await CreatePlanForGoalAsync(initialState, _currentGoal);
+                CurrentGoal = _goals[i];
+                var found = await CreatePlanForGoalAsync(initialState, CurrentGoal);
                 if (found) return i;
             }
 
             return -1;
         }
 
-        public async Task<bool> CreatePlanForGoalAsync(GoapState initialState, IGoapGoal goal)
+        public async Task<bool> CreatePlanForGoalAsync(State initialState, IGoal goal)
         {
             _currentPlan = await _planner.CreatePlanAsync(initialState, goal, _actions);
             
             DebugLogs(DebugRecord.GetRecords());
             
-            if(_learningConfig) _learningConfig.DebugLearning();
             if (_currentPlan == null)
             {
                 Debug.Log("[GOAP] Plan not found for: " + goal.Name);
@@ -329,14 +290,13 @@ namespace UGoap.Unity
             if (_hasPlan)
             {
                 //If already accomplished
-                if (_currentGoal.IsGoal(CurrentState))
+                if (CurrentGoal.IsGoal(CurrentState))
                 {
                     Interrupted = true;
                     _currentPlan.Interrupt();
-                    _currentPlan.IsDone = true;
+                    _currentPlan.IsCompleted = true;
                 }
-                //TODO: If no longer accomplish the conditions for the current goal INCOMPLETE, CHECK FULL PLAN.
-                else if (!_currentPlan.Current.Goal.CheckConflict(CurrentState))
+                else if (!_currentPlan.VerifyCurrent(this))
                 {
                     Interrupted = true;
                     _currentPlan.Interrupt();
@@ -356,11 +316,6 @@ namespace UGoap.Unity
             {
                 Debug.Log(log);
             }
-        }
-
-        private void OnDestroy()
-        {
-            _currentPlan?.Interrupt();
         }
     }
 }

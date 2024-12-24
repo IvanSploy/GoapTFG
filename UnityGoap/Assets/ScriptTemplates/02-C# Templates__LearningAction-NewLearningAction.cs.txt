@@ -1,0 +1,48 @@
+using UnityEngine;
+using System.Threading;
+using System.Threading.Tasks;
+using UGoap.Base;
+using UGoap.Unity;
+using UGoap.Unity.ScriptableObjects;
+using UGoap.Learning;
+
+[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Goap Items/Actions/#SCRIPTNAME#")]
+public class #SCRIPTNAME# : LearningActionConfig<#SCRIPTNAME#Action>
+{
+    #NOTRIM#
+    
+    protected override #SCRIPTNAME#Action Install(#SCRIPTNAME#Action action)
+    {
+        #NOTRIM#
+        return action;
+    }
+}
+
+public class #SCRIPTNAME#Action : LearningAction
+{
+    #NOTRIM#
+    
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
+    {
+        return null;
+    }
+    
+    protected override Effects GetProceduralEffects(ActionSettings settings)
+    {
+        return null;
+    }
+    
+    public override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    {
+        if (iAgent is not UGoapAgent agent) return false;
+        #NOTRIM#
+        return true;
+    }
+    
+    public override async Task<GoapState> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+    {
+        if (iAgent is not UGoapAgent agent) return null;
+        #NOTRIM#
+        return nextState;
+    }
+}

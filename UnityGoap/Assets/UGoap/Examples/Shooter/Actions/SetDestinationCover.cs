@@ -15,29 +15,29 @@ public class SetDestinationCover : ActionConfig<SetDestinationCoverAction>
     }
 }
 
-public class SetDestinationCoverAction : GoapAction
+public class SetDestinationCoverAction : Action
 {
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
 
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         return null;
     }
 
-    public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
         if (iAgent is not UGoapAgent agent) return false;
 
         return true;
     }
 
-    public override async Task<GoapState> Execute(GoapState goapState, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
 
-        return goapState;
+        return nextState;
     }
 }

@@ -1,6 +1,6 @@
 using UGoap.Base;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public class AStarNode : Node
     {

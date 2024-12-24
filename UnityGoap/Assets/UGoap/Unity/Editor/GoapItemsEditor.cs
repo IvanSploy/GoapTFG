@@ -4,7 +4,7 @@ using UGoap.Base;
 using UGoap.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity.Editor
 {

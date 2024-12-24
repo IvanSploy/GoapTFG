@@ -16,33 +16,33 @@ public class GoToDestination : ActionConfig<GoToDestinationAction>
     }
 }
 
-public class GoToDestinationAction : GoapAction
+public class GoToDestinationAction : Action
 {
     public int SpeedFactor = 1;
-    
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
     
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         return null;
     }
     
-    public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
         if (iAgent is not UGoapAgent agent) return false;
         
         return true;
     }
 
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
         
-        var x = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f);
-        var z = state.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f);
+        var x = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
+        var z = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
         var target = new Vector3(x, 0, z);
         
         var t = agent.transform;
@@ -55,8 +55,7 @@ public class GoToDestinationAction : GoapAction
         {
             if (token.IsCancellationRequested)
             {
-                
-                return state;
+                return nextState;
             }
 
             var p = t.position;
@@ -71,6 +70,6 @@ public class GoToDestinationAction : GoapAction
             await Task.Yield();
         }
 
-        return state;
+        return nextState;
     }
 }

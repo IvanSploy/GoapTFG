@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
-    public abstract class ActionConfig<TAction> : ActionConfig where TAction : GoapAction, new()
+    public abstract class ActionConfig<TAction> : ActionConfig where TAction : Base.Action, new()
     {
-        protected override GoapAction CreateActionBase() => Install(new TAction());
+        protected override Base.Action CreateActionBase() => Install(new TAction());
         protected abstract TAction Install(TAction action);
     }
     
@@ -25,14 +25,14 @@ namespace UGoap.Unity.ScriptableObjects
             _cost = Math.Max(0, _cost);
         }
 
-        public GoapAction Create()
+        public Base.Action Create()
         {
             var goapAction = CreateActionBase();
             
-            var preconditions = new GoapConditions();
+            var preconditions = new Conditions();
             preconditions.ApplyProperties(Preconditions);
             
-            var effects = new GoapEffects();
+            var effects = new Effects();
             effects.ApplyProperties(Effects);
             
             goapAction.Initialize(name, preconditions, effects);
@@ -40,6 +40,6 @@ namespace UGoap.Unity.ScriptableObjects
             return goapAction;
         }
 
-        protected abstract GoapAction CreateActionBase();
+        protected abstract Base.Action CreateActionBase();
     }
 }

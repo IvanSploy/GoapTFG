@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 [CreateAssetMenu(fileName = "Open", menuName = "UGoap/Actions/Basic/Open")]
 public class Open : ActionConfig<OpenAction>
@@ -20,40 +20,36 @@ public class Open : ActionConfig<OpenAction>
     }
 }
 
-public class OpenAction : GoapAction
+public class OpenAction : Action
 {
     public PropertyKey OpenState;
     public string Target;
-    
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
     
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         return null;
     }
     
-    public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not UGoapAgent agent) return false;
-        
-        UGoapEntity entityDoor = UGoapWMM.Get(Target).Object;
+        UEntity entityDoor = WorkingMemoryManager.Get(Target).Object;
         if (entityDoor.CurrentState.TryGetOrDefault(OpenState, "Opened") == "Locked")
         {
-            state.Set(OpenState, "Locked");
-            if (!state.TryGetOrDefault(PropertyKey.HasKey, false)) return false;
+            iAgent.CurrentState.Set(OpenState, "Locked");
+            if (!iAgent.CurrentState.TryGetOrDefault(PropertyKey.HasKey, false)) return false;
         }
         
         return true;
     }
     
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State state, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not UGoapAgent agent) return null;
-        
-        UGoapEntity entityLocked = UGoapWMM.Get(Target).Object;
+        UEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
         var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();
         openBehaviour.Open();
         while (!openBehaviour.IsOpen)

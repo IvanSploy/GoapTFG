@@ -1,7 +1,7 @@
 using UGoap.Base;
 using UGoap.Unity;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,13 +18,13 @@ public class GameManager : MonoBehaviour
         var random = Random.Range(0f, 1f);
         bool isLocked = random <= _lockProbability;
         
-        GoapState doorState = new GoapState();
+        State doorState = new State();
         doorState[PropertyKey.DoorState] = isLocked ? "Locked" : "Closed";
-        UGoapWMM.Get("Door").Object.CurrentState = doorState;
+        WorkingMemoryManager.Get("Door").Object.CurrentState = doorState;
         
-        UGoapWMM.Get("Indicator").Object.GetComponent<MaterialSelector>().SetMaterial(isLocked ? 1 : 0);
+        WorkingMemoryManager.Get("Indicator").Object.GetComponent<MaterialSelector>().SetMaterial(isLocked ? 1 : 0);
         
-        GoapState agentState = new GoapState();
+        State agentState = new State();
         agentState[PropertyKey.DoorState] = "Closed";
         agentState[PropertyKey.Indicator] = isLocked ? "Red" : "Blue";
         

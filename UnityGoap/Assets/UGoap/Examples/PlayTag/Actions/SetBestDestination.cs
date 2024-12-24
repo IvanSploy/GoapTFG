@@ -4,80 +4,76 @@ using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
-using UGoap.Learning;
 using System.Globalization;
+using UGoap.Learning;
 
 [CreateAssetMenu(fileName = "SetBestDestination", menuName = "UGoap/Actions/PlayTag/SetBestDestination")]
-public class SetBestDestination : ActionConfig<SetBestDestinationAction>
+public class SetBestDestination : LearningActionConfig<SetBestDestinationAction>
 {
-    public LearningConfig LearningConfig;
+    public Vector2 XLimits;
+    public Vector2 ZLimits;
     
     protected override SetBestDestinationAction Install(SetBestDestinationAction action)
     {
-        action.LearningConfig = LearningConfig;
+        action.Init(XLimits, ZLimits);
         return action;
     }
 }
 
-public class SetBestDestinationAction : GoapAction
+public class SetBestDestinationAction : LearningAction
 {
-    //TODO: Implementar aprendizaje local.
-    public LearningConfig LearningConfig;
+    public Vector2 XLimits;
+    public Vector2 ZLimits;
+
+    public void Init(Vector2 xLimits, Vector2 zLimits)
+    {
+        XLimits = xLimits;
+        ZLimits = zLimits;
+    }
+
+    protected override string[] OnCreateParameters()
+    {
+        var parameters = new string[2];
+        parameters[0] = Mathf.RoundToInt(Random.Range(XLimits.x, XLimits.y)).ToString();
+        parameters[1] = Mathf.RoundToInt(Random.Range(ZLimits.x, ZLimits.y)).ToString();
+        return parameters;
+    }
     
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
 
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
-        GoapEffects goapEffects = new GoapEffects();
-        var learningState = LearningConfig.GetLearningStateCode(settings.InitialState, settings.Goal);
-        var bestActionName = LearningConfig.FindMax(learningState, LearningConfig.name);
-
-        if (bestActionName != null)
-        {
-            var split = bestActionName.Split("_");
-            goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, float.Parse(split[1], NumberStyles.Any));
-            goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, float.Parse(split[2], NumberStyles.Any));
-            return goapEffects;
-        }
-
-        return null;
+        Effects effects = new Effects();
+        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, 0f);
+        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, 0f);
+        return effects;
     }
 
-    public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not UGoapAgent goapAgent) return false;
-        
-        if (!goapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false))
-        {
-            var playerPosition = UGoapWMM.Get("Player").Object.transform.position;
-            var destination = playerPosition;
-            destination.x = (float)actionInfo.Effects.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationX, 0f).Value;
-            destination.z = (float)actionInfo.Effects.TryGetOrDefault(UGoapPropertyManager.PropertyKey.DestinationZ, 0f).Value;
+        if (iAgent is not UGoapAgent agent) return false;
 
-            var destinationDirection = destination - goapAgent.transform.position;
-            if (destinationDirection.magnitude < 0.1f)
-            {
-                //TODO: Add learning reward.
-                return false;
-            }
-            
-            var playerDirection = playerPosition - goapAgent.transform.position;
-            if (playerDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, playerDirection) <= 45.0f)
-            {
-                return false;
-            }
-        }
+        if (iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false)) return true;
+        var destination = new Vector3
+        {
+            x = float.Parse(parameters[0], CultureInfo.InvariantCulture),
+            z = float.Parse(parameters[1], CultureInfo.InvariantCulture)
+        };
+
+        var destinationDirection = destination - agent.transform.position;
+        destinationDirection.y = 0;
+        if (destinationDirection.magnitude < 0.1f) return false;
 
         return true;
     }
 
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not UGoapAgent goapAgent) return null;
+        if (iAgent is not UGoapAgent agent) return null;
         
-        return state;
+        return nextState;
     }
 }

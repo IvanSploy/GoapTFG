@@ -9,8 +9,8 @@ namespace UGoap.Unity.Utils
         private const string CodeDirectory = "Assets/UGoap/Base/Properties/";
         private const string CodeKeysName = "UGoapProperties.cs";
         private const string CodeValuesName = "UGoapPropertyValues.cs";
-        private const string ReferenceKeysPath = "Assets/UGoap/Base/Properties/UGoapPropertiesReference.txt";
-        private const string ReferenceValuesPath = "Assets/UGoap/Base/Properties/UGoapPropertyValuesReference.txt";
+        private const string ReferenceKeysPath = "Assets/UGoap/Base/Properties/PropertiesReference.txt";
+        private const string ReferenceValuesPath = "Assets/UGoap/Base/Properties/PropertyValuesReference.txt";
 
         public static void GenerateKeys(MainConfig mainConfig)
         {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Base
 {
@@ -10,9 +10,9 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="object">Value type</typeparam>
-    public class GoapState : GoapBase<object>
+    public class State : StateBase<object>
     {
-        public GoapState(GoapState goapState = null) : base(goapState)
+        public State(State state = null) : base(state)
         { }
         
         //Value Access
@@ -22,7 +22,7 @@ namespace UGoap.Base
             _values[key] = value;
         }
         
-        public void Set(GoapState otherPg)
+        public void Set(State otherPg)
         {
             foreach (var pair in otherPg)
             {   
@@ -30,9 +30,9 @@ namespace UGoap.Base
             }
         }
         
-        public void Set(GoapEffects goapEffects)
+        public void Set(Effects effects)
         {
-            foreach (var pair in goapEffects)
+            foreach (var pair in effects)
             {   
                 Set(pair.Key, pair.Value.Value);
             }
@@ -58,12 +58,12 @@ namespace UGoap.Base
         }
         
         //Operators
-        public static GoapState operator +(GoapState a, GoapState b)
+        public static State operator +(State a, State b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapState(a);
+            var propertyGroup = new State(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value);
@@ -71,12 +71,12 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static GoapState operator +(GoapState a, GoapEffects b)
+        public static State operator +(State a, Effects b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapState(a);
+            var propertyGroup = new State(a);
             foreach (var pair in b)
             {
                 PropertyKey key = pair.Key;
@@ -97,11 +97,11 @@ namespace UGoap.Base
             return propertyGroup;
         }
         
-        public static GoapState operator -(GoapState a, GoapBase<object> b)
+        public static State operator -(State a, StateBase<object> b)
         {
             if (b == null) return a;
             
-            var propertyGroup = new GoapState(a);
+            var propertyGroup = new State(a);
             if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
@@ -124,7 +124,7 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            GoapState otherPg = (GoapState)obj;
+            State otherPg = (State)obj;
             
             if (CountRelevantPropertyKeys() != otherPg.CountRelevantPropertyKeys()) return false;
             foreach (var key in _values.Keys)
@@ -141,14 +141,12 @@ namespace UGoap.Base
         /// <returns>Hash Number</returns>
         public override int GetHashCode()
         {
-            int hash = 18;
+            int hash = 17;
             foreach(KeyValuePair<PropertyKey, object> kvp in _values)
             {
-                //No se toman en cuenta las reglas desinformadas.
                 if (!IsRelevantPropertyKey(kvp.Key)) continue;
                 
-                hash = 18 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
-                hash %= int.MaxValue;
+                hash = hash * 31 + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
             }
             return hash;
         }
@@ -167,11 +165,11 @@ namespace UGoap.Base
         
         //Casts
         // Implicit conversion operator
-        public static implicit operator GoapState(GoapEffects custom)
+        public static implicit operator State(Effects custom)
         {
-            GoapState goapState = new GoapState();
-            goapState.Set(custom);
-            return goapState;
+            State state = new State();
+            state.Set(custom);
+            return state;
         }
     }
 }

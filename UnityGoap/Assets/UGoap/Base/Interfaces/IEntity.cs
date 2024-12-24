@@ -3,13 +3,13 @@
     /// <summary>
     /// Represents an Enitity with an goapState.
     /// </summary>
-    public interface IGoapEntity
+    public interface IEntity
     {
         public string Name { get; }
         
         /// <summary>
-        /// Represents the goapState associated with the current entity.
+        /// Represents the current State associated with the current entity.
         /// </summary>
-        public GoapState CurrentState { get; set; }
+        public State CurrentState { get; set; }
     }
 }

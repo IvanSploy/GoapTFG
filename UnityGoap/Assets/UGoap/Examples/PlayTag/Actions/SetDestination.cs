@@ -20,7 +20,7 @@ public class SetDestination : ActionConfig<SetDestinationAction>
     }
 }
 
-public class SetDestinationAction : GoapAction
+public class SetDestinationAction : Action
 {
     private float _destinationX;
     private float _destinationZ;
@@ -31,38 +31,38 @@ public class SetDestinationAction : GoapAction
         _destinationZ = z;
     }
     
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
 
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
-        GoapEffects goapEffects = new GoapEffects();
+        Effects effects = new Effects();
 
-        goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, _destinationX);
-        goapEffects.Set(UGoapPropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, _destinationZ);
-        return goapEffects;
+        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, _destinationX);
+        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, _destinationZ);
+        return effects;
     }
 
-    public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not UGoapAgent goapAgent) return false;
+        if (iAgent is not UGoapAgent agent) return false;
         
-        if (!goapState.TryGetOrDefault(UGoapPropertyManager.PropertyKey.IsIt, false))
+        if (!iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
         {
-            var playerPosition = UGoapWMM.Get("Player").Object.transform.position;
+            var playerPosition = WorkingMemoryManager.Get("Player").Object.transform.position;
             var destination = playerPosition;
             destination.x = _destinationX;
             destination.z = _destinationZ;
 
-            var destinationDirection = destination - goapAgent.transform.position;
+            var destinationDirection = destination - agent.transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
                 return false;
             }
             
-            var playerDirection = playerPosition - goapAgent.transform.position;
+            var playerDirection = playerPosition - agent.transform.position;
             if (playerDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, playerDirection) <= 45.0f)
             {
                 return false;
@@ -72,10 +72,10 @@ public class SetDestinationAction : GoapAction
         return true;
     }
 
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not UGoapAgent goapAgent) return null;
+        if (iAgent is not UGoapAgent agent) return null;
         
-        return state;
+        return nextState;
     }
 }

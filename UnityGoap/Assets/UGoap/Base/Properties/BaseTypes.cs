@@ -1,5 +1,5 @@
 ﻿using System;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Base
 {
@@ -91,7 +91,6 @@ namespace UGoap.Base
                     {
                         int i => i + (int)b,
                         float f => f + (float)b,
-                        string s => s + "\n" + (string)b,
                         _ => b
                     };
                     break;
@@ -100,7 +99,6 @@ namespace UGoap.Base
                     {
                         int i => i - (int)b,
                         float f => f - (float)b,
-                        string s => s.Replace((string)b, ""),
                         _ => b
                     };
                     break;
@@ -122,6 +120,38 @@ namespace UGoap.Base
                     break;
             }
             return result;
+        }
+        
+        public static int GetDistance(this ConditionValue conditionValue, object a)
+        {
+            return GetDistance(a, conditionValue.ConditionType, conditionValue.Value);
+        }
+        
+        public static int GetDistance(object a, ConditionType condition, object b)
+        {
+            int distance = 0;
+            if (!a.Equals(b))
+            {
+                distance = a switch
+                {
+                    int i => i - (int)b,
+                    float f => (int)Math.Round(f - (float)b),
+                    _ => 1
+                };
+            }
+            
+            switch (condition)
+            {
+                case ConditionType.NotEqual:
+                case ConditionType.GreaterThan:
+                    distance++;
+                    break;
+                case ConditionType.LessThan:
+                    distance--;
+                    break;
+            }
+            
+            return distance;
         }
 
         public static object GetDefault(this PropertyKey key)

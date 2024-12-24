@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
+using UGoap.Learning;
+using Action = UGoap.Base.Action;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     /// <summary>
     /// Defines the Node used by the Planner Search.
@@ -10,74 +12,78 @@ namespace UGoap.Planner
     public abstract class Node : IComparable
     {
         //Properties
-        public GoapState InitialState { get; private set; }
-        public GoapConditions Goal { get; private set; }
+        public State InitialState { get; private set; }
+        public Conditions Goal { get; private set; }
         public Node Parent { get; private set; }
-        public GoapAction PreviousAction { get; private set; }
-        public GoapActionInfo PreviousActionInfo { get; private set; }
+        public NodeAction ActionData { get; private set; }
         public virtual int TotalCost { get; private set; }
-        public GoapSettings Settings { get; private set; }
 
+        public Action PreviousAction => ActionData.Action;
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
-        public bool IsGoal(GoapState state) => !Goal.CheckConflict(state);
+        public bool IsGoal(State state) => !Goal.CheckConflict(state);
 
         //Fields
         public readonly List<Node> Children = new();
         protected INodeGenerator _nodeGenerator;
         
         //Methods
-        public void Setup(INodeGenerator nodeGenerator, GoapState initialState, GoapConditions goal)
+        public void Setup(INodeGenerator nodeGenerator, State initialState, Conditions goal)
         {
             _nodeGenerator = nodeGenerator;
             InitialState = initialState;
             Goal = goal;
             Parent = null;
-            PreviousAction = null;
-            PreviousActionInfo = new GoapActionInfo();
+            ActionData = new NodeAction();
             Children.Clear();
-            CreateSettings();
         }
         
-        private void CreateSettings()
+        /// <summary>
+        /// Generates a few action settings, 
+        /// </summary>
+        /// <returns></returns>
+        public ActionSettings CreateSettings()
         {
-            Settings = new GoapSettings
+            return new ActionSettings
             {
                 InitialState = InitialState,
                 Goal = Goal,
             };
         }
-
-            //Used By Generator
+        
+        //Used By Generator
         /// <summary>
         /// Do mixed apply for the current state and node.
         /// </summary>
         /// <param name="action">PreviousAction applied to the node.</param>
+        /// <param name="settings">Parameters created for the action.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node ApplyAction(GoapAction action)
+        public Node ApplyAction(Action action, ActionSettings settings)
         {
            //Apply action
-           var effects = action.GetEffects(Settings);
+           var effects = action.GetEffects(settings);
            var resultGoal = Goal.ApplyEffects(effects);
            if (resultGoal == null) return null;
            
            //Merge new conflicts.
-           var conditions = action.GetPreconditions(Settings);
+           var conditions = action.GetPreconditions(settings);
            resultGoal = resultGoal.Merge(conditions);
 
-           //Store action dynamic info.
-           var actionInfo = new GoapActionInfo
+           //Store action data.
+           var actionInfo = new NodeAction
            {
+               Action = action,
                Conditions = conditions,
                Effects = effects,
+               Parameters = action.CreateParameters(InitialState, Goal),
            };
 
-           return resultGoal == null ? null : CreateChild(resultGoal, action, actionInfo);
+           return resultGoal == null ? null : CreateChild(resultGoal, actionInfo);
         }
         
-        private Node CreateChild(GoapConditions goal, GoapAction action, GoapActionInfo actionInfo)
+        private Node CreateChild(Conditions goal, NodeAction action)
         {
             var child = _nodeGenerator.CreateNode(InitialState, goal);
-            child.Update(this, action, actionInfo);
+            child.Update(this, action);
             Children.Add(child);
             return child;
         }
@@ -86,12 +92,11 @@ namespace UGoap.Planner
         /// Apply the info related to the parent and the action that leads to this node.
         /// </summary>
         /// <param name="parent"></param>
-        /// <param name="goapAction">PreviousAction that leads to this node.</param>
-        public void Update(Node parent, GoapAction action, GoapActionInfo actionInfo)
+        /// <param name="action">PreviousAction that leads to this node.</param>
+        public void Update(Node parent, NodeAction action)
         {
             //Se actualiza la accion de origen y el objetivo.
-            PreviousAction = action;
-            PreviousActionInfo = actionInfo;
+            ActionData = action;
             SetParent(parent);
         }
 

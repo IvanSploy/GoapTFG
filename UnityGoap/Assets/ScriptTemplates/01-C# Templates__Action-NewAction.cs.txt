@@ -17,31 +17,31 @@ public class #SCRIPTNAME# : ActionConfig<#SCRIPTNAME#Action>
     }
 }
 
-public class #SCRIPTNAME#Action : GoapAction
+public class #SCRIPTNAME#Action : Action
 {
     #NOTRIM#
     
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
     
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         return null;
     }
     
-    public override bool Validate(ref GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    public override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
         if (iAgent is not UGoapAgent agent) return false;
         #NOTRIM#
         return true;
     }
     
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    public override async Task<GoapState> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
         #NOTRIM#
-        return state;
+        return nextState;
     }
 }

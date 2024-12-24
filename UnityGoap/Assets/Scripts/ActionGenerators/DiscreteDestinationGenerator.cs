@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
-[RequireComponent(typeof(IGoapAgent))]
+[RequireComponent(typeof(IAgent))]
 public class DiscreteDestinationGenerator : MonoBehaviour
 {
     public bool Active = true;
@@ -17,9 +17,9 @@ public class DiscreteDestinationGenerator : MonoBehaviour
     public PropertyKey PropertyY;
     public PropertyKey PropertyZ;
 
-    private IGoapAgent _agent;
-    private GoapConditions _conditions;
-    private GoapEffects _effects;
+    private IAgent _agent;
+    private Conditions _conditions;
+    private Effects _effects;
 
     private void OnValidate()
     {
@@ -28,12 +28,12 @@ public class DiscreteDestinationGenerator : MonoBehaviour
     
     private void Awake()
     {
-        _agent = GetComponent<IGoapAgent>();
+        _agent = GetComponent<IAgent>();
         
-        _conditions = new GoapConditions();
+        _conditions = new Conditions();
         _conditions.Set(PropertyKey.MoveState, ConditionType.Equal, "Ready");
         
-        _effects = new GoapEffects();
+        _effects = new Effects();
         _effects.Set(PropertyKey.MoveState, EffectType.Set, "Set");
 
         if(Active) GenerateActions();
@@ -41,7 +41,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
 
     private void GenerateActions()
     {
-        List<GoapAction> goapActions = new(); 
+        List<Action> goapActions = new(); 
         var configX = DimensionConfig(PositionA.x, PositionB.x, Count.x);
         var configY = DimensionConfig(PositionA.y, PositionB.y, Count.y);
         var configZ = DimensionConfig(PositionA.z, PositionB.z, Count.z);
@@ -77,9 +77,9 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         return (initial, distance);
     }
 
-    private GoapAction CreateAction(string actionName, float x, float y, float z)
+    private Action CreateAction(string actionName, float x, float y, float z)
     {
-        var effects = new GoapEffects(_effects);
+        var effects = new Effects(_effects);
         
         if(PropertyX != PropertyKey.None) effects.Set(PropertyX, EffectType.Set, x);
         if(PropertyY != PropertyKey.None) effects.Set(PropertyY, EffectType.Set, y);

@@ -1,35 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UGoap.Base;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity
 {
-    public class UGoapGoal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>, IGoapGoal
+    public class UGoal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>, IGoal
     {
         //Properties
-        public GoapConditions Conditions { get; }
+        public Conditions Conditions { get; }
         public string Name { get; }
         public int PriorityLevel { get; }
         
         //Constructors
-        public UGoapGoal(string name, GoapConditions conditions, int priorityLevel)
+        public UGoal(string name, Conditions conditions, int priorityLevel)
         {
-            Conditions = new GoapConditions(conditions) ;
+            Conditions = new Conditions(conditions) ;
             PriorityLevel = priorityLevel;
             Name = name;
         }
         
-        public UGoapGoal(UGoapGoal goapGoal)
+        public UGoal(UGoal goal)
         {
-            Conditions = new GoapConditions(goapGoal.Conditions) ;
-            PriorityLevel = goapGoal.PriorityLevel;
-            Name = goapGoal.Name;
+            Conditions = new Conditions(goal.Conditions) ;
+            PriorityLevel = goal.PriorityLevel;
+            Name = goal.Name;
         }
         
         //GOAP Utilites
         public bool IsEmpty() => Conditions.IsEmpty();
-        public bool IsGoal (GoapState state) => !Conditions.CheckConflict(state);
+        public bool IsGoal (State state) => !Conditions.CheckConflict(state);
         public bool Has(PropertyKey key) => Conditions.Has(key);
         public List<ConditionValue> TryGetOrDefault(PropertyKey key, object defaultValue) => 
             Conditions.TryGetOrDefault(key, defaultValue);

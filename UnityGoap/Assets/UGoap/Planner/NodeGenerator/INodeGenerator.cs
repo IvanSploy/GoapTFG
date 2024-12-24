@@ -1,7 +1,7 @@
 ﻿using System;
 using UGoap.Base;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public interface INodeGenerator : IDisposable
     {
@@ -9,7 +9,7 @@ namespace UGoap.Planner
         /// Creates a new Node from the factory.
         /// </summary>
         /// <returns></returns>
-        Node CreateNode(GoapState initialState, GoapConditions goal);
+        Node CreateNode(State initialState, Conditions goal);
         
         /// <summary>
         /// Disposes a node to be used by the factory.
@@ -21,7 +21,7 @@ namespace UGoap.Planner
         /// <summary>
         /// Performs the main planning cycle from the start to the end.
         /// </summary>
-        Node Initialize(GoapState initialState, GoapConditions initialGoal);
+        Node Initialize(State initialState, Conditions initialGoal);
         
         /// <summary>
         /// Add node to generator.
@@ -42,6 +42,5 @@ namespace UGoap.Planner
         /// <param name="node"></param>
         /// <returns></returns>
         int GetHeuristicCost(Node node);
-        
     }
 }

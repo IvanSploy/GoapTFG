@@ -1,31 +1,31 @@
 ﻿using UGoap.Unity;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 [RequireComponent(typeof(UGoapAgent))]
 public class TargetDetector : MonoBehaviour
 {
-    [SerializeField] private UGoapAgent _goapAgent;
+    [SerializeField] private UGoapAgent _agent;
     [SerializeField] private string _target;
     [SerializeField] private float _range;
 
     private void Awake()
     {
-        if (!_goapAgent) _goapAgent = GetComponent<UGoapAgent>();
+        if (!_agent) _agent = GetComponent<UGoapAgent>();
     }
     
     private void Update()
     {
-        UGoapEntity entityPlayer = UGoapWMM.Get(_target).Object;
+        UEntity entityPlayer = WorkingMemoryManager.Get(_target).Object;
         bool isNear = Vector3.Distance(entityPlayer.transform.position, transform.position) <= _range;
-        bool previousIsNear = _goapAgent.CurrentState.TryGetOrDefault(PropertyKey.PlayerNear, false);
+        bool previousIsNear = _agent.CurrentState.TryGetOrDefault(PropertyKey.PlayerNear, false);
             
         if (isNear != previousIsNear)
         {
-            _goapAgent.CurrentState.Set(PropertyKey.PlayerNear, isNear);
+            _agent.CurrentState.Set(PropertyKey.PlayerNear, isNear);
             if (isNear)
             {
-                _goapAgent.Interrupt();
+                _agent.Interrupt();
             }
         }
     }

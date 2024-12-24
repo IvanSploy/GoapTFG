@@ -3,16 +3,15 @@ using System.Threading.Tasks;
 using UGoap.Base;
 using static UGoap.Base.BaseTypes;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public abstract class Planner
     {
         protected readonly INodeGenerator _nodeGenerator;
-        protected readonly IGoapAgent _agent;
         
         //Plan data
-        protected GoapState _initialState;
-        protected IGoapGoal _goal;
+        protected State InitialState;
+        protected IGoal _goal;
         protected Node _current;
         
         //Stats
@@ -20,15 +19,14 @@ namespace UGoap.Planner
         protected static int _nodesCreated;
         private static int _nodesSkipped;
 
-        protected Planner(INodeGenerator nodeGenerator, IGoapAgent agent)
+        protected Planner(INodeGenerator nodeGenerator)
         {
             _nodeGenerator = nodeGenerator;
-            _agent = agent;
         }
         
-        public Plan CreatePlan(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
+        public Plan CreatePlan(State initialState, IGoal goal, List<Action> actions)
         {
-            _initialState = initialState;
+            InitialState = initialState;
             _goal = goal;
             
             if (goal.IsGoal(initialState)) return null;
@@ -37,9 +35,9 @@ namespace UGoap.Planner
             return plan;
         }
         
-        public async Task<Plan> CreatePlanAsync(GoapState initialState, IGoapGoal goal, List<GoapAction> actions)
+        public async Task<Plan> CreatePlanAsync(State initialState, IGoal goal, List<Action> actions)
         {
-            _initialState = initialState;
+            InitialState = initialState;
             _goal = goal;
             
             if (goal.IsGoal(initialState)) return null;
@@ -116,7 +114,7 @@ namespace UGoap.Planner
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        protected abstract Plan GeneratePlan(List<GoapAction> actions);
+        protected abstract Plan GeneratePlan(List<Action> actions);
 
         public void DebugPlan(Node node, string goalName)
         {
@@ -136,7 +134,7 @@ namespace UGoap.Planner
             debugLog += $"with cost: {cost}\n";
             debugLog += $"{actionNames}\n";
 
-            DebugRecord.AddRecord(debugLog);
+            DebugRecord.Record(debugLog);
         }
         
         protected void DebugInfo(Node node)
@@ -147,7 +145,7 @@ namespace UGoap.Planner
             info += "ACTIONS APPLIED: " + _actionsApplied + "\n";
             _actionsApplied = 0;
             DebugPlan(node, _goal.Name);
-            DebugRecord.AddRecord(info);
+            DebugRecord.Record(info);
         }
     }
 }

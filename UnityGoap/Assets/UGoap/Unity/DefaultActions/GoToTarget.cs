@@ -5,14 +5,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity.ScriptableObjects;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity.Action
 {
     [CreateAssetMenu(fileName = "GoTo", menuName = "UGoap/Actions/GoTo")]
     public class GoToTarget : ActionConfig<GoToTargetAction>
     {
-        [Header("Custom Data")]
         public PropertyKey TargetKey;
         public int SpeedFactor = 1;
         public string ExcludedLocation = "none";
@@ -26,22 +25,22 @@ namespace UGoap.Unity.Action
         }
     }
     
-    public class GoToTargetAction : GoapAction
+    public class GoToTargetAction : Base.Action
     {
         public PropertyKey TargetKey;
         public int SpeedFactor;
         public string ExcludedLocation;
         
-        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+        protected override Conditions GetProceduralConditions(ActionSettings settings)
         {
-            var condition = new GoapConditions();
+            var condition = new Conditions();
             condition.Set(TargetKey, BaseTypes.ConditionType.NotEqual, ExcludedLocation);
             return condition;
         }
         
-        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+        protected override Effects GetProceduralEffects(ActionSettings settings)
         {
-            GoapEffects proceduralEffects = new GoapEffects();
+            Effects proceduralEffects = new Effects();
             string target = ExcludedLocation;
             var targetList = settings.Goal.TryGetOrDefault(TargetKey, "");
             if (targetList != null)
@@ -53,39 +52,41 @@ namespace UGoap.Unity.Action
             return proceduralEffects;
         }
         
-        public override int GetCost(GoapConditions goal)
+        public override int GetCost(Conditions goal)
         {
             if (!goal.Has(TargetKey)) return 50 / SpeedFactor;
             
             var target = (string) goal[TargetKey].First(condition => condition.ConditionType == BaseTypes.ConditionType.Equal).Value;
 
-            var pos = UGoapWMM.Get(target).Position;
+            var pos = WorkingMemoryManager.Get(target).Position;
             
             var cost = Math.Max(3, (int)(Vector3.Distance(Vector3.zero, pos) / SpeedFactor));
             return cost;
         }
         
-        public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+        protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
         {
+            if (iAgent is not UGoapAgent agent) return false;
+            
             return true;
         }
 
-        public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+        protected override async Task<State> OnExecute(State state, IAgent iAgent, string[] parameters, CancellationToken token)
         {
-            if (iAgent is not UGoapAgent goapAgent) return null;
+            if (iAgent is not UGoapAgent agent) return null;
 
             var targetName = state.TryGetOrDefault(TargetKey, "None");
-            UGoapEntity targetEntity = UGoapWMM.Get(targetName).Object;
+            UEntity targetEntity = WorkingMemoryManager.Get(targetName).Object;
             var target = targetEntity.transform.position;
             
-            var t = goapAgent.transform;
+            var t = agent.transform;
 
             target.y = t.position.y;
             var rotationTarget = Quaternion.LookRotation(target - t.position, Vector3.up);
             
             bool reached = false;
 
-            var speed = goapAgent.Speed * SpeedFactor;
+            var speed = agent.Speed * SpeedFactor;
             
             //Rotate
             while (!reached)

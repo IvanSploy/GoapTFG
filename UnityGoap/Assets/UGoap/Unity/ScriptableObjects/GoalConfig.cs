@@ -10,13 +10,13 @@ namespace UGoap.Unity.ScriptableObjects
     public class GoalConfig : ScriptableObject
     {
         [FormerlySerializedAs("properties")] 
-        [HideInInspector] public List<UGoapPropertyManager.ConditionProperty> Properties;
+        [HideInInspector] public List<PropertyManager.ConditionProperty> Properties;
         
-        public UGoapGoal Create(int priority)
+        public UGoal Create(int priority)
         {
-            GoapConditions state = new();
+            Conditions state = new();
             state.ApplyProperties(Properties);
-            return new UGoapGoal(name, state, priority);
+            return new UGoal(name, state, priority);
         }
     }
     
@@ -28,7 +28,7 @@ namespace UGoap.Unity.ScriptableObjects
         [FormerlySerializedAs("priority")] 
         [Range(0, 10)] [SerializeField] private int _priority;
 
-        public UGoapGoal Create()
+        public UGoal Create()
         {
             return _goalConfig.Create(_priority);
         }

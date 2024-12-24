@@ -1,8 +1,8 @@
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
-[RequireComponent(typeof(IGoapAgent))]
+[RequireComponent(typeof(IAgent))]
 public class TargetPositionUpdater : MonoBehaviour
 {
     public GameObject Target;
@@ -11,11 +11,11 @@ public class TargetPositionUpdater : MonoBehaviour
     public PropertyKey PropertyY;
     public PropertyKey PropertyZ;
 
-    private IGoapAgent _agent;
+    private IAgent _agent;
 
     private void Awake()
     {
-        _agent = GetComponent<IGoapAgent>();
+        _agent = GetComponent<IAgent>();
     }
 
     private void Update()

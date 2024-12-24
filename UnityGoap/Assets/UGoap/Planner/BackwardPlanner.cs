@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using UGoap.Base;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
+using Action = UGoap.Base.Action;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     /// <summary>
     /// Planner used to find the plan required.
@@ -12,39 +13,39 @@ namespace UGoap.Planner
     {
         private const int ACTION_LIMIT = 50000;
         private readonly bool _greedy;
-        private readonly Dictionary<PropertyKey, List<GoapAction>> _actions = new(); 
+        private readonly Dictionary<PropertyKey, List<Action>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
 
-        public BackwardPlanner(INodeGenerator nodeGenerator, IGoapAgent agent, bool greedy = false)
-            : base(nodeGenerator, agent)
+        public BackwardPlanner(INodeGenerator nodeGenerator, bool greedy = false)
+            : base(nodeGenerator)
         {
             _greedy = greedy;
         }
         
-        private void RegisterActions(List<GoapAction> actions)
+        private void RegisterActions(List<Action> actions)
         {
             foreach (var action in actions)
             {
                 foreach (var key in action.GetAffectedKeys())
                 {
                     if(!_actions.ContainsKey(key))
-                        _actions[key] = new List<GoapAction>{action};
+                        _actions[key] = new List<Action>{action};
                     else
                         _actions[key].Add(action);
                 }
             }
         }
 
-        protected override Plan GeneratePlan(List<GoapAction> actions)
+        protected override Plan GeneratePlan(List<Action> actions)
         {
-            if (_initialState == null || actions == null) throw new ArgumentNullException();
+            if (InitialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
 
             RegisterActions(actions);
 
             _nodesCreated = 0;
             
-            _current = _nodeGenerator.Initialize(_initialState, _goal.Conditions);
+            _current = _nodeGenerator.Initialize(InitialState, _goal.Conditions);
             while (_current != null)
             {
                 _actionsVisited.Clear();
@@ -58,27 +59,30 @@ namespace UGoap.Planner
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
+                        //Generate action parameters.
+                        var actionSettings = _current.CreateSettings();
+                        
                         //Check effect compatibility with initial state (the one getting closer).
-                        GoapEffects actionEffects = action.GetEffects(_current.Settings);
-                        if(!CheckEffectCompatibility(_initialState.TryGetOrDefault(key), actionEffects[key].EffectType, 
+                        Effects actionEffects = action.GetEffects(actionSettings);
+                        if(!CheckEffectCompatibility(InitialState.TryGetOrDefault(key), actionEffects[key].EffectType, 
                                actionEffects[key].Value, goalPair.Value)) 
                             continue;
                         
                         _actionsVisited.Add(action.Name);
                             
-                        var child = _current.ApplyAction(action);
+                        var child = _current.ApplyAction(action, actionSettings);
                         _actionsApplied++;
                         
                         if(child == null) continue;
                         
                         //Greedy check for goal plan.
-                        if (child.IsGoal(_initialState))
+                        if (child.IsGoal(InitialState))
                         {
                             DebugPlan(child, _goal.Name);
                             //If greedy, plan is returned.
                             if (_greedy)
                             {
-                                return new Plan(_initialState, _agent, child);
+                                return new Plan(child);
                             }
                         }
                         
@@ -91,17 +95,17 @@ namespace UGoap.Planner
                 if (_current != null)
                 {
                     //If is goal
-                    if (_current.IsGoal(_initialState))
+                    if (_current.IsGoal(InitialState))
                     {
                         DebugInfo(_current);
-                        return new Plan(_initialState, _agent, _current);
+                        return new Plan(_current);
                     }
                     
                     //If no more actions can be checked.
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         DebugInfo(_current);
-                        return new Plan(_initialState, _agent, _current);
+                        return new Plan(_current);
                     }
                 }
             }

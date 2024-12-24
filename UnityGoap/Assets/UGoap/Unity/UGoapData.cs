@@ -1,8 +1,8 @@
 using System;
 using UGoap.Base;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
-using static UGoap.Base.UGoapPropertyManager.PropertyType;
+using static UGoap.Base.PropertyManager;
+using static UGoap.Base.PropertyManager.PropertyType;
 
 namespace UGoap.Unity
 {
@@ -12,7 +12,7 @@ namespace UGoap.Unity
         /// User defined heuristic for GOAP.
         /// </summary>
         /// <returns></returns>
-        public static Func<GoapConditions, GoapState, int> GetCustomHeuristic()
+        public static Func<Conditions, State, int> GetCustomHeuristic()
         {
             //return null;
             return (goal, worldState) =>
@@ -21,7 +21,9 @@ namespace UGoap.Unity
                 foreach (var goalPair in goal)
                 {
                     PropertyKey key = goalPair.Key;
-                    if (goal.GetConflictConditions(key, worldState).Count == 0) continue;
+                    var condition = goal.GetConflictCondition(key, worldState);
+                    if (condition == null) continue;
+                    
                     foreach (var conditionValue in goal[key])
                     {
                         if (worldState.Has(key))

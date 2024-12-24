@@ -5,7 +5,7 @@ using UGoap.Base;
 using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 using Random = UnityEngine.Random;
 
 [CreateAssetMenu(fileName = "SetRandomDestination", menuName = "UGoap/Actions/PlayTag/SetRandomDestination")]
@@ -21,7 +21,7 @@ public class SetRandomDestination : ActionConfig<SetRandomDestinationAction>
     }
 }
 
-public class SetRandomDestinationAction : GoapAction
+public class SetRandomDestinationAction : Action
 {
     public Vector2 XLimits;
     public Vector2 ZLimits;
@@ -31,37 +31,37 @@ public class SetRandomDestinationAction : GoapAction
         XLimits = xLimits;
         ZLimits = zLimits;
     }
-    
-    protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+
+    protected override Conditions GetProceduralConditions(ActionSettings settings)
     {
         return null;
     }
 
-    protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+    protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         var x = Mathf.RoundToInt(Random.Range(XLimits.x, XLimits.y));
         var z = Mathf.RoundToInt(Random.Range(ZLimits.x, ZLimits.y));
     
-        var effects = new GoapEffects();
+        var effects = new Effects();
         effects.Set(PropertyKey.DestinationX, EffectType.Set, (float)x);
         effects.Set(PropertyKey.DestinationZ, EffectType.Set, (float)z);
 
         return effects;
     }
     
-    public override bool Validate(GoapState goapState, GoapActionInfo actionInfo, IGoapAgent iAgent)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not UGoapAgent goapAgent) return false;
+        if (iAgent is not UGoapAgent agent) return false;
         
-        if (!goapState.TryGetOrDefault(PropertyKey.IsIt, false))
+        if (!iAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false))
         {
             var destination = new Vector3
             {
-                x = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationX, 0f).Value,
-                z = (float)actionInfo.Effects.TryGetOrDefault(PropertyKey.DestinationZ, 0f).Value
+                x = nextState.TryGetOrDefault(PropertyKey.DestinationX, 0f),
+                z = nextState.TryGetOrDefault(PropertyKey.DestinationZ, 0f)
             };
 
-            var destinationDirection = destination - goapAgent.transform.position;
+            var destinationDirection = destination - agent.transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
                 return false;
@@ -71,10 +71,10 @@ public class SetRandomDestinationAction : GoapAction
         return true;
     }
 
-    public override async Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not UGoapAgent goapAgent) return null;
+        if (iAgent is not UGoapAgent agent) return null;
 
-        return state;
+        return nextState;
     }
 }

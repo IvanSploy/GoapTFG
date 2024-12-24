@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace UGoap.Base
 {
-    public static partial class UGoapPropertyManager
+    public static partial class PropertyManager
     {
         [Serializable]
         public enum PropertyKey 

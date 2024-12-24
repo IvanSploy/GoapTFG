@@ -4,9 +4,8 @@ using static UGoap.Base.BaseTypes;
 
 namespace UGoap.Base
 {
-    public static partial class UGoapPropertyManager
+    public static partial class PropertyManager
     {
-        #region PropertyDefinitions
         [Serializable]
         public enum PropertyType
         {
@@ -48,7 +47,6 @@ namespace UGoap.Base
                 this.effect = effect;
             }
         }
-        #endregion
         
         public static PropertyType GetPropertyType(PropertyKey property)
         {
@@ -153,12 +151,12 @@ namespace UGoap.Base
         /// Converts a Property into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="goapState">State that will include the new Property.</param>
-        public static void ApplyProperties(this GoapState goapState, List<Property> properties)
+        /// <param name="state">State that will include the new Property.</param>
+        public static void ApplyProperties(this State state, List<Property> properties)
         {
             foreach (var property in properties)
             {
-                goapState.ApplyProperty(property);
+                state.ApplyProperty(property);
             }
         }
     
@@ -168,7 +166,7 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void ApplyProperties(this GoapConditions state, List<ConditionProperty> properties)
+        public static void ApplyProperties(this Conditions state, List<ConditionProperty> properties)
         {
             foreach (var property in properties)
             {
@@ -181,7 +179,7 @@ namespace UGoap.Base
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
         /// <param name="state">State that will include the new Property.</param>
-        public static void ApplyProperties(this GoapEffects state, List<EffectProperty> properties)
+        public static void ApplyProperties(this Effects state, List<EffectProperty> properties)
         {
             foreach (var property in properties)
             {
@@ -192,17 +190,17 @@ namespace UGoap.Base
         #endregion
 
         #region Converters
-        private static void ApplyProperty(this GoapState pg, Property property)
+        private static void ApplyProperty(this State pg, Property property)
         {
             pg.Set(ParseName(property), ParseValue(property));
         }
         
-        private static void ApplyProperty(this GoapConditions pg, ConditionProperty property)
+        private static void ApplyProperty(this Conditions pg, ConditionProperty property)
         {
             pg.Set(ParseName(property), new ConditionValue(ParseValue(property), property.condition));
         }
 
-        private static void ApplyProperty(this GoapEffects pg, EffectProperty property)
+        private static void ApplyProperty(this Effects pg, EffectProperty property)
         {
             pg.Set(ParseName(property), new EffectValue(ParseValue(property), property.effect));
         } 

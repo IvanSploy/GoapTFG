@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UGoap.Base;
 using UnityEngine;
 using UGoap.Unity.ScriptableObjects;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity.Action
 {
@@ -25,22 +25,21 @@ namespace UGoap.Unity.Action
         }
     }
     
-    public class GetResourceAction : GoapAction
+    public class GetResourceAction : Base.Action
     {
         public PropertyKey Resource;
         public float Count = 1;
         public int WaitSeconds = 1;
 
-        //Conditions that could be resolved by the planner.
-        protected override GoapConditions GetProceduralConditions(GoapSettings settings)
+        protected override Conditions GetProceduralConditions(ActionSettings settings)
         {
             return null;
         }
 
-        protected override GoapEffects GetProceduralEffects(GoapSettings settings)
+        protected override Effects GetProceduralEffects(ActionSettings settings)
         {
-            var proceduralEffects = new GoapEffects();
-            var fact = UGoapWMM.Get(Resource);
+            var proceduralEffects = new Effects();
+            var fact = WorkingMemoryManager.Get(Resource);
             
             switch (GetPropertyType(Resource))
             {
@@ -63,10 +62,10 @@ namespace UGoap.Unity.Action
             return proceduralEffects;
         }
         
-        //Conditions that couldnt be resolved by the planner.
-        public override bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent)
+        //Conditions that couldn't be resolved by the planner.
+        protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
         {
-            var fact = UGoapWMM.Get(Resource);
+            var fact = WorkingMemoryManager.Get(Resource);
             if (fact == null) return false;
             bool valid = true;
             switch (GetPropertyType(Resource))
@@ -86,9 +85,9 @@ namespace UGoap.Unity.Action
             return valid;
         }
         
-        public override async Task<GoapState> Execute(GoapState goapState, IGoapAgent iAgent, CancellationToken token)
+        protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
         {
-            var fact = UGoapWMM.Get(Resource);
+            var fact = WorkingMemoryManager.Get(Resource);
             
             switch (GetPropertyType(Resource))
             {
@@ -103,12 +102,12 @@ namespace UGoap.Unity.Action
                     fact.Object.CurrentState.Set(Resource, fvalue - fcount);
                     break;
                 default:
-                    throw new 
-                        ArgumentOutOfRangeException(Resource.ToString(), "Resource has no valid resource type.");
+                    token.ThrowIfCancellationRequested();
+                    break;
             }
 
             await Task.Delay(WaitSeconds * 1000, token);
-            return goapState;
+            return nextState;
         }
     }
 }

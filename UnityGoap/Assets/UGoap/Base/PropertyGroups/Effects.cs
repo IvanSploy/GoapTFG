@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Base
 {
@@ -10,9 +10,9 @@ namespace UGoap.Base
     /// </summary>
     /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="TValue">Value type</typeparam>
-    public class GoapEffects : GoapBase<EffectValue>
+    public class Effects : StateBase<EffectValue>
     {
-        public GoapEffects(GoapEffects baseGroup = null) : base(baseGroup)
+        public Effects(Effects baseGroup = null) : base(baseGroup)
         { }
 
         //Value Access
@@ -25,7 +25,7 @@ namespace UGoap.Base
         public void Set(PropertyKey key, EffectValue effectValue) =>
             Set(key, effectValue.EffectType, effectValue.Value);
 
-        public void Set(GoapEffects otherPg)
+        public void Set(Effects otherPg)
         {
             foreach (var pair in otherPg)
             {
@@ -37,12 +37,10 @@ namespace UGoap.Base
 
         public EffectValue TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
-            if(Has(key))
-            {
-                var original = Get(key);
-                return new EffectValue((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);
-            }
-            return new EffectValue(defaultValue, EffectType.Set);
+            if (!Has(key)) return new EffectValue(defaultValue, EffectType.Set);
+            
+            var original = Get(key);
+            return new EffectValue((T)Convert.ChangeType(original.Value, typeof(T)), original.EffectType);
         }
         
         public EffectValue this[PropertyKey key]
@@ -62,12 +60,12 @@ namespace UGoap.Base
             });
         }
         
-        public static GoapEffects operator +(GoapEffects a, GoapEffects b)
+        public static Effects operator +(Effects a, Effects b)
         {
             if (b == null) return a;
             if (a == null) return b;
             
-            var propertyGroup = new GoapEffects(a);
+            var propertyGroup = new Effects(a);
             foreach (var pair in b)
             {
                 propertyGroup.Set(pair.Key, pair.Value);

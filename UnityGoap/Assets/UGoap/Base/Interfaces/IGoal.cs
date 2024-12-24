@@ -3,15 +3,15 @@
     /// <summary>
     /// Represents a goal, container of conditions.
     /// </summary>
-    public interface IGoapGoal
+    public interface IGoal
     {
         //Properties
-        GoapConditions Conditions { get; }
+        Conditions Conditions { get; }
         string Name { get; }
         int PriorityLevel { get; }
         
         //Methods
         bool IsEmpty();
-        bool IsGoal(GoapState state);
+        bool IsGoal(State state);
     }
 }

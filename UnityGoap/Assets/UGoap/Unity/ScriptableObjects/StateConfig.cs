@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UGoap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Unity.ScriptableObjects
 {
@@ -12,11 +12,11 @@ namespace UGoap.Unity.ScriptableObjects
         [FormerlySerializedAs("properties")] 
         [HideInInspector] public List<Property> Properties;
 
-        public GoapState Create()
+        public State Create()
         {
-            GoapState goapState = new();
-            goapState.ApplyProperties(Properties);
-            return goapState;
+            State state = new();
+            state.ApplyProperties(Properties);
+            return state;
         }
     }
 }

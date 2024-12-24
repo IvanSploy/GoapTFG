@@ -3,18 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using static UGoap.Base.BaseTypes;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Base
 {
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="PropertyKey">Key type</typeparam>
-    /// <typeparam name="TValue">Value type</typeparam>
-    public class GoapConditions : GoapBase<HashSet<ConditionValue>>
+    public class Conditions : StateBase<HashSet<ConditionValue>>
     {
-        public GoapConditions(GoapConditions goapConditions = null) : base(goapConditions)
+        public Conditions(Conditions conditions = null) : base(conditions)
         {
             foreach (var key in _values.Keys.ToList())
             {
@@ -41,11 +39,11 @@ namespace UGoap.Base
             Set(key, value.ConditionType, value.Value);
         }
 
-        public void Set(GoapConditions goapConditions)
+        public void Set(Conditions conditions)
         {
-            foreach (var pair in goapConditions)
+            foreach (var pair in conditions)
             {
-                //Todo Decide if cleaning up equals conditions should be done here.
+                //TODO: Decide if cleaning up equals conditions should be done here.
                 if (Has(pair.Key))
                 {
                     bool hasEqualsCondition = false;
@@ -59,7 +57,6 @@ namespace UGoap.Base
                 
                 foreach (var condition in pair.Value)
                 {
-                    //TODO If equals condition added, removed the others.
                     if (condition.ConditionType == ConditionType.Equal)
                     {
                         Remove(pair.Key);
@@ -103,146 +100,55 @@ namespace UGoap.Base
         public int Count => _values.Count;
         
         //GOAP Utilities, A* addons.
-        public bool CheckConflict(GoapState goapState)
+        public bool CheckConflict(State state)
         {
-            return this.Any(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
+            return this.Any(pg => GetConflictCondition(pg.Key, state) != null);
         }
 
-        public GoapConditions GetConflict(GoapState goapState)
+        public Conditions GetConflicts(State state, ICollection<PropertyKey> filter = null)
         {
-            GoapConditions conflicts = new GoapConditions();
+            bool hasFilter = filter != null && filter.Count > 0;
+            Conditions conflicts = new Conditions();
             foreach (var pair in this)
             {
-                var conditions = GetConflictConditions(pair.Key, goapState);
-                foreach (var condition in conditions)
-                {
-                    conflicts.Set(pair.Key, condition);
-                }
+                if(hasFilter && !filter.Contains(pair.Key)) continue;
+                
+                var condition = GetConflictCondition(pair.Key, state);
+                if(condition != null) conflicts.Set(pair.Key, condition);
             }
 
             if (conflicts.IsEmpty()) conflicts = null;
             return conflicts;
         }
 
-        public int CountConflicts(GoapState goapState) =>
-            this.Count(pg => GetConflictConditions(pg.Key, goapState).Count > 0);
-
-        public List<ConditionValue> GetConflictConditions(PropertyKey key, GoapState goapState)
+        //With the no overlap principle applied to ConditionValues no allowed values, only one should be retrieved.
+        public ConditionValue GetConflictCondition(PropertyKey key, State state)
         {
-            List<ConditionValue> conflicts = new List<ConditionValue>();
+            int count = 0;
+            ConditionValue conflict = null;
             foreach (var condition in Get(key))
             {
                 object defaultValue = key.GetDefault();
-                object mainValue = !goapState.Has(key) ? defaultValue : goapState[key];
+                object mainValue = !state.Has(key) ? defaultValue : state[key];
 
                 if (!condition.Evaluate(mainValue))
                 {
-                    conflicts.Add(condition);
+                    conflict = condition;
+                    count++;
                 }
             }
 
-            return conflicts;
-        }
-
-        public bool CheckFilteredConflict(GoapState goapState, out GoapConditions mismatches, GoapState filter)
-        {
-            mismatches = new GoapConditions();
-            foreach (var pair in this)
+            if (count > 1)
             {
-                if (!filter.Has(pair.Key))
-                {
-                    foreach (var condition in pair.Value)
-                    {
-                        mismatches.Set(pair.Key, condition.ConditionType, condition.Value);
-                    }
-                }
-                else
-                {
-                    var conditions = GetConflictConditions(pair.Key, goapState);
-                    foreach (var condition in conditions)
-                    {
-                        mismatches.Set(pair.Key, condition.ConditionType, condition.Value);
-                    }
-                }
+                DebugRecord.Record("[GOAP ERROR] More than one conflict found, overlapping no allowed values.");
             }
 
-            var thereIsConflict = !mismatches.IsEmpty();
-            if (!thereIsConflict) mismatches = null;
-            return thereIsConflict;
-        }
-
-        //Operators
-        public GoapConditions ApplyEffects(GoapEffects effects)
-        {
-            GoapConditions result = new GoapConditions();
-            
-            //If effect doesnt affect properties, they are added to result.
-            foreach (var pair in this)
-            {
-                if (effects.Has(pair.Key)) continue;
-                foreach (var condition in pair.Value)
-                {
-                    result.Set(pair.Key, condition);
-                }
-            }
-            
-            //Properties changed by effects.
-            foreach (var effectPair in effects)
-            {
-                if(!Has(effectPair.Key)) continue;
-                var effect = effectPair.Value;
-                switch (effect.EffectType)
-                {
-                    case EffectType.Set:
-                        //If accomplished, it does nothing, because conditions are removed.
-                        bool accomplished = true;
-                        foreach (var condition in Get(effectPair.Key))
-                        {
-                            if (!condition.Evaluate(effect.Value))
-                            {
-                                accomplished = false;
-                                break;
-                            }
-                        }
-                        if (!accomplished) return null;
-                        break;
-                    case EffectType.Add:
-                        foreach (var condition in Get(effectPair.Key))
-                        {
-                            var value = Evaluate(condition.Value, EffectType.Subtract, effect.Value);
-                            result.Set(effectPair.Key, condition.ConditionType, value);
-                        }
-                        break;
-                    case EffectType.Subtract:
-                        foreach (var condition in Get(effectPair.Key))
-                        {
-                            var value = Evaluate(condition.Value, EffectType.Add, effect.Value);
-                            result.Set(effectPair.Key, condition.ConditionType, value);
-                        }
-                        break;
-                    case EffectType.Multiply:
-                        foreach (var condition in Get(effectPair.Key))
-                        {
-                            var value = Evaluate(condition.Value, EffectType.Divide, effect.Value);
-                            result.Set(effectPair.Key, condition.ConditionType, value);
-                        }
-                        break;
-                    case EffectType.Divide:
-                        foreach (var condition in Get(effectPair.Key))
-                        {
-                            var value = Evaluate(condition.Value, EffectType.Multiply, effect.Value);
-                            result.Set(effectPair.Key, condition.ConditionType, value);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            return result;
+            return conflict;
         }
         
-        public GoapConditions Merge(GoapConditions goal)
+        public int CountConflicts(State state) => this.Count(pg => GetConflictCondition(pg.Key, state) != null);
+        
+        public Conditions Merge(Conditions goal)
         {
             if (goal == null) return this;
 
@@ -257,12 +163,12 @@ namespace UGoap.Base
             return this + goal;
         }
 
-        public static GoapConditions operator +(GoapConditions a, GoapConditions b)
+        public static Conditions operator +(Conditions a, Conditions b)
         {
             if (b == null) return a;
             if (a == null) return b;
 
-            var propertyGroup = new GoapConditions(a);
+            var propertyGroup = new Conditions(a);
             propertyGroup.Set(b);
             return propertyGroup;
         }
@@ -289,7 +195,7 @@ namespace UGoap.Base
             if (this == obj) return true;
             if (obj.GetType() != GetType()) return false;
 
-            GoapConditions otherPg = (GoapConditions)obj;
+            Conditions otherPg = (Conditions)obj;
 
             if (Count != otherPg.Count) return false;            
             foreach (var key in _values.Keys)
@@ -306,13 +212,12 @@ namespace UGoap.Base
         /// <returns>Hash Number</returns>
         public override int GetHashCode()
         {
-            int hash = 18;
+            int hash = 17;
             foreach(var kvp in _values)
             {
                 foreach (var condition in kvp.Value)
                 {
-                    hash = 18 * hash + (kvp.Key.GetHashCode() ^ condition.Value.GetHashCode());
-                    hash %= int.MaxValue;
+                    hash = 31 * hash + (kvp.Key.GetHashCode() ^ condition.Value.GetHashCode());
                 }
             }
             return hash;
@@ -365,6 +270,83 @@ namespace UGoap.Base
 
             public void Dispose()
             { }
+        }
+        
+        //Operators
+        public Conditions ApplyEffects(Effects effects)
+        {
+            Conditions result = new Conditions();
+            
+            //If effect doesn't affect properties, they are added to result.
+            foreach (var pair in this)
+            {
+                if (effects.Has(pair.Key)) continue;
+                foreach (var condition in pair.Value)
+                {
+                    result.Set(pair.Key, condition);
+                }
+            }
+            
+            //Properties changed by effects.
+            foreach (var effectPair in effects)
+            {
+                if(!Has(effectPair.Key)) continue;
+                var effect = effectPair.Value;
+                switch (effect.EffectType)
+                {
+                    case EffectType.Set:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            //If no matches all conditions, effect not valid.
+                            if (!condition.Evaluate(effect.Value)) return null;
+                        }
+                        break;
+                    case EffectType.Add:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Subtract, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Subtract:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Add, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Multiply:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Divide, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                    case EffectType.Divide:
+                        foreach (var condition in Get(effectPair.Key))
+                        {
+                            var value = Evaluate(condition.Value, EffectType.Multiply, effect.Value);
+                            result.Set(effectPair.Key, condition.ConditionType, value);
+                        }
+                        break;
+                }
+            }
+
+            return result;
+        }
+        
+        public Dictionary<PropertyKey, int> GetDistances(State state, ICollection<PropertyKey> filter = null)
+        {
+            var distances = new Dictionary<PropertyKey, int>();
+            var conflicts = GetConflicts(state, filter);
+            foreach (var pair in conflicts)
+            {
+                var condition = pair.Value[0];
+                var value = state.TryGetOrDefault(pair.Key);
+                distances[pair.Key] = condition.GetDistance(value);
+            }
+
+            return distances;
         }
         
         private static bool CheckCondition(List<ConditionValue> conditions, ConditionValue conditionValue)

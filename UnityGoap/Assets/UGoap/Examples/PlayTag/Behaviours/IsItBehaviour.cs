@@ -1,18 +1,18 @@
 ﻿using UGoap.Unity;
 using UnityEngine;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 [RequireComponent(typeof(UGoapAgent))]
 public class IsItBehaviour : MonoBehaviour
 {
-    [SerializeField] private UGoapAgent _goapAgent;
+    [SerializeField] private UGoapAgent _agent;
     [SerializeField] private Renderer _renderer;
 
     private void Awake()
     {
-        if (!_goapAgent) _goapAgent = GetComponent<UGoapAgent>();
+        if (!_agent) _agent = GetComponent<UGoapAgent>();
         if(!_renderer) _renderer = GetComponentInChildren<Renderer>();
-        var isIt = _goapAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
+        var isIt = _agent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
         Tag(isIt);
     }
 
@@ -23,11 +23,11 @@ public class IsItBehaviour : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        var isIt = _goapAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
+        var isIt = _agent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
         isIt = !isIt;
-        _goapAgent.CurrentState.Set(PropertyKey.IsIt, isIt);
+        _agent.CurrentState.Set(PropertyKey.IsIt, isIt);
         Tag(isIt);
-        Debug.Log($"[GOAP] {_goapAgent}COLLISION GOAP");
-        _goapAgent.Interrupt();
+        Debug.Log($"[GOAP] {_agent}COLLISION GOAP");
+        _agent.Interrupt();
     }
 }

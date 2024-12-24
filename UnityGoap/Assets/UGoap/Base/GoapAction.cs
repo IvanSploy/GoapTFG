@@ -1,43 +1,56 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using static UGoap.Base.UGoapPropertyManager;
+using static UGoap.Base.PropertyManager;
 
 namespace UGoap.Base
 {
-    public abstract class GoapAction
+    public abstract class Action
     {
         //Fields
         public string Name { get; private set; }
-        private GoapConditions _preconditions = new();
-        private GoapEffects _effects = new();
+        private Conditions _preconditions = new();
+        private Effects _effects = new();
         private int _cost = 1;
         
-        public void Initialize(string name, GoapConditions conditions, GoapEffects effects)
+        public void Initialize(string name, Conditions conditions, Effects effects)
         {
             Name = name;
             if (conditions != null) _preconditions = conditions;
             if (effects != null) _effects = effects;
         }
+        
+        //Main abstract
+        public virtual string[] CreateParameters(State state, Conditions conditions) => null;
+
+        public virtual bool Validate(State nextState, IAgent iAgent, string[] parameters)
+        {
+            return OnValidate(nextState, iAgent, parameters);
+        }
+        
+        public virtual Task<State> Execute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+        {
+            return OnExecute(nextState, iAgent, parameters, token);
+        }
 
         //Procedural related.
-        protected abstract GoapConditions GetProceduralConditions(GoapSettings settings);
-        protected abstract GoapEffects GetProceduralEffects(GoapSettings settings);
-        public abstract bool Validate(GoapState state, GoapActionInfo actionInfo, IGoapAgent iAgent);
-        public abstract Task<GoapState> Execute(GoapState state, IGoapAgent iAgent, CancellationToken token);
+        protected abstract Conditions GetProceduralConditions(ActionSettings settings);
+        protected abstract Effects GetProceduralEffects(ActionSettings settings);
+        protected abstract bool OnValidate(State state, IAgent iAgent, string[] parameters);
+        protected abstract Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token);
         
         //Cost related.
         public int GetCost() => _cost;        
-        public virtual int GetCost(GoapConditions goal) => _cost;
+        public virtual int GetCost(Conditions goal) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
         //Getters
-        public GoapConditions GetPreconditions(GoapSettings settings)
+        public Conditions GetPreconditions(ActionSettings settings)
         {
             return _preconditions + GetProceduralConditions(settings);
         }
 
-        public GoapEffects GetEffects(GoapSettings settings)
+        public Effects GetEffects(ActionSettings settings)
         {
             return _effects + GetProceduralEffects(settings);
         }
@@ -49,7 +62,7 @@ namespace UGoap.Base
                 affectedPropertyLists.Add(key);
             }
 
-            var proceduralEffects = GetProceduralEffects(GoapSettings.GetDefault());
+            var proceduralEffects = GetProceduralEffects(ActionSettings.GetDefault());
 
             if (proceduralEffects != null)
             {

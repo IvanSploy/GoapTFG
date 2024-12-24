@@ -7,7 +7,7 @@ namespace UGoap.Base
     {
         private static List<string> _recordedInfo = new();
 
-        public static void AddRecord(string record)
+        public static void Record(string record)
         {
             _recordedInfo.Add(record);
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public class ObjectPool<TObject>
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UGoap.Base;
 using UGoap.Learning;
 
-namespace UGoap.Planner
+namespace UGoap.Planning
 {
     public class AStar : INodeGenerator
     {
@@ -20,15 +20,13 @@ namespace UGoap.Planner
         //Fields
         private readonly SortedSet<Node> _openList = new();
         private readonly HashSet<Node> _expandedNodes = new();
-        private Func<GoapConditions, GoapState, int> _customHeuristic;
-        private ILearningConfig _learningConfig;
+        private Func<Conditions, State, int> _customHeuristic;
+        private QLearning _qLearning;
         
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
         
-        public AStar() { }
-        
-        public Node CreateNode(GoapState initialState, GoapConditions goal)
+        public Node CreateNode(State initialState, Conditions goal)
         {
             var node = NodeFactory.Get();
             node.Setup(this, initialState, goal);
@@ -40,21 +38,21 @@ namespace UGoap.Planner
             NodeFactory.Release(node);
         }
 
-        public void SetHeuristic(Func<GoapConditions, GoapState, int> customHeuristic)
+        public void SetHeuristic(Func<Conditions, State, int> customHeuristic)
         {
-            _customHeuristic = customHeuristic;
             Mode = HeuristicMode.Custom;
+            _customHeuristic = customHeuristic;
         }
         
-        public void SetLearning(ILearningConfig learningConfig)
+        public void SetLearning(QLearning qLearning)
         {
-            _learningConfig = learningConfig;
             Mode = HeuristicMode.Learning;
+            _qLearning = qLearning;
         }
 
-        public Node Initialize(GoapState initialState, GoapConditions goal)
+        public Node Initialize(State initialState, Conditions goal)
         {
-            var goalState = new GoapConditions(goal);
+            var goalState = new Conditions(goal);
             AStarNode node = (AStarNode) CreateNode(initialState, goalState);
             node.GCost = 0;
             node.HCost = GetHeuristicCost(node);
@@ -80,7 +78,7 @@ namespace UGoap.Planner
                 //Update tree from affected node to open list nodes.
                 if (node.TotalCost < original.TotalCost)
                 {
-                    original.Update(node.Parent, node.PreviousAction, node.PreviousActionInfo);
+                    original.Update(node.Parent, node.ActionData);
                     UpdateChildrenCost(original);
                 }
                 DisposeNode(node);
@@ -119,13 +117,13 @@ namespace UGoap.Planner
         
         private int GetHeuristic(Node node)
         {
-            return _customHeuristic.Invoke(node.Goal, node.InitialState);
+            return _customHeuristic(node.Goal, node.InitialState);
         }
         
         private int GetLearning(Node node)
         {
-            var state = _learningConfig.GetLearningStateCode(node.InitialState, node.Goal);
-            return -(int)_learningConfig.Get(state, node.PreviousAction.Name);
+            if (_qLearning.IsExploring()) return (int)Math.Round(_qLearning.GetExploreValue());
+            return -(int)Math.Round(_qLearning.GetMaxValue(node.InitialState, node.Goal));
         }
         
         private void UpdateChildrenCost(Node node)
