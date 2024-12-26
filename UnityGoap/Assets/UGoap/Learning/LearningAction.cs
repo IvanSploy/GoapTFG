@@ -1,12 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
+using Action = UGoap.Base.Action;
 
 namespace UGoap.Learning
 {
     public abstract class LearningAction : Action
     {
+        protected static readonly Random Random = new();
         private QLearning _qLearning;
         
         public void SetLearning(QLearning qLearning)

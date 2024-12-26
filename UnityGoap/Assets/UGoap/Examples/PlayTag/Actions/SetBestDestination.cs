@@ -2,14 +2,15 @@ using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
-using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
 using System.Globalization;
 using UGoap.Learning;
+using UGoap.Unity;
 
 [CreateAssetMenu(fileName = "SetBestDestination", menuName = "UGoap/Actions/PlayTag/SetBestDestination")]
 public class SetBestDestination : LearningActionConfig<SetBestDestinationAction>
 {
+    [Header("Custom Data")]
     public Vector2 XLimits;
     public Vector2 ZLimits;
     
@@ -34,8 +35,11 @@ public class SetBestDestinationAction : LearningAction
     protected override string[] OnCreateParameters()
     {
         var parameters = new string[2];
-        parameters[0] = Mathf.RoundToInt(Random.Range(XLimits.x, XLimits.y)).ToString();
-        parameters[1] = Mathf.RoundToInt(Random.Range(ZLimits.x, ZLimits.y)).ToString();
+        lock (Random)
+        {
+            parameters[0] = Mathf.RoundToInt((float)(Random.NextDouble() * (XLimits.y - XLimits.x) + XLimits.x)).ToString();
+            parameters[1] = Mathf.RoundToInt((float)(Random.NextDouble() * (ZLimits.y - ZLimits.x) + ZLimits.x)).ToString();
+        }
         return parameters;
     }
     

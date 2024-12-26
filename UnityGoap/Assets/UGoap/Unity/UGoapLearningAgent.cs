@@ -20,7 +20,12 @@ namespace UGoap.Unity
             var generator = new AStar();
             generator.SetLearning(Learning);
             return new BackwardPlanner(generator, this);
+        }
 
+        public new void OnDestroy()
+        {
+            _learningConfig?.Save();
+            base.OnDestroy();
         }
     }
 }

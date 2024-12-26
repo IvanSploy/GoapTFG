@@ -46,30 +46,26 @@ namespace UGoap.Planning
             ExecutedActions.Push(Current);
 
             stopwatch.Start();
-            var initialState = agent.CurrentState;
-            var result = ExecuteCurrent(agent);
-            if (result == null) return null;
-            
-            result.ContinueWith(state =>
-            {
-                DebugRecord.Record(state.Result != null ? state.ToString() : "Plan failed.");
-                if (state.Result != null && Count == 0) IsCompleted = true;
-                ApplyLearning(initialState, state, agent);
-                stopwatch.Stop();
-            });
-            
-            return result;
+            return ExecuteCurrent(agent);
+        }
+
+        public void Finish(State previousState, State state, IAgent agent)
+        {
+            DebugRecord.Record(state != null ? state.ToString() : "Plan failed.");
+            if (state != null && Count == 0) IsCompleted = true;
+            ApplyLearning(previousState, state, agent);
+            stopwatch.Stop();
         }
         
-        public void ApplyLearning(State initialState, Task<State> state, IAgent agent)
+        public void ApplyLearning(State initialState, State state, IAgent agent)
         {
             if (Count == 0)
             {
                 if (agent is ILearningAgent { Learning: not null } learningAgent)
                 {
-                    var reward = state.Result != null ?
+                    var reward = state != null ?
                         learningAgent.Learning.SucceedReward : learningAgent.Learning.FailReward;
-                    var finalState = state.Result ?? agent.CurrentState;
+                    var finalState = state ?? agent.CurrentState;
                     
                     learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState,
                         Current.Action.Name, reward, finalState);
@@ -80,7 +76,7 @@ namespace UGoap.Planning
                 if (agent is ILearningAgent { Learning: not null } learningAgent)
                 {
                     var reward = -((int)Math.Round(stopwatch.ElapsedMilliseconds / 1000f) + 1);
-                    var finalState = state.Result ?? agent.CurrentState;
+                    var finalState = state ?? agent.CurrentState;
                     
                     learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState, Current.Action.Name,
                         reward, finalState);

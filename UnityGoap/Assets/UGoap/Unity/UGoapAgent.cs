@@ -5,6 +5,7 @@ using UGoap.Base;
 using UGoap.Learning;
 using UGoap.Planning;
 using UGoap.Unity.ScriptableObjects;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
@@ -72,9 +73,16 @@ namespace UGoap.Unity
             if (_runOnStart) Initialize(CurrentState);
         }
         
-        void OnDestroy()
+        public void OnDestroy()
         {
             _currentPlan?.Interrupt();
+            foreach (var actionConfig in _actionList)
+            {
+                if(actionConfig is LearningActionConfig learningAction)
+                {
+                    learningAction.Save();
+                }
+            }
         }
 
         public void Initialize(State initialState)
@@ -179,6 +187,7 @@ namespace UGoap.Unity
             do
             {
                 nextState = null;
+                var previousState = CurrentState;
                 var task = _currentPlan.ExecuteNext(this);
                 if (task != null)
                 {
@@ -186,6 +195,7 @@ namespace UGoap.Unity
                     if (!Interrupted)
                     {
                         CurrentState = nextState = task.Result;
+                        _currentPlan.Finish(previousState, task.Result, this);
                     }
                 }
                                     
@@ -278,7 +288,7 @@ namespace UGoap.Unity
         public void ForceInterrupt()
         {
             Interrupted = true;
-            _currentPlan.Interrupt();
+            _currentPlan?.Interrupt();
         }
         
         [ContextMenu("Interrupt")]

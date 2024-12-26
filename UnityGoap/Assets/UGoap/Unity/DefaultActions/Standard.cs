@@ -6,7 +6,7 @@ using UGoap.Unity.ScriptableObjects;
 
 namespace UGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "Standard", menuName = "UGoap/Standard Action")]
+    [CreateAssetMenu(fileName = "Standard", menuName = "UGoap/Actions/Default Action", order = -1)]
     public class Standard : ActionConfig<StandardAction>
     {
         public int WaitSeconds = 1;

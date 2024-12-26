@@ -461,7 +461,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
   - {fileID: 11400000, guid: 6aaf2be481d954d45ad70430544c28f5, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
-  _learningConfig: {fileID: 0}
+  _useHeuristic: 0
   IndicatorTime: 0.5
   Speed: 5
 --- !u!54 &640428487
@@ -541,7 +541,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Active: 1
+  Active: 0
   PositionA: {x: -5, y: 0, z: -5}
   PositionB: {x: 5, y: 0, z: 5}
   Count: {x: 5, y: 1, z: 5}
@@ -889,7 +889,7 @@ MonoBehaviour:
   - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
     _priority: 0
   _actionList: []
-  _learningConfig: {fileID: 0}
+  _useHeuristic: 0
   IndicatorTime: 0.5
   Speed: 5
 --- !u!54 &1050967528

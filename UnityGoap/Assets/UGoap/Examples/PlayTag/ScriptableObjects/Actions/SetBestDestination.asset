@@ -21,4 +21,14 @@ MonoBehaviour:
   - name: MoveState
     value: Required
     effect: 0
-  LearningConfig: {fileID: 0}
+  LearningData:
+    Alpha: 1
+    Gamma: 0
+    ExploreChance: 1
+    ExploreRange: {x: -1000, y: 1000}
+    LearningKeys: 06000000
+    ValueRange: 1
+  _succeedReward: 100
+  _failReward: -10
+  XLimits: {x: -5, y: -5}
+  ZLimits: {x: 5, y: 5}

@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using UGoap.Base;
 using UGoap.Unity;
 using UGoap.Unity.ScriptableObjects;
-using UGoap.Learning;
 
-[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "Goap Items/Actions/#SCRIPTNAME#")]
-public class #SCRIPTNAME# : LearningActionConfig<#SCRIPTNAME#Action>
+[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "UGoap/Actions/#SCRIPTNAME#")]
+public class #SCRIPTNAME# : ActionConfig<#SCRIPTNAME#Action>
 {
     #NOTRIM#
     
@@ -18,7 +17,7 @@ public class #SCRIPTNAME# : LearningActionConfig<#SCRIPTNAME#Action>
     }
 }
 
-public class #SCRIPTNAME#Action : LearningAction
+public class #SCRIPTNAME#Action : Action
 {
     #NOTRIM#
     
@@ -32,14 +31,14 @@ public class #SCRIPTNAME#Action : LearningAction
         return null;
     }
     
-    public override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
         if (iAgent is not UGoapAgent agent) return false;
         #NOTRIM#
         return true;
     }
     
-    public override async Task<GoapState> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
         #NOTRIM#

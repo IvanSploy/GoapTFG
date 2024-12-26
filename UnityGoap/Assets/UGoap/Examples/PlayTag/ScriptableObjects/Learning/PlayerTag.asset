@@ -12,17 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
   m_Name: PlayerTag
   m_EditorClassIdentifier: 
-  InitialRange: {x: -500, y: 500}
-  Alpha: 0.799
-  Gamma: 0.265
-  ValueRange: 1
-  LearningKeys: 060000000800000009000000
-  _type: 2
+  QLearningData:
+    Alpha: 0.25
+    Gamma: 0.9
+    ExploreChance: 0
+    ExploreRange: {x: -1000, y: 1000}
+    LearningKeys: 
+    ValueRange: 500
   PositiveReward: 200
-  PositiveRewardDecay: 50
   NegativeReward: 300
-  NegativeRewardDecay: 25
-  ExploreChance: 1
-  MinExploreValue: -1000
-  MaxExploreValue: 1000
-  FileName: PlayerTag

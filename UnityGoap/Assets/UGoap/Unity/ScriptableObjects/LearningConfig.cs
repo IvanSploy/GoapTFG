@@ -19,9 +19,34 @@ namespace UGoap.Unity.ScriptableObjects
         public float PositiveReward;
         public float NegativeReward;
 
+        private QLearning _qLearning;
+        
         public QLearning Create()
         {
-            return new QLearning(name, QLearningData, PositiveReward, NegativeReward);
+            _qLearning ??= new QLearning(name, QLearningData, PositiveReward, NegativeReward);
+            _qLearning.Load();
+            return _qLearning;
+        }
+        
+        [ContextMenu("Load")]
+        public void Load()
+        {
+            Create();
+        }
+
+        [ContextMenu("Save")]
+        public void Save()
+        {
+            Create();
+            _qLearning.Save();
+        }
+
+        [ContextMenu("Clear Data")]
+        public void Clear()
+        {
+            Create();
+            _qLearning.Clear();
+            _qLearning.Save();
         }
     }
 }

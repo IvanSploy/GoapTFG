@@ -6,12 +6,14 @@ using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 using static UGoap.Base.PropertyManager;
-using Random = UnityEngine.Random;
+using Random = System.Random;
 
 namespace UGoap.Learning
 {
     public class QLearning
     {
+        private static readonly Random Random = new();
+        
         private readonly string _path;
         private Dictionary<int, Dictionary<string, float>> _qValues;
         private readonly Func<Dictionary<string, float>, string> _bestActionPolitic;
@@ -30,36 +32,31 @@ namespace UGoap.Learning
             _bestActionPolitic = bestActionPolitic ?? Politics.GetMax;
         }
 
-        [ContextMenu("Load")]
         public void Load()
         {
-            if (!File.Exists(_path))
-            {
-                File.Create(_path).Close();
-            }
-            
-            // Deserialize JSON into _qValues dictionary
+            CreateFile();
             var text = File.ReadAllText(_path);
             _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text) ?? new();
         }
 
-        [ContextMenu("Save")]
         public void Save()
         {
-            // Serialize _qValues dictionary to JSON
-            if (!File.Exists(_path))
-            {
-                File.Create(_path).Close();
-            }
-
+            CreateFile();
             File.WriteAllText(_path, JsonConvert.SerializeObject(_qValues, Formatting.Indented));
         }
 
-        [ContextMenu("Clear Data")]
         public void Clear()
         {
             _qValues.Clear();
             Save();
+        }
+
+        private void CreateFile()
+        {
+            if (File.Exists(_path)) return;
+            var directory = Path.GetDirectoryName(_path);
+            Directory.CreateDirectory(directory);
+            File.Create(_path).Close();
         }
         
         public float Get(int state, string action)
@@ -103,13 +100,22 @@ namespace UGoap.Learning
         //Exploration
         public bool IsExploring()
         {
-            var randomExplore = Random.Range(0f, 0.99f);
+            float randomExplore;
+            lock (Random)
+            {
+                randomExplore = (float)Random.NextDouble();
+            }
             return randomExplore < _learningData.ExploreChance;
         }
 
         public float GetExploreValue()
         {
-            return Random.Range(_learningData.ExploreRange.x, _learningData.ExploreRange.y);
+            lock (Random)
+            {
+                var randomExplore = Random.NextDouble();
+                return (float)(randomExplore * (_learningData.ExploreRange.y - _learningData.ExploreRange.x)
+                       + _learningData.ExploreRange.x);
+            }
         }
         
         private float Apply(int state, string action, float r, int newState)

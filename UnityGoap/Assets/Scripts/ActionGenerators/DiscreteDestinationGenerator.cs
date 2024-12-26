@@ -34,7 +34,7 @@ public class DiscreteDestinationGenerator : MonoBehaviour
         _conditions.Set(PropertyKey.MoveState, ConditionType.Equal, "Ready");
         
         _effects = new Effects();
-        _effects.Set(PropertyKey.MoveState, EffectType.Set, "Set");
+        _effects.Set(PropertyKey.MoveState, EffectType.Set, "Required");
 
         if(Active) GenerateActions();
     }
