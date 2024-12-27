@@ -9,13 +9,15 @@ tree("CheckCollision")
 	//Tag when we collide with the player.
 	//Leave 1 sec of cooldown between each "Tag".
 	sequence
+        not IsStopped
+        IsIt
 		IsColliding_Player
 		Tag
-		Wait(1.0)
 
 tree("Talk")
 	//Say something when changing.
 	fallback
+        IsStopped
 		while IsIt
 			sequence
 				Say("...I'm it.")

@@ -339,6 +339,24 @@ namespace UGoap.Base
         {
             var distances = new Dictionary<PropertyKey, int>();
             var conflicts = GetConflicts(state, filter);
+
+            if (filter != null)
+            {
+                foreach (var filterKey in filter)
+                {
+                    if(distances.ContainsKey(filterKey)) continue;
+                    if (!state.Has(filterKey)) continue;
+
+                    var defaultValue = filterKey.GetDefault();
+                    if(state[filterKey].Equals(defaultValue)) continue;
+                    
+                    distances[filterKey] = GetDistance(state[filterKey],
+                        ConditionType.Equal, defaultValue);
+                }
+            }
+            
+            if (conflicts == null) return distances;
+            
             foreach (var pair in conflicts)
             {
                 var condition = pair.Value[0];

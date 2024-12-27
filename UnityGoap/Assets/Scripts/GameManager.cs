@@ -2,6 +2,7 @@ using UGoap.Base;
 using UGoap.Unity;
 using UnityEngine;
 using static UGoap.Base.PropertyManager;
+using Random = UGoap.Base.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
         var agent = FindObjectOfType<UGoapAgent>();
         
         //EXAMPLE 1: DOOR
-        var random = Random.Range(0f, 1f);
+        var random = Random.Next();
         bool isLocked = random <= _lockProbability;
         
         State doorState = new State();

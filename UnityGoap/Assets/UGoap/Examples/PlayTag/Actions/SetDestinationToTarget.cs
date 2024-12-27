@@ -62,15 +62,15 @@ public class SetDestinationToTargetAction : Action
         return true;
     }
 
-    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
         
         UEntity entityPlayer = WorkingMemoryManager.Get(Target).Object;
         var p = entityPlayer.transform.position;
-        nextState.Set(PropertyManager.PropertyKey.DestinationX, p.x);
-        nextState.Set(PropertyManager.PropertyKey.DestinationZ, p.z);
+        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, p.x);
+        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, p.z);
         
-        return nextState;
+        return effects;
     }
 }

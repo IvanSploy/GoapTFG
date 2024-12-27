@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b91233ba2480c1c47ad4c6f24af2e5c7, type: 3}
-  m_Name: SetBestDestination
+  m_Name: LearnToAvoid
   m_EditorClassIdentifier: 
   _cost: 1
   Preconditions:
-  - name: MoveState
-    value: Ready
-    condition: 0
+  - name: PlayerNear
+    value: Far
+    condition: 1
   Effects:
-  - name: MoveState
-    value: Required
+  - name: PlayerNear
+    value: Far
     effect: 0
   LearningData:
-    Alpha: 1
+    Alpha: 0.4
     Gamma: 0
-    ExploreChance: 1
-    ExploreRange: {x: -1000, y: 1000}
-    LearningKeys: 06000000
+    ExploreChance: 0.3
+    LearningKeys: 070000000b0000000c000000
     ValueRange: 1
   _succeedReward: 100
   _failReward: -10
-  XLimits: {x: -5, y: -5}
-  ZLimits: {x: 5, y: 5}
+  XLimits: {x: -5, y: 5}
+  ZLimits: {x: -5, y: 5}
+  SpeedFactor: 1

@@ -1,5 +1,6 @@
 tree "PlayTag"
-	fallback 
+	fallback
+        IsStopped 
 		tree "ChasePlayer" 
 		tree "AvoidPlayer" 
 		tree "Idle"
@@ -10,8 +11,6 @@ tree "ChasePlayer"
 		sequence
 			SetDestination_Player
 			MoveToDestination
-			not IsCollisionReady
-			Wait(1.0)
 
 // Avoid the player while we are not 'it'.
 tree "AvoidPlayer" 

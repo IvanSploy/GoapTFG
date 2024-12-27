@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Numerics;
 using UGoap.Base;
 using UGoap.Learning;
+using Random = UGoap.Base.Random;
 
 namespace UGoap.Planning
 {
@@ -22,6 +24,7 @@ namespace UGoap.Planning
         private readonly HashSet<Node> _expandedNodes = new();
         private Func<Conditions, State, int> _customHeuristic;
         private QLearning _qLearning;
+        private Vector2 _exploreRange;
         
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
@@ -44,10 +47,11 @@ namespace UGoap.Planning
             _customHeuristic = customHeuristic;
         }
         
-        public void SetLearning(QLearning qLearning)
+        public void SetLearning(QLearning qLearning, Vector2 exploreRange)
         {
             Mode = HeuristicMode.Learning;
             _qLearning = qLearning;
+            _exploreRange = exploreRange;
         }
 
         public Node Initialize(State initialState, Conditions goal)
@@ -122,8 +126,13 @@ namespace UGoap.Planning
         
         private int GetLearning(Node node)
         {
-            if (_qLearning.IsExploring()) return (int)Math.Round(_qLearning.GetExploreValue());
+            if (_qLearning.IsExploring()) return GetExploreValue();
             return -(int)Math.Round(_qLearning.GetMaxValue(node.InitialState, node.Goal));
+        }
+        
+        private int GetExploreValue()
+        {
+            return Random.RangeToInt(_exploreRange.X, _exploreRange.Y);
         }
         
         private void UpdateChildrenCost(Node node)

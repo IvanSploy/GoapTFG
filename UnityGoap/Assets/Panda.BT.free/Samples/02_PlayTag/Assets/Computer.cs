@@ -1,18 +1,15 @@
-﻿using System;
-using UnityEngine;
-using System.Collections;
-
-using Panda;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Panda.Examples.PlayTag
 {
-    public class Computer : MonoBehaviour
+    public class Computer : MonoBehaviour, ITaggable
     {
         public GameObject target;
         public float targetExtent = 3f;
+        public float nearRange = 4f;
+        public float closeRange = 1f;
         public float speed = 1.0f; // per second.
-        public bool startOnIt;
 
         public Color it;
         public Color notIt;
@@ -22,26 +19,28 @@ namespace Panda.Examples.PlayTag
         Vector3 destination = Vector3.zero;
 
         private Renderer _renderer;
+        private bool _stopped;
 
+        void Awake()
+        {
+            _renderer = GetComponentInChildren<Renderer>();
+            _renderer.material.color = IsIt ? it : notIt;
+        }
+        
         #region Tasks
 
         [Task]
         bool IsIt = false; // Whether the agent is "It".
 
-        
         [Task]
-        bool IsCollisionReady = true;
-        
-        bool _IsColliding_Player = false;
-
-        [Task]
-        bool IsColliding_Player
+        void IsColliding_Player()
         {
-            get
-            {
-                return _IsColliding_Player && IsCollisionReady;
-            }
+            float distanceToPlayer = Vector3.Distance(target.transform.position, this.transform.position);
+            ThisTask.Complete(  distanceToPlayer < closeRange );
         }
+
+        [Task] 
+        private bool IsStopped => _stopped;
 
         /*
          * Whether the player is near.
@@ -50,7 +49,7 @@ namespace Panda.Examples.PlayTag
         void IsPlayerNear()
         {
             float distanceToPlayer = Vector3.Distance(target.transform.position, this.transform.position);
-            ThisTask.Complete(  distanceToPlayer < 4.0f );
+            ThisTask.Complete(  distanceToPlayer < nearRange );
         }
 
         /*
@@ -109,6 +108,8 @@ namespace Panda.Examples.PlayTag
         {
             destination = Random.insideUnitSphere * targetExtent;
             destination.y = 0.0f;
+            destination.x = Mathf.RoundToInt(destination.x);
+            destination.z = Mathf.RoundToInt(destination.z);
 
             return true;
         }
@@ -122,8 +123,8 @@ namespace Panda.Examples.PlayTag
             get
             {
                 Vector3 playerDirection = (target.transform.position - this.transform.position).normalized;
-                Vector3 destinatioDirection = (destination - this.transform.position).normalized;
-                bool isSafe = Vector3.Angle(destinatioDirection, playerDirection) > 45.0f;
+                Vector3 destinationDirection = (destination - this.transform.position).normalized;
+                bool isSafe = Vector3.Angle(destinationDirection, playerDirection) > 45.0f;
                 return isSafe;
             }
         }
@@ -145,48 +146,25 @@ namespace Panda.Examples.PlayTag
         [Task]
         bool Tag()
         {
-            DoTag();
+            TagManager.Instance.Tag();
             return true;
+        }
+        
+        public async void Tag(float tagCooldown)
+        {
+            IsIt = true;
+            _renderer.material.color = it;
+            _stopped = true;
+            await System.Threading.Tasks.Task.Delay((int)(tagCooldown * 1000));
+            _stopped = false;
+        }
+
+        public void UnTag()
+        {
+            IsIt = false;
+            _renderer.material.color = notIt;
         }
 
         #endregion
-
-        void DoTag()
-        {
-            IsIt = !IsIt;
-            _renderer.material.color = IsIt ? it : notIt;
-            IsCollisionReady = false;
-        }
-        
-        void Awake()
-        {
-            _renderer = GetComponentInChildren<Renderer>();
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-            if(startOnIt) DoTag();
-        }
-
-
-
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.gameObject == target.gameObject)
-            {
-                _IsColliding_Player = true;   
-            }   
-        }
-
-        void OnTriggerExit(Collider other)
-        {
-            if (other.gameObject == target.gameObject)
-            {
-                _IsColliding_Player = false;  
-                IsCollisionReady = true;
-            }     
-        }
-
     }
 }

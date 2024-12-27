@@ -40,7 +40,7 @@ namespace UGoap.Planning
             }
         }
         
-        public Task<State> ExecuteNext(IAgent agent)
+        public Task<Effects> ExecuteNext(IAgent agent)
         {
             Current = _nodes.Pop();
             ExecutedActions.Push(Current);
@@ -52,7 +52,7 @@ namespace UGoap.Planning
         public void Finish(State previousState, State state, IAgent agent)
         {
             DebugRecord.Record(state != null ? state.ToString() : "Plan failed.");
-            if (state != null && Count == 0) IsCompleted = true;
+            if (!IsCompleted && state != null && Count == 0) IsCompleted = true;
             ApplyLearning(previousState, state, agent);
             stopwatch.Stop();
         }
@@ -101,20 +101,20 @@ namespace UGoap.Planning
             return !agent.CurrentGoal.Conditions.CheckConflict(state);
         }
         
-        private Task<State> ExecuteCurrent(IAgent agent)
+        private Task<Effects> ExecuteCurrent(IAgent agent)
         {
-            var nextState = agent.CurrentState + Current.Effects;
-            if (!CheckCurrent(nextState, agent)) return null;
+            if (!CheckCurrent(agent)) return null;
 
             _cancellationTokenSource = new CancellationTokenSource();
-            return Current.Action.Execute(nextState, agent, Current.Parameters, _cancellationTokenSource.Token);
+            return Current.Action.Execute(Current.Effects, agent, Current.Parameters, _cancellationTokenSource.Token);
         }
         
-        private bool CheckCurrent(State nextState, IAgent agent)
+        private bool CheckCurrent(IAgent agent)
         {
             if (!Current.Conditions.CheckConflict(agent.CurrentState))
             {
-                bool valid = Current.Action.Validate(nextState, agent, Current.Parameters);
+                var finalState = agent.CurrentState + Current.Effects;
+                bool valid = Current.Action.Validate(finalState, agent, Current.Parameters);
                 if (!valid)
                 {
                     DebugRecord.Record("[GOAP] Plan detenido. La acción no ha podido completarse.");

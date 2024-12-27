@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using UGoap.Base;
@@ -9,7 +8,6 @@ namespace UGoap.Learning
 {
     public abstract class LearningAction : Action
     {
-        protected static readonly Random Random = new();
         private QLearning _qLearning;
         
         public void SetLearning(QLearning qLearning)
@@ -44,22 +42,27 @@ namespace UGoap.Learning
             return false;
         }
 
-        public override async Task<State> Execute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+        public override async Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
             var initialState = iAgent.CurrentState;
-            var finalState = await OnExecute(nextState, iAgent, parameters, token);
-            if (finalState != null)
-            {
-                _qLearning.Update(iAgent.CurrentGoal.Conditions, iAgent.CurrentState,
-                    ParseToActionName(parameters), _qLearning.SucceedReward, finalState);
-            }
-            else
+            var finalEffects = await OnExecute(effects, iAgent, parameters, token);
+            
+            if(token.IsCancellationRequested)
             {
                 _qLearning.Update(iAgent.CurrentGoal.Conditions, initialState,
-                    ParseToActionName(parameters), _qLearning.FailReward, iAgent.CurrentState);
+                    ParseToActionName(parameters), iAgent.IsCompleted ?
+                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentState);
+                return null;
             }
+            
+            var finalState = iAgent.CurrentState;
+            if(finalEffects != null) finalState += finalEffects;
+            
+            _qLearning.Update(iAgent.CurrentGoal.Conditions, initialState,
+                ParseToActionName(parameters), finalEffects != null ?
+                    _qLearning.SucceedReward : _qLearning.FailReward, finalState ?? iAgent.CurrentState);
 
-            return finalState;
+            return finalEffects;
         }
 
         private string[] ParseToParameters(string actionName)

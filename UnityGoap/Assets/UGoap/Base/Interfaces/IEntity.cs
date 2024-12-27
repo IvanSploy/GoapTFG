@@ -10,6 +10,6 @@
         /// <summary>
         /// Represents the current State associated with the current entity.
         /// </summary>
-        public State CurrentState { get; set; }
+        public State CurrentState { get; }
     }
 }

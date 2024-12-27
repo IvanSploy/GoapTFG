@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Properties:
   - name: PlayerNear
-    value: False
+    value: Far
     condition: 0

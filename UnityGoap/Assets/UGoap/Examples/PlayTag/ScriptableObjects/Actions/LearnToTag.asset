@@ -9,22 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2d51f3077c842caadc93f0a6d86e7b0, type: 3}
-  m_Name: Tag
+  m_Script: {fileID: 11500000, guid: 674aa1b67d40410eb27564c877a1418f, type: 3}
+  m_Name: LearnToTag
   m_EditorClassIdentifier: 
   _cost: 1
   Preconditions:
   - name: IsIt
     value: True
     condition: 0
-  - name: MoveState
-    value: Set
-    condition: 0
   Effects:
   - name: IsIt
     value: False
     effect: 0
-  - name: MoveState
-    value: Ready
-    effect: 0
-  WaitSeconds: 0
+  LearningData:
+    Alpha: 0.25
+    Gamma: 0
+    ExploreChance: 1
+    LearningKeys: 0b0000000c000000
+    ValueRange: 1
+  _succeedReward: 100
+  _failReward: -10
+  XLimits: {x: -5, y: 5}
+  ZLimits: {x: -5, y: 5}
+  SpeedFactor: 1

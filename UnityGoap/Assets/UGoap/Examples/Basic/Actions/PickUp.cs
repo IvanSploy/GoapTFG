@@ -36,11 +36,11 @@ public class PickUpAction : Action
         return true;
     }
     
-    protected override async Task<State> OnExecute(State state, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         UEntity entityKey = WorkingMemoryManager.Get(Target).Object;
         Object.Destroy(entityKey.gameObject);
         
-        return state;
+        return effects;
     }
 }

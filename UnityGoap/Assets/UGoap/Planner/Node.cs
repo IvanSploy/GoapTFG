@@ -37,19 +37,6 @@ namespace UGoap.Planning
             Children.Clear();
         }
         
-        /// <summary>
-        /// Generates a few action settings, 
-        /// </summary>
-        /// <returns></returns>
-        public ActionSettings CreateSettings()
-        {
-            return new ActionSettings
-            {
-                InitialState = InitialState,
-                Goal = Goal,
-            };
-        }
-        
         //Used By Generator
         /// <summary>
         /// Do mixed apply for the current state and node.
@@ -74,7 +61,7 @@ namespace UGoap.Planning
                Action = action,
                Conditions = conditions,
                Effects = effects,
-               Parameters = action.CreateParameters(InitialState, Goal),
+               Parameters = settings.Parameters,
            };
 
            return resultGoal == null ? null : CreateChild(resultGoal, actionInfo);

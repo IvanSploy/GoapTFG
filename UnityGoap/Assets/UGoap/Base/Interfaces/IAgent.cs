@@ -11,12 +11,17 @@ namespace UGoap.Base
         /// <summary>
         /// Represents the current Goal associated with the current entity.
         /// </summary>
-        IGoal CurrentGoal { get; set; }
+        IGoal CurrentGoal { get; }
+        
+        /// <summary>
+        /// If current plan is completed.
+        /// </summary>
+        bool IsCompleted { get; }
         
         /// <summary>
         /// If current action executed has been interrupted.
         /// </summary>
-        bool Interrupted { get; set; }
+        bool Interrupted { get; }
         
         /// <summary>
         /// Add posible action to the agent.
@@ -59,6 +64,6 @@ namespace UGoap.Base
         /// <summary>
         /// Tries to stop current plan execution and waits x seconds.
         /// </summary>
-        void Interrupt();
+        void Interrupt(float seconds);
     }
 }

@@ -134,8 +134,10 @@ namespace UGoap.Base
             {
                 distance = a switch
                 {
-                    int i => i - (int)b,
-                    float f => (int)Math.Round(f - (float)b),
+                    bool bValue => bValue ? -1 : 1,
+                    int iValue => iValue - (int)b,
+                    float fValue => (int)Math.Round(fValue - (float)b),
+                    string sValue => string.Compare(sValue, (string)b, StringComparison.InvariantCultureIgnoreCase),
                     _ => 1
                 };
             }

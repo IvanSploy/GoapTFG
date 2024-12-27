@@ -4,17 +4,15 @@ using System.IO;
 using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
-using UnityEngine;
 using static UGoap.Base.PropertyManager;
-using Random = System.Random;
+using Random = UGoap.Base.Random;
 
 namespace UGoap.Learning
 {
     public class QLearning
     {
-        private static readonly Random Random = new();
-        
         private readonly string _path;
+        private readonly string _file;
         private Dictionary<int, Dictionary<string, float>> _qValues;
         private readonly Func<Dictionary<string, float>, string> _bestActionPolitic;
         
@@ -22,10 +20,11 @@ namespace UGoap.Learning
         public float SucceedReward { get; private set; }
         public float FailReward { get; private set; }
 
-        public QLearning(string fileName, QLearningData data, float succeedReward, float failReward,
+        public QLearning(string dataPath, string fileName, QLearningData data, float succeedReward, float failReward,
             Func<Dictionary<string, float>, string> bestActionPolitic = null)
         {
-            _path = Application.persistentDataPath + "/LearningData/" + fileName + ".json";
+            _path = dataPath;
+            _file = fileName + ".json";
             _learningData = data;
             SucceedReward = succeedReward;
             FailReward = failReward;
@@ -35,14 +34,16 @@ namespace UGoap.Learning
         public void Load()
         {
             CreateFile();
-            var text = File.ReadAllText(_path);
+            var fullPath = Path.Combine(_path, _file);
+            var text = File.ReadAllText(fullPath);
             _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text) ?? new();
         }
 
         public void Save()
         {
             CreateFile();
-            File.WriteAllText(_path, JsonConvert.SerializeObject(_qValues, Formatting.Indented));
+            var fullPath = Path.Combine(_path, _file);
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(_qValues, Formatting.Indented));
         }
 
         public void Clear()
@@ -53,10 +54,10 @@ namespace UGoap.Learning
 
         private void CreateFile()
         {
-            if (File.Exists(_path)) return;
-            var directory = Path.GetDirectoryName(_path);
-            Directory.CreateDirectory(directory);
-            File.Create(_path).Close();
+            var fullPath = Path.Combine(_path, _file);
+            if (File.Exists(fullPath)) return;
+            Directory.CreateDirectory(_path);
+            File.Create(fullPath).Close();
         }
         
         public float Get(int state, string action)
@@ -100,22 +101,8 @@ namespace UGoap.Learning
         //Exploration
         public bool IsExploring()
         {
-            float randomExplore;
-            lock (Random)
-            {
-                randomExplore = (float)Random.NextDouble();
-            }
+            float randomExplore = Random.Next();
             return randomExplore < _learningData.ExploreChance;
-        }
-
-        public float GetExploreValue()
-        {
-            lock (Random)
-            {
-                var randomExplore = Random.NextDouble();
-                return (float)(randomExplore * (_learningData.ExploreRange.y - _learningData.ExploreRange.x)
-                       + _learningData.ExploreRange.x);
-            }
         }
         
         private float Apply(int state, string action, float r, int newState)
@@ -146,17 +133,21 @@ namespace UGoap.Learning
         private int GetLearningCode(State state, Conditions conditions)
         {
             var distances = conditions.GetDistances(state, _learningData.LearningKeys);
-
+            if(distances.Count == 0) return 0;
+            
             if (_learningData.ValueRange > 1)
             {
-                foreach (var pair in distances)
+                foreach (var pair in distances.ToList())
                 {
                     distances[pair.Key] = pair.Value / _learningData.ValueRange + 1;
                 }
             }
-            
+
+            var list = distances.ToList();
+            list.Sort((comp1, comp2) => comp1.Key.CompareTo(comp2.Key));
+
             int hash = 17;
-            foreach(KeyValuePair<PropertyKey, int> kvp in distances)
+            foreach(KeyValuePair<PropertyKey, int> kvp in list)
             {
                 hash = hash * 31 + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
             }

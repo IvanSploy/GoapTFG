@@ -24,9 +24,7 @@ namespace UGoap.Unity
         [SerializeField] private List<ActionConfig> _actionList;
         [SerializeField] private bool _useHeuristic;
         
-        [FormerlySerializedAs("ThinkTime")]
         [Header("View")]
-        [Tooltip("Time that simulates that agent is thinking.")]
         public float IndicatorTime = 0.5f;
         [Tooltip("Meters/Seconds moved by the agent.")]
         public float Speed = 5;
@@ -40,12 +38,14 @@ namespace UGoap.Unity
         private bool _hasPlan;
         private Plan _currentPlan;
         private float _rePlanCooldown;
+        private float _interruptTime;
         
         //Agent Properties
-        public string Name { get; set; }
-        public bool Interrupted { get; set; }
-        public State CurrentState { get; set; }
-        public IGoal CurrentGoal { get; set; }
+        public string Name => name;
+        public bool Interrupted { get; private set; }
+        public State CurrentState { get; private set; }
+        public IGoal CurrentGoal { get; private set; }
+        public bool IsCompleted => _currentPlan?.IsCompleted ?? false;
 
         //Events
         public event System.Action PlanningStarted;
@@ -117,6 +117,12 @@ namespace UGoap.Unity
         {
             while (true)
             {
+                while (_rePlanCooldown > 0)
+                {
+                    _rePlanCooldown -= Time.deltaTime;
+                    yield return null;
+                }
+                
                 Debug.Log("Estado actual: " + CurrentState);
                 
                 //Simular pensamiento.
@@ -136,11 +142,6 @@ namespace UGoap.Unity
                 {
                     Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
                     _rePlanCooldown = _rePlanSeconds;
-                    while (_rePlanCooldown > 0)
-                    {
-                        _rePlanCooldown -= Time.deltaTime;
-                        yield return null;
-                    }
                 }
             }
         }
@@ -189,21 +190,32 @@ namespace UGoap.Unity
                 nextState = null;
                 var previousState = CurrentState;
                 var task = _currentPlan.ExecuteNext(this);
-                if (task != null)
+                if (task == null)
+                {
+                    _currentPlan.Finish(previousState, null, this);
+                }
+                else
                 {
                     while (!task.IsCompleted) yield return null;
+                    State result = null;
+                    if (task.Result != null) result = CurrentState + task.Result;
+                    _currentPlan.Finish(previousState, result, this);
                     if (!Interrupted)
                     {
-                        CurrentState = nextState = task.Result;
-                        _currentPlan.Finish(previousState, task.Result, this);
+                        nextState = result;
+                        if (nextState != null) CurrentState = nextState;
                     }
                 }
-                                    
             } while (nextState != null && !_currentPlan.IsCompleted && !Interrupted);
 
             if (_currentPlan.IsCompleted) PlanAchieved?.Invoke();
             else PlanFailed?.Invoke();
-            yield return new WaitForSeconds(IndicatorTime);
+
+            if (Interrupted)
+            {
+                yield return new WaitForSeconds(_interruptTime);
+                _interruptTime = 0;
+            }
             
             _hasPlan = false;
         }
@@ -285,14 +297,15 @@ namespace UGoap.Unity
         }
 
         [ContextMenu("ForceInterrupt")]
-        public void ForceInterrupt()
+        public void ForceInterrupt(float seconds = 0)
         {
+            _interruptTime = seconds;
             Interrupted = true;
             _currentPlan?.Interrupt();
         }
         
         [ContextMenu("Interrupt")]
-        public void Interrupt()
+        public void Interrupt(float seconds = 0)
         {
             Interrupted = false;
             
@@ -302,20 +315,18 @@ namespace UGoap.Unity
                 //If already accomplished
                 if (CurrentGoal.IsGoal(CurrentState))
                 {
-                    Interrupted = true;
-                    _currentPlan.Interrupt();
                     _currentPlan.IsCompleted = true;
+                    ForceInterrupt(seconds);
                 }
                 else if (!_currentPlan.VerifyCurrent(this))
                 {
-                    Interrupted = true;
-                    _currentPlan.Interrupt();
+                    ForceInterrupt(seconds);
                 }
             }
             //If no current plan
             else
             {
-                _rePlanCooldown = 0f;
+                _rePlanCooldown = seconds;
             }
         }
         

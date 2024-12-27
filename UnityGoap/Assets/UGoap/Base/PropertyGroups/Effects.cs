@@ -8,8 +8,6 @@ namespace UGoap.Base
     /// <summary>
     /// A group of properties.
     /// </summary>
-    /// <typeparam name="PropertyKey">Key type</typeparam>
-    /// <typeparam name="TValue">Value type</typeparam>
     public class Effects : StateBase<EffectValue>
     {
         public Effects(Effects baseGroup = null) : base(baseGroup)
@@ -55,8 +53,8 @@ namespace UGoap.Base
             return _values.Aggregate("", (current, pair) =>
             {
                 EffectValue effectValue = pair.Value;
-                return current + "Key: " + pair.Key + " | Valor: " +
-                       effectValue.Value + "\n" + " | Effect: " + effectValue.EffectType + "\n";
+                return current + "Key: " + pair.Key + " | Effect: " + effectValue.EffectType + " | Valor: " +
+                       effectValue.Value + "\n";
             });
         }
         

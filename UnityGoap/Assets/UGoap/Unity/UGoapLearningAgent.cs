@@ -18,7 +18,7 @@ namespace UGoap.Unity
             
             Learning = _learningConfig.Create();
             var generator = new AStar();
-            generator.SetLearning(Learning);
+            generator.SetLearning(Learning, _learningConfig.ExploreRange);
             return new BackwardPlanner(generator, this);
         }
 

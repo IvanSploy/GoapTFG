@@ -37,12 +37,12 @@ public class GoToDestinationAction : Action
         return true;
     }
 
-    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
         
-        var x = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
-        var z = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
+        var x = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
+        var z = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
         var target = new Vector3(x, 0, z);
         
         var t = agent.transform;
@@ -53,10 +53,7 @@ public class GoToDestinationAction : Action
         
         while (!reached)
         {
-            if (token.IsCancellationRequested)
-            {
-                return nextState;
-            }
+            if (token.IsCancellationRequested) return null;
 
             var p = t.position;
             target.y = p.y;
@@ -70,6 +67,6 @@ public class GoToDestinationAction : Action
             await Task.Yield();
         }
 
-        return nextState;
+        return effects;
     }
 }

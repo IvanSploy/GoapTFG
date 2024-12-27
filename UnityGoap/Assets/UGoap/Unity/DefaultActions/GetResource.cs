@@ -85,7 +85,7 @@ namespace UGoap.Unity.Action
             return valid;
         }
         
-        protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+        protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
             var fact = WorkingMemoryManager.Get(Resource);
             
@@ -107,7 +107,7 @@ namespace UGoap.Unity.Action
             }
 
             await Task.Delay(WaitSeconds * 1000, token);
-            return nextState;
+            return effects;
         }
     }
 }

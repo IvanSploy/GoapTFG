@@ -71,11 +71,11 @@ namespace UGoap.Unity.Action
             return true;
         }
 
-        protected override async Task<State> OnExecute(State state, IAgent iAgent, string[] parameters, CancellationToken token)
+        protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
             if (iAgent is not UGoapAgent agent) return null;
 
-            var targetName = state.TryGetOrDefault(TargetKey, "None");
+            var targetName = (string)effects.TryGetOrDefault(TargetKey, "None").Value;
             UEntity targetEntity = WorkingMemoryManager.Get(targetName).Object;
             var target = targetEntity.transform.position;
             
@@ -91,10 +91,7 @@ namespace UGoap.Unity.Action
             //Rotate
             while (!reached)
             {
-                if (token.IsCancellationRequested)
-                {
-                    return state;
-                }
+                if (token.IsCancellationRequested) return null;
                 
                 t.rotation = Quaternion.RotateTowards(t.rotation, rotationTarget, speed * 45 * Time.deltaTime );
                 
@@ -110,10 +107,8 @@ namespace UGoap.Unity.Action
             //Move
             while (!reached)
             {
-                if (token.IsCancellationRequested)
-                {
-                    return state;
-                }
+                if (token.IsCancellationRequested) return null;
+                    
                 var p = t.position;
                 target.y = p.y;
                 t.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
@@ -125,7 +120,7 @@ namespace UGoap.Unity.Action
                 await Task.Yield();
             }
 
-            return state;
+            return effects;
         }
     }
 }

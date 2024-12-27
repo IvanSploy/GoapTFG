@@ -1,7 +1,5 @@
-﻿using UGoap.Base;
-using UGoap.Learning;
+﻿using UGoap.Learning;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace UGoap.Unity.ScriptableObjects
 {
@@ -19,11 +17,12 @@ namespace UGoap.Unity.ScriptableObjects
     
     public abstract class LearningActionConfig : ActionConfig
     {
-        public QLearningData LearningData = new()
+        private static readonly string Path = Application.dataPath + "/../Learning/" + "ActionLearning/";
+        
+        public QLearningTemplate LearningData = new()
         {
             Alpha = 0.25f,
             Gamma = 0.9f,
-            ExploreRange = new Vector2(-1000,1000),
             ValueRange = 5
         };
         
@@ -45,7 +44,7 @@ namespace UGoap.Unity.ScriptableObjects
         [ContextMenu("Load")]
         public void Load()
         {
-            _qLearning = new QLearning(name, LearningData, _succeedReward, _failReward);
+            _qLearning = new QLearning(Path, name, LearningData.DeSerialize(), _succeedReward, _failReward);
             _qLearning.Load();
         }
 

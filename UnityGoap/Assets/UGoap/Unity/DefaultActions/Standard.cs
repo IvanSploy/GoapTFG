@@ -39,10 +39,10 @@ namespace UGoap.Unity.Actions
             return true;
         }
 
-        protected override async Task<State> OnExecute(State state, IAgent iAgent, string[] parameters, CancellationToken token)
+        protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
             await Task.Delay(WaitSeconds * 1000, token);
-            return state;
+            return effects;
         }
     }
 }

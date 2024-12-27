@@ -28,16 +28,19 @@ namespace UGoap.Base
             return OnValidate(nextState, iAgent, parameters);
         }
         
-        public virtual Task<State> Execute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+        public virtual Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
-            return OnExecute(nextState, iAgent, parameters, token);
+            var result = OnExecute(effects, iAgent, parameters, token);
+            if (token.IsCancellationRequested) return null;
+
+            return result;
         }
 
         //Procedural related.
         protected abstract Conditions GetProceduralConditions(ActionSettings settings);
         protected abstract Effects GetProceduralEffects(ActionSettings settings);
         protected abstract bool OnValidate(State state, IAgent iAgent, string[] parameters);
-        protected abstract Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token);
+        protected abstract Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token);
         
         //Cost related.
         public int GetCost() => _cost;        
@@ -62,7 +65,7 @@ namespace UGoap.Base
                 affectedPropertyLists.Add(key);
             }
 
-            var proceduralEffects = GetProceduralEffects(ActionSettings.GetDefault());
+            var proceduralEffects = GetProceduralEffects(ActionSettings.CreateDefault(this));
 
             if (proceduralEffects != null)
             {

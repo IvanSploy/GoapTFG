@@ -34,10 +34,10 @@ public class SetDestinationCoverAction : Action
         return true;
     }
 
-    protected override async Task<State> OnExecute(State nextState, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
         if (iAgent is not UGoapAgent agent) return null;
 
-        return nextState;
+        return effects;
     }
 }

@@ -74,7 +74,7 @@ namespace UGoap.Base
         public static State operator +(State a, Effects b)
         {
             if (b == null) return a;
-            if (a == null) return b;
+            if (a == null) return (State)b;
             
             var propertyGroup = new State(a);
             foreach (var pair in b)
@@ -165,7 +165,7 @@ namespace UGoap.Base
         
         //Casts
         // Implicit conversion operator
-        public static implicit operator State(Effects custom)
+        public static explicit operator State(Effects custom)
         {
             State state = new State();
             state.Set(custom);

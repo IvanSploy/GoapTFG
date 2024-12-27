@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: InitialUnTagged
   m_EditorClassIdentifier: 
   Properties:
+  - name: PlayerNear
+    value: Close
   - name: IsIt
     value: False
