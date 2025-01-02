@@ -52,10 +52,7 @@ public class OpenAction : Action
         UEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
         var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();
         openBehaviour.Open();
-        while (!openBehaviour.IsOpen)
-        {
-            await Task.Yield();
-        }
+        while (!openBehaviour.IsOpen) await Task.Yield();
         return effects;
     }
 }

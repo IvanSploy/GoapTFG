@@ -14,8 +14,8 @@ namespace UGoap.Planning
         public override void UpdateCost()
         {
             AStarNode parent = (AStarNode) Parent;
+            GCost = _nodeGenerator.GetCost(this) + parent.GCost;
             HCost = _nodeGenerator.GetHeuristicCost(this);
-            GCost = PreviousAction.GetCost(parent.Goal) + parent.GCost;
         }
         
         #region Overrides

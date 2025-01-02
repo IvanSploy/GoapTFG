@@ -17,7 +17,8 @@ namespace UGoap.Unity
         [Range(0f,1f)] public float ExploreChance;
 
         [Header("Filtering")]
-        public List<PropertyManager.PropertyKey> LearningKeys;
+        public List<PropertyManager.PropertyKey> FilterKeys;
+        public List<PropertyManager.PropertyKey> AdditionalKeys;
         public int ValueRange;
 
         public static QLearningTemplate GetDefault()
@@ -37,7 +38,8 @@ namespace UGoap.Unity
                 Alpha = Alpha,
                 Gamma = Gamma,
                 ExploreChance = ExploreChance,
-                LearningKeys = LearningKeys,
+                FilterKeys = FilterKeys,
+                AdditionalKeys = AdditionalKeys,
                 ValueRange = ValueRange
             };
         }

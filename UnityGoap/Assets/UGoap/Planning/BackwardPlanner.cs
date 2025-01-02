@@ -60,7 +60,7 @@ namespace UGoap.Planning
                         if(_actionsVisited.Contains(action.Name)) continue;
                         
                         //Generate action parameters.
-                        var actionSettings = ActionSettings.Create(_current.InitialState, _current.Goal, action);
+                        var actionSettings = _nodeGenerator.CreateSettings(_current, action);
                         
                         //Check effect compatibility with initial state (the one getting closer).
                         Effects actionEffects = action.GetEffects(actionSettings);

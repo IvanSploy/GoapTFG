@@ -14,6 +14,11 @@ namespace UGoap.Base
         IGoal CurrentGoal { get; }
         
         /// <summary>
+        /// Gets the current action node.
+        /// </summary>
+        NodeAction CurrentAction { get; }
+        
+        /// <summary>
         /// If current plan is completed.
         /// </summary>
         bool IsCompleted { get; }

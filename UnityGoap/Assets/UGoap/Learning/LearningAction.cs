@@ -14,12 +14,17 @@ namespace UGoap.Learning
         {
             _qLearning = qLearning;
         }
+        
+        public int GetLearningCode(State state, Conditions conditions)
+        {
+            return _qLearning.GetLearningCode(state, conditions);
+        }
 
-        public override string[] CreateParameters(State state, Conditions conditions)
+        public override string[] CreateParameters(int learningCode)
         {
             if (!_qLearning.IsExploring())
             {
-                var action = _qLearning.GetBestAction(state, conditions);
+                var action = _qLearning.GetBestAction(learningCode);
                 if (action != null) return ParseToParameters(action);
             }
             return OnCreateParameters();
@@ -32,35 +37,31 @@ namespace UGoap.Learning
 
         public override bool Validate(State nextState, IAgent iAgent, string[] parameters)
         {
-            var initialState = iAgent.CurrentState;
             bool valid = OnValidate(nextState, iAgent, parameters);
             if (valid) return true;
-
-            _qLearning.Update(iAgent.CurrentGoal.Conditions, initialState,
-                ParseToActionName(parameters), _qLearning.FailReward, iAgent.CurrentState);
+            
+            _qLearning.Update(iAgent.CurrentAction.LearningCode,
+                ParseToActionName(parameters), _qLearning.FailReward, -1);
 
             return false;
         }
 
         public override async Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
-            var initialState = iAgent.CurrentState;
             var finalEffects = await OnExecute(effects, iAgent, parameters, token);
+            var learningCode = iAgent.CurrentAction.ActionLearningCode;
             
             if(token.IsCancellationRequested)
             {
-                _qLearning.Update(iAgent.CurrentGoal.Conditions, initialState,
+                _qLearning.Update(learningCode,
                     ParseToActionName(parameters), iAgent.IsCompleted ?
-                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentState);
+                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentAction.ActionLearningCode);
                 return null;
             }
             
-            var finalState = iAgent.CurrentState;
-            if(finalEffects != null) finalState += finalEffects;
-            
-            _qLearning.Update(iAgent.CurrentGoal.Conditions, initialState,
+            _qLearning.Update(learningCode,
                 ParseToActionName(parameters), finalEffects != null ?
-                    _qLearning.SucceedReward : _qLearning.FailReward, finalState ?? iAgent.CurrentState);
+                    _qLearning.SucceedReward : _qLearning.FailReward, finalEffects != null ? 0 : -1);
 
             return finalEffects;
         }

@@ -10,6 +10,7 @@ namespace UGoap.Planning
 {
     public class Plan
     {
+        //TODO: Need to store the Goals for learning purposes.
         public NodeAction Current { get; private set; }
         public Stack<NodeAction> ExecutedActions { get; } = new();
         public IEntity CurrentEntity { get; private set; }
@@ -17,9 +18,10 @@ namespace UGoap.Planning
         
         private readonly Stack<NodeAction> _nodes = new();
         private CancellationTokenSource _cancellationTokenSource;
-        private Stopwatch stopwatch = new();
+        private readonly Stopwatch _stopwatch = new();
 
-        public NodeAction Next => _nodes.Peek();
+        public NodeAction? Previous => ExecutedActions.Count > 0 ? ExecutedActions.Peek() : null;
+        public NodeAction? Next => _nodes.Count > 0 ? _nodes.Peek() : null;
         public int Count => _nodes.Count;
 
         public Plan(Node finalNode)
@@ -42,22 +44,22 @@ namespace UGoap.Planning
         
         public Task<Effects> ExecuteNext(IAgent agent)
         {
+            if(Current.Action != null) ExecutedActions.Push(Current);
             Current = _nodes.Pop();
-            ExecutedActions.Push(Current);
 
-            stopwatch.Start();
+            _stopwatch.Start();
             return ExecuteCurrent(agent);
         }
 
-        public void Finish(State previousState, State state, IAgent agent)
+        public void Finish(State state, IAgent agent)
         {
             DebugRecord.Record(state != null ? state.ToString() : "Plan failed.");
             if (!IsCompleted && state != null && Count == 0) IsCompleted = true;
-            ApplyLearning(previousState, state, agent);
-            stopwatch.Stop();
+            ApplyLearning(state, agent);
+            _stopwatch.Stop();
         }
         
-        public void ApplyLearning(State initialState, State state, IAgent agent)
+        public void ApplyLearning(State state, IAgent agent)
         {
             if (Count == 0)
             {
@@ -65,21 +67,25 @@ namespace UGoap.Planning
                 {
                     var reward = state != null ?
                         learningAgent.Learning.SucceedReward : learningAgent.Learning.FailReward;
-                    var finalState = state ?? agent.CurrentState;
+
+                    var nextLearningCode = Current.LearningCode;
+                    if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
                     
-                    learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState,
-                        Current.Action.Name, reward, finalState);
+                    learningAgent.Learning.Update(Current.LearningCode,
+                        Current.Action.Name, reward, nextLearningCode);
                 }
             }
             else
             {
                 if (agent is ILearningAgent { Learning: not null } learningAgent)
                 {
-                    var reward = -((int)Math.Round(stopwatch.ElapsedMilliseconds / 1000f) + 1);
-                    var finalState = state ?? agent.CurrentState;
+                    var reward = -((int)Math.Round(_stopwatch.ElapsedMilliseconds / 1000f) + 1);
                     
-                    learningAgent.Learning.Update(agent.CurrentGoal.Conditions, initialState, Current.Action.Name,
-                        reward, finalState);
+                    var nextLearningCode = Current.LearningCode;
+                    if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
+                    
+                    learningAgent.Learning.Update(Current.LearningCode, Current.Action.Name,
+                        reward, nextLearningCode);
                 }
             }
         }

@@ -45,6 +45,8 @@ namespace UGoap.Unity
         public bool Interrupted { get; private set; }
         public State CurrentState { get; private set; }
         public IGoal CurrentGoal { get; private set; }
+        public NodeAction? PreviousAction => _currentPlan.Previous;
+        public NodeAction CurrentAction => _currentPlan.Current;
         public bool IsCompleted => _currentPlan?.IsCompleted ?? false;
 
         //Events
@@ -188,18 +190,17 @@ namespace UGoap.Unity
             do
             {
                 nextState = null;
-                var previousState = CurrentState;
                 var task = _currentPlan.ExecuteNext(this);
                 if (task == null)
                 {
-                    _currentPlan.Finish(previousState, null, this);
+                    _currentPlan.Finish(null, this);
                 }
                 else
                 {
                     while (!task.IsCompleted) yield return null;
                     State result = null;
                     if (task.Result != null) result = CurrentState + task.Result;
-                    _currentPlan.Finish(previousState, result, this);
+                    _currentPlan.Finish(result, this);
                     if (!Interrupted)
                     {
                         nextState = result;

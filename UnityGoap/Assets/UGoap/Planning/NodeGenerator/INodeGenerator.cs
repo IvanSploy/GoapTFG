@@ -1,5 +1,6 @@
 ﻿using System;
 using UGoap.Base;
+using Action = UGoap.Base.Action;
 
 namespace UGoap.Planning
 {
@@ -37,10 +38,32 @@ namespace UGoap.Planning
         Node GetNextNode(Node current);
 
         /// <summary>
+        /// Generate Action Settings related to this node generator.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="action"></param>
+        /// <returns></returns>
+        ActionSettings CreateSettings(Node node, Action action);
+        
+        /// <summary>
+        /// Gets the heuristic according to a certain node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        int GetCost(Node node);
+        
+        /// <summary>
         /// Gets the heuristic according to a certain node.
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
         int GetHeuristicCost(Node node);
+        
+        /// <summary>
+        /// Retrieves the learning code related to a certain node.
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        int GetLearningCode(Node node);
     }
 }

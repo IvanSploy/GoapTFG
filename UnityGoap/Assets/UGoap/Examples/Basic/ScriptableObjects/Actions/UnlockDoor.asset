@@ -21,8 +21,8 @@ MonoBehaviour:
     value: True
     condition: 0
   - name: DoorState
-    value: Locked
-    condition: 0
+    value: Opened
+    condition: 1
   Effects:
   - name: DoorState
     value: Opened

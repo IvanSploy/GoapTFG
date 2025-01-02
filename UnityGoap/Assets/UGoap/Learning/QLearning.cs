@@ -5,6 +5,7 @@ using System.Linq;
 using UGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using static UGoap.Base.PropertyManager;
+using Action = UGoap.Base.Action;
 using Random = UGoap.Base.Random;
 
 namespace UGoap.Learning
@@ -60,79 +61,9 @@ namespace UGoap.Learning
             File.Create(fullPath).Close();
         }
         
-        public float Get(int state, string action)
+        public int GetLearningCode(State state, Conditions conditions)
         {
-            if (_qValues.TryGetValue(state, out var actionValues))
-            {
-                if (actionValues.TryGetValue(action, out var qValue))
-                {
-                    return qValue;
-                }
-                actionValues[action] = 0;
-            }
-            else
-            {
-                _qValues[state] = new Dictionary<string, float> { { action, 0 } };
-            }
-            
-            return _qValues[state][action];
-        }
-
-        public string GetBestAction(State state, Conditions conditions)
-        {
-            var learningCode = GetLearningCode(state, conditions);
-            if (!_qValues.TryGetValue(learningCode, out var values)) return null;
-            return _bestActionPolitic(values);
-        }
-        
-        public float GetMaxValue(State state, Conditions conditions)
-        {
-            var learningCode = GetLearningCode(state, conditions);
-            return GetMaxValue(learningCode);
-        }
-        
-        public void Update(Conditions goal, State initialState, string actionName, float reward, State nextState)
-        {
-            var initialCode = GetLearningCode(initialState, goal);
-            var finalCode = GetLearningCode(nextState, goal);
-            Apply(initialCode, actionName, reward, finalCode);
-        }
-        
-        //Exploration
-        public bool IsExploring()
-        {
-            float randomExplore = Random.Next();
-            return randomExplore < _learningData.ExploreChance;
-        }
-        
-        private float Apply(int state, string action, float r, int newState)
-        {
-            var qValue = (1 - _learningData.Alpha) * Get(state, action) + _learningData.Alpha * (r + _learningData.Gamma * GetMaxValue(newState));
-            Set(state, action, qValue);
-            return qValue;
-        }
-
-        private void Set(int state, string action, float qValue)
-        {
-            if (_qValues.TryGetValue(state, out var actionValues))
-            {
-                actionValues[action] = qValue;
-            }
-            else
-            {
-                _qValues[state] = new Dictionary<string, float> { { action, qValue } };
-            }
-        }
-
-        private float GetMaxValue(int state)
-        {
-            if (!_qValues.TryGetValue(state, out var values)) return 0;
-            return values.Max(pair => pair.Value);
-        }
-        
-        private int GetLearningCode(State state, Conditions conditions)
-        {
-            var distances = conditions.GetDistances(state, _learningData.LearningKeys);
+            var distances = conditions.GetDistances(state, _learningData.FilterKeys, _learningData.AdditionalKeys);
             if(distances.Count == 0) return 0;
             
             if (_learningData.ValueRange > 1)
@@ -152,6 +83,61 @@ namespace UGoap.Learning
                 hash = hash * 31 + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
             }
             return hash;
+        }
+
+        public string GetBestAction(int learningCode)
+        {
+            if (!_qValues.TryGetValue(learningCode, out var values)) return null;
+            return _bestActionPolitic(values);
+        }
+
+        public float Get(int state, string action)
+        {
+            if (_qValues.TryGetValue(state, out var actionValues))
+            {
+                if (actionValues.TryGetValue(action, out var qValue))
+                {
+                    return qValue;
+                }
+                actionValues[action] = 0;
+            }
+            else
+            {
+                _qValues[state] = new Dictionary<string, float> { { action, 0 } };
+            }
+            
+            return _qValues[state][action];
+        }
+        
+        public float GetMax(int state)
+        {
+            if (!_qValues.TryGetValue(state, out var values)) return 0;
+            return values.Max(pair => pair.Value);
+        }
+        
+        public void Update(int learningCode, string action, float r, int nextLearningCode)
+        {
+            var qValue = (1 - _learningData.Alpha) * Get(learningCode, action) + _learningData.Alpha * (r + _learningData.Gamma * GetMax(nextLearningCode));
+            Set(learningCode, action, qValue);
+        }
+        
+        //Exploration
+        public bool IsExploring()
+        {
+            float randomExplore = Random.Next();
+            return randomExplore < _learningData.ExploreChance;
+        }
+
+        private void Set(int state, string action, float qValue)
+        {
+            if (_qValues.TryGetValue(state, out var actionValues))
+            {
+                actionValues[action] = qValue;
+            }
+            else
+            {
+                _qValues[state] = new Dictionary<string, float> { { action, qValue } };
+            }
         }
 
         public override string ToString()

@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
   m_Name: DoorLearning
   m_EditorClassIdentifier: 
-  InitialRange: {x: -100, y: 100}
-  Alpha: 0.7
-  Gamma: 0.3
-  ValueRange: 1
-  LearningKeys: 0400000002000000
-  _type: 0
-  PositiveReward: 450
-  NegativeReward: 300
-  ExploreChance: 0
-  MinExploreValue: 0
-  MaxExploreValue: 1000
-  FileName: DoorLearning
+  Learning:
+    Alpha: 0.3
+    Gamma: 0.9
+    ExploreChance: 0
+    FilterKeys: 
+    AdditionalKeys: 05000000
+    ValueRange: 1
+  _exploreRange: {x: -1000, y: 1000}
+  SuccessReward: 100
+  FailReward: -10

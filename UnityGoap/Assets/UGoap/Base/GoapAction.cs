@@ -21,7 +21,7 @@ namespace UGoap.Base
         }
         
         //Main abstract
-        public virtual string[] CreateParameters(State state, Conditions conditions) => null;
+        public virtual string[] CreateParameters(int learningCode) => null;
 
         public virtual bool Validate(State nextState, IAgent iAgent, string[] parameters)
         {

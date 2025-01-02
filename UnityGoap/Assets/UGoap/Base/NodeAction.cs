@@ -6,5 +6,7 @@
         public Conditions Conditions;
         public Effects Effects;
         public string[] Parameters;
+        public int LearningCode;
+        public int ActionLearningCode;
     }
 }

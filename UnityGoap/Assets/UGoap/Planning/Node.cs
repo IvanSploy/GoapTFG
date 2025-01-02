@@ -62,7 +62,13 @@ namespace UGoap.Planning
                Conditions = conditions,
                Effects = effects,
                Parameters = settings.Parameters,
+               LearningCode = settings.LearningCode,
            };
+
+           if (action is LearningAction learningAction)
+           {
+               actionInfo.ActionLearningCode = learningAction.GetLearningCode(InitialState, Goal);
+           }
 
            return resultGoal == null ? null : CreateChild(resultGoal, actionInfo);
         }
@@ -98,7 +104,7 @@ namespace UGoap.Planning
             UpdateCost();
         }
 
-        public virtual void UpdateCost() => TotalCost = PreviousAction.GetCost(Parent.Goal);
+        public virtual void UpdateCost() => TotalCost = PreviousAction.GetCost(Parent.Goal) + Parent.TotalCost;
 
         public int CompareTo(object obj)
         {

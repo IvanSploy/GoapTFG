@@ -335,22 +335,22 @@ namespace UGoap.Base
             return result;
         }
         
-        public Dictionary<PropertyKey, int> GetDistances(State state, ICollection<PropertyKey> filter = null)
+        public Dictionary<PropertyKey, int> GetDistances(State state, ICollection<PropertyKey> filter = null, ICollection<PropertyKey> additional = null)
         {
             var distances = new Dictionary<PropertyKey, int>();
             var conflicts = GetConflicts(state, filter);
 
-            if (filter != null)
+            if (additional != null)
             {
-                foreach (var filterKey in filter)
+                foreach (var additionalKey in additional)
                 {
-                    if(distances.ContainsKey(filterKey)) continue;
-                    if (!state.Has(filterKey)) continue;
+                    if(distances.ContainsKey(additionalKey)) continue;
+                    if (!state.Has(additionalKey)) continue;
 
-                    var defaultValue = filterKey.GetDefault();
-                    if(state[filterKey].Equals(defaultValue)) continue;
+                    var defaultValue = additionalKey.GetDefault();
+                    if(state[additionalKey].Equals(defaultValue)) continue;
                     
-                    distances[filterKey] = GetDistance(state[filterKey],
+                    distances[additionalKey] = GetDistance(state[additionalKey],
                         ConditionType.Equal, defaultValue);
                 }
             }

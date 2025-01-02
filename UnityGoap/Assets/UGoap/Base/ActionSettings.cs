@@ -4,6 +4,7 @@
     {
         public State InitialState;
         public Conditions Goal;
+        public int LearningCode;
         public string[] Parameters;
 
         public static ActionSettings CreateDefault(Action action)
@@ -13,19 +14,11 @@
                 InitialState = new State(),
                 Goal = new Conditions(),
             };
-            var parameters = action.CreateParameters(settings.InitialState, settings.Goal);
+            var parameters = action.CreateParameters(0);
             settings.Parameters = parameters;
             return settings;
         }
         
-        public static ActionSettings Create(State initialState, Conditions goal, Action action)
-        {
-            return new ActionSettings()
-            {
-                InitialState = initialState,
-                Goal = goal,
-                Parameters = action.CreateParameters(initialState, goal),
-            };
-        }
+        
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using UGoap.Base;
 using UGoap.Learning;
+using Action = UGoap.Base.Action;
 using Random = UGoap.Base.Random;
 
 namespace UGoap.Planning
@@ -108,26 +109,67 @@ namespace UGoap.Planning
             else _openList.Add(node);
         }
         
+        public ActionSettings CreateSettings(Node node, Action action)
+        {
+            var learningCode = GetLearningCode(node);
+            var parameters = action.CreateParameters(learningCode);
+            return new ActionSettings()
+            {
+                InitialState = node.InitialState,
+                Goal = node.Goal,
+                LearningCode = learningCode,
+                Parameters = parameters,
+            };
+        }
+        
+        public int GetCost(Node node)
+        {
+            return Mode switch
+            {
+                HeuristicMode.Learning => GetGLearning(node),
+                _ => node.PreviousAction.GetCost(node.Parent.Goal)
+            };
+        }
+        
         public int GetHeuristicCost(Node node)
         {
             return Mode switch
             {
                 HeuristicMode.Default => node.Goal.CountConflicts(node.InitialState),
                 HeuristicMode.Custom => GetHeuristic(node),
-                HeuristicMode.Learning => GetLearning(node),
+                HeuristicMode.Learning => GetHLearning(node),
                 _ => 0
             };
         }
-        
+
+        public int GetLearningCode(Node node)
+        {
+            return Mode switch
+            {
+                HeuristicMode.Learning => _qLearning.GetLearningCode(node.InitialState, node.Goal),
+                _ => 0
+            };
+        }
+
         private int GetHeuristic(Node node)
         {
             return _customHeuristic(node.Goal, node.InitialState);
         }
         
-        private int GetLearning(Node node)
+        private int GetGLearning(Node node)
         {
             if (_qLearning.IsExploring()) return GetExploreValue();
-            return -(int)Math.Round(_qLearning.GetMaxValue(node.InitialState, node.Goal));
+            if (node.Parent == null) return 0;
+            var learningCode = GetLearningCode(node.Parent);
+            var value = _qLearning.Get(learningCode, node.PreviousAction.Name);
+            return -(int)Math.Round(value);
+        }
+        
+        private int GetHLearning(Node node)
+        {
+            var learningCode = GetLearningCode(node);
+            var value = _qLearning.GetMax(learningCode);
+            return -(int)Math.Round(value);
         }
         
         private int GetExploreValue()
