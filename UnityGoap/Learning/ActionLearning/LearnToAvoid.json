@@ -1,13 +1,13 @@
 {
   "511854": {
-    "LearnToAvoid_-3_-4": 15.4303989,
+    "LearnToAvoid_-3_-4": 5.25823927,
     "LearnToAvoid_5_-5": -4.0,
     "LearnToAvoid_3_-1": -4.0,
     "LearnToAvoid_1_-1": -4.0,
-    "LearnToAvoid_4_2": 46.9010429,
+    "LearnToAvoid_4_2": 24.140625,
     "LearnToAvoid_3_3": -4.0,
     "LearnToAvoid_-4_1": -4.0,
-    "LearnToAvoid_3_2": 18.5600014,
+    "LearnToAvoid_3_2": 7.13600063,
     "LearnToAvoid_1_-4": 20.0,
     "LearnToAvoid_-3_-1": -4.0,
     "LearnToAvoid_2_-5": 20.0,
@@ -29,7 +29,15 @@
     "LearnToAvoid_-3_2": -4.0,
     "LearnToAvoid_2_-3": -4.0,
     "LearnToAvoid_1_-3": -4.0,
-    "LearnToAvoid_-3_-3": 40.0
+    "LearnToAvoid_-3_-3": 40.0,
+    "LearnToAvoid_4_-3": -4.0,
+    "LearnToAvoid_-3_4": -4.0,
+    "LearnToAvoid_-5_3": -4.0,
+    "LearnToAvoid_-3_3": -4.0,
+    "LearnToAvoid_-4_4": 40.0,
+    "LearnToAvoid_4_5": -4.0,
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_5_1": -4.0
   },
   "16511": {
     "LearnToAvoid_5_5": -4.0,
@@ -62,14 +70,19 @@
     "LearnToAvoid_-5_-2": -4.0,
     "LearnToAvoid_3_5": -4.0,
     "LearnToAvoid_-3_2": -4.0,
-    "LearnToAvoid_1_2": -4.0
+    "LearnToAvoid_1_2": -4.0,
+    "LearnToAvoid_0_-3": -4.0,
+    "LearnToAvoid_-4_4": -4.0,
+    "LearnToAvoid_-4_-1": -4.0,
+    "LearnToAvoid_-3_1": -4.0,
+    "LearnToAvoid_-3_5": -4.0
   },
   "511859": {
     "LearnToAvoid_-2_-1": -9.222401,
     "LearnToAvoid_3_2": -8.704,
     "LearnToAvoid_-1_-2": -7.84,
     "LearnToAvoid_4_-2": 0.8550053,
-    "LearnToAvoid_-3_-5": -4.0,
+    "LearnToAvoid_-3_-5": -6.4,
     "LearnToAvoid_-4_0": -7.84,
     "LearnToAvoid_1_1": -6.4,
     "LearnToAvoid_-4_2": -7.84,
@@ -85,7 +98,9 @@
     "LearnToAvoid_0_4": 8.0,
     "LearnToAvoid_1_-1": -4.0,
     "LearnToAvoid_3_1": 64.0,
-    "LearnToAvoid_-3_5": -4.0
+    "LearnToAvoid_-3_5": -4.0,
+    "LearnToAvoid_2_-3": 40.0,
+    "LearnToAvoid_4_4": -4.0
   },
   "511858": {
     "LearnToAvoid_-2_-1": -7.84,
@@ -105,7 +120,10 @@
     "LearnToAvoid_-1_-4": -4.0,
     "LearnToAvoid_-4_0": -4.0,
     "LearnToAvoid_1_-3": -4.0,
-    "LearnToAvoid_-4_-3": -4.0
+    "LearnToAvoid_-4_-3": -4.0,
+    "LearnToAvoid_2_5": -4.0,
+    "LearnToAvoid_1_-4": -4.0,
+    "LearnToAvoid_4_2": 40.0
   },
   "511825": {
     "LearnToAvoid_2_-3": -6.4,
@@ -129,7 +147,11 @@
     "LearnToAvoid_2_-4": -4.0,
     "LearnToAvoid_2_-1": -4.0,
     "LearnToAvoid_-4_0": 40.0,
-    "LearnToAvoid_0_-4": -4.0
+    "LearnToAvoid_0_-4": -4.0,
+    "LearnToAvoid_-4_4": -4.0,
+    "LearnToAvoid_1_5": 40.0,
+    "LearnToAvoid_1_4": -4.0,
+    "LearnToAvoid_2_1": -4.0
   },
   "512508": {
     "LearnToAvoid_-2_-5": -6.4,
@@ -141,7 +163,10 @@
     "LearnToAvoid_-3_-3": -4.0,
     "LearnToAvoid_4_-5": -6.4,
     "LearnToAvoid_-1_-3": -4.0,
-    "LearnToAvoid_-1_3": 40.0
+    "LearnToAvoid_-1_3": 40.0,
+    "LearnToAvoid_2_-3": -4.0,
+    "LearnToAvoid_-1_5": -4.0,
+    "LearnToAvoid_1_3": -4.0
   },
   "498374": {
     "LearnToAvoid_1_0": -9.720064,
@@ -152,7 +177,8 @@
     "LearnToAvoid_3_-3": -7.84,
     "LearnToAvoid_1_-2": -7.84,
     "LearnToAvoid_2_-1": -7.84,
-    "LearnToAvoid_-2_-1": -7.84
+    "LearnToAvoid_-2_-1": -7.84,
+    "LearnToAvoid_2_4": 40.0
   },
   "511828": {
     "LearnToAvoid_-1_-5": -9.899223,
@@ -187,7 +213,12 @@
     "LearnToAvoid_5_0": -4.0,
     "LearnToAvoid_4_0": -4.0,
     "LearnToAvoid_-1_1": -4.0,
-    "LearnToAvoid_-2_1": -4.0
+    "LearnToAvoid_-2_1": -4.0,
+    "LearnToAvoid_2_5": -4.0,
+    "LearnToAvoid_-4_3": -6.4,
+    "LearnToAvoid_0_-5": -4.0,
+    "LearnToAvoid_-4_-2": -4.0,
+    "LearnToAvoid_-5_-3": -4.0
   },
   "16510": {
     "LearnToAvoid_3_-2": -8.704,
@@ -203,7 +234,7 @@
     "LearnToAvoid_-4_-5": 8.0,
     "LearnToAvoid_-5_4": -4.0,
     "LearnToAvoid_-3_4": -4.0,
-    "LearnToAvoid_-5_-1": -4.0,
+    "LearnToAvoid_-5_-1": -6.4,
     "LearnToAvoid_-2_0": -4.0,
     "LearnToAvoid_-4_4": -4.0,
     "LearnToAvoid_-2_-1": -4.0,
@@ -215,7 +246,14 @@
     "LearnToAvoid_3_0": -4.0,
     "LearnToAvoid_5_2": 40.0,
     "LearnToAvoid_-4_-2": -4.0,
-    "LearnToAvoid_-3_2": 40.0
+    "LearnToAvoid_-3_2": 40.0,
+    "LearnToAvoid_-4_1": 40.0,
+    "LearnToAvoid_-5_1": -4.0,
+    "LearnToAvoid_0_-4": -4.0,
+    "LearnToAvoid_-4_-4": -4.0,
+    "LearnToAvoid_-4_-1": -4.0,
+    "LearnToAvoid_-3_-4": 40.0,
+    "LearnToAvoid_4_4": -4.0
   },
   "512537": {
     "LearnToAvoid_0_5": -6.4,
@@ -244,7 +282,10 @@
     "LearnToAvoid_-3_2": -4.0,
     "LearnToAvoid_-5_-5": 20.0,
     "LearnToAvoid_3_1": -4.0,
-    "LearnToAvoid_-5_-3": -4.0
+    "LearnToAvoid_-5_-3": -4.0,
+    "LearnToAvoid_-5_3": -4.0,
+    "LearnToAvoid_4_2": -6.4,
+    "LearnToAvoid_5_-3": -4.0
   },
   "512538": {
     "LearnToAvoid_0_5": -8.704,
@@ -277,7 +318,10 @@
     "LearnToAvoid_-1_4": -6.4,
     "LearnToAvoid_0_2": -6.4,
     "LearnToAvoid_1_0": -6.4,
-    "LearnToAvoid_2_5": -6.4
+    "LearnToAvoid_2_5": -6.4,
+    "LearnToAvoid_4_0": -4.0,
+    "LearnToAvoid_0_-3": -4.0,
+    "LearnToAvoid_-4_-3": -4.0
   },
   "16531": {
     "LearnToAvoid_0_1": -8.704,
@@ -289,7 +333,7 @@
     "LearnToAvoid_5_3": -6.4,
     "LearnToAvoid_-5_0": -6.4,
     "LearnToAvoid_4_-4": -6.4,
-    "LearnToAvoid_-3_2": -6.4,
+    "LearnToAvoid_-3_2": -7.84,
     "LearnToAvoid_-5_-2": -6.4,
     "LearnToAvoid_-5_4": -4.01766443,
     "LearnToAvoid_5_2": -4.0,
@@ -297,14 +341,18 @@
     "LearnToAvoid_-4_2": -4.0,
     "LearnToAvoid_3_3": -7.84,
     "LearnToAvoid_1_0": -4.0,
-    "LearnToAvoid_-2_5": -6.4,
+    "LearnToAvoid_-2_5": -7.84,
     "LearnToAvoid_-1_-3": -4.0,
     "LearnToAvoid_2_3": -4.0,
-    "LearnToAvoid_4_2": -4.0
+    "LearnToAvoid_4_2": -4.0,
+    "LearnToAvoid_-2_-2": -4.0,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_-2_-4": -4.0,
+    "LearnToAvoid_-3_-1": -4.0
   },
   "533": {
     "LearnToAvoid_0_0": -9.222401,
-    "LearnToAvoid_0_-3": -8.704,
+    "LearnToAvoid_0_-3": -9.222401,
     "LearnToAvoid_0_-2": -8.704,
     "LearnToAvoid_-1_-2": -9.533441,
     "LearnToAvoid_1_0": -8.704,
@@ -319,7 +367,7 @@
     "LearnToAvoid_4_2": 12.3199987,
     "LearnToAvoid_2_-3": -4.0,
     "LearnToAvoid_-5_4": -4.0,
-    "LearnToAvoid_-4_-2": 29.6795673,
+    "LearnToAvoid_-4_-2": 57.80774,
     "LearnToAvoid_0_1": -4.0,
     "LearnToAvoid_1_-2": -7.84,
     "LearnToAvoid_3_0": -4.0,
@@ -338,7 +386,15 @@
     "LearnToAvoid_-5_-2": -4.0,
     "LearnToAvoid_-4_0": 17.696,
     "LearnToAvoid_3_1": -4.0,
-    "LearnToAvoid_-3_0": -4.0
+    "LearnToAvoid_-3_0": -4.0,
+    "LearnToAvoid_5_-4": -4.0,
+    "LearnToAvoid_5_-2": 40.0,
+    "LearnToAvoid_-3_4": -4.0,
+    "LearnToAvoid_2_4": -4.0,
+    "LearnToAvoid_4_-2": 40.0,
+    "LearnToAvoid_-3_3": 40.0,
+    "LearnToAvoid_-2_4": -4.0,
+    "LearnToAvoid_1_5": -4.0
   },
   "16533": {
     "LearnToAvoid_0_0": -7.84,
@@ -383,7 +439,13 @@
     "LearnToAvoid_3_2": -4.0,
     "LearnToAvoid_3_0": -4.0,
     "LearnToAvoid_2_-4": -4.0,
-    "LearnToAvoid_0_-4": 40.0
+    "LearnToAvoid_0_-4": 40.0,
+    "LearnToAvoid_3_1": -4.0,
+    "LearnToAvoid_-1_4": 40.0,
+    "LearnToAvoid_3_-2": -4.0,
+    "LearnToAvoid_3_-4": -4.0,
+    "LearnToAvoid_-2_5": -4.0,
+    "LearnToAvoid_4_-3": -4.0
   },
   "512536": {
     "LearnToAvoid_0_0": -8.704,
@@ -392,11 +454,11 @@
     "LearnToAvoid_0_-2": -6.4,
     "LearnToAvoid_-4_-1": -6.4,
     "LearnToAvoid_4_-1": -4.0,
-    "LearnToAvoid_2_5": -4.0,
+    "LearnToAvoid_2_5": -6.4,
     "LearnToAvoid_-2_2": -4.0,
     "LearnToAvoid_2_2": -4.0,
     "LearnToAvoid_-5_1": -6.112,
-    "LearnToAvoid_3_4": -4.0,
+    "LearnToAvoid_3_4": -7.84,
     "LearnToAvoid_2_-3": -4.0,
     "LearnToAvoid_3_3": -6.4,
     "LearnToAvoid_-2_-3": -5.53719854,
@@ -411,13 +473,13 @@
     "LearnToAvoid_3_-1": -4.0,
     "LearnToAvoid_1_2": -4.0,
     "LearnToAvoid_0_-4": -7.84,
-    "LearnToAvoid_-1_4": -4.0,
-    "LearnToAvoid_4_4": -4.0,
+    "LearnToAvoid_-1_4": -8.704,
+    "LearnToAvoid_4_4": -6.4,
     "LearnToAvoid_-2_-1": -4.0,
     "LearnToAvoid_2_-1": -4.0,
     "LearnToAvoid_4_-5": -4.0,
     "LearnToAvoid_-5_-4": -4.0,
-    "LearnToAvoid_-3_2": -6.05416536,
+    "LearnToAvoid_-3_2": -7.632499,
     "LearnToAvoid_4_3": -4.0,
     "LearnToAvoid_-2_5": -4.0,
     "LearnToAvoid_-4_1": -4.0,
@@ -425,7 +487,9 @@
     "LearnToAvoid_2_4": -4.0,
     "LearnToAvoid_-3_-4": -4.0,
     "LearnToAvoid_4_2": -4.0,
-    "LearnToAvoid_-4_0": -4.0
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_4_-3": -4.0,
+    "LearnToAvoid_-3_-2": -4.0
   },
   "512505": {
     "LearnToAvoid_2_1": -9.222401,
@@ -434,7 +498,7 @@
     "LearnToAvoid_-5_0": -6.4,
     "LearnToAvoid_4_5": -6.4,
     "LearnToAvoid_-2_-3": -4.0,
-    "LearnToAvoid_1_-3": -4.0,
+    "LearnToAvoid_1_-3": -6.4,
     "LearnToAvoid_-4_0": 37.6000023,
     "LearnToAvoid_-4_2": -6.4,
     "LearnToAvoid_-5_-3": -4.0,
@@ -450,7 +514,10 @@
     "LearnToAvoid_0_-1": -4.0,
     "LearnToAvoid_1_-2": -4.0,
     "LearnToAvoid_4_2": -4.0,
-    "LearnToAvoid_-3_-5": 20.0
+    "LearnToAvoid_-3_-5": 20.0,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_2_5": -4.0,
+    "LearnToAvoid_-2_1": -4.0
   },
   "512476": {
     "LearnToAvoid_3_4": -7.84,
@@ -472,14 +539,17 @@
     "LearnToAvoid_-5_-2": -6.4,
     "LearnToAvoid_0_2": -6.4,
     "LearnToAvoid_-1_4": -7.84,
-    "LearnToAvoid_5_2": -6.4,
+    "LearnToAvoid_5_2": -7.84,
     "LearnToAvoid_-4_0": -4.0,
     "LearnToAvoid_4_-5": -4.0,
     "LearnToAvoid_-4_-2": -4.0,
     "LearnToAvoid_1_-5": -4.0,
     "LearnToAvoid_-1_5": -4.0,
     "LearnToAvoid_3_-1": -4.0,
-    "LearnToAvoid_0_-4": -4.0
+    "LearnToAvoid_0_-4": -6.4,
+    "LearnToAvoid_5_-2": -6.4,
+    "LearnToAvoid_4_3": -4.0,
+    "LearnToAvoid_-3_4": -4.0
   },
   "16512": {
     "LearnToAvoid_3_-4": -4.0,
@@ -490,7 +560,7 @@
     "LearnToAvoid_-4_4": -4.0,
     "LearnToAvoid_-5_4": -4.0,
     "LearnToAvoid_-3_0": -4.0,
-    "LearnToAvoid_-2_-2": -4.0,
+    "LearnToAvoid_-2_-2": -6.4,
     "LearnToAvoid_2_2": 0.7999999,
     "LearnToAvoid_-1_2": -4.0,
     "LearnToAvoid_1_4": -4.0,
@@ -502,12 +572,21 @@
     "LearnToAvoid_-2_-3": -4.0,
     "LearnToAvoid_-3_-1": -4.0,
     "LearnToAvoid_1_0": -4.0,
-    "LearnToAvoid_5_2": 40.0,
+    "LearnToAvoid_5_2": 20.0,
     "LearnToAvoid_2_1": -4.0,
     "LearnToAvoid_4_0": 40.0,
-    "LearnToAvoid_3_4": -4.0,
+    "LearnToAvoid_3_4": 37.6000023,
     "LearnToAvoid_-5_-1": -4.0,
-    "LearnToAvoid_4_4": -4.0
+    "LearnToAvoid_4_4": -4.0,
+    "LearnToAvoid_1_-2": -4.0,
+    "LearnToAvoid_-1_3": -4.0,
+    "LearnToAvoid_4_2": -4.0,
+    "LearnToAvoid_-3_2": -4.0,
+    "LearnToAvoid_-5_2": -4.0,
+    "LearnToAvoid_-3_4": -4.0,
+    "LearnToAvoid_1_2": -4.0,
+    "LearnToAvoid_5_4": 40.0,
+    "LearnToAvoid_-2_-5": 40.0
   },
   "512509": {
     "LearnToAvoid_4_5": 7.23967934,
@@ -522,7 +601,13 @@
     "LearnToAvoid_-1_-2": -4.0,
     "LearnToAvoid_0_4": -4.0,
     "LearnToAvoid_-2_-1": -4.0,
-    "LearnToAvoid_2_2": 20.0
+    "LearnToAvoid_2_2": 20.0,
+    "LearnToAvoid_4_-1": -6.4,
+    "LearnToAvoid_1_1": -4.0,
+    "LearnToAvoid_-4_5": 40.0,
+    "LearnToAvoid_-5_2": -4.0,
+    "LearnToAvoid_1_4": -4.0,
+    "LearnToAvoid_-2_1": -4.0
   },
   "512475": {
     "LearnToAvoid_0_-4": -8.704,
@@ -537,9 +622,12 @@
     "LearnToAvoid_3_5": -4.0,
     "LearnToAvoid_3_2": -4.0,
     "LearnToAvoid_-1_-5": -4.0,
-    "LearnToAvoid_1_-4": -4.0,
+    "LearnToAvoid_1_-4": -6.4,
     "LearnToAvoid_5_5": -4.0,
-    "LearnToAvoid_-3_4": -6.4
+    "LearnToAvoid_-3_4": -6.4,
+    "LearnToAvoid_-3_-4": -4.0,
+    "LearnToAvoid_5_-1": -4.0,
+    "LearnToAvoid_-1_5": -4.0
   },
   "512469": {
     "LearnToAvoid_3_3": -7.84,
@@ -553,7 +641,8 @@
     "LearnToAvoid_3_0": -6.4,
     "LearnToAvoid_-1_1": -6.4,
     "LearnToAvoid_3_2": -6.4,
-    "LearnToAvoid_-2_5": 64.0
+    "LearnToAvoid_-2_5": 64.0,
+    "LearnToAvoid_-4_1": -4.0
   },
   "512686": {
     "LearnToAvoid_4_-1": -9.533441,
@@ -570,7 +659,7 @@
     "LearnToAvoid_3_-2": -6.4
   },
   "512510": {
-    "LearnToAvoid_4_-1": -7.84,
+    "LearnToAvoid_4_-1": -9.222401,
     "LearnToAvoid_0_4": -4.01766443,
     "LearnToAvoid_0_-2": -6.4,
     "LearnToAvoid_-1_1": -6.4,
@@ -596,7 +685,21 @@
     "LearnToAvoid_3_-5": -4.0,
     "LearnToAvoid_-3_0": 40.0,
     "LearnToAvoid_5_-1": 40.0,
-    "LearnToAvoid_-2_5": -4.0
+    "LearnToAvoid_-2_5": -4.0,
+    "LearnToAvoid_3_-3": -4.0,
+    "LearnToAvoid_4_4": 40.0,
+    "LearnToAvoid_5_-4": -4.0,
+    "LearnToAvoid_-3_3": 40.0,
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_0_-5": -4.0,
+    "LearnToAvoid_2_-5": -4.0,
+    "LearnToAvoid_-4_-4": 40.0,
+    "LearnToAvoid_0_-1": -4.0,
+    "LearnToAvoid_-3_-3": 40.0,
+    "LearnToAvoid_-3_4": 40.0,
+    "LearnToAvoid_-5_0": 40.0,
+    "LearnToAvoid_0_0": -4.0,
+    "LearnToAvoid_2_3": 40.0
   },
   "512507": {
     "LearnToAvoid_1_4": -9.222401,
@@ -612,14 +715,21 @@
     "LearnToAvoid_5_3": -6.4,
     "LearnToAvoid_4_2": -6.4,
     "LearnToAvoid_4_-5": -4.0,
-    "LearnToAvoid_3_-1": -4.0,
+    "LearnToAvoid_3_-1": -6.4,
     "LearnToAvoid_-1_1": -4.0,
     "LearnToAvoid_-3_4": -4.0,
     "LearnToAvoid_5_1": -4.0,
     "LearnToAvoid_0_1": -4.0,
     "LearnToAvoid_4_1": -4.0,
     "LearnToAvoid_5_-5": -4.0,
-    "LearnToAvoid_3_-3": -4.0
+    "LearnToAvoid_3_-3": -7.84,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_-2_-4": -4.0,
+    "LearnToAvoid_-2_3": -4.0,
+    "LearnToAvoid_5_-1": -4.0,
+    "LearnToAvoid_-3_-1": -4.0,
+    "LearnToAvoid_-4_2": -4.0,
+    "LearnToAvoid_4_4": -4.0
   },
   "499053": {
     "LearnToAvoid_1_4": -4.0
@@ -642,7 +752,12 @@
     "LearnToAvoid_1_-1": -4.0,
     "LearnToAvoid_0_-3": -4.0,
     "LearnToAvoid_-2_-2": -4.0,
-    "LearnToAvoid_-2_-3": 40.0
+    "LearnToAvoid_-2_-3": 40.0,
+    "LearnToAvoid_2_3": -4.0,
+    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_4_-1": -4.0,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_3_-5": -4.0
   },
   "16532": {
     "LearnToAvoid_0_-5": -6.4,
@@ -650,7 +765,7 @@
     "LearnToAvoid_-3_3": -6.4,
     "LearnToAvoid_2_4": -4.0,
     "LearnToAvoid_-3_-4": -4.0,
-    "LearnToAvoid_-1_5": -6.4,
+    "LearnToAvoid_-1_5": -7.84,
     "LearnToAvoid_-4_0": 20.0,
     "LearnToAvoid_3_-2": -4.0,
     "LearnToAvoid_-5_-2": -4.0,
@@ -671,7 +786,11 @@
     "LearnToAvoid_5_1": -4.0,
     "LearnToAvoid_-3_-2": -4.0,
     "LearnToAvoid_4_-3": -4.0,
-    "LearnToAvoid_-5_3": 40.0
+    "LearnToAvoid_-5_3": 40.0,
+    "LearnToAvoid_-4_-4": -4.0,
+    "LearnToAvoid_2_-5": -4.0,
+    "LearnToAvoid_4_-1": -4.0,
+    "LearnToAvoid_5_2": 40.0
   },
   "16536": {
     "LearnToAvoid_5_-1": -4.0,
@@ -705,7 +824,14 @@
     "LearnToAvoid_1_0": -4.0,
     "LearnToAvoid_2_-1": -4.0,
     "LearnToAvoid_1_-4": -4.0,
-    "LearnToAvoid_-4_2": -4.0
+    "LearnToAvoid_-4_2": -4.0,
+    "LearnToAvoid_-3_3": -4.0,
+    "LearnToAvoid_4_-4": -4.0,
+    "LearnToAvoid_-3_-5": -4.0,
+    "LearnToAvoid_-5_-1": -4.0,
+    "LearnToAvoid_-4_-2": -4.0,
+    "LearnToAvoid_4_3": -4.0,
+    "LearnToAvoid_-4_-5": -4.0
   },
   "511857": {
     "LearnToAvoid_3_4": -7.84,
@@ -724,7 +850,12 @@
     "LearnToAvoid_2_5": -4.0,
     "LearnToAvoid_1_3": -4.0,
     "LearnToAvoid_-3_2": -4.0,
-    "LearnToAvoid_-4_-3": -4.0
+    "LearnToAvoid_-4_-3": -4.0,
+    "LearnToAvoid_0_4": -4.0,
+    "LearnToAvoid_5_-4": -4.0,
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_-3_3": -4.0,
+    "LearnToAvoid_-2_5": -4.0
   },
   "511888": {
     "LearnToAvoid_-4_1": -6.4,
@@ -737,7 +868,10 @@
     "LearnToAvoid_-2_-1": -6.4,
     "LearnToAvoid_3_-3": -4.0,
     "LearnToAvoid_-4_-4": -4.0,
-    "LearnToAvoid_-5_4": -6.112
+    "LearnToAvoid_-5_4": -6.112,
+    "LearnToAvoid_0_1": -4.0,
+    "LearnToAvoid_4_0": -4.0,
+    "LearnToAvoid_2_4": -4.0
   },
   "512514": {
     "LearnToAvoid_-1_-4": -6.4,
@@ -759,7 +893,7 @@
     "LearnToAvoid_-3_-1": -6.4,
     "LearnToAvoid_1_-3": -6.4,
     "LearnToAvoid_-4_-4": -6.4,
-    "LearnToAvoid_3_1": -6.4,
+    "LearnToAvoid_3_1": -7.84,
     "LearnToAvoid_-2_2": -6.4,
     "LearnToAvoid_3_-1": -4.0,
     "LearnToAvoid_2_-1": -4.0,
@@ -769,11 +903,18 @@
     "LearnToAvoid_1_-1": -4.0,
     "LearnToAvoid_-3_-4": -4.0,
     "LearnToAvoid_-3_-5": -4.0,
-    "LearnToAvoid_-3_2": -4.0
+    "LearnToAvoid_-3_2": -4.0,
+    "LearnToAvoid_-4_1": -4.0,
+    "LearnToAvoid_2_3": -4.0,
+    "LearnToAvoid_5_4": -4.0,
+    "LearnToAvoid_0_-2": -4.0,
+    "LearnToAvoid_-3_5": -4.0,
+    "LearnToAvoid_3_-3": -4.0
   },
   "511863": {
     "LearnToAvoid_-1_-3": -8.704,
-    "LearnToAvoid_-1_-5": -7.84
+    "LearnToAvoid_-1_-5": -7.84,
+    "LearnToAvoid_0_4": -4.0
   },
   "512448": {
     "LearnToAvoid_1_-5": 8.0,
@@ -790,7 +931,14 @@
     "LearnToAvoid_3_3": -4.0,
     "LearnToAvoid_0_-3": -4.0,
     "LearnToAvoid_5_1": -4.0,
-    "LearnToAvoid_3_-3": -4.0
+    "LearnToAvoid_3_-3": -4.0,
+    "LearnToAvoid_4_-3": -4.0,
+    "LearnToAvoid_-2_-3": -4.0,
+    "LearnToAvoid_1_5": -4.0,
+    "LearnToAvoid_3_-5": -4.0,
+    "LearnToAvoid_-2_2": -4.0,
+    "LearnToAvoid_1_3": -4.0,
+    "LearnToAvoid_0_-4": -4.0
   },
   "512447": {
     "LearnToAvoid_1_-5": -6.4,
@@ -811,7 +959,8 @@
     "LearnToAvoid_-4_3": -4.0,
     "LearnToAvoid_-3_1": -4.0,
     "LearnToAvoid_4_-4": -4.0,
-    "LearnToAvoid_5_1": -4.0
+    "LearnToAvoid_5_1": -4.0,
+    "LearnToAvoid_-2_2": -4.0
   },
   "511949": {
     "LearnToAvoid_-5_5": -8.704,
@@ -830,7 +979,9 @@
     "LearnToAvoid_-3_5": -6.4,
     "LearnToAvoid_3_0": -4.0,
     "LearnToAvoid_-3_-2": -4.0,
-    "LearnToAvoid_-4_0": -4.0
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_0_0": -4.0,
+    "LearnToAvoid_-3_-5": -4.0
   },
   "511942": {
     "LearnToAvoid_5_-4": -7.84,
@@ -845,7 +996,8 @@
     "LearnToAvoid_4_-1": -6.4,
     "LearnToAvoid_-5_4": -6.4,
     "LearnToAvoid_-1_5": -6.4,
-    "LearnToAvoid_3_1": -6.4
+    "LearnToAvoid_3_1": -6.4,
+    "LearnToAvoid_4_-2": -4.0
   },
   "16509": {
     "LearnToAvoid_5_-5": -6.074675,
@@ -865,7 +1017,12 @@
     "LearnToAvoid_3_-4": -4.0,
     "LearnToAvoid_4_5": -4.0,
     "LearnToAvoid_3_-2": -4.0,
-    "LearnToAvoid_4_2": 40.0
+    "LearnToAvoid_4_2": 40.0,
+    "LearnToAvoid_-4_-2": -4.0,
+    "LearnToAvoid_3_-3": -4.0,
+    "LearnToAvoid_1_4": 40.0,
+    "LearnToAvoid_-2_2": -4.0,
+    "LearnToAvoid_-3_3": -4.0
   },
   "512477": {
     "LearnToAvoid_-2_0": -7.84,
@@ -882,7 +1039,8 @@
     "LearnToAvoid_-1_4": -4.0,
     "LearnToAvoid_1_3": -4.0,
     "LearnToAvoid_4_-2": -4.0,
-    "LearnToAvoid_-5_4": -4.0
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_-4_-4": -4.0
   },
   "512446": {
     "LearnToAvoid_1_2": -7.84,
@@ -892,12 +1050,17 @@
     "LearnToAvoid_1_-5": -6.4,
     "LearnToAvoid_5_-2": -6.4,
     "LearnToAvoid_4_-1": -7.84,
-    "LearnToAvoid_-5_0": -6.4,
+    "LearnToAvoid_-5_0": -7.84,
     "LearnToAvoid_3_3": -6.4,
     "LearnToAvoid_-3_0": -7.84,
-    "LearnToAvoid_4_-3": -6.4,
+    "LearnToAvoid_4_-3": -7.84,
     "LearnToAvoid_1_-4": -6.4,
-    "LearnToAvoid_5_-4": -6.4
+    "LearnToAvoid_5_-4": -6.4,
+    "LearnToAvoid_2_1": -4.0,
+    "LearnToAvoid_-4_1": -4.0,
+    "LearnToAvoid_3_4": -4.0,
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_-3_-1": -4.0
   },
   "512445": {
     "LearnToAvoid_-5_3": -8.704,
@@ -941,7 +1104,7 @@
     "LearnToAvoid_-2_-3": -6.4,
     "LearnToAvoid_-5_-1": -6.4,
     "LearnToAvoid_-3_1": -6.4,
-    "LearnToAvoid_3_-3": -6.4,
+    "LearnToAvoid_3_-3": -7.84,
     "LearnToAvoid_1_-3": -4.0,
     "LearnToAvoid_4_0": 27.1999989,
     "LearnToAvoid_0_1": -4.0,
@@ -953,14 +1116,25 @@
     "LearnToAvoid_5_-4": -4.0,
     "LearnToAvoid_3_-1": -4.0,
     "LearnToAvoid_-1_-5": -4.0,
-    "LearnToAvoid_0_3": -4.0
+    "LearnToAvoid_0_3": -4.0,
+    "LearnToAvoid_4_-2": 40.0,
+    "LearnToAvoid_2_2": -4.0
   },
   "519": {
     "LearnToAvoid_-4_0": -6.4,
     "LearnToAvoid_-4_-2": -6.4,
     "LearnToAvoid_0_-1": -6.4,
     "LearnToAvoid_-1_-1": -6.4,
-    "LearnToAvoid_3_1": -6.4
+    "LearnToAvoid_3_1": -6.4,
+    "LearnToAvoid_2_3": 40.0,
+    "LearnToAvoid_3_-3": 40.0,
+    "LearnToAvoid_0_2": -4.0,
+    "LearnToAvoid_-1_-3": -4.0,
+    "LearnToAvoid_-1_0": -4.0,
+    "LearnToAvoid_0_3": -4.0,
+    "LearnToAvoid_-4_3": 40.0,
+    "LearnToAvoid_4_4": 40.0,
+    "LearnToAvoid_5_0": 40.0
   },
   "512691": {
     "LearnToAvoid_1_2": -7.84,
@@ -968,11 +1142,12 @@
     "LearnToAvoid_4_3": -6.4,
     "LearnToAvoid_3_1": -6.4,
     "LearnToAvoid_5_-2": -6.4,
-    "LearnToAvoid_5_2": -4.0
+    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_1_-2": -4.0
   },
   "512474": {
     "LearnToAvoid_5_-2": -8.704,
-    "LearnToAvoid_5_2": -7.84,
+    "LearnToAvoid_5_2": -8.704,
     "LearnToAvoid_4_-1": -7.84,
     "LearnToAvoid_0_1": -7.84,
     "LearnToAvoid_2_-3": -7.84,
@@ -990,7 +1165,9 @@
     "LearnToAvoid_-3_2": -4.0,
     "LearnToAvoid_-2_-2": 0.7999999,
     "LearnToAvoid_4_2": -6.4,
-    "LearnToAvoid_4_5": -4.0
+    "LearnToAvoid_4_5": -4.0,
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_0_4": -4.0
   },
   "511827": {
     "LearnToAvoid_-2_-3": -8.704,
@@ -1016,7 +1193,9 @@
     "LearnToAvoid_4_2": -4.0,
     "LearnToAvoid_3_3": -4.0,
     "LearnToAvoid_1_-3": -4.0,
-    "LearnToAvoid_-5_4": -4.0
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_0_4": 40.0,
+    "LearnToAvoid_-5_1": -4.0
   },
   "511855": {
     "LearnToAvoid_0_-2": -8.704,
@@ -1028,7 +1207,7 @@
     "LearnToAvoid_-1_2": -4.0,
     "LearnToAvoid_2_2": -4.0,
     "LearnToAvoid_-4_-4": -0.409601122,
-    "LearnToAvoid_5_0": -6.4,
+    "LearnToAvoid_5_0": -7.84,
     "LearnToAvoid_1_-1": -4.0,
     "LearnToAvoid_2_-2": -3.52000022,
     "LearnToAvoid_-2_3": -4.0,
@@ -1048,12 +1227,18 @@
     "LearnToAvoid_-2_1": -4.0,
     "LearnToAvoid_-4_0": -4.0,
     "LearnToAvoid_2_-4": 40.0,
-    "LearnToAvoid_-3_2": -4.0
+    "LearnToAvoid_-3_2": -4.0,
+    "LearnToAvoid_3_-2": -4.0,
+    "LearnToAvoid_4_-4": -4.0
   },
   "16102": {
     "LearnToAvoid_4_2": -9.720064,
     "LearnToAvoid_2_3": -9.720064,
-    "LearnToAvoid_1_1": -4.0
+    "LearnToAvoid_1_1": -4.0,
+    "LearnToAvoid_-3_-5": 40.0,
+    "LearnToAvoid_-5_3": 40.0,
+    "LearnToAvoid_2_4": 40.0,
+    "LearnToAvoid_-2_5": 40.0
   },
   "16538": {
     "LearnToAvoid_-4_-5": -8.704,
@@ -1073,10 +1258,15 @@
     "LearnToAvoid_5_0": -4.0,
     "LearnToAvoid_-2_3": -4.0,
     "LearnToAvoid_4_-4": -4.0,
-    "LearnToAvoid_-3_2": -6.4,
+    "LearnToAvoid_-3_2": -7.84,
     "LearnToAvoid_3_-4": -4.0,
     "LearnToAvoid_3_1": -4.0,
-    "LearnToAvoid_4_3": -4.0
+    "LearnToAvoid_4_3": -4.0,
+    "LearnToAvoid_1_2": -4.0,
+    "LearnToAvoid_-2_0": -4.0,
+    "LearnToAvoid_1_-1": -4.0,
+    "LearnToAvoid_-5_-1": 40.0,
+    "LearnToAvoid_2_1": -4.0
   },
   "512693": {
     "LearnToAvoid_1_2": -8.704,
@@ -1086,7 +1276,7 @@
     "LearnToAvoid_4_-5": -7.84,
     "LearnToAvoid_-1_5": -4.0,
     "LearnToAvoid_3_5": -6.4,
-    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_5_2": -6.4,
     "LearnToAvoid_5_5": -4.0
   },
   "512663": {
@@ -1104,7 +1294,9 @@
     "LearnToAvoid_3_-2": -6.4,
     "LearnToAvoid_-1_-2": -6.4,
     "LearnToAvoid_3_3": -6.4,
-    "LearnToAvoid_5_2": -4.0
+    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_-1_4": -4.0,
+    "LearnToAvoid_-3_-4": -4.0
   },
   "511885": {
     "LearnToAvoid_-1_2": -7.84,
@@ -1113,8 +1305,8 @@
     "LearnToAvoid_2_1": -7.6672,
     "LearnToAvoid_-3_-1": -7.84,
     "LearnToAvoid_0_-4": -5.738752,
-    "LearnToAvoid_-4_-1": -4.0,
-    "LearnToAvoid_-3_-4": -4.0,
+    "LearnToAvoid_-4_-1": -6.4,
+    "LearnToAvoid_-3_-4": 37.6000023,
     "LearnToAvoid_1_-3": -4.0,
     "LearnToAvoid_3_1": -4.0,
     "LearnToAvoid_-3_1": -4.0,
@@ -1125,18 +1317,27 @@
     "LearnToAvoid_-4_4": -4.0,
     "LearnToAvoid_3_2": -4.0,
     "LearnToAvoid_1_3": -4.0,
-    "LearnToAvoid_0_-2": -4.0,
+    "LearnToAvoid_0_-2": -6.4,
     "LearnToAvoid_3_-3": -4.0,
     "LearnToAvoid_-1_-5": -4.0,
     "LearnToAvoid_4_5": -4.0,
     "LearnToAvoid_-2_-5": -4.0,
     "LearnToAvoid_-2_0": -4.0,
-    "LearnToAvoid_-5_-1": -4.0,
-    "LearnToAvoid_5_-4": -6.4
+    "LearnToAvoid_-5_-1": -6.4,
+    "LearnToAvoid_5_-4": -6.4,
+    "LearnToAvoid_-3_-2": -4.0,
+    "LearnToAvoid_4_0": -4.0,
+    "LearnToAvoid_-5_-4": -4.0,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_-1_-4": -4.0
   },
   "16099": {
     "LearnToAvoid_1_0": -9.986939,
-    "LearnToAvoid_2_-1": -9.978232
+    "LearnToAvoid_2_-1": -9.978232,
+    "LearnToAvoid_4_-4": 40.0,
+    "LearnToAvoid_-3_-5": 64.0,
+    "LearnToAvoid_-1_-1": -4.0,
+    "LearnToAvoid_-3_1": 40.0
   },
   "511886": {
     "LearnToAvoid_-4_-1": -9.222401,
@@ -1152,7 +1353,9 @@
     "LearnToAvoid_1_5": -4.0,
     "LearnToAvoid_-4_1": -4.0,
     "LearnToAvoid_4_-3": -4.0,
-    "LearnToAvoid_2_-5": -4.0
+    "LearnToAvoid_2_-5": -4.0,
+    "LearnToAvoid_-5_-1": -4.0,
+    "LearnToAvoid_-5_1": -4.0
   },
   "511887": {
     "LearnToAvoid_2_5": -7.84,
@@ -1160,7 +1363,7 @@
     "LearnToAvoid_-4_4": -7.84,
     "LearnToAvoid_-3_0": -7.84,
     "LearnToAvoid_-2_5": -6.4,
-    "LearnToAvoid_3_4": -6.4,
+    "LearnToAvoid_3_4": -7.84,
     "LearnToAvoid_-5_-3": -6.4,
     "LearnToAvoid_5_-5": -6.4,
     "LearnToAvoid_4_-5": -6.4,
@@ -1168,27 +1371,37 @@
     "LearnToAvoid_-3_-1": -4.0,
     "LearnToAvoid_-5_4": -4.0,
     "LearnToAvoid_1_-3": 40.0,
-    "LearnToAvoid_-2_1": -4.0,
+    "LearnToAvoid_-2_1": -7.84,
     "LearnToAvoid_-1_-1": -4.0,
     "LearnToAvoid_4_3": -6.4,
-    "LearnToAvoid_-4_0": -4.0
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_-1_3": -4.0,
+    "LearnToAvoid_1_-1": -4.0,
+    "LearnToAvoid_3_-3": -4.0,
+    "LearnToAvoid_5_-4": -4.0
   },
   "511850": {
     "LearnToAvoid_2_5": -4.0,
     "LearnToAvoid_2_4": -4.0,
-    "LearnToAvoid_-3_5": -4.0
+    "LearnToAvoid_-3_5": -4.0,
+    "LearnToAvoid_5_-1": -4.0,
+    "LearnToAvoid_3_1": -4.0,
+    "LearnToAvoid_-2_2": -4.0
   },
   "16507": {
     "LearnToAvoid_-3_-2": -6.4,
     "LearnToAvoid_-1_-3": -6.4,
     "LearnToAvoid_4_-5": -6.4,
     "LearnToAvoid_4_-3": -4.0,
-    "LearnToAvoid_-5_-1": -4.0,
-    "LearnToAvoid_2_-4": -4.0
+    "LearnToAvoid_-5_-1": -6.4,
+    "LearnToAvoid_2_-4": -4.0,
+    "LearnToAvoid_2_4": -4.0,
+    "LearnToAvoid_3_2": -4.0
   },
   "498373": {
     "LearnToAvoid_-4_-3": -9.222401,
-    "LearnToAvoid_-2_-3": -9.222401
+    "LearnToAvoid_-2_-3": -9.222401,
+    "LearnToAvoid_3_-2": -4.0
   },
   "511921": {
     "LearnToAvoid_-2_-3": -6.4,
@@ -1200,7 +1413,8 @@
     "LearnToAvoid_-3_1": -4.0,
     "LearnToAvoid_-4_1": -4.0,
     "LearnToAvoid_-5_-3": -4.0,
-    "LearnToAvoid_-5_-5": 20.0
+    "LearnToAvoid_-5_-5": 20.0,
+    "LearnToAvoid_2_1": -4.0
   },
   "511920": {
     "LearnToAvoid_-5_3": -8.704,
@@ -1209,7 +1423,8 @@
     "LearnToAvoid_-4_2": -4.0,
     "LearnToAvoid_-3_-4": -4.0,
     "LearnToAvoid_-2_-1": -4.0,
-    "LearnToAvoid_-1_-5": -4.0
+    "LearnToAvoid_-1_-5": -4.0,
+    "LearnToAvoid_4_0": -4.0
   },
   "511916": {
     "LearnToAvoid_3_-4": -7.84,
@@ -1225,20 +1440,25 @@
     "LearnToAvoid_-2_-3": -6.4,
     "LearnToAvoid_3_-3": -6.112,
     "LearnToAvoid_-1_0": -6.4,
-    "LearnToAvoid_-5_2": -4.0
+    "LearnToAvoid_-5_2": -4.0,
+    "LearnToAvoid_4_-1": -4.0,
+    "LearnToAvoid_1_-1": -4.0,
+    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_0_3": -4.0
   },
   "512665": {
     "LearnToAvoid_3_3": -9.720064,
     "LearnToAvoid_4_-5": -9.222401,
     "LearnToAvoid_4_1": -6.4,
-    "LearnToAvoid_4_-4": -6.4,
+    "LearnToAvoid_4_-4": -7.84,
     "LearnToAvoid_5_-4": -6.4,
     "LearnToAvoid_-2_2": -6.4,
     "LearnToAvoid_3_-4": -4.0,
     "LearnToAvoid_4_-2": -6.4,
     "LearnToAvoid_-4_-3": -4.0,
     "LearnToAvoid_-5_-3": -4.0,
-    "LearnToAvoid_5_-5": -4.0
+    "LearnToAvoid_5_-5": -4.0,
+    "LearnToAvoid_0_-2": -4.0
   },
   "512478": {
     "LearnToAvoid_0_-2": -7.84,
@@ -1251,7 +1471,7 @@
     "LearnToAvoid_-2_4": -6.4,
     "LearnToAvoid_-1_3": -6.4,
     "LearnToAvoid_1_-2": -7.84,
-    "LearnToAvoid_1_-4": -6.4,
+    "LearnToAvoid_1_-4": -7.84,
     "LearnToAvoid_-1_-3": -6.4,
     "LearnToAvoid_0_4": -6.112,
     "LearnToAvoid_3_-2": -6.4,
@@ -1263,7 +1483,16 @@
     "LearnToAvoid_-5_4": 8.0,
     "LearnToAvoid_3_-1": -4.0,
     "LearnToAvoid_2_-4": -4.0,
-    "LearnToAvoid_-2_2": -4.0
+    "LearnToAvoid_-2_2": -4.0,
+    "LearnToAvoid_0_-3": -6.4,
+    "LearnToAvoid_5_-4": -4.0,
+    "LearnToAvoid_3_4": -4.0,
+    "LearnToAvoid_-4_4": 40.0,
+    "LearnToAvoid_4_4": -4.0,
+    "LearnToAvoid_3_3": -4.0,
+    "LearnToAvoid_-4_5": -4.0,
+    "LearnToAvoid_0_-4": -4.0,
+    "LearnToAvoid_5_3": -4.0
   },
   "511881": {
     "LearnToAvoid_-4_4": -6.4,
@@ -1283,7 +1512,8 @@
     "LearnToAvoid_-5_3": -6.4,
     "LearnToAvoid_-5_4": -7.84,
     "LearnToAvoid_-3_2": -7.84,
-    "LearnToAvoid_-4_3": -6.4
+    "LearnToAvoid_-4_3": -6.4,
+    "LearnToAvoid_1_2": -4.0
   },
   "512669": {
     "LearnToAvoid_1_-5": -6.4
@@ -1309,7 +1539,10 @@
     "LearnToAvoid_-4_2": -6.4,
     "LearnToAvoid_-5_-2": -4.0,
     "LearnToAvoid_4_3": -6.4,
-    "LearnToAvoid_-4_0": -4.0
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_4_-3": -4.0,
+    "LearnToAvoid_3_-2": -4.0,
+    "LearnToAvoid_-2_5": -4.0
   },
   "511917": {
     "LearnToAvoid_1_1": -8.704,
@@ -1324,20 +1557,21 @@
     "LearnToAvoid_-1_-4": -7.84,
     "LearnToAvoid_-4_1": -7.84,
     "LearnToAvoid_-2_-2": -6.4,
-    "LearnToAvoid_-4_-2": -6.4,
+    "LearnToAvoid_-4_-2": -7.84,
     "LearnToAvoid_-1_2": -6.4,
     "LearnToAvoid_1_-3": -6.4,
     "LearnToAvoid_-1_5": -6.4,
     "LearnToAvoid_0_-4": -6.4,
     "LearnToAvoid_2_-1": -6.4,
-    "LearnToAvoid_3_-3": -7.84,
+    "LearnToAvoid_3_-3": -8.704,
     "LearnToAvoid_-3_2": -6.4,
     "LearnToAvoid_-3_4": -6.4,
     "LearnToAvoid_-2_1": -6.4,
     "LearnToAvoid_-5_3": -6.4,
     "LearnToAvoid_-2_2": -6.4,
     "LearnToAvoid_-1_0": -6.4,
-    "LearnToAvoid_5_2": -4.0
+    "LearnToAvoid_5_2": -4.0,
+    "LearnToAvoid_4_-2": -4.0
   },
   "511948": {
     "LearnToAvoid_-4_2": -7.84,
@@ -1354,7 +1588,8 @@
     "LearnToAvoid_-3_5": -6.4,
     "LearnToAvoid_1_-1": -4.0,
     "LearnToAvoid_-3_0": -4.0,
-    "LearnToAvoid_-1_-1": -4.0
+    "LearnToAvoid_-1_-1": -4.0,
+    "LearnToAvoid_-5_1": -4.0
   },
   "511947": {
     "LearnToAvoid_-4_2": -9.533441,
@@ -1364,7 +1599,8 @@
     "LearnToAvoid_-2_1": -6.4,
     "LearnToAvoid_-2_-1": -6.4,
     "LearnToAvoid_-5_4": -6.4,
-    "LearnToAvoid_-3_-5": -6.4
+    "LearnToAvoid_-3_-5": -6.4,
+    "LearnToAvoid_5_-4": -4.0
   },
   "498994": {
     "LearnToAvoid_5_-3": -9.999781,
@@ -1386,7 +1622,10 @@
     "LearnToAvoid_-3_-5": -4.0,
     "LearnToAvoid_-3_-4": -6.4,
     "LearnToAvoid_1_-3": -4.0,
-    "LearnToAvoid_0_4": 40.0
+    "LearnToAvoid_0_4": 40.0,
+    "LearnToAvoid_-3_4": -4.0,
+    "LearnToAvoid_-4_4": -4.0,
+    "LearnToAvoid_-5_-2": -4.0
   },
   "511725": {
     "LearnToAvoid_-2_5": -4.0,
@@ -1406,7 +1645,10 @@
     "LearnToAvoid_3_-2": -6.4,
     "LearnToAvoid_0_-4": -4.0,
     "LearnToAvoid_3_-4": -4.0,
-    "LearnToAvoid_0_-2": -4.0
+    "LearnToAvoid_0_-2": -4.0,
+    "LearnToAvoid_-1_1": -4.0,
+    "LearnToAvoid_-4_0": -4.0,
+    "LearnToAvoid_-4_-4": -4.0
   },
   "511890": {
     "LearnToAvoid_-4_1": -9.832039,
@@ -1420,12 +1662,15 @@
     "LearnToAvoid_5_-1": -4.0,
     "LearnToAvoid_-4_-4": -4.0,
     "LearnToAvoid_-4_-5": -4.0,
-    "LearnToAvoid_-2_-1": -4.0
+    "LearnToAvoid_-2_-1": -4.0,
+    "LearnToAvoid_-3_-5": -4.0,
+    "LearnToAvoid_-5_-4": -4.0,
+    "LearnToAvoid_2_1": -4.0
   },
   "16537": {
     "LearnToAvoid_1_-3": -6.298624,
     "LearnToAvoid_-1_-2": -6.4,
-    "LearnToAvoid_3_4": -6.4,
+    "LearnToAvoid_3_4": -7.84,
     "LearnToAvoid_1_-1": -6.4,
     "LearnToAvoid_1_-5": -6.4,
     "LearnToAvoid_0_-3": -4.0,
@@ -1448,7 +1693,11 @@
     "LearnToAvoid_-2_2": -4.0,
     "LearnToAvoid_-4_2": -4.0,
     "LearnToAvoid_3_1": -4.0,
-    "LearnToAvoid_4_-1": -4.0
+    "LearnToAvoid_4_-1": -4.0,
+    "LearnToAvoid_-4_4": -4.0,
+    "LearnToAvoid_-1_5": -4.0,
+    "LearnToAvoid_2_5": -4.0,
+    "LearnToAvoid_3_-3": -4.0
   },
   "512483": {
     "LearnToAvoid_-2_-3": -9.533441,
@@ -1467,10 +1716,15 @@
     "LearnToAvoid_1_4": -6.4,
     "LearnToAvoid_4_4": -6.4,
     "LearnToAvoid_4_3": -6.4,
-    "LearnToAvoid_-2_5": -6.4
+    "LearnToAvoid_-2_5": -6.4,
+    "LearnToAvoid_4_-1": -4.0,
+    "LearnToAvoid_2_-1": -4.0,
+    "LearnToAvoid_3_-5": -4.0,
+    "LearnToAvoid_0_-1": -4.0
   },
   "498436": {
-    "LearnToAvoid_-4_1": -9.533441
+    "LearnToAvoid_-4_1": -9.533441,
+    "LearnToAvoid_-5_4": 40.0
   },
   "512506": {
     "LearnToAvoid_-4_3": -9.222401,
@@ -1501,27 +1755,34 @@
     "LearnToAvoid_0_-1": -4.0,
     "LearnToAvoid_3_1": -4.0,
     "LearnToAvoid_4_3": -4.0,
-    "LearnToAvoid_1_-1": -4.0
+    "LearnToAvoid_1_-1": -4.0,
+    "LearnToAvoid_-5_1": 40.0,
+    "LearnToAvoid_-3_1": -4.0
   },
   "16514": {
     "LearnToAvoid_-5_4": -8.704,
     "LearnToAvoid_-5_-3": -7.84,
     "LearnToAvoid_-3_-5": -6.4,
     "LearnToAvoid_-2_0": -6.4,
-    "LearnToAvoid_-4_4": -6.4
+    "LearnToAvoid_-4_4": -6.4,
+    "LearnToAvoid_4_-4": -4.0
   },
   "511730": {
     "LearnToAvoid_-4_2": -8.704,
-    "LearnToAvoid_-4_-2": -4.0
+    "LearnToAvoid_-4_-2": -4.0,
+    "LearnToAvoid_4_4": -4.0
   },
   "511849": {
     "LearnToAvoid_-4_4": -6.4,
     "LearnToAvoid_-4_2": -6.4,
     "LearnToAvoid_3_1": -6.4,
     "LearnToAvoid_-2_1": -6.4,
-    "LearnToAvoid_-3_4": -6.4,
+    "LearnToAvoid_-3_4": -7.84,
     "LearnToAvoid_-3_3": -6.4,
-    "LearnToAvoid_1_5": -6.4
+    "LearnToAvoid_1_5": -6.4,
+    "LearnToAvoid_1_-3": -4.0,
+    "LearnToAvoid_3_0": -4.0,
+    "LearnToAvoid_-2_-4": -4.0
   },
   "511880": {
     "LearnToAvoid_4_0": -9.222401,
@@ -1540,7 +1801,10 @@
   },
   "16075": {
     "LearnToAvoid_-1_-4": -9.939534,
-    "LearnToAvoid_0_-2": -9.222401
+    "LearnToAvoid_0_-2": -9.222401,
+    "LearnToAvoid_1_2": -4.0,
+    "LearnToAvoid_3_2": 40.0,
+    "LearnToAvoid_0_3": 40.0
   },
   "512692": {
     "LearnToAvoid_3_1": -7.84,
@@ -1553,7 +1817,9 @@
     "LearnToAvoid_-3_4": -6.4
   },
   "498431": {
-    "LearnToAvoid_-1_2": -9.995298
+    "LearnToAvoid_-1_2": -9.995298,
+    "LearnToAvoid_-4_-1": -4.0,
+    "LearnToAvoid_-5_-3": 40.0
   },
   "511918": {
     "LearnToAvoid_-4_4": -9.222401,
@@ -1575,10 +1841,13 @@
     "LearnToAvoid_4_1": -4.0,
     "LearnToAvoid_5_2": -4.0,
     "LearnToAvoid_-2_1": -4.0,
-    "LearnToAvoid_3_-1": -4.0,
-    "LearnToAvoid_-1_-3": -4.0,
+    "LearnToAvoid_3_-1": -6.4,
+    "LearnToAvoid_-1_-3": -6.4,
     "LearnToAvoid_-3_-4": -4.0,
-    "LearnToAvoid_-2_-4": -4.0
+    "LearnToAvoid_-2_-4": -4.0,
+    "LearnToAvoid_1_2": -4.0,
+    "LearnToAvoid_1_-2": -4.0,
+    "LearnToAvoid_4_3": -4.0
   },
   "499232": {
     "LearnToAvoid_4_5": -4.0
@@ -1586,16 +1855,22 @@
   "498400": {
     "LearnToAvoid_-5_-1": -7.84,
     "LearnToAvoid_0_0": -6.4,
-    "LearnToAvoid_1_3": -4.0
+    "LearnToAvoid_1_3": -4.0,
+    "LearnToAvoid_2_-2": 40.0,
+    "LearnToAvoid_3_4": 40.0,
+    "LearnToAvoid_-3_1": -4.0
   },
   "498401": {
-    "LearnToAvoid_-1_1": -9.939534
+    "LearnToAvoid_-1_1": -9.939534,
+    "LearnToAvoid_3_-1": 40.0,
+    "LearnToAvoid_0_-5": 40.0
   },
   "511919": {
     "LearnToAvoid_-1_-5": -7.84,
     "LearnToAvoid_-2_-3": -7.84,
     "LearnToAvoid_-4_-5": -7.84,
-    "LearnToAvoid_-3_-4": -4.0
+    "LearnToAvoid_-3_-4": -4.0,
+    "LearnToAvoid_4_-3": -4.0
   },
   "512501": {
     "LearnToAvoid_0_5": -7.84,
@@ -1604,23 +1879,38 @@
   },
   "16076": {
     "LearnToAvoid_-4_-5": -9.720064,
-    "LearnToAvoid_-1_-1": -9.720064
+    "LearnToAvoid_-1_-1": -9.720064,
+    "LearnToAvoid_-3_-3": -4.0,
+    "LearnToAvoid_4_4": 40.0
   },
   "16103": {
     "LearnToAvoid_2_5": -9.222401,
-    "LearnToAvoid_3_4": -9.222401
+    "LearnToAvoid_3_4": -9.222401,
+    "LearnToAvoid_-2_-3": 40.0,
+    "LearnToAvoid_-5_0": 40.0
   },
   "16078": {
     "LearnToAvoid_-2_0": -9.96372,
-    "LearnToAvoid_-4_-1": -4.0
+    "LearnToAvoid_-4_-1": -4.0,
+    "LearnToAvoid_-3_-4": -4.0,
+    "LearnToAvoid_-1_2": -4.0,
+    "LearnToAvoid_-5_-1": -4.0,
+    "LearnToAvoid_2_-2": 40.0,
+    "LearnToAvoid_1_-4": 40.0
   },
   "512660": {
     "LearnToAvoid_4_-3": -6.4,
-    "LearnToAvoid_3_5": -4.0
+    "LearnToAvoid_3_5": -4.0,
+    "LearnToAvoid_-1_5": -4.0,
+    "LearnToAvoid_0_-2": -4.0,
+    "LearnToAvoid_-3_2": -4.0
   },
   "16098": {
     "LearnToAvoid_2_-4": -9.986939,
-    "LearnToAvoid_2_1": -4.0
+    "LearnToAvoid_2_1": -4.0,
+    "LearnToAvoid_-5_3": 40.0,
+    "LearnToAvoid_-3_2": 40.0,
+    "LearnToAvoid_2_-1": -4.0
   },
   "498463": {
     "LearnToAvoid_-4_2": -4.0
@@ -1632,24 +1922,42 @@
   },
   "498405": {
     "LearnToAvoid_-2_-2": -9.978232,
-    "LearnToAvoid_-3_-4": -9.222401
+    "LearnToAvoid_-3_-4": -9.222401,
+    "LearnToAvoid_5_2": 64.0,
+    "LearnToAvoid_5_-1": 40.0,
+    "LearnToAvoid_-3_4": 40.0
   },
   "499056": {
     "LearnToAvoid_1_-2": -9.222401,
     "LearnToAvoid_3_-2": -7.84,
-    "LearnToAvoid_1_-1": -7.84
+    "LearnToAvoid_1_-1": -7.84,
+    "LearnToAvoid_0_-3": -4.0,
+    "LearnToAvoid_-3_3": 40.0,
+    "LearnToAvoid_2_2": -4.0,
+    "LearnToAvoid_2_-5": -4.0,
+    "LearnToAvoid_0_-1": -4.0,
+    "LearnToAvoid_1_-5": -4.0,
+    "LearnToAvoid_3_2": -4.0,
+    "LearnToAvoid_0_1": -4.0,
+    "LearnToAvoid_-2_5": 40.0
   },
   "499082": {
     "LearnToAvoid_0_4": -6.4,
-    "LearnToAvoid_-3_2": -4.0
+    "LearnToAvoid_-3_2": -4.0,
+    "LearnToAvoid_3_4": -4.0,
+    "LearnToAvoid_1_5": 40.0,
+    "LearnToAvoid_-2_-4": 40.0
   },
   "16104": {
     "LearnToAvoid_0_0": -8.704,
-    "LearnToAvoid_3_1": -4.0
+    "LearnToAvoid_3_1": -4.0,
+    "LearnToAvoid_-1_-2": 40.0,
+    "LearnToAvoid_-2_2": -4.0
   },
   "511894": {
     "LearnToAvoid_-1_-5": -4.0,
-    "LearnToAvoid_1_-5": -4.0
+    "LearnToAvoid_1_-5": -4.0,
+    "LearnToAvoid_-3_-1": -4.0
   },
   "511731": {
     "LearnToAvoid_-4_5": -7.84,
@@ -1657,7 +1965,8 @@
   },
   "511832": {
     "LearnToAvoid_-4_-4": -8.704,
-    "LearnToAvoid_-3_-2": -7.84
+    "LearnToAvoid_-3_-2": -7.84,
+    "LearnToAvoid_2_0": -4.0
   },
   "512631": {
     "LearnToAvoid_5_5": -4.0,
@@ -1665,27 +1974,37 @@
     "LearnToAvoid_3_-5": -4.0
   },
   "499083": {
-    "LearnToAvoid_2_4": -4.0
+    "LearnToAvoid_2_4": -4.0,
+    "LearnToAvoid_-5_-4": 40.0
   },
   "16077": {
-    "LearnToAvoid_3_4": -9.899223
+    "LearnToAvoid_3_4": -9.899223,
+    "LearnToAvoid_0_4": 40.0,
+    "LearnToAvoid_4_-4": 40.0,
+    "LearnToAvoid_-3_-5": -4.0,
+    "LearnToAvoid_5_-4": 40.0
   },
   "511912": {
     "LearnToAvoid_-4_4": -9.720064,
     "LearnToAvoid_-5_4": -9.533441
   },
   "499055": {
-    "LearnToAvoid_2_2": -7.84
+    "LearnToAvoid_2_2": -7.84,
+    "LearnToAvoid_3_1": -4.0,
+    "LearnToAvoid_5_-4": 40.0,
+    "LearnToAvoid_-3_-4": 40.0
   },
   "512661": {
     "LearnToAvoid_4_2": -7.84,
-    "LearnToAvoid_5_5": -6.4
+    "LearnToAvoid_5_5": -6.4,
+    "LearnToAvoid_-4_5": -4.0
   },
   "498458": {
     "LearnToAvoid_-4_4": -4.0
   },
   "16079": {
-    "LearnToAvoid_-2_0": -4.0
+    "LearnToAvoid_-2_0": -4.0,
+    "LearnToAvoid_0_-2": -4.0
   },
   "512470": {
     "LearnToAvoid_-3_4": 40.0
@@ -1711,6 +2030,126 @@
     "LearnToAvoid_3_-2": -6.4
   },
   "498432": {
-    "LearnToAvoid_-3_2": -4.0
+    "LearnToAvoid_-3_2": -4.0,
+    "LearnToAvoid_2_5": 40.0
+  },
+  "0": {
+    "LearnToAvoid_2_5": -9.939534,
+    "LearnToAvoid_1_1": -9.939534,
+    "LearnToAvoid_3_1": -9.939534,
+    "LearnToAvoid_2_-1": -9.939534,
+    "LearnToAvoid_4_-1": -9.939534,
+    "LearnToAvoid_-2_-2": -9.939534,
+    "LearnToAvoid_-2_-1": -9.939534,
+    "LearnToAvoid_-4_3": -9.939534,
+    "LearnToAvoid_-3_0": -9.939534,
+    "LearnToAvoid_-4_0": -9.939534,
+    "LearnToAvoid_-3_-5": -9.939534,
+    "LearnToAvoid_4_0": -9.96372,
+    "LearnToAvoid_1_-4": -9.939534,
+    "LearnToAvoid_2_-3": -9.96372,
+    "LearnToAvoid_0_4": -9.939534,
+    "LearnToAvoid_-4_4": -9.939534,
+    "LearnToAvoid_5_-4": -9.939534,
+    "LearnToAvoid_-1_4": -9.939534,
+    "LearnToAvoid_3_4": -9.939534,
+    "LearnToAvoid_0_3": -9.939534,
+    "LearnToAvoid_-4_-1": -9.939534,
+    "LearnToAvoid_4_-4": -9.939534,
+    "LearnToAvoid_-3_-2": -9.939534,
+    "LearnToAvoid_-3_-4": -9.939534,
+    "LearnToAvoid_-2_-3": -9.939534,
+    "LearnToAvoid_-3_3": -9.939534,
+    "LearnToAvoid_-2_3": -9.939534,
+    "LearnToAvoid_-2_4": -9.939534,
+    "LearnToAvoid_-2_1": -9.939534,
+    "LearnToAvoid_3_-3": -9.939534,
+    "LearnToAvoid_0_-4": -9.939534,
+    "LearnToAvoid_1_0": -9.939534,
+    "LearnToAvoid_1_-3": -9.939534,
+    "LearnToAvoid_4_4": -9.939534,
+    "LearnToAvoid_0_-3": -9.939534,
+    "LearnToAvoid_0_2": -9.939534,
+    "LearnToAvoid_1_-2": -9.939534,
+    "LearnToAvoid_0_-1": -9.899223,
+    "LearnToAvoid_-3_-3": -9.899223,
+    "LearnToAvoid_-4_-4": -9.939534,
+    "LearnToAvoid_-4_1": -9.899223,
+    "LearnToAvoid_-1_-1": -9.899223,
+    "LearnToAvoid_2_3": -9.899223,
+    "LearnToAvoid_-5_4": -9.939534,
+    "LearnToAvoid_4_-2": -9.899223,
+    "LearnToAvoid_5_2": -9.899223,
+    "LearnToAvoid_-1_5": -9.899223,
+    "LearnToAvoid_1_5": -9.899223,
+    "LearnToAvoid_1_4": -9.899223,
+    "LearnToAvoid_5_-1": -9.899223,
+    "LearnToAvoid_-3_4": -9.899223,
+    "LearnToAvoid_-1_3": -9.899223,
+    "LearnToAvoid_1_2": -9.899223,
+    "LearnToAvoid_-5_3": -9.899223,
+    "LearnToAvoid_5_4": -9.939534,
+    "LearnToAvoid_-1_-3": -9.899223,
+    "LearnToAvoid_0_0": -9.899223,
+    "LearnToAvoid_-5_1": -9.899223,
+    "LearnToAvoid_4_2": -9.899223,
+    "LearnToAvoid_-2_-5": -9.899223,
+    "LearnToAvoid_4_3": -9.899223,
+    "LearnToAvoid_4_5": -9.899223,
+    "LearnToAvoid_-2_0": -9.899223,
+    "LearnToAvoid_-3_2": -9.899223,
+    "LearnToAvoid_0_-2": -9.899223,
+    "LearnToAvoid_2_1": -9.899223,
+    "LearnToAvoid_-1_2": -9.96372,
+    "LearnToAvoid_-5_-1": -9.899223,
+    "LearnToAvoid_-3_-1": -9.899223,
+    "LearnToAvoid_-1_1": -9.899223,
+    "LearnToAvoid_3_-4": -9.899223,
+    "LearnToAvoid_-2_-4": -9.899223,
+    "LearnToAvoid_2_2": -9.978232,
+    "LearnToAvoid_-3_1": -9.899223,
+    "LearnToAvoid_5_-3": -9.899223,
+    "LearnToAvoid_0_1": -9.899223,
+    "LearnToAvoid_2_-4": -9.939534,
+    "LearnToAvoid_2_4": -9.899223,
+    "LearnToAvoid_3_-5": -9.899223,
+    "LearnToAvoid_-5_0": -9.899223,
+    "LearnToAvoid_-2_2": -9.899223,
+    "LearnToAvoid_2_0": -9.899223,
+    "LearnToAvoid_3_-2": -9.899223,
+    "LearnToAvoid_1_3": -9.899223,
+    "LearnToAvoid_5_0": -9.939534,
+    "LearnToAvoid_-4_2": -9.939534,
+    "LearnToAvoid_-1_-2": -9.899223,
+    "LearnToAvoid_-1_-4": -9.899223,
+    "LearnToAvoid_0_-5": -9.899223,
+    "LearnToAvoid_2_-5": -9.899223,
+    "LearnToAvoid_4_-3": -9.899223,
+    "LearnToAvoid_-2_5": -9.899223,
+    "LearnToAvoid_3_-1": -9.899223,
+    "LearnToAvoid_3_2": -9.899223,
+    "LearnToAvoid_-5_-3": -9.899223
+  },
+  "499051": {
+    "LearnToAvoid_-4_-1": 40.0
+  },
+  "499024": {
+    "LearnToAvoid_1_-2": -4.0,
+    "LearnToAvoid_-2_4": 40.0,
+    "LearnToAvoid_2_-3": -4.0
+  },
+  "499025": {
+    "LearnToAvoid_-3_-3": 40.0
+  },
+  "499052": {
+    "LearnToAvoid_0_-2": 40.0
+  },
+  "498404": {
+    "LearnToAvoid_3_-4": 40.0,
+    "LearnToAvoid_-5_0": -4.0
+  },
+  "511704": {
+    "LearnToAvoid_2_-4": -4.0,
+    "LearnToAvoid_2_0": -4.0
   }
 }

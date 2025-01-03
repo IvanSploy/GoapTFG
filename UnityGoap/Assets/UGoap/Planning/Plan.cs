@@ -10,7 +10,6 @@ namespace UGoap.Planning
 {
     public class Plan
     {
-        //TODO: Need to store the Goals for learning purposes.
         public NodeAction Current { get; private set; }
         public Stack<NodeAction> ExecutedActions { get; } = new();
         public IEntity CurrentEntity { get; private set; }
@@ -92,11 +91,10 @@ namespace UGoap.Planning
 
         public bool VerifyCurrent(IAgent agent)
         {
-            var currentAction = ExecutedActions.Peek();
-            var isConflict = currentAction.Conditions.CheckConflict(agent.CurrentState);
+            var isConflict = Current.Conditions.CheckConflict(agent.CurrentState);
             if (isConflict) return false;
 
-            var state = agent.CurrentState + currentAction.Effects;
+            var state = agent.CurrentState + Current.Effects;
             foreach (var nextAction in _nodes)
             {
                 isConflict = nextAction.Conditions.CheckConflict(state);

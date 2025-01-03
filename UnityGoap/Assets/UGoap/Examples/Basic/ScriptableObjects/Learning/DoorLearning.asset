@@ -21,4 +21,4 @@ MonoBehaviour:
     ValueRange: 1
   _exploreRange: {x: -1000, y: 1000}
   SuccessReward: 100
-  FailReward: -10
+  FailReward: -100
