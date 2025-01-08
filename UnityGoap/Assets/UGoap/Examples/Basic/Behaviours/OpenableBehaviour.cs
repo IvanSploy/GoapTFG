@@ -20,14 +20,10 @@ public class OpenableBehaviour : MonoBehaviour
     {
         _animator.SetTrigger("Close");
     }
-
-    public void SetOpen()
-    {
-        IsOpen = true;
-    }
     
-    public void SetClosed()
+    //Animation events
+    public void TriggerOpen()
     {
-        IsOpen = false;
+        IsOpen = !IsOpen;
     }
 }

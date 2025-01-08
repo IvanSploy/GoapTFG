@@ -10,6 +10,7 @@ namespace UGoap.Planning
 {
     public class Plan
     {
+        public NodeAction First { get; private set; }
         public NodeAction Current { get; private set; }
         public Stack<NodeAction> ExecutedActions { get; } = new();
         public IEntity CurrentEntity { get; private set; }
@@ -43,8 +44,10 @@ namespace UGoap.Planning
         
         public Task<Effects> ExecuteNext(IAgent agent)
         {
-            if(Current.Action != null) ExecutedActions.Push(Current);
+            if (Current.Action != null) ExecutedActions.Push(Current);
+
             Current = _nodes.Pop();
+            if (First.Action == null) First = Current;
 
             _stopwatch.Start();
             return ExecuteCurrent(agent);
@@ -60,32 +63,31 @@ namespace UGoap.Planning
         
         public void ApplyLearning(State state, IAgent agent)
         {
-            if (Count == 0)
+            if (agent is not ILearningAgent { Learning: not null } learningAgent) return;
+            
+            if (state != null)
             {
-                if (agent is ILearningAgent { Learning: not null } learningAgent)
-                {
-                    var reward = state != null ?
-                        learningAgent.Learning.SucceedReward : learningAgent.Learning.FailReward;
+                var reward = -((int)Math.Round(_stopwatch.ElapsedMilliseconds / 1000f) + 1);
 
-                    var nextLearningCode = Current.LearningCode;
-                    if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
-                    
-                    learningAgent.Learning.Update(Current.LearningCode,
-                        Current.Action.Name, reward, nextLearningCode);
+                var nextLearningCode = Current.LearningCode;
+                if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
+
+                //Default update learning.
+                learningAgent.Learning.Update(Current.LearningCode, Current.Action.Name,
+                    reward, nextLearningCode);
+
+                //Plan succeed
+                if (Count == 0)
+                {
+                    learningAgent.Learning.Update(First.LearningCode,
+                        First.Action.Name, learningAgent.Learning.SucceedReward, 0);
                 }
             }
+            //Plan fail
             else
             {
-                if (agent is ILearningAgent { Learning: not null } learningAgent)
-                {
-                    var reward = -((int)Math.Round(_stopwatch.ElapsedMilliseconds / 1000f) + 1);
-                    
-                    var nextLearningCode = Current.LearningCode;
-                    if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
-                    
-                    learningAgent.Learning.Update(Current.LearningCode, Current.Action.Name,
-                        reward, nextLearningCode);
-                }
+                learningAgent.Learning.Update(Current.LearningCode,
+                    Current.Action.Name, learningAgent.Learning.FailReward, 0);
             }
         }
 

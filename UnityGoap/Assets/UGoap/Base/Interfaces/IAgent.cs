@@ -26,7 +26,7 @@ namespace UGoap.Base
         /// <summary>
         /// If current action executed has been interrupted.
         /// </summary>
-        bool Interrupted { get; }
+        bool IsInterrupted { get; }
         
         /// <summary>
         /// Add posible action to the agent.

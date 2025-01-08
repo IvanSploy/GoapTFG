@@ -27,5 +27,8 @@ MonoBehaviour:
   - name: DoorState
     value: Opened
     effect: 0
+  - name: HasKey
+    value: False
+    effect: 0
   OpenState: 3
   Target: Door

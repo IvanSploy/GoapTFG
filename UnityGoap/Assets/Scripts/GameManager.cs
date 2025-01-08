@@ -4,6 +4,7 @@ using UnityEngine;
 using static UGoap.Base.PropertyManager;
 using Random = UGoap.Base.Random;
 
+//TODO: Replace for local initializators, per example.
 public class GameManager : MonoBehaviour
 {
     [Range(0f,1f)]

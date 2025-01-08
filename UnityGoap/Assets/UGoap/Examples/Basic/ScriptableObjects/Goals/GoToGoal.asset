@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86029d0563c05f74790b9a93ddc0b8e8, type: 3}
   m_Name: GoToGoal
   m_EditorClassIdentifier: 
-  properties:
+  Properties:
+  - name: DoorState
+    value: Opened
+    condition: 0
   - name: Target
     value: Goal
     condition: 0

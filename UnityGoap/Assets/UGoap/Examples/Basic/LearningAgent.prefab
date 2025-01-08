@@ -244,8 +244,6 @@ MonoBehaviour:
   _rePlanSeconds: 5
   _initialStateConfig: {fileID: 11400000, guid: d61301bca52700e45a296d372def8145, type: 2}
   _goalList:
-  - _goalConfig: {fileID: 11400000, guid: b9ac2a3c8dd663d49b11960a76e5de57, type: 2}
-    _priority: 1
   - _goalConfig: {fileID: 11400000, guid: 4fbf38bfcffae9e469512a43be161e21, type: 2}
     _priority: 0
   _actionList:

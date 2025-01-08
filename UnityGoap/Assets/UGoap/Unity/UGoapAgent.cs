@@ -42,7 +42,7 @@ namespace UGoap.Unity
         
         //Agent Properties
         public string Name => name;
-        public bool Interrupted { get; private set; }
+        public bool IsInterrupted { get; private set; }
         public State CurrentState { get; private set; }
         public IGoal CurrentGoal { get; private set; }
         public NodeAction? PreviousAction => _currentPlan.Previous;
@@ -184,7 +184,7 @@ namespace UGoap.Unity
         private IEnumerator PlanExecution()
         {
             _hasPlan = true;
-            Interrupted = false;
+            IsInterrupted = false;
             
             State nextState;
             do
@@ -201,18 +201,18 @@ namespace UGoap.Unity
                     State result = null;
                     if (task.Result != null) result = CurrentState + task.Result;
                     _currentPlan.Finish(result, this);
-                    if (!Interrupted)
+                    if (!IsInterrupted)
                     {
                         nextState = result;
                         if (nextState != null) CurrentState = nextState;
                     }
                 }
-            } while (nextState != null && !_currentPlan.IsCompleted && !Interrupted);
+            } while (nextState != null && !_currentPlan.IsCompleted && !IsInterrupted);
 
             if (_currentPlan.IsCompleted) PlanAchieved?.Invoke();
             else PlanFailed?.Invoke();
 
-            if (Interrupted)
+            if (IsInterrupted)
             {
                 yield return new WaitForSeconds(_interruptTime);
                 _interruptTime = 0;
@@ -301,14 +301,14 @@ namespace UGoap.Unity
         public void ForceInterrupt(float seconds = 0)
         {
             _interruptTime = seconds;
-            Interrupted = true;
+            IsInterrupted = true;
             _currentPlan?.Interrupt();
         }
         
         [ContextMenu("Interrupt")]
         public void Interrupt(float seconds = 0)
         {
-            Interrupted = false;
+            IsInterrupted = false;
             
             //If current plan
             if (_hasPlan)
