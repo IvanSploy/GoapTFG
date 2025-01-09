@@ -1,0 +1,89 @@
+﻿using System.IO;
+using LUGoap.Unity.ScriptableObjects;
+using UnityEngine;
+
+namespace LUGoap.Unity.Utils
+{
+    public static class PropertyGenerator
+    {
+        private const string CodeDirectory = "Assets/LUGoap/Base/Properties/";
+        private const string CodeKeysName = "Properties.cs";
+        private const string CodeValuesName = "PropertyEnums.cs";
+        private const string ReferenceKeysPath = "Assets/LUGoap/Base/Properties/PropertiesReference.txt";
+        private const string ReferenceValuesPath = "Assets/LUGoap/Base/Properties/PropertyEnumsReference.txt";
+
+        public static void GenerateProperties(PropertyConfig[] properties)
+        {
+            if (!File.Exists(ReferenceKeysPath))
+            {
+                Debug.LogError("Reference file does not exist, code not generated.");
+                return;
+            }
+            
+            if(!Directory.Exists(CodeDirectory)) Directory.CreateDirectory(CodeDirectory);
+            string filePathAndName = CodeDirectory + CodeKeysName;
+
+            string code = "";
+            using(StreamReader streamReader = new StreamReader(ReferenceKeysPath))
+            {
+                code += streamReader.ReadToEnd();
+            }
+            
+            string keys = "";
+            foreach (var property in properties)
+            {
+                keys += property.Key.Replace(" ", string.Empty) + ",\n";
+            }
+            code = code.Replace("[propertyKeys]", keys);
+            
+            string types = "";
+            foreach (var property in properties)
+            {
+                types += "{ PropertyKey." + property.Key.Replace(" ", string.Empty) + ", PropertyType." + property.Type + " },\n";
+            }
+
+            code = code.Replace("[propertyTypes]", types);
+            
+            using (StreamWriter streamWriter = new StreamWriter(filePathAndName))
+            {
+                streamWriter.Write(code);
+            }
+        }
+        
+        public static void GenerateEnums(EnumConfig[] enumConfigs)
+        {
+            if (!File.Exists(ReferenceValuesPath))
+            {
+                Debug.LogError("Reference file does not exist, code not generated.");
+                return;
+            }
+            
+            if(!Directory.Exists(CodeDirectory)) Directory.CreateDirectory(CodeDirectory);
+            string filePathAndName = CodeDirectory + CodeValuesName;
+
+            string code = "";
+            using(StreamReader streamReader = new StreamReader(ReferenceValuesPath))
+            {
+                code += streamReader.ReadToEnd();
+            }
+            
+            string customEnums = "";
+            foreach (var customEnum in enumConfigs)
+            {
+                string enums = ", new [] { ";
+                foreach (var enumName in customEnum.EnumValues)
+                {
+                    enums += "\"" + enumName.Replace(" ", string.Empty) + "\", ";
+                }
+                enums += "}";
+                customEnums += "{ PropertyKey." + customEnum.EnumType + enums + "},\n";
+            }
+            code = code.Replace("[enumNames]", customEnums);
+            
+            using (StreamWriter streamWriter = new StreamWriter(filePathAndName))
+            {
+                streamWriter.Write(code);
+            }
+        }
+    }
+}

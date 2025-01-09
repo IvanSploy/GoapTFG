@@ -1,8 +1,8 @@
-using UGoap.Base;
-using UGoap.Unity;
+using LUGoap.Base;
+using LUGoap.Unity;
 using UnityEngine;
-using static UGoap.Base.PropertyManager;
-using Random = UGoap.Base.Random;
+using static LUGoap.Base.PropertyManager;
+using Random = LUGoap.Base.Random;
 
 //TODO: Replace for local initializators, per example.
 public class GameManager : MonoBehaviour
@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //Define starting simulation conditions.
-        var agent = FindObjectOfType<UGoapAgent>();
+        var agent = FindObjectOfType<Agent>();
         
         //EXAMPLE 1: DOOR
         var random = Random.Next();

@@ -12,22 +12,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f082f61070149dcbde4a9e4f785cc1a, type: 3}
   m_Name: Config
   m_EditorClassIdentifier: 
-  PropertyKeys:
-  - Target
-  - Coins
-  - DoorState
-  - HasKey
-  - Indicator
-  - IsIt
-  - PlayerNear
-  - DestinationX
-  - DestinationZ
-  - MoveState
-  - TargetX
-  - TargetZ
-  - GoalReached
-  - Hp
-  PropertyTypes: 0300000001000000040000000000000004000000000000000400000002000000020000000400000002000000020000000000000002000000
+  Properties:
+  - Key: Target
+    Type: 3
+  - Key: Coins
+    Type: 1
+  - Key: DoorState
+    Type: 4
+  - Key: HasKey
+    Type: 0
+  - Key: Indicator
+    Type: 4
+  - Key: IsIt
+    Type: 0
+  - Key: PlayerNear
+    Type: 0
+  - Key: DestinationX
+    Type: 2
+  - Key: DestinationZ
+    Type: 2
+  - Key: MoveState
+    Type: 4
+  - Key: TargetX
+    Type: 2
+  - Key: TargetZ
+    Type: 2
+  - Key: GoalReached
+    Type: 0
+  - Key: Hp
+    Type: 2
   Enums:
   - EnumType: 3
     EnumValues:

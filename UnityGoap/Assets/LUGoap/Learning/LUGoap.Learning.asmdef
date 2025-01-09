@@ -1,0 +1,16 @@
+{
+    "name": "LUGoap.Learning",
+    "rootNamespace": "LUGoap.Learning",
+    "references": [
+        "GUID:3ab1c13863885c242abffb1ed61459fc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

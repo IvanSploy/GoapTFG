@@ -1,0 +1,12 @@
+using System.Collections.Generic;
+
+namespace LUGoap.Base
+{
+    public static partial class PropertyManager
+    {
+        public static readonly Dictionary<PropertyKey, string[]> EnumNames = new()
+        {
+            [enumNames]
+        };
+    }
+}

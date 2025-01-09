@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using UGoap.Base;
+using LUGoap.Base;
 using UnityEngine;
-using static UGoap.Base.BaseTypes;
-using static UGoap.Base.PropertyManager;
+using static LUGoap.Base.BaseTypes;
+using static LUGoap.Base.PropertyManager;
 
 [RequireComponent(typeof(IAgent))]
 public class DiscreteDestinationGenerator : MonoBehaviour

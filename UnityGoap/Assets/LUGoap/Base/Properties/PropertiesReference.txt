@@ -1,0 +1,20 @@
+using System;
+using System.Collections.Generic;
+
+namespace LUGoap.Base
+{
+    public static partial class PropertyManager
+    {
+        [Serializable]
+        public enum PropertyKey 
+        {
+            None,
+            [propertyKeys]
+        }
+        
+        private static readonly Dictionary<PropertyKey, PropertyType> PropertyTypes = new()
+        {
+            [propertyTypes]       
+        };
+    }
+}

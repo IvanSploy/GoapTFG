@@ -1,6 +1,6 @@
-using UGoap.Base;
+using LUGoap.Base;
 using UnityEngine;
-using static UGoap.Base.PropertyManager;
+using static LUGoap.Base.PropertyManager;
 
 [RequireComponent(typeof(IAgent))]
 public class TargetPositionUpdater : MonoBehaviour
