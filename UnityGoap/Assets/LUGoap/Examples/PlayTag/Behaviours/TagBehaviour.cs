@@ -1,37 +1,38 @@
 ﻿using LUGoap.Unity;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static LUGoap.Base.PropertyManager;
 
-[RequireComponent(typeof(Agent))]
+[RequireComponent(typeof(GoapAgent))]
 public class TagBehaviour : MonoBehaviour, ITaggable
 {
-    [SerializeField] private Agent _agent;
+    [FormerlySerializedAs("_agent")] [SerializeField] private GoapAgent _goapAgent;
     [SerializeField] private Renderer _renderer;
     
     private void Awake()
     {
-        if (!_agent) _agent = GetComponent<Agent>();
+        if (!_goapAgent) _goapAgent = GetComponent<GoapAgent>();
         if(!_renderer) _renderer = GetComponentInChildren<Renderer>();
     }
 
     private void Start()
     {
-        var isIt = _agent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
+        var isIt = _goapAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
         UpdateColor(isIt);
     }
     
     public void Tag(float tagCooldown)
     {
         UpdateColor(true);
-        _agent.CurrentState.Set(PropertyKey.IsIt, true);
-        _agent.Interrupt(tagCooldown);
+        _goapAgent.CurrentState.Set(PropertyKey.IsIt, true);
+        _goapAgent.Interrupt(tagCooldown);
     }
 
     public void UnTag()
     {
         UpdateColor(false);
-        _agent.CurrentState.Set(PropertyKey.IsIt, false);
-        _agent.Interrupt();
+        _goapAgent.CurrentState.Set(PropertyKey.IsIt, false);
+        _goapAgent.Interrupt();
     }
 
     private void UpdateColor(bool isIt)
@@ -41,7 +42,7 @@ public class TagBehaviour : MonoBehaviour, ITaggable
     
     private void OnTriggerEnter(Collider other)
     {
-        var isIt = _agent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
+        var isIt = _goapAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false);
         if (isIt)
         {
             TagManager.Instance.Tag();

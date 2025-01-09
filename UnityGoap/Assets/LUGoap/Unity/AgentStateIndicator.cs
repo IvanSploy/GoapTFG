@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace LUGoap.Unity
 {
-    [RequireComponent(typeof(Agent))]
+    [RequireComponent(typeof(GoapAgent))]
     [DisallowMultipleComponent]
     public class AgentStateIndicator : MonoBehaviour
     {
@@ -21,18 +21,18 @@ namespace LUGoap.Unity
         [SerializeField] private Sprite _achieved;
         [SerializeField] private Sprite _failed;
 
-        private Agent _agent;
+        private GoapAgent _goapAgent;
 
         private void Awake()
         {
             _image.enabled = false;
 
-            _agent = GetComponent<Agent>();
+            _goapAgent = GetComponent<GoapAgent>();
             
-            _agent.PlanningStarted += () => Set(AgentState.Planning);
-            _agent.PlanningEnded += Clear;
-            _agent.PlanAchieved += () => Set(AgentState.Achieved, 1);
-            _agent.PlanFailed += () => Set(AgentState.Failed, 1);
+            _goapAgent.PlanningStarted += () => Set(AgentState.Planning);
+            _goapAgent.PlanningEnded += Clear;
+            _goapAgent.PlanAchieved += () => Set(AgentState.Achieved, 1);
+            _goapAgent.PlanFailed += () => Set(AgentState.Failed, 1);
         }
 
         public async void Set(AgentState state, int seconds = 0)

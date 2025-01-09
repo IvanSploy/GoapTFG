@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LUGoap.Unity
 {
-    public class LearningAgent : Agent, ILearningAgent
+    public class LearningGoapAgent : GoapAgent, ILearningAgent
     {
         [Header("Learning")]
         [SerializeField] private LearningConfig _learningConfig;

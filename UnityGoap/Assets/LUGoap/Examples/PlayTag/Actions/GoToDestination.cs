@@ -32,14 +32,14 @@ public class GoToDestinationAction : Action
     
     protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not Agent agent) return false;
+        if (iAgent is not GoapAgent agent) return false;
         
         return true;
     }
 
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not Agent agent) return null;
+        if (iAgent is not GoapAgent agent) return null;
         
         var x = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
         var z = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);

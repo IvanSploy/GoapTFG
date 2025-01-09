@@ -38,7 +38,7 @@ public class PickUpAction : Action
     
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        UEntity entityKey = WorkingMemoryManager.Get(Target).Object;
+        GoapEntity entityKey = WorkingMemoryManager.Get(Target).Object;
         Object.Destroy(entityKey.gameObject);
         
         return effects;

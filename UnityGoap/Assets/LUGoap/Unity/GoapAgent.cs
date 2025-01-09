@@ -10,7 +10,7 @@ using Debug = UnityEngine.Debug;
 
 namespace LUGoap.Unity
 {
-    public class Agent : MonoBehaviour, IAgent
+    public class GoapAgent : MonoBehaviour, IAgent
     {
         [Header("Planner")]
         [SerializeField] private bool _runOnStart;
@@ -64,7 +64,7 @@ namespace LUGoap.Unity
         protected virtual Planner CreatePlanner()
         {
             var generator = new AStar();
-            if (_useHeuristic) generator.SetHeuristic(UGoapData.GetCustomHeuristic());
+            if (_useHeuristic) generator.SetHeuristic(GoapHeuristics.GetCustomHeuristic());
             return new BackwardPlanner(generator, this);
         }
 

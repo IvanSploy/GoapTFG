@@ -34,7 +34,7 @@ namespace LUGoap.Unity.Actions
         
         protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
         {
-            if (iAgent is not Agent agent) return false;
+            if (iAgent is not GoapAgent agent) return false;
             
             return true;
         }

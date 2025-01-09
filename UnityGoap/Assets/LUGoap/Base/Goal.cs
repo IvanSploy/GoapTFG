@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using LUGoap.Base;
 using static LUGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity
+namespace LUGoap.Base
 {
-    public class UGoal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>, IGoal
+    public class Goal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>, IGoal
     {
         //Properties
         public Conditions Conditions { get; }
@@ -13,18 +12,11 @@ namespace LUGoap.Unity
         public int PriorityLevel { get; }
         
         //Constructors
-        public UGoal(string name, Conditions conditions, int priorityLevel)
+        public Goal(string name, Conditions conditions, int priorityLevel)
         {
             Conditions = new Conditions(conditions) ;
             PriorityLevel = priorityLevel;
             Name = name;
-        }
-        
-        public UGoal(UGoal goal)
-        {
-            Conditions = new Conditions(goal.Conditions) ;
-            PriorityLevel = goal.PriorityLevel;
-            Name = goal.Name;
         }
         
         //GOAP Utilites
@@ -36,23 +28,6 @@ namespace LUGoap.Unity
 
         //Operators
         public List<ConditionValue> this[PropertyKey key] => Conditions[key];
-
-        //Overrides
-        /*public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            if (this == obj) return true;
-            if (obj.GetType() != GetType()) return false;
-
-            UGoapGoal objGoal = (UGoapGoal)obj;
-            
-            return _conditions.Equals(objGoal._conditions);
-        }
-        
-        public override int GetHashCode()
-        {
-            return _conditions.GetHashCode();
-        }*/
 
         public override string ToString()
         {

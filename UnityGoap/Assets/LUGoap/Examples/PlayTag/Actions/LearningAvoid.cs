@@ -63,7 +63,7 @@ public class LearningAvoidAction : LearningAction
 
     protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not Agent agent) return false;
+        if (iAgent is not GoapAgent agent) return false;
 
         if (iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false)) return true;
 
@@ -95,7 +95,7 @@ public class LearningAvoidAction : LearningAction
 
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not Agent agent) return null;
+        if (iAgent is not GoapAgent agent) return null;
         
         var x = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f).Value;
         var z = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f).Value;

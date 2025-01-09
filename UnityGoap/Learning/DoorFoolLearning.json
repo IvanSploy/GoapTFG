@@ -1,19 +1,19 @@
 {
   "525": {
-    "GoToTarget": 87.83822
+    "GoToTarget": 88.44659
   },
   "523": {
     "OpenDoor": -71.89846,
-    "UnlockDoor": 16.8552513
+    "UnlockDoor": 24.79343
   },
   "532": {
-    "PickUpKey": 64.63232,
+    "PickUpKey": 67.72442,
     "GoToTarget": 11.2542467
   },
   "16271": {
-    "GoToTarget": -4.107988
+    "GoToTarget": 3.1887238
   },
   "16280": {
-    "GoToTarget": 40.1843224
+    "GoToTarget": 46.62174
   }
 }

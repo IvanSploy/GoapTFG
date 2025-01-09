@@ -37,7 +37,7 @@ public class OpenAction : Action
     
     protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        UEntity entityDoor = WorkingMemoryManager.Get(Target).Object;
+        GoapEntity entityDoor = WorkingMemoryManager.Get(Target).Object;
         if (entityDoor.CurrentState.TryGetOrDefault(OpenState, "Opened") == "Locked")
         {
             iAgent.CurrentState.Set(OpenState, "Locked");
@@ -49,7 +49,7 @@ public class OpenAction : Action
     
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        UEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
+        GoapEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
         var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();
         openBehaviour.Open();
         while (!openBehaviour.IsOpen) await Task.Yield();

@@ -37,7 +37,7 @@ public class SetDestinationToTargetAction : Action
 
     protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
     {
-        if (iAgent is not Agent agent) return false;
+        if (iAgent is not GoapAgent agent) return false;
         
         if (!iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
         {
@@ -64,9 +64,9 @@ public class SetDestinationToTargetAction : Action
 
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not Agent agent) return null;
+        if (iAgent is not GoapAgent agent) return null;
         
-        UEntity entityPlayer = WorkingMemoryManager.Get(Target).Object;
+        GoapEntity entityPlayer = WorkingMemoryManager.Get(Target).Object;
         var p = entityPlayer.transform.position;
         effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, p.x);
         effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, p.z);

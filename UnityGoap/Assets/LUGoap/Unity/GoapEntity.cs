@@ -1,15 +1,13 @@
 ﻿using System.Collections.Generic;
 using LUGoap.Base;
 using UnityEngine;
-using UnityEngine.Serialization;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity
 {
     [RequireComponent(typeof(Collider))]
-    public class UEntity : MonoBehaviour, IEntity
+    public class GoapEntity : MonoBehaviour, IEntity
     {
-        [FormerlySerializedAs("nameEntity")] 
         [SerializeField] private string _nameEntity;
         [SerializeField] private Collider _collider;
         [SerializeField] private List<Property> _initialState;

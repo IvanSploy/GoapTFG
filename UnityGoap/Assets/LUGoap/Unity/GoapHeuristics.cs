@@ -6,7 +6,7 @@ using static LUGoap.Base.PropertyManager.PropertyType;
 
 namespace LUGoap.Unity
 {
-    public static class UGoapData
+    public static class GoapHeuristics
     {
         /// <summary>
         /// User defined heuristic for GOAP.
