@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using LUGoap.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity
 {
-    [RequireComponent(typeof(Collider))]
     public class GoapEntity : MonoBehaviour, IEntity
     {
-        [SerializeField] private string _nameEntity;
+        [FormerlySerializedAs("_nameEntity")] 
+        [SerializeField] private string _name;
         [SerializeField] private Collider _collider;
         [SerializeField] private List<Property> _initialState;
 
-        public string Name => _nameEntity;
+        public string Name => _name;
         public Collider Collider => _collider;
 
         public State CurrentState { get; set; }
@@ -27,7 +28,7 @@ namespace LUGoap.Unity
 
         private void OnValidate()
         {
-            _nameEntity ??= gameObject.name;
+            _name ??= gameObject.name;
         }
 
         private void AddToWorkingMemoryManager()

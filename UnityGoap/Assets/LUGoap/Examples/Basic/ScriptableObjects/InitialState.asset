@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736acefbf11a19b4ab3cbd6823d1f68b, type: 3}
   m_Name: InitialState
   m_EditorClassIdentifier: 
-  properties:
+  Properties:
   - name: DoorState
     value: Closed

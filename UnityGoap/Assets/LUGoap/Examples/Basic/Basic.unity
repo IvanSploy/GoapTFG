@@ -525,7 +525,7 @@ PrefabInstance:
     - target: {fileID: 6708556775544082582, guid: 645042b364aca544faebaf7f3d58dc41, type: 3}
       propertyPath: _learningConfig
       value: 
-      objectReference: {fileID: 11400000, guid: 63f6a03d600759246b14cf643c238f23, type: 2}
+      objectReference: {fileID: 11400000, guid: f43ba6b6e2590d34fab1d4d2a1d5f91c, type: 2}
     m_RemovedComponents:
     - {fileID: 5618865412640746753, guid: 645042b364aca544faebaf7f3d58dc41, type: 3}
     m_RemovedGameObjects: []
