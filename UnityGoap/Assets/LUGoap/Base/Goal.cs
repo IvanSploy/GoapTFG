@@ -4,7 +4,7 @@ using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Base
 {
-    public class Goal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>, IGoal
+    public class Goal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>
     {
         //Properties
         public Conditions Conditions { get; }

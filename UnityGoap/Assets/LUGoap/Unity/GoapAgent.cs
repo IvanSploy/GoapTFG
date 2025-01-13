@@ -28,7 +28,7 @@ namespace LUGoap.Unity
         public float Speed = 5;
         
         //Agent base related
-        private readonly List<IGoal> _goals = new();
+        private readonly List<Goal> _goals = new();
         private readonly List<Base.Action> _actions = new();
         private Planner _planner;
         private QLearning _qLearning;
@@ -42,7 +42,7 @@ namespace LUGoap.Unity
         public string Name => name;
         public bool IsInterrupted { get; private set; }
         public State CurrentState { get; private set; }
-        public IGoal CurrentGoal { get; private set; }
+        public Goal CurrentGoal { get; private set; }
         public NodeAction? PreviousAction => _currentPlan.Previous;
         public NodeAction CurrentAction => _currentPlan.Current;
         public bool IsCompleted => _currentPlan?.IsCompleted ?? false;
@@ -224,13 +224,13 @@ namespace LUGoap.Unity
         public void AddActions(List<Base.Action> actionList) => _actions.AddRange(actionList);
         public void RemoveAction(Base.Action action) => _actions.Remove(action);
 
-        public void AddGoal(IGoal goal)
+        public void AddGoal(Goal goal)
         {
             _goals.Add(goal);
             SortGoals();
         }
 
-        public void AddGoals(List<IGoal> goalList)
+        public void AddGoals(List<Goal> goalList)
         {
             _goals.AddRange(goalList);
             SortGoals();
@@ -252,7 +252,7 @@ namespace LUGoap.Unity
             return -1;
         }
 
-        public bool CreatePlanForGoal(State initialState, IGoal goal)
+        public bool CreatePlanForGoal(State initialState, Goal goal)
         {
             var plan = _planner.CreatePlan(initialState, goal, _actions);
             
@@ -281,7 +281,7 @@ namespace LUGoap.Unity
             return -1;
         }
 
-        public async Task<bool> CreatePlanForGoalAsync(State initialState, IGoal goal)
+        public async Task<bool> CreatePlanForGoalAsync(State initialState, Goal goal)
         {
             _currentPlan = await _planner.CreatePlanAsync(initialState, goal, _actions);
             

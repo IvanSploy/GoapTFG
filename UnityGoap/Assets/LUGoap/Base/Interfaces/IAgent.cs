@@ -11,7 +11,7 @@ namespace LUGoap.Base
         /// <summary>
         /// Represents the current Goal associated with the current entity.
         /// </summary>
-        IGoal CurrentGoal { get; }
+        Goal CurrentGoal { get; }
         
         /// <summary>
         /// Gets the current action node.
@@ -44,13 +44,13 @@ namespace LUGoap.Base
         /// Add goal to the agent.
         /// </summary>
         /// <param name="goal"></param>
-        void AddGoal(IGoal goal);
+        void AddGoal(Goal goal);
         
         /// <summary>
         /// Add goals to the agent.
         /// </summary>
         /// <param name="goalList"></param>
-        void AddGoals(List<IGoal> goalList);
+        void AddGoals(List<Goal> goalList);
 
         /// <summary>
         /// Manages to create a new plan for the Agent.

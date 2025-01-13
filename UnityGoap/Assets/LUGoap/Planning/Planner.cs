@@ -11,7 +11,7 @@ namespace LUGoap.Planning
         
         //Plan data
         protected State InitialState;
-        protected IGoal _goal;
+        protected Goal _goal;
         protected Node _current;
         
         //Stats
@@ -24,7 +24,7 @@ namespace LUGoap.Planning
             _nodeGenerator = nodeGenerator;
         }
         
-        public Plan CreatePlan(State initialState, IGoal goal, List<Action> actions)
+        public Plan CreatePlan(State initialState, Goal goal, List<Action> actions)
         {
             InitialState = initialState;
             _goal = goal;
@@ -35,7 +35,7 @@ namespace LUGoap.Planning
             return plan;
         }
         
-        public async Task<Plan> CreatePlanAsync(State initialState, IGoal goal, List<Action> actions)
+        public async Task<Plan> CreatePlanAsync(State initialState, Goal goal, List<Action> actions)
         {
             InitialState = initialState;
             _goal = goal;

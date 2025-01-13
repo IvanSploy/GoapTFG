@@ -26,7 +26,7 @@ MonoBehaviour:
   - Key: IsIt
     Type: 0
   - Key: PlayerNear
-    Type: 0
+    Type: 4
   - Key: DestinationX
     Type: 2
   - Key: DestinationZ
