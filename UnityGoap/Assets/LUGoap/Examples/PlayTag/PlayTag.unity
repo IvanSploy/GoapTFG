@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 99a22bce4cfdf0e4eb74281cd6e9b4ad, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264710be6e01473087aced268c023c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameEntity: Player
+  _name: Player
   _collider: {fileID: 376903271}
   _initialState: []
 --- !u!1 &495396388
@@ -504,6 +504,7 @@ MonoBehaviour:
   _planning: {fileID: 21300000, guid: 2f899d516ecc9cf4fb338a3bfdb9b8b2, type: 3}
   _achieved: {fileID: 21300000, guid: 772240a0dc4023a45af7124906721160, type: 3}
   _failed: {fileID: 21300000, guid: 5dfbbdae129c3cc4e88b33aabd0469ff, type: 3}
+  _showTime: 0.5
 --- !u!54 &509687090
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -678,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264710be6e01473087aced268c023c61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nameEntity: Player
+  _name: Player
   _collider: {fileID: 605849546}
   _initialState: []
 --- !u!1 &635513382
@@ -855,6 +856,7 @@ MonoBehaviour:
   _planning: {fileID: 21300000, guid: 2f899d516ecc9cf4fb338a3bfdb9b8b2, type: 3}
   _achieved: {fileID: 21300000, guid: 772240a0dc4023a45af7124906721160, type: 3}
   _failed: {fileID: 21300000, guid: 5dfbbdae129c3cc4e88b33aabd0469ff, type: 3}
+  _showTime: 0.5
 --- !u!114 &640428494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +869,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bd190a192e74832801b3fcf700bfe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 640428486}
+  _goapAgent: {fileID: 640428486}
   _target: Player
   _closeRange: 1
   _nearRange: 4
@@ -883,7 +885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70237a5073664c1ea90d556474efd999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _agent: {fileID: 640428486}
+  _goapAgent: {fileID: 640428486}
   _renderer: {fileID: 1770132242}
 --- !u!65 &640428496
 BoxCollider:
@@ -1415,7 +1417,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+  m_BackGroundColor: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
