@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 635513383}
   - component: {fileID: 635513384}
   m_Layer: 5
-  m_Name: Environment
+  m_Name: Scenario
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -729,6 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c29a0d8b7210c7439b0c56785e2297f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rounds: 100
   _tagObjects:
   - {fileID: 640428485}
   - {fileID: 376903267}
@@ -786,7 +787,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
   - {fileID: 11400000, guid: c4130789a726c9f4590c0672d21fd308, type: 2}
   _useHeuristic: 0
-  IndicatorTime: 0.5
+  IndicatorTime: 0
   Speed: 15
 --- !u!4 &640428490
 Transform:
@@ -856,7 +857,7 @@ MonoBehaviour:
   _planning: {fileID: 21300000, guid: 2f899d516ecc9cf4fb338a3bfdb9b8b2, type: 3}
   _achieved: {fileID: 21300000, guid: 772240a0dc4023a45af7124906721160, type: 3}
   _failed: {fileID: 21300000, guid: 5dfbbdae129c3cc4e88b33aabd0469ff, type: 3}
-  _showTime: 0.5
+  _showTime: 0.1
 --- !u!114 &640428494
 MonoBehaviour:
   m_ObjectHideFlags: 0
