@@ -1,12 +1,13 @@
 ﻿namespace LUGoap.Base
 {
-    public struct ActionSettings
+    public class ActionSettings
     {
         public State InitialState;
         public Conditions Goal;
-        public int LearningCode;
+        public int GlobalLearningCode;
+        public int LocalLearningCode;
         public string[] Parameters;
-
+        
         public static ActionSettings CreateDefault(Action action)
         {
             var settings = new ActionSettings()
@@ -14,11 +15,7 @@
                 InitialState = new State(),
                 Goal = new Conditions(),
             };
-            var parameters = action.CreateParameters(0);
-            settings.Parameters = parameters;
-            return settings;
+            return action.CreateSettings(settings);
         }
-        
-        
     }
 }

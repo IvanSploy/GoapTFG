@@ -19,28 +19,37 @@ namespace LUGoap.Learning
         {
             return _qLearning.GetLearningCode(state, conditions);
         }
+        
+        public override ActionSettings CreateSettings(ActionSettings settings)
+        {
+            var learningCode = GetLearningCode(settings.InitialState, settings.Goal);
+            settings.LocalLearningCode = learningCode;
+            var parameters = CreateParameters(settings);
+            settings.Parameters = parameters;
+            return settings;
+        }
 
-        public override string[] CreateParameters(int learningCode)
+        public string[] CreateParameters(ActionSettings settings)
         {
             if (!_qLearning.IsExploring())
             {
-                var action = _qLearning.GetBestAction(learningCode);
+                var action = _qLearning.GetBestAction(settings.LocalLearningCode);
                 if (action != null) return ParseToParameters(action);
             }
-            return OnCreateParameters();
+            return OnCreateParameters(settings);
         }
 
         /// <summary>
         /// Creates the parameters used by the action (should be random).
         /// </summary>
-        protected abstract string[] OnCreateParameters();
+        protected abstract string[] OnCreateParameters(ActionSettings settings);
 
         public override bool Validate(State nextState, IAgent iAgent, string[] parameters)
         {
             bool valid = OnValidate(nextState, iAgent, parameters);
             if (valid) return true;
             
-            _qLearning.Update(iAgent.CurrentAction.LearningCode,
+            _qLearning.Update(iAgent.CurrentAction.GlobalLearningCode,
                 ParseToActionName(parameters), _qLearning.FailReward, -1);
 
             return false;
@@ -49,13 +58,13 @@ namespace LUGoap.Learning
         public override async Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
         {
             var finalEffects = await OnExecute(effects, iAgent, parameters, token);
-            var learningCode = iAgent.CurrentAction.ActionLearningCode;
+            var learningCode = iAgent.CurrentAction.LocalLearningCode;
             
             if(token.IsCancellationRequested)
             {
                 _qLearning.Update(learningCode,
                     ParseToActionName(parameters), iAgent.IsCompleted ?
-                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentAction.ActionLearningCode);
+                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentAction.LocalLearningCode);
                 return null;
             }
             

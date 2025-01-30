@@ -111,15 +111,14 @@ namespace LUGoap.Planning
         
         public ActionSettings CreateSettings(Node node, Action action)
         {
-            var learningCode = GetLearningCode(node);
-            var parameters = action.CreateParameters(learningCode);
-            return new ActionSettings()
+            var actionSettings = new ActionSettings
             {
                 InitialState = node.InitialState,
                 Goal = node.Goal,
-                LearningCode = learningCode,
-                Parameters = parameters,
+                GlobalLearningCode = GetLearningCode(node)
             };
+            
+            return action.CreateSettings(actionSettings);
         }
         
         public int GetCost(Node node)

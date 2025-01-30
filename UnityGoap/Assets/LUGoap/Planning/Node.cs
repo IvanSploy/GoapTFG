@@ -61,14 +61,10 @@ namespace LUGoap.Planning
                Action = action,
                Conditions = conditions,
                Effects = effects,
+               GlobalLearningCode = settings.GlobalLearningCode,
+               LocalLearningCode = settings.LocalLearningCode,
                Parameters = settings.Parameters,
-               LearningCode = settings.LearningCode,
            };
-
-           if (action is LearningAction learningAction)
-           {
-               actionInfo.ActionLearningCode = learningAction.GetLearningCode(InitialState, Goal);
-           }
 
            return resultGoal == null ? null : CreateChild(resultGoal, actionInfo);
         }

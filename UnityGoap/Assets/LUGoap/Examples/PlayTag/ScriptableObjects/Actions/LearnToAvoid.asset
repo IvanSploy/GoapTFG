@@ -24,7 +24,7 @@ MonoBehaviour:
   LearningData:
     Alpha: 0.4
     Gamma: 0
-    ExploreChance: 0.3
+    ExploreChance: 1
     FilterKeys: 
     AdditionalKeys: 0b0000000c000000
     ValueRange: 1

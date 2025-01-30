@@ -36,12 +36,49 @@ public class LearningTagAction : LearningAction
         SpeedFactor = speedFactor;
     }
 
-    protected override string[] OnCreateParameters()
+    protected override string[] OnCreateParameters(ActionSettings settings)
     {
         var parameters = new float[2];
-        parameters[0] = Random.RangeToInt(XLimits.x, XLimits.y);
-        parameters[1] = Random.RangeToInt(ZLimits.x, ZLimits.y);
+        
+        bool found;
+        do
+        {
+            parameters[0] = Random.RangeToInt(XLimits.x, XLimits.y);
+            parameters[1] = Random.RangeToInt(ZLimits.x, ZLimits.y);
+            
+            var destination = new Vector3
+            {
+                x = parameters[0],
+                z = parameters[1],
+            };
+
+            var origin = new Vector3
+            {
+                x = settings.InitialState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f),
+                z = settings.InitialState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f)
+            };
+
+            var target = new Vector3
+            {
+                x = settings.InitialState.TryGetOrDefault(PropertyManager.PropertyKey.TargetX, 0f),
+                z = settings.InitialState.TryGetOrDefault(PropertyManager.PropertyKey.TargetZ, 0f)
+            };
+
+            found = CheckDestination(origin, target, destination);
+        } while (!found);
+            
         return SerializeParameters(parameters);
+    }
+
+    public bool CheckDestination(Vector3 origin, Vector3 target, Vector3 destination)
+    {
+        var destinationDirection = destination - origin;
+        destinationDirection.y = 0;
+        if (destinationDirection.magnitude < 0.1f) return false;
+        
+        var targetDirection = target - origin;
+        if(targetDirection == Vector3.zero) return true;
+        return !(Vector3.Angle(destinationDirection, targetDirection) >= 45.0f);
     }
     
     protected override Conditions GetProceduralConditions(ActionSettings settings)
@@ -85,12 +122,7 @@ public class LearningTagAction : LearningAction
         var targetPosition = new Vector3(targetX, destination.y, targetZ);
         
         var targetDirection = targetPosition - agent.transform.position;
-        if (Vector3.Angle(destinationDirection, targetDirection) >= 45.0f)
-        {
-            return false;
-        }
-
-        return true;
+        return !(Vector3.Angle(destinationDirection, targetDirection) >= 45.0f);
     }
 
     protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)

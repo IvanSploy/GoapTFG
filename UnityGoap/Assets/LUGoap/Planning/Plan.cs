@@ -69,24 +69,24 @@ namespace LUGoap.Planning
             {
                 var reward = -((int)Math.Round(_stopwatch.ElapsedMilliseconds / 1000f) + 1);
 
-                var nextLearningCode = Current.LearningCode;
-                if (Previous.HasValue) nextLearningCode = Previous.Value.LearningCode;
+                var nextLearningCode = Current.GlobalLearningCode;
+                if (Previous.HasValue) nextLearningCode = Previous.Value.GlobalLearningCode;
 
                 //Default update learning.
-                learningAgent.Learning.Update(Current.LearningCode, Current.Action.Name,
+                learningAgent.Learning.Update(Current.GlobalLearningCode, Current.Action.Name,
                     reward, nextLearningCode);
 
                 //Plan succeed
                 if (Count == 0)
                 {
-                    learningAgent.Learning.Update(First.LearningCode,
+                    learningAgent.Learning.Update(First.GlobalLearningCode,
                         First.Action.Name, learningAgent.Learning.SucceedReward, 0);
                 }
             }
             //Plan fail
             else
             {
-                learningAgent.Learning.Update(Current.LearningCode,
+                learningAgent.Learning.Update(Current.GlobalLearningCode,
                     Current.Action.Name, learningAgent.Learning.FailReward, 0);
             }
         }
@@ -135,7 +135,7 @@ namespace LUGoap.Planning
         
         public void Interrupt()
         {
-            _cancellationTokenSource.Cancel();
+            _cancellationTokenSource?.Cancel();
         }
     }
 }

@@ -21,8 +21,6 @@ namespace LUGoap.Base
         }
         
         //Main abstract
-        public virtual string[] CreateParameters(int learningCode) => null;
-
         public virtual bool Validate(State nextState, IAgent iAgent, string[] parameters)
         {
             return OnValidate(nextState, iAgent, parameters);
@@ -47,7 +45,11 @@ namespace LUGoap.Base
         public virtual int GetCost(Conditions goal) => _cost;
         public virtual int SetCost(int cost) => _cost = cost;
         
-        //Getters
+        public virtual ActionSettings CreateSettings(ActionSettings settings)
+        {
+            return settings;
+        }
+        
         public Conditions GetPreconditions(ActionSettings settings)
         {
             return _preconditions + GetProceduralConditions(settings);
