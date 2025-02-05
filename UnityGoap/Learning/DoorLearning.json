@@ -1,20 +1,20 @@
 {
   "16217": {
     "OpenDoor": -332.46994,
-    "UnlockDoor": 72.13935
+    "UnlockDoor": 67.16451
   },
   "504684": {
-    "GoToTarget": 75.35658
+    "GoToTarget": 72.84063
   },
   "16496": {
-    "PickUpKey": 77.9432449,
+    "PickUpKey": 75.98093,
     "GoToTarget": 84.4111938
   },
   "16279": {
-    "GoToTarget": 90.51798
+    "GoToTarget": 90.2017059
   },
   "523": {
-    "OpenDoor": 94.83489,
+    "OpenDoor": 89.734726,
     "UnlockDoor": 29.2409019
   },
   "16280": {
@@ -24,12 +24,12 @@
     "PickUpKey": -1.524
   },
   "525": {
-    "GoToTarget": 96.1218262
+    "GoToTarget": 94.42672
   },
   "16271": {
-    "GoToTarget": 105.924408
+    "GoToTarget": 96.27546
   },
   "504405": {
-    "GoToTarget": 70.1806
+    "GoToTarget": 63.66084
   }
 }

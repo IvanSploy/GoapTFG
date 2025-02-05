@@ -19,7 +19,7 @@ namespace LUGoap.Unity
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
         [SerializeField] private List<PriorityGoal> _goalList;
-        [SerializeField] private List<ActionConfig> _actionList;
+        [SerializeField] private List<ActionBaseConfig> _actionList;
         [SerializeField] private bool _useHeuristic;
         
         [Header("View")]

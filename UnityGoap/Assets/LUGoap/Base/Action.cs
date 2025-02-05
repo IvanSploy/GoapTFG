@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Base
 {
+    [Serializable]
     public abstract class Action
     {
         //Fields

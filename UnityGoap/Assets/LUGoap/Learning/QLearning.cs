@@ -5,7 +5,6 @@ using System.Linq;
 using LUGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
 using static LUGoap.Base.PropertyManager;
-using Action = LUGoap.Base.Action;
 using Random = LUGoap.Base.Random;
 
 namespace LUGoap.Learning

@@ -6,7 +6,7 @@ using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "State", menuName = "LUGoap/State", order = 1)]
+    [CreateAssetMenu(fileName = "State", menuName = "LUGoap/State", order = -1)]
     public class StateConfig : ScriptableObject
     {
         [FormerlySerializedAs("properties")] 

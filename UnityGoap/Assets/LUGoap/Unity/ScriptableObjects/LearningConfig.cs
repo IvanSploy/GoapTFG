@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace LUGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "LearningConfig", menuName = "LUGoap/LearningConfig", order = 10)]
+    [CreateAssetMenu(fileName = "LearningConfig", menuName = "LUGoap/Learning/Config", order = -10)]
     public class LearningConfig : ScriptableObject
     {
         private static readonly string Path = Application.dataPath + "/../Learning/";

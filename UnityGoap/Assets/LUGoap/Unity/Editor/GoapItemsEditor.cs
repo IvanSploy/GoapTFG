@@ -51,29 +51,6 @@ namespace LUGoap.Unity.Editor
             }
         }
 
-        [CustomEditor(typeof(ActionConfig), true)]
-        public class ActionEditor : UnityEditor.Editor
-        {
-            public override void OnInspectorGUI()
-            {
-                base.OnInspectorGUI();
-                
-                EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Main Data", EditorStyles.boldLabel);
-
-                EditorGUI.indentLevel++;
-
-                EditorGUILayout.Space();
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Preconditions"), true);
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("Effects"), true);
-                
-                EditorGUI.indentLevel--;
-                
-                //Save changes inside Properties.
-                serializedObject.ApplyModifiedProperties();
-            }
-        }
-
         #endregion
 
         #region PropertyDrawers

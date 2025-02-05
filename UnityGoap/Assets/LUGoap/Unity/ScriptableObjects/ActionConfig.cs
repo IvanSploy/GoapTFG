@@ -2,24 +2,30 @@ using System;
 using System.Collections.Generic;
 using LUGoap.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity.ScriptableObjects
 {
-    public abstract class ActionConfig<TAction> : ActionConfig where TAction : Base.Action, new()
+    [CreateAssetMenu(fileName = "Action", menuName = "LUGoap/Action")]
+    public class ActionConfig : ActionBaseConfig
     {
-        protected override Base.Action CreateActionBase() => Install(new TAction());
-        protected abstract TAction Install(TAction action);
+        [SerializeReference] private Base.Action _actionData;
+
+        protected override Base.Action CreateAction()
+        {
+            return _actionData;
+        }
     }
     
-    public abstract class ActionConfig : ScriptableObject
+    public abstract class ActionBaseConfig : ScriptableObject
     {
-        [Header("Main")]
         [SerializeField] private int _cost = 1;
-        [HideInInspector] public List<ConditionProperty> Preconditions = new();
-        [HideInInspector] public List<EffectProperty> Effects = new();
-        
-        //Updating data from the scriptable object.
+        [FormerlySerializedAs("Preconditions")] 
+        [SerializeField] private List<ConditionProperty> _preconditions = new();
+        [FormerlySerializedAs("Effects")] 
+        [SerializeField] private List<EffectProperty> _effects = new();
+
         private void OnValidate()
         {
             _cost = Math.Max(0, _cost);
@@ -27,19 +33,17 @@ namespace LUGoap.Unity.ScriptableObjects
 
         public Base.Action Create()
         {
-            var goapAction = CreateActionBase();
-            
             var preconditions = new Conditions();
-            preconditions.ApplyProperties(Preconditions);
-            
-            var effects = new Effects();
-            effects.ApplyProperties(Effects);
-            
-            goapAction.Initialize(name, preconditions, effects);
+            preconditions.ApplyProperties(_preconditions);
 
-            return goapAction;
+            var effects = new Effects();
+            effects.ApplyProperties(_effects);
+
+            var action = CreateAction();
+            action.Initialize(name, preconditions, effects);
+            return action;
         }
 
-        protected abstract Base.Action CreateActionBase();
+        protected abstract Base.Action CreateAction();
     }
 }

@@ -9,16 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 140e312bd9393934abd5c8cde9f7f1db, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
   m_Name: GoToDestination
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions:
+  _preconditions:
   - name: MoveState
     value: Required
     condition: 0
-  Effects:
+  _effects:
   - name: MoveState
-    value: Set
+    value: Ready
     effect: 0
-  SpeedFactor: 1
+  _actionData:
+    rid: 988238986598678657
+  references:
+    version: 2
+    RefIds:
+    - rid: 988238986598678657
+      type: {class: GoToDestinationAction, ns: , asm: Assembly-CSharp}
+      data:
+        SpeedFactor: 1

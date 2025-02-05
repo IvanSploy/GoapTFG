@@ -9,16 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 596176942d7a125429d4f5199b2afaa4, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
   m_Name: SetPlayerDestination
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions:
+  _preconditions:
   - name: MoveState
     value: Ready
     condition: 0
-  Effects:
+  _effects:
   - name: MoveState
     value: Required
     effect: 0
-  Target: Player
+  _actionData:
+    rid: 988238986598678666
+  references:
+    version: 2
+    RefIds:
+    - rid: 988238986598678666
+      type: {class: SetDestinationToTargetAction, ns: , asm: Assembly-CSharp}
+      data:
+        Target: Player

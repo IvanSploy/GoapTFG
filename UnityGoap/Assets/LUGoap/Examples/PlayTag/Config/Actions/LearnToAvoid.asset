@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b91233ba2480c1c47ad4c6f24af2e5c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 502526a762fc4a79a56f8f3fc52fe076, type: 3}
   m_Name: LearnToAvoid
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions:
+  _preconditions:
   - name: PlayerNear
     value: Far
     condition: 1
-  Effects:
+  _effects:
   - name: PlayerNear
     value: Far
     effect: 0
-  LearningData:
+  _learningData:
     Alpha: 0.4
     Gamma: 0
     ExploreChance: 1
@@ -30,6 +30,14 @@ MonoBehaviour:
     ValueRange: 1
   _succeedReward: 100
   _failReward: -10
-  XLimits: {x: -5, y: 5}
-  ZLimits: {x: -5, y: 5}
-  SpeedFactor: 1
+  _actionData:
+    rid: 988238986598678658
+  references:
+    version: 2
+    RefIds:
+    - rid: 988238986598678658
+      type: {class: LearningAvoidAction, ns: , asm: Assembly-CSharp}
+      data:
+        XLimits: {x: -5, y: 5}
+        ZLimits: {x: -5, y: 5}
+        SpeedFactor: 1

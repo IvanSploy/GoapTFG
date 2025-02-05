@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using Panda;
 
 namespace Panda.Examples.Shooter
 {

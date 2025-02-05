@@ -3,19 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
-
-[CreateAssetMenu(fileName = "PickUp", menuName = "LUGoap/Actions/Basic/PickUp")]
-public class PickUp : ActionConfig<PickUpAction>
-{
-    public string Target;
-    
-    protected override PickUpAction Install(PickUpAction action)
-    {
-        action.Target = Target;
-        return action;
-    }
-}
 
 public class PickUpAction : Action
 {

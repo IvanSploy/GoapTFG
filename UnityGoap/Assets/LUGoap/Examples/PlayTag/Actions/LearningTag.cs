@@ -2,26 +2,10 @@ using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
-using LUGoap.Unity.ScriptableObjects;
 using System.Globalization;
 using LUGoap.Learning;
 using LUGoap.Unity;
 using Random = LUGoap.Base.Random;
-
-[CreateAssetMenu(fileName = "LearningTag", menuName = "LUGoap/Actions/PlayTag/LearningTag")]
-public class LearningTag : LearningActionConfig<LearningTagAction>
-{
-    [Header("Custom Data")]
-    public Vector2 XLimits;
-    public Vector2 ZLimits;
-    public int SpeedFactor = 1;
-    
-    protected override LearningTagAction Install(LearningTagAction action)
-    {
-        action.Init(XLimits, ZLimits, SpeedFactor);
-        return action;
-    }
-}
 
 public class LearningTagAction : LearningAction
 {

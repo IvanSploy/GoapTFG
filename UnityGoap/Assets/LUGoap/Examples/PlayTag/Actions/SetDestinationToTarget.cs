@@ -3,18 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
-
-[CreateAssetMenu(fileName = "SetDestinationToTarget", menuName = "LUGoap/Actions/PlayTag/SetDestinationToTarget")]
-public class SetDestinationToTarget : ActionConfig<SetDestinationToTargetAction>
-{
-    public string Target = "None";
-    protected override SetDestinationToTargetAction Install(SetDestinationToTargetAction action)
-    {
-        action.Target = Target;
-        return action;
-    }
-}
 
 public class SetDestinationToTargetAction : Action
 {

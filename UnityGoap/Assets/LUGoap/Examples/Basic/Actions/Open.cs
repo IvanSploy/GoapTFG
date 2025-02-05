@@ -1,25 +1,12 @@
-using UnityEngine;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
 using static LUGoap.Base.PropertyManager;
+using Action = LUGoap.Base.Action;
 
-[CreateAssetMenu(fileName = "Open", menuName = "LUGoap/Actions/Basic/Open")]
-public class Open : ActionConfig<OpenAction>
-{
-    public PropertyKey OpenState;
-    public string Target;
-    
-    protected override OpenAction Install(OpenAction action)
-    {
-        action.OpenState = OpenState;
-        action.Target = Target;
-        return action;
-    }
-}
-
+[Serializable]
 public class OpenAction : Action
 {
     public PropertyKey OpenState;

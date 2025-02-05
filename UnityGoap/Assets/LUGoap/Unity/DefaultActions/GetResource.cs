@@ -2,29 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
-using UnityEngine;
-using LUGoap.Unity.ScriptableObjects;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity.Action
 {
-    [CreateAssetMenu(fileName = "GetResource", menuName = "LUGoap/Actions/GetResource")]
-    public class GetResource : ActionConfig<GetResourceAction>
-    {
-        [Header("Custom Data")]
-        public PropertyKey Resource;
-        public float Count = 1;
-        public int WaitSeconds = 1;
-        
-        protected override GetResourceAction Install(GetResourceAction action)
-        {
-            action.Resource = Resource;
-            action.Count = Count;
-            action.WaitSeconds = WaitSeconds;
-            return action;
-        }
-    }
-    
     public class GetResourceAction : Base.Action
     {
         public PropertyKey Resource;

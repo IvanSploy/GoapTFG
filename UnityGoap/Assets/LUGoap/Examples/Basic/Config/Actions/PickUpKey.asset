@@ -9,26 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7f260ce98d53b14fbca2f23ab5bb0c8, type: 3}
-  m_Name: UnlockDoor
+  m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
+  m_Name: PickUpKey
   m_EditorClassIdentifier: 
   _cost: 1
-  Preconditions:
+  _preconditions:
   - name: Target
-    value: Door
+    value: Key
     condition: 0
+  _effects:
   - name: HasKey
     value: True
-    condition: 0
-  - name: DoorState
-    value: Opened
-    condition: 1
-  Effects:
-  - name: DoorState
-    value: Opened
     effect: 0
-  - name: HasKey
-    value: False
-    effect: 0
-  OpenState: 3
-  Target: Door
+  _actionData:
+    rid: 988238986598678649
+  references:
+    version: 2
+    RefIds:
+    - rid: 988238986598678649
+      type: {class: PickUpAction, ns: , asm: Assembly-CSharp}
+      data:
+        Target: Key

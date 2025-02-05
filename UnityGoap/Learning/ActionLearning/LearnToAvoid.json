@@ -13,7 +13,7 @@
   "0": {
     "LearnToAvoid_4_-2": -6.4,
     "LearnToAvoid_3_2": -4.0,
-    "LearnToAvoid_3_3": -4.0,
+    "LearnToAvoid_3_3": -6.4,
     "LearnToAvoid_-4_-2": -4.0,
     "LearnToAvoid_3_5": -4.0,
     "LearnToAvoid_-1_5": -4.0,
@@ -45,12 +45,13 @@
     "LearnToAvoid_3_-5": -4.0,
     "LearnToAvoid_4_-4": -4.0,
     "LearnToAvoid_-1_3": -4.0,
-    "LearnToAvoid_-4_5": -4.0,
+    "LearnToAvoid_-4_5": -6.4,
     "LearnToAvoid_-4_1": -4.0,
     "LearnToAvoid_0_4": -4.0,
     "LearnToAvoid_2_3": -4.0,
     "LearnToAvoid_2_5": -4.0,
-    "LearnToAvoid_-5_4": -4.0
+    "LearnToAvoid_-5_4": -4.0,
+    "LearnToAvoid_-2_5": -4.0
   },
   "511825": {
     "LearnToAvoid_1_5": -4.0
@@ -125,7 +126,8 @@
     "LearnToAvoid_2_5": -4.0
   },
   "16538": {
-    "LearnToAvoid_0_-2": -4.0
+    "LearnToAvoid_0_-2": -4.0,
+    "LearnToAvoid_-4_3": -4.0
   },
   "499051": {
     "LearnToAvoid_-1_-3": 40.0
@@ -139,7 +141,8 @@
   "16510": {
     "LearnToAvoid_3_-3": -4.0,
     "LearnToAvoid_1_-5": -4.0,
-    "LearnToAvoid_5_-4": 40.0
+    "LearnToAvoid_5_-4": 40.0,
+    "LearnToAvoid_5_2": -4.0
   },
   "512509": {
     "LearnToAvoid_3_-5": -4.0
@@ -154,12 +157,22 @@
     "LearnToAvoid_5_-3": -4.0
   },
   "16531": {
-    "LearnToAvoid_0_4": -4.0
+    "LearnToAvoid_0_4": -4.0,
+    "LearnToAvoid_2_-3": -4.0
   },
   "512686": {
     "LearnToAvoid_3_-5": -4.0
   },
   "498400": {
     "LearnToAvoid_4_5": 40.0
+  },
+  "499056": {
+    "LearnToAvoid_-1_2": -4.0
+  },
+  "512510": {
+    "LearnToAvoid_4_5": 40.0
+  },
+  "512506": {
+    "LearnToAvoid_-4_4": -4.0
   }
 }

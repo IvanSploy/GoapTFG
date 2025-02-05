@@ -15,7 +15,6 @@ THE SOFTWARE.
 
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
 using System.IO;
 
 namespace Panda

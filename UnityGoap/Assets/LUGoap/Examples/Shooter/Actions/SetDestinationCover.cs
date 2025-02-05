@@ -2,18 +2,6 @@
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
-using UnityEngine;
-
-
-[CreateAssetMenu(fileName = "SetDestinationCover", menuName = "LUGoap/Actions/Shooter/SetDestinationCover")]
-public class SetDestinationCover : ActionConfig<SetDestinationCoverAction>
-{
-    protected override SetDestinationCoverAction Install(SetDestinationCoverAction action)
-    {
-        return action;
-    }
-}
 
 public class SetDestinationCoverAction : Action
 {

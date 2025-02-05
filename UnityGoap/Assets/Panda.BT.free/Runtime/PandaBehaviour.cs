@@ -15,8 +15,6 @@ THE SOFTWARE.
 #define PANDA_BT
 
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Panda
 {

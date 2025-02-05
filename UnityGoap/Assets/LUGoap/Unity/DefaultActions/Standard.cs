@@ -1,23 +1,9 @@
-﻿using UnityEngine;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
-using LUGoap.Unity.ScriptableObjects;
 
 namespace LUGoap.Unity.Actions
 {
-    [CreateAssetMenu(fileName = "Standard", menuName = "LUGoap/Actions/Default Action", order = -1)]
-    public class Standard : ActionConfig<StandardAction>
-    {
-        public int WaitSeconds = 1;
-        
-        protected override StandardAction Install(StandardAction action)
-        {
-            action.WaitSeconds = WaitSeconds;
-            return action;
-        }
-    }
-    
     public class StandardAction : Base.Action
     {
         public int WaitSeconds = 1;

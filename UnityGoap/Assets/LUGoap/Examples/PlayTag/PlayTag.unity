@@ -782,10 +782,8 @@ MonoBehaviour:
   - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
     _priority: 0
   _actionList:
-  - {fileID: 11400000, guid: 91022da430b9e8c409e24f346685272d, type: 2}
-  - {fileID: 11400000, guid: 6aaf2be481d954d45ad70430544c28f5, type: 2}
-  - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
-  - {fileID: 11400000, guid: c4130789a726c9f4590c0672d21fd308, type: 2}
+  - {fileID: 11400000, guid: 414ade7192f4a054c90ae3101ac441ac, type: 2}
+  - {fileID: 11400000, guid: 32411e4cfc7184643ba52f0416999d71, type: 2}
   _useHeuristic: 0
   IndicatorTime: 0
   Speed: 15

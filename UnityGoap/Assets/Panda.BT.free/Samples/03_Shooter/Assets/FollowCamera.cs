@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
-using Panda;
 
 namespace Panda.Examples
 {
     public class FollowCamera : MonoBehaviour
     {
-
         public GameObject target;
 
         Vector3 offset = Vector3.zero;
@@ -14,9 +11,9 @@ namespace Panda.Examples
         // Use this for initialization
         void Start()
         {
-            if (target != null)
+            if (target)
             {
-                offset = this.transform.position - target.transform.position;
+                offset = transform.position - target.transform.position;
                 offset.x = offset.z = 0.0f;
             }
         }
@@ -24,7 +21,7 @@ namespace Panda.Examples
         // SetParent is called once per frame
         void Update()
         {
-            if( target != null)
+            if( target)
                 this.transform.position = target.transform.position + offset;
         }
     }

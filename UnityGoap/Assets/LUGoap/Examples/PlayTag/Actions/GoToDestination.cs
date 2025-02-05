@@ -3,18 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
-
-[CreateAssetMenu(fileName = "GoToDestination", menuName = "LUGoap/Actions/PlayTag/GoToDestination")]
-public class GoToDestination : ActionConfig<GoToDestinationAction>
-{
-    public int SpeedFactor = 1;
-    protected override GoToDestinationAction Install(GoToDestinationAction action)
-    {
-        action.SpeedFactor = SpeedFactor;
-        return action;
-    }
-}
+using Action = LUGoap.Base.Action;
 
 public class GoToDestinationAction : Action
 {

@@ -226,6 +226,7 @@ MonoBehaviour:
   _planning: {fileID: 21300000, guid: 2f899d516ecc9cf4fb338a3bfdb9b8b2, type: 3}
   _achieved: {fileID: 21300000, guid: 772240a0dc4023a45af7124906721160, type: 3}
   _failed: {fileID: 21300000, guid: 5dfbbdae129c3cc4e88b33aabd0469ff, type: 3}
+  _showTime: 0.5
 --- !u!114 &6708556775544082582
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,10 +248,10 @@ MonoBehaviour:
   - _goalConfig: {fileID: 11400000, guid: 4fbf38bfcffae9e469512a43be161e21, type: 2}
     _priority: 0
   _actionList:
-  - {fileID: 11400000, guid: 0ed741e0b53273d44ab71a1fbba27851, type: 2}
-  - {fileID: 11400000, guid: b71ab7be22f564148a04c36b0c7ec353, type: 2}
-  - {fileID: 11400000, guid: 4600a8af77c6ee345a8beca3176dd19e, type: 2}
-  - {fileID: 11400000, guid: 46a20c947aa133548a3e3252427a43e2, type: 2}
+  - {fileID: 11400000, guid: 33e7ace39ea36804c9f1e5653e005fa2, type: 2}
+  - {fileID: 11400000, guid: 0ba7a461b3618cd48bfd223fb86df846, type: 2}
+  - {fileID: 11400000, guid: bdb6b13a350ebfb48abec8273c84f76a, type: 2}
+  - {fileID: 11400000, guid: e2c8606bd73077643b31f30c1e055392, type: 2}
   _useHeuristic: 0
   IndicatorTime: 0
   Speed: 5

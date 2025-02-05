@@ -1,5 +1,3 @@
-using LUGoap.Base;
-
 namespace LUGoap.Planning
 {
     public class AStarNode : Node

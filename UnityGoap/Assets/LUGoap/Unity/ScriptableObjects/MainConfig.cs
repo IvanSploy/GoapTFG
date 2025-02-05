@@ -6,7 +6,7 @@ using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Config", menuName = "LUGoap/Config", order = -10)]
+    [CreateAssetMenu(fileName = "MainConfig", menuName = "LUGoap/Main Config", order = -11)]
     public class MainConfig : ScriptableObject
     {
         public PropertyConfig[] Properties;

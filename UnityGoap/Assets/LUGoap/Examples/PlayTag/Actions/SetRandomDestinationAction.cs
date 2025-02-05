@@ -3,23 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
 using static LUGoap.Base.BaseTypes;
 using static LUGoap.Base.PropertyManager;
 using Random = UnityEngine.Random;
-
-[CreateAssetMenu(fileName = "SetRandomDestination", menuName = "LUGoap/Actions/PlayTag/SetRandomDestination")]
-public class SetRandomDestination : ActionConfig<SetRandomDestinationAction>
-{
-    public Vector2 XLimits;
-    public Vector2 ZLimits;
-    
-    protected override SetRandomDestinationAction Install(SetRandomDestinationAction action)
-    {
-        action.Init(XLimits, ZLimits);
-        return action;
-    }
-}
 
 public class SetRandomDestinationAction : Action
 {

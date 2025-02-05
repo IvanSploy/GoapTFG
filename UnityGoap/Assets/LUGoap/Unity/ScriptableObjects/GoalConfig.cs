@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using LUGoap.Base;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace LUGoap.Unity.ScriptableObjects
 {

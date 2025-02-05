@@ -4,27 +4,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
-using LUGoap.Unity.ScriptableObjects;
 using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Unity.Action
 {
-    [CreateAssetMenu(fileName = "GoTo", menuName = "LUGoap/Actions/GoTo")]
-    public class GoToTarget : ActionConfig<GoToTargetAction>
-    {
-        public PropertyKey TargetKey;
-        public int SpeedFactor = 1;
-        public string ExcludedLocation = "none";
-        
-        protected override GoToTargetAction Install(GoToTargetAction targetAction)
-        {
-            targetAction.TargetKey = TargetKey;
-            targetAction.SpeedFactor = SpeedFactor;
-            targetAction.ExcludedLocation = ExcludedLocation;
-            return targetAction;
-        }
-    }
-    
     public class GoToTargetAction : Base.Action
     {
         public PropertyKey TargetKey;

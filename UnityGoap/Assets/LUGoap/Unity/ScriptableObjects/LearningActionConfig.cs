@@ -1,34 +1,26 @@
 ﻿using LUGoap.Learning;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace LUGoap.Unity.ScriptableObjects
 {
-    public abstract class LearningActionConfig<TAction> : LearningActionConfig where TAction : LearningAction, new()
-    {
-        protected override Base.Action CreateActionBase()
-        {
-            var action = new TAction();
-            action.SetLearning(GetLearning());
-            return Install(action);
-        }
-
-        protected abstract TAction Install(TAction action);
-    }
-    
-    public abstract class LearningActionConfig : ActionConfig
+    [CreateAssetMenu(fileName = "LearningAction", menuName = "LUGoap/Learning/Action")]
+    public class LearningActionConfig : ActionBaseConfig
     {
         private static readonly string Path = Application.dataPath + "/../Learning/" + "ActionLearning/";
         
-        public QLearningTemplate LearningData = new()
+        [FormerlySerializedAs("LearningData")]
+        [SerializeField] private QLearningTemplate _learningData = new()
         {
             Alpha = 0.25f,
             Gamma = 0.9f,
             ValueRange = 5
         };
         
-        [Header("Action")]
         [SerializeField] protected float _succeedReward;
         [SerializeField] protected float _failReward;
+        
+        [SerializeReference] private LearningAction _actionData;
         
         private QLearning _qLearning;
         
@@ -44,7 +36,7 @@ namespace LUGoap.Unity.ScriptableObjects
         [ContextMenu("Load")]
         public void Load()
         {
-            _qLearning = new QLearning(Path, name, LearningData.DeSerialize(), _succeedReward, _failReward);
+            _qLearning = new QLearning(Path, name, _learningData.DeSerialize(), _succeedReward, _failReward);
             _qLearning.Load();
         }
 
@@ -61,6 +53,12 @@ namespace LUGoap.Unity.ScriptableObjects
             var qLearning = GetLearning();
             qLearning.Clear();
             qLearning.Save();
+        }
+
+        protected override Base.Action CreateAction()
+        {
+            _actionData.SetLearning(GetLearning());
+            return _actionData;
         }
     }
 }

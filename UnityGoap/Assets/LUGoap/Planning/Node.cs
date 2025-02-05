@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using LUGoap.Base;
-using LUGoap.Learning;
 using Action = LUGoap.Base.Action;
 
 namespace LUGoap.Planning

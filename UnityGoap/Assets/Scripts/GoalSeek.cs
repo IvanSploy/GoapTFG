@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using Panda;
 using Panda.Examples.Shooter;
@@ -14,6 +12,13 @@ public class GoalSeek : MonoBehaviour
     
     private readonly Queue<Vector3> _remainingCheckPoints = new();
     private bool _loaded;
+    
+    // Use this for initialization
+    void Start()
+    {
+        self = GetComponent<Unit>();
+        ai = GetComponent<AI>();
+    }
 
     [Task]
     bool IsLoaded => _loaded;
@@ -87,12 +92,4 @@ public class GoalSeek : MonoBehaviour
         }
         return hasLos;
     }
-
-    // Use this for initialization
-    void Start()
-    {
-        self = this.GetComponent<Unit>();
-        ai = GetComponent<AI>();
-    }
-
 }

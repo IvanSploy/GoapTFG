@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-using Panda;
 namespace Panda.Examples.Move
 {
     public class Move : MonoBehaviour

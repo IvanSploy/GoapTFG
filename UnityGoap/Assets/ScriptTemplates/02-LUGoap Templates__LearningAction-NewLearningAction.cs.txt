@@ -6,18 +6,6 @@ using LUGoap.Unity;
 using LUGoap.Unity.ScriptableObjects;
 using LUGoap.Learning;
 
-[CreateAssetMenu(fileName = "#SCRIPTNAME#", menuName = "LUGoap/Actions/#SCRIPTNAME#")]
-public class #SCRIPTNAME# : LearningActionConfig<#SCRIPTNAME#Action>
-{
-    #NOTRIM#
-    
-    protected override #SCRIPTNAME#Action Install(#SCRIPTNAME#Action action)
-    {
-        #NOTRIM#
-        return action;
-    }
-}
-
 public class #SCRIPTNAME#Action : LearningAction
 {
     #NOTRIM#
