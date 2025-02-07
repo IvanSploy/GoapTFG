@@ -12,29 +12,21 @@ public class OpenAction : Action
     public PropertyKey OpenState;
     public string Target;
 
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
-    {
-        return null;
-    }
-    
-    protected override Effects GetProceduralEffects(ActionSettings settings)
-    {
-        return null;
-    }
-    
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    protected override void Init() { }
+
+    protected override bool OnValidate(State nextState, string[] parameters)
     {
         GoapEntity entityDoor = WorkingMemoryManager.Get(Target).Object;
         if (entityDoor.CurrentState.TryGetOrDefault(OpenState, "Opened") == "Locked")
         {
-            iAgent.CurrentState.Set(OpenState, "Locked");
-            if (!iAgent.CurrentState.TryGetOrDefault(PropertyKey.HasKey, false)) return false;
+            _agent.CurrentState.Set(OpenState, "Locked");
+            if (!_agent.CurrentState.TryGetOrDefault(PropertyKey.HasKey, false)) return false;
         }
         
         return true;
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
         GoapEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
         var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();

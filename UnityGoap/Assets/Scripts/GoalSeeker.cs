@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Panda;
 using Panda.Examples.Shooter;
 
-public class GoalSeek : MonoBehaviour
+public class GoalSeeker : MonoBehaviour
 {
     public List<Transform> CheckPoints;
 
@@ -24,7 +24,7 @@ public class GoalSeek : MonoBehaviour
     bool IsLoaded => _loaded;
 
     [Task]
-    void LoadCheckPoints()
+    public void LoadCheckPoints()
     {
         _remainingCheckPoints.Clear();
         foreach (var checkPointTransform in CheckPoints)
@@ -37,15 +37,15 @@ public class GoalSeek : MonoBehaviour
     }
     
     [Task]
-    bool SetDestination_CheckPoint()
+    public bool SetDestination_CheckPoint()
     {
         if (_remainingCheckPoints.Count <= 0)
             return false;
         
         var dst = _remainingCheckPoints.Peek();
         
-        var attacker = self.shotBy != null ? self.shotBy : ai.enemy;
-        if (attacker != null)
+        var attacker = self.shotBy ? self.shotBy : ai.enemy;
+        if (attacker)
         {
             var src = attacker.transform.position;
             var ignoreList = new List<GameObject>() { this.gameObject, attacker.gameObject };
@@ -65,7 +65,7 @@ public class GoalSeek : MonoBehaviour
     }
     
     [Task]
-    void RemoveCheckPoint()
+    public void RemoveCheckPoint()
     {
         _remainingCheckPoints.Dequeue();
         ThisTask.Succeed();
@@ -80,10 +80,10 @@ public class GoalSeek : MonoBehaviour
         foreach( var hit in hits)
         {
             var type = hit.collider.GetComponent<TriggerType>();
-            if (type == null || !type.collidesWithBullet)
+            if (!type || !type.collidesWithBullet)
                 continue;
                 
-            var go = hit.collider.attachedRigidbody != null ? hit.collider.attachedRigidbody.gameObject: hit.collider.gameObject;
+            var go = hit.collider.attachedRigidbody ? hit.collider.attachedRigidbody.gameObject: hit.collider.gameObject;
             if(! ignoreList.Contains( go ) && Vector3.Distance( hit.point, destination ) > 2.0f)
             {
                 hasLos = false;

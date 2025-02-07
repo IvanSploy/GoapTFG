@@ -16,10 +16,10 @@ MonoBehaviour:
   _preconditions: []
   _effects: []
   _actionData:
-    rid: 988238987786715201
+    rid: 988238987786715217
   references:
     version: 2
     RefIds:
-    - rid: 988238987786715201
+    - rid: 988238987786715217
       type: {class: SetDestinationCoverAction, ns: , asm: Assembly-CSharp}
       data: 

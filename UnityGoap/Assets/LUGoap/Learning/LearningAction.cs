@@ -46,27 +46,27 @@ namespace LUGoap.Learning
         /// </summary>
         protected abstract string[] OnCreateParameters(ActionSettings settings);
 
-        public override bool Validate(State nextState, IAgent iAgent, string[] parameters)
+        public override bool Validate(State nextState, string[] parameters)
         {
-            bool valid = OnValidate(nextState, iAgent, parameters);
+            bool valid = OnValidate(nextState, parameters);
             if (valid) return true;
             
-            _qLearning.Update(iAgent.CurrentAction.GlobalLearningCode,
+            _qLearning.Update(_agent.CurrentAction.GlobalLearningCode,
                 ParseToActionName(parameters), _qLearning.FailReward, -1);
 
             return false;
         }
 
-        public override async Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+        public override async Task<Effects> Execute(Effects effects, string[] parameters, CancellationToken token)
         {
-            var finalEffects = await OnExecute(effects, iAgent, parameters, token);
-            var learningCode = iAgent.CurrentAction.LocalLearningCode;
+            var finalEffects = await OnExecute(effects, parameters, token);
+            var learningCode = _agent.CurrentAction.LocalLearningCode;
             
             if(token.IsCancellationRequested)
             {
                 _qLearning.Update(learningCode,
-                    ParseToActionName(parameters), iAgent.IsCompleted ?
-                        _qLearning.SucceedReward : _qLearning.FailReward, iAgent.CurrentAction.LocalLearningCode);
+                    ParseToActionName(parameters), _agent.IsCompleted ?
+                        _qLearning.SucceedReward : _qLearning.FailReward, _agent.CurrentAction.LocalLearningCode);
                 return null;
             }
             

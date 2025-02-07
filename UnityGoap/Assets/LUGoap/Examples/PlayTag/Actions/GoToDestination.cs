@@ -9,47 +9,36 @@ public class GoToDestinationAction : Action
 {
     public int SpeedFactor = 1;
 
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
+    private GoapAgent _goapAgent;
+    private Transform _transform;
+
+    protected override void Init()
     {
-        return null;
-    }
-    
-    protected override Effects GetProceduralEffects(ActionSettings settings)
-    {
-        return null;
-    }
-    
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
-    {
-        if (iAgent is not GoapAgent agent) return false;
-        
-        return true;
+        if (_agent is not GoapAgent agent) return;
+        _goapAgent = agent;
+        _transform = _goapAgent.transform;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not GoapAgent agent) return null;
-        
-        var x = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
-        var z = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
+        var x = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
+        var z = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
         var target = new Vector3(x, 0, z);
-        
-        var t = agent.transform;
         
         bool reached = false;
 
-        var speed = agent.Speed * SpeedFactor;
+        var speed = _goapAgent.Speed * SpeedFactor;
         
         while (!reached)
         {
             if (token.IsCancellationRequested) return null;
 
-            var p = t.position;
+            var p = _transform.position;
             target.y = p.y;
-            t.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
-            t.rotation = Quaternion.LookRotation(target - p, Vector3.up);
+            _transform.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
+            _transform.rotation = Quaternion.LookRotation(target - p, Vector3.up);
             target.y = p.y;
-            if (Vector3.Distance(t.position, target) < float.Epsilon)
+            if (Vector3.Distance(_transform.position, target) < float.Epsilon)
             {
                 reached = true;
             }

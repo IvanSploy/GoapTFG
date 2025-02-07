@@ -99,7 +99,7 @@ namespace LUGoap.Unity
             //ACTIONS
             foreach (var action in _actionList)
             {
-                _actions.Add(action.Create());
+                _actions.Add(action.Create(this));
             }
 
             if (_async)

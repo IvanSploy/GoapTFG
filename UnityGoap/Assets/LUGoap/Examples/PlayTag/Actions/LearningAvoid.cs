@@ -13,11 +13,14 @@ public class LearningAvoidAction : LearningAction
     public Vector2 ZLimits;
     public int SpeedFactor;
 
-    public void Init(Vector2 xLimits, Vector2 zLimits, int speedFactor)
+    private GoapAgent _goapAgent;
+    private Transform _transform;
+
+    protected override void Init()
     {
-        XLimits = xLimits;
-        ZLimits = zLimits;
-        SpeedFactor = speedFactor;
+        if (_agent is not GoapAgent agent) return;
+        _goapAgent = agent;
+        _transform = agent.transform;
     }
 
     protected override string[] OnCreateParameters(ActionSettings settings)
@@ -64,11 +67,6 @@ public class LearningAvoidAction : LearningAction
         if(targetDirection == Vector3.zero) return true;
         return !(Vector3.Angle(destinationDirection, targetDirection) <= 45.0f);
     }
-    
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
-    {
-        return null;
-    }
 
     protected override Effects GetProceduralEffects(ActionSettings settings)
     {
@@ -82,11 +80,9 @@ public class LearningAvoidAction : LearningAction
         return effects;
     }
 
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    protected override bool OnValidate(State nextState, string[] parameters)
     {
-        if (iAgent is not GoapAgent agent) return false;
-
-        if (iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false)) return true;
+        if (_agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false)) return true;
 
         var args = DeSerializeParameters(parameters);
         
@@ -96,51 +92,47 @@ public class LearningAvoidAction : LearningAction
             z = args[1]
         };
 
-        var destinationDirection = destination - agent.transform.position;
+        var destinationDirection = destination - _transform.position;
         destinationDirection.y = 0;
         if (destinationDirection.magnitude < 0.1f) return false;
         
-        var targetX = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.TargetX, 0f);
-        var targetZ = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.TargetZ, 0f);
+        var targetX = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.TargetX, 0f);
+        var targetZ = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.TargetZ, 0f);
         
         var targetPosition = new Vector3(targetX, destination.y, targetZ);
         
-        var targetDirection = targetPosition - agent.transform.position;
+        var targetDirection = targetPosition - _transform.position;
         return !(Vector3.Angle(destinationDirection, targetDirection) <= 45.0f);
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not GoapAgent agent) return null;
-        
         var x = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f).Value;
         var z = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f).Value;
         var target = new Vector3(x, 0, z);
         
-        var t = agent.transform;
-        
         bool reached = false;
 
-        var speed = agent.Speed * SpeedFactor;
+        var speed = _goapAgent.Speed * SpeedFactor;
         
         while (!reached)
         {
             if (token.IsCancellationRequested) return null;
 
-            var p = t.position;
+            var p = _transform.position;
             target.y = p.y;
-            t.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
-            t.rotation = Quaternion.LookRotation(target - p, Vector3.up);
+            _transform.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
+            _transform.rotation = Quaternion.LookRotation(target - p, Vector3.up);
             target.y = p.y;
-            if (Vector3.Distance(t.position, target) < float.Epsilon)
+            if (Vector3.Distance(_transform.position, target) < float.Epsilon)
             {
                 reached = true;
             }
             await Task.Yield();
         }
         
-        var isIt = iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false);
-        var playerNear = (string)iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.PlayerNear) is "Close" or "Near";
+        var isIt = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false);
+        var playerNear = (string)_agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.PlayerNear) is "Close" or "Near";
 
         if (!isIt && !playerNear) return effects;
         return null;

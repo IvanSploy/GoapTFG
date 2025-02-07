@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using LUGoap.Base;
 using LUGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
@@ -29,19 +31,17 @@ namespace LUGoap.Unity.Utils
                 code += streamReader.ReadToEnd();
             }
             
+            var addedKeys = new HashSet<string>();
             string keys = "";
-            foreach (var property in properties)
-            {
-                keys += property.Key.Replace(" ", string.Empty) + ",\n";
-            }
-            code = code.Replace("[propertyKeys]", keys);
-            
             string types = "";
             foreach (var property in properties)
             {
+                if (!addedKeys.Add(property.Key)) continue;
+                keys += property.Key.Replace(" ", string.Empty) + ",\n";
                 types += "{ PropertyKey." + property.Key.Replace(" ", string.Empty) + ", PropertyType." + property.Type + " },\n";
             }
-
+            
+            code = code.Replace("[propertyKeys]", keys);
             code = code.Replace("[propertyTypes]", types);
             
             using (StreamWriter streamWriter = new StreamWriter(filePathAndName))
@@ -67,9 +67,11 @@ namespace LUGoap.Unity.Utils
                 code += streamReader.ReadToEnd();
             }
             
+            var addedKeys = new HashSet<PropertyManager.PropertyKey>();
             string customEnums = "";
             foreach (var customEnum in enumConfigs)
             {
+                if(!addedKeys.Add(customEnum.EnumType)) continue;
                 string enums = ", new [] { ";
                 foreach (var enumName in customEnum.EnumValues)
                 {

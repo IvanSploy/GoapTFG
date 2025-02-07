@@ -112,7 +112,7 @@ namespace LUGoap.Planning
             if (!CheckCurrent(agent)) return null;
 
             _cancellationTokenSource = new CancellationTokenSource();
-            return Current.Action.Execute(Current.Effects, agent, Current.Parameters, _cancellationTokenSource.Token);
+            return Current.Action.Execute(Current.Effects, Current.Parameters, _cancellationTokenSource.Token);
         }
         
         private bool CheckCurrent(IAgent agent)
@@ -120,7 +120,7 @@ namespace LUGoap.Planning
             if (!Current.Conditions.CheckConflict(agent.CurrentState))
             {
                 var finalState = agent.CurrentState + Current.Effects;
-                bool valid = Current.Action.Validate(finalState, agent, Current.Parameters);
+                bool valid = Current.Action.Validate(finalState, Current.Parameters);
                 if (!valid)
                 {
                     DebugRecord.Record("[GOAP] Plan detenido. La acción no ha podido completarse.");

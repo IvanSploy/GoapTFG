@@ -8,39 +8,30 @@ public class SetDestinationToTargetAction : Action
 {
     public string Target;
 
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
+    private Transform _transform;
+    
+    protected override void Init()
     {
-        return null;
+        if (_agent is not GoapAgent agent) return;
+        _transform = agent.transform;
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override bool OnValidate(State nextState, string[] parameters)
     {
-        return null;
-    }
-
-    //public override int GetCost(GoapConditions goal)
-    //{
-    //    return Random.Range(2, 50);
-    //}
-
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
-    {
-        if (iAgent is not GoapAgent agent) return false;
-        
-        if (!iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
+        if (!_agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
         {
             var targetPosition = WorkingMemoryManager.Get(Target).Object.transform.position;
             var destination = targetPosition;
             destination.x = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
             destination.z = nextState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
 
-            var destinationDirection = destination - agent.transform.position;
+            var destinationDirection = destination - _transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
                 return false;
             }
 
-            var targetDirection = targetPosition - agent.transform.position;
+            var targetDirection = targetPosition - _transform.position;
             if (targetDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, targetDirection) <= 45.0f)
             {
                 return false;
@@ -50,10 +41,8 @@ public class SetDestinationToTargetAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not GoapAgent agent) return null;
-        
         GoapEntity entityPlayer = WorkingMemoryManager.Get(Target).Object;
         var p = entityPlayer.transform.position;
         effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, p.x);

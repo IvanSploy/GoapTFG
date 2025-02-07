@@ -13,7 +13,17 @@ namespace LUGoap.Unity.Action
         public PropertyKey TargetKey;
         public int SpeedFactor;
         public string ExcludedLocation;
-        
+
+        private GoapAgent _goapAgent;
+        private Transform _transform;
+
+        protected override void Init()
+        {
+            if (_agent is not GoapAgent agent) return;
+            _goapAgent = agent;
+            _transform = agent.transform;
+        }
+
         protected override Conditions GetProceduralConditions(ActionSettings settings)
         {
             var condition = new Conditions();
@@ -46,39 +56,28 @@ namespace LUGoap.Unity.Action
             var cost = Math.Max(3, (int)(Vector3.Distance(Vector3.zero, pos) / SpeedFactor));
             return cost;
         }
-        
-        protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
-        {
-            if (iAgent is not GoapAgent agent) return false;
-            
-            return true;
-        }
 
-        protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+        protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
         {
-            if (iAgent is not GoapAgent agent) return null;
-
             var targetName = (string)effects.TryGetOrDefault(TargetKey, "None").Value;
             GoapEntity targetEntity = WorkingMemoryManager.Get(targetName).Object;
             var target = targetEntity.transform.position;
-            
-            var t = agent.transform;
 
-            target.y = t.position.y;
-            var rotationTarget = Quaternion.LookRotation(target - t.position, Vector3.up);
+            target.y = _transform.position.y;
+            var rotationTarget = Quaternion.LookRotation(target - _transform.position, Vector3.up);
             
             bool reached = false;
 
-            var speed = agent.Speed * SpeedFactor;
+            var speed = _goapAgent.Speed * SpeedFactor;
             
             //Rotate
             while (!reached)
             {
                 if (token.IsCancellationRequested) return null;
                 
-                t.rotation = Quaternion.RotateTowards(t.rotation, rotationTarget, speed * 45 * Time.deltaTime );
+                _transform.rotation = Quaternion.RotateTowards(_transform.rotation, rotationTarget, speed * 45 * Time.deltaTime );
                 
-                if (Vector3.Distance(t.eulerAngles, rotationTarget.eulerAngles) < float.Epsilon)
+                if (Vector3.Distance(_transform.eulerAngles, rotationTarget.eulerAngles) < float.Epsilon)
                 {
                     reached = true;
                 }
@@ -92,11 +91,11 @@ namespace LUGoap.Unity.Action
             {
                 if (token.IsCancellationRequested) return null;
                     
-                var p = t.position;
+                var p = _transform.position;
                 target.y = p.y;
-                t.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
+                _transform.position = Vector3.MoveTowards(p, target, speed * Time.deltaTime);
                 target.y = p.y;
-                if (Vector3.Distance(t.position, target) < float.Epsilon)
+                if (Vector3.Distance(_transform.position, target) < float.Epsilon)
                 {
                     reached = true;
                 }

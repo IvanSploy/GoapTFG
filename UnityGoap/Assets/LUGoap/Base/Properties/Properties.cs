@@ -23,6 +23,11 @@ TargetX,
 TargetZ,
 GoalReached,
 Hp,
+Ammo,
+LastBulletSeenTime,
+LastShotTime,
+HasEnemy,
+EnemyVisible,
 
         }
         
@@ -42,6 +47,11 @@ Hp,
 { PropertyKey.TargetZ, PropertyType.Float },
 { PropertyKey.GoalReached, PropertyType.Boolean },
 { PropertyKey.Hp, PropertyType.Float },
+{ PropertyKey.Ammo, PropertyType.Integer },
+{ PropertyKey.LastBulletSeenTime, PropertyType.Float },
+{ PropertyKey.LastShotTime, PropertyType.Float },
+{ PropertyKey.HasEnemy, PropertyType.Boolean },
+{ PropertyKey.EnemyVisible, PropertyType.Boolean },
        
         };
     }

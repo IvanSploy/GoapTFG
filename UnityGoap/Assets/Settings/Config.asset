@@ -41,6 +41,16 @@ MonoBehaviour:
     Type: 0
   - Key: Hp
     Type: 2
+  - Key: Ammo
+    Type: 1
+  - Key: LastBulletSeenTime
+    Type: 2
+  - Key: LastShotTime
+    Type: 2
+  - Key: HasEnemy
+    Type: 0
+  - Key: EnemyVisible
+    Type: 0
   Enums:
   - EnumType: 3
     EnumValues:

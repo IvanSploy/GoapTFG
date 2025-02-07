@@ -157,6 +157,17 @@ namespace Panda.Examples.Shooter
             MoveTo(destination);
             WaitArrival();
         }
+        
+        public System.Threading.Tasks.Task MoveTo_DestinationAsync()
+        {
+            MoveTo(destination);
+            return WaitArrivalAsync();
+        }
+        
+        public async System.Threading.Tasks.Task WaitArrivalAsync()
+        {
+            while (navMeshAgent.remainingDistance > 1e-2) await System.Threading.Tasks.Task.Yield();
+        }
 
 
         [Task]

@@ -136,14 +136,14 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool SetDestination_Random(float radius)
+        public bool SetDestination_Random(float radius)
         {
             random_destination_radius = radius;
             return SetDestination_Random();
         }
 
         [Task]
-        bool SetDestination_Random()
+        public bool SetDestination_Random()
         {
             var dst = this.transform.position + (Random.insideUnitSphere * random_destination_radius);
             self.SetDestination(dst);
@@ -180,6 +180,7 @@ namespace Panda.Examples.Shooter
             return t < duration;
         }
 
+        // ReSharper disable Unity.PerformanceAnalysis
         bool HasLoS( Vector3 source, Vector3 destination, List<GameObject>  ignoreList )
         {
             bool hasLos = true;
@@ -189,10 +190,10 @@ namespace Panda.Examples.Shooter
             foreach( var hit in hits)
             {
                 var type = hit.collider.GetComponent<TriggerType>();
-                if (type == null || !type.collidesWithBullet)
+                if (!type || !type.collidesWithBullet)
                     continue;
                     
-                var go = hit.collider.attachedRigidbody != null ? hit.collider.attachedRigidbody.gameObject: hit.collider.gameObject;
+                var go = hit.collider.attachedRigidbody ? hit.collider.attachedRigidbody.gameObject: hit.collider.gameObject;
                 if(! ignoreList.Contains( go ) && Vector3.Distance( hit.point, destination ) > 2.0f)
                 {
                     hasLos = false;
@@ -203,7 +204,7 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool SetDestination_Cover()
+        public bool SetDestination_Cover()
         {
             // Search for a cover where the enemy has no line of sight.
 
@@ -215,11 +216,10 @@ namespace Panda.Examples.Shooter
 
             bool isSet = false;
 
-            var  attacker = self.shotBy != null ? self.shotBy : enemy;
+            var  attacker = self.shotBy ? self.shotBy : enemy;
 
-            if (attacker != null)
+            if (attacker)
             {
-
                 // Sample random cover points on an increasing circle.
                 var src = attacker.transform.position;
                 var pos = this.transform.position;
@@ -248,7 +248,7 @@ namespace Panda.Examples.Shooter
                     if( self.navMeshAgent.CalculatePath(p, selfPath) && selfPath.status == UnityEngine.AI.NavMeshPathStatus.PathComplete )
                     {
                         float attackerDistance = 0.0f;
-                        if (attacker != null && attacker.navMeshAgent != null && attacker.navMeshAgent.CalculatePath(p, attackerPath))
+                        if (attacker && attacker.navMeshAgent && attacker.navMeshAgent.CalculatePath(p, attackerPath))
                             attackerDistance = PathLength(attackerPath);
 
                         float d = PathLength(selfPath) - attackerDistance*0.1f;

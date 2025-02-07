@@ -6,47 +6,42 @@ using LUGoap.Unity;
 
 public class SetDestinationAction : Action
 {
-    private float _destinationX;
-    private float _destinationZ;
+    public float DestinationX;
+    public float DestinationZ;
 
-    public void Init(float x, float z)
-    {
-        _destinationX = x;
-        _destinationZ = z;
-    }
+    private Transform _transform;
     
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
+    protected override void Init()
     {
-        return null;
+        if (_agent is not GoapAgent agent) return;
+        _transform = agent.transform;
     }
 
     protected override Effects GetProceduralEffects(ActionSettings settings)
     {
         Effects effects = new Effects();
 
-        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, _destinationX);
-        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, _destinationZ);
+        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, DestinationX);
+        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, DestinationZ);
         return effects;
     }
 
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    protected override bool OnValidate(State nextState, string[] parameters)
     {
-        if (iAgent is not GoapAgent agent) return false;
-        
-        if (!iAgent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
+        if (!_agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false))
         {
             var playerPosition = WorkingMemoryManager.Get("Player").Object.transform.position;
             var destination = playerPosition;
-            destination.x = _destinationX;
-            destination.z = _destinationZ;
+            destination.x = DestinationX;
+            destination.z = DestinationZ;
 
-            var destinationDirection = destination - agent.transform.position;
+            var destinationDirection = destination - _transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
                 return false;
             }
             
-            var playerDirection = playerPosition - agent.transform.position;
+            var playerDirection = playerPosition - _transform.position;
             if (playerDirection.magnitude > 0.1f && Vector3.Angle(destinationDirection, playerDirection) <= 45.0f)
             {
                 return false;
@@ -56,9 +51,8 @@ public class SetDestinationAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not GoapAgent agent) return null;
         
         return effects;
     }

@@ -15,32 +15,38 @@ namespace LUGoap.Base
         private Effects _effects = new();
         private int _cost = 1;
         
-        public void Initialize(string name, Conditions conditions, Effects effects)
+        protected IAgent _agent;
+        
+        public void Initialize(string name, Conditions conditions, Effects effects, IAgent agent)
         {
             Name = name;
             if (conditions != null) _preconditions = conditions;
             if (effects != null) _effects = effects;
+            _agent = agent;
+            Init();
         }
+
+        protected abstract void Init(); 
         
         //Main abstract
-        public virtual bool Validate(State nextState, IAgent iAgent, string[] parameters)
+        public virtual bool Validate(State nextState, string[] parameters)
         {
-            return OnValidate(nextState, iAgent, parameters);
+            return OnValidate(nextState, parameters);
         }
         
-        public virtual Task<Effects> Execute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+        public virtual Task<Effects> Execute(Effects effects, string[] parameters, CancellationToken token)
         {
-            var result = OnExecute(effects, iAgent, parameters, token);
+            var result = OnExecute(effects, parameters, token);
             if (token.IsCancellationRequested) return null;
 
             return result;
         }
 
         //Procedural related.
-        protected abstract Conditions GetProceduralConditions(ActionSettings settings);
-        protected abstract Effects GetProceduralEffects(ActionSettings settings);
-        protected abstract bool OnValidate(State state, IAgent iAgent, string[] parameters);
-        protected abstract Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token);
+        protected virtual Conditions GetProceduralConditions(ActionSettings settings) => null;
+        protected virtual Effects GetProceduralEffects(ActionSettings settings) => null;
+        protected virtual bool OnValidate(State state, string[] parameters) => true;
+        protected abstract Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token);
         
         //Cost related.
         public int GetCost() => _cost;        

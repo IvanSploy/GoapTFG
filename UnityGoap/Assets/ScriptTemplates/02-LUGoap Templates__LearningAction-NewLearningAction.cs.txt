@@ -1,40 +1,27 @@
-using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
-using LUGoap.Unity.ScriptableObjects;
 using LUGoap.Learning;
 
 public class #SCRIPTNAME#Action : LearningAction
 {
     #NOTRIM#
     
-    protected override string[] OnCreateParameters()
+    protected override void Init()
     {
-        return null;
-    }
-    
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
-    {
-        return null;
-    }
-    
-    protected override Effects GetProceduralEffects(ActionSettings settings)
-    {
-        return null;
-    }
-    
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
-    {
-        if (iAgent is not GoapAgent agent) return false;
+        if (_agent is not GoapAgent agent) return;
         #NOTRIM#
-        return true;
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override string[] OnCreateParameters(ActionSettings settings)
     {
-        if (iAgent is not GoapAgent agent) return null;
+        #NOTRIM#
+        return null;
+    }
+    
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    {
         #NOTRIM#
         return effects;
     }

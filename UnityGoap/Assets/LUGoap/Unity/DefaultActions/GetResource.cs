@@ -12,10 +12,7 @@ namespace LUGoap.Unity.Action
         public float Count = 1;
         public int WaitSeconds = 1;
 
-        protected override Conditions GetProceduralConditions(ActionSettings settings)
-        {
-            return null;
-        }
+        protected override void Init() { }
 
         protected override Effects GetProceduralEffects(ActionSettings settings)
         {
@@ -44,7 +41,7 @@ namespace LUGoap.Unity.Action
         }
         
         //Conditions that couldn't be resolved by the planner.
-        protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+        protected override bool OnValidate(State nextState, string[] parameters)
         {
             var fact = WorkingMemoryManager.Get(Resource);
             if (fact == null) return false;
@@ -66,7 +63,7 @@ namespace LUGoap.Unity.Action
             return valid;
         }
         
-        protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+        protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
         {
             var fact = WorkingMemoryManager.Get(Resource);
             

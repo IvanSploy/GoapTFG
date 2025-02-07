@@ -1,22 +1,22 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
 using Panda.Examples.Shooter;
 
-public class SetDestinationCoverAction : Action
+public class MoveToDestinationAction : Action
 {
-    private AI _ai;
+    private Unit _unit;
     
     protected override void Init()
     {
         if (_agent is not GoapAgent agent) return;
-        _ai = agent.GetComponent<AI>();
+        _unit = agent.GetComponent<Unit>();
     }
-
+    
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Cover();
+        await _unit.MoveTo_DestinationAsync();
         return effects;
     }
 }

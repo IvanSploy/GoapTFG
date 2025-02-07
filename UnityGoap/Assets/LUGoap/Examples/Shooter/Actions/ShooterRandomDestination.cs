@@ -1,11 +1,13 @@
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
 using Panda.Examples.Shooter;
 
-public class SetDestinationCoverAction : Action
+public class ShooterRandomDestinationAction : Action
 {
+    public float Range;
+    
     private AI _ai;
     
     protected override void Init()
@@ -13,10 +15,10 @@ public class SetDestinationCoverAction : Action
         if (_agent is not GoapAgent agent) return;
         _ai = agent.GetComponent<AI>();
     }
-
+    
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Cover();
+        _ai.SetDestination_Random(Range);
         return effects;
     }
 }

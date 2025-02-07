@@ -12,15 +12,12 @@ public class SetRandomDestinationAction : Action
     public Vector2 XLimits;
     public Vector2 ZLimits;
 
-    public void Init(Vector2 xLimits, Vector2 zLimits)
+    private Transform _transform;
+    
+    protected override void Init()
     {
-        XLimits = xLimits;
-        ZLimits = zLimits;
-    }
-
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
-    {
-        return null;
+        if (_agent is not GoapAgent agent) return;
+        _transform = agent.transform;
     }
 
     protected override Effects GetProceduralEffects(ActionSettings settings)
@@ -35,11 +32,9 @@ public class SetRandomDestinationAction : Action
         return effects;
     }
     
-    protected override bool OnValidate(State nextState, IAgent iAgent, string[] parameters)
+    protected override bool OnValidate(State nextState, string[] parameters)
     {
-        if (iAgent is not GoapAgent agent) return false;
-        
-        if (!iAgent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false))
+        if (!_agent.CurrentState.TryGetOrDefault(PropertyKey.IsIt, false))
         {
             var destination = new Vector3
             {
@@ -47,7 +42,7 @@ public class SetRandomDestinationAction : Action
                 z = nextState.TryGetOrDefault(PropertyKey.DestinationZ, 0f)
             };
 
-            var destinationDirection = destination - agent.transform.position;
+            var destinationDirection = destination - _transform.position;
             if (destinationDirection.magnitude < 0.1f)
             {
                 return false;
@@ -57,9 +52,8 @@ public class SetRandomDestinationAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, IAgent iAgent, string[] parameters, CancellationToken token)
+    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (iAgent is not GoapAgent agent) return null;
 
         return effects;
     }

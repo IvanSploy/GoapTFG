@@ -31,7 +31,7 @@ namespace LUGoap.Unity.ScriptableObjects
             _cost = Math.Max(0, _cost);
         }
 
-        public Base.Action Create()
+        public Base.Action Create(IAgent agent)
         {
             var preconditions = new Conditions();
             preconditions.ApplyProperties(_preconditions);
@@ -40,7 +40,7 @@ namespace LUGoap.Unity.ScriptableObjects
             effects.ApplyProperties(_effects);
 
             var action = CreateAction();
-            action.Initialize(name, preconditions, effects);
+            action.Initialize(name, preconditions, effects, agent);
             return action;
         }
 
