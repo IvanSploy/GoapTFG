@@ -10,6 +10,7 @@ namespace LUGoap.Planning
 {
     public class Plan
     {
+        public IAgent _agent;
         public NodeAction First { get; private set; }
         public NodeAction Current { get; private set; }
         public Stack<NodeAction> ExecutedActions { get; } = new();
@@ -24,8 +25,10 @@ namespace LUGoap.Planning
         public NodeAction? Next => _nodes.Count > 0 ? _nodes.Peek() : null;
         public int Count => _nodes.Count;
 
-        public Plan(Node finalNode)
+        public Plan(IAgent agent, Node finalNode)
         {
+            _agent = agent;
+            
             //Get nodes
             Stack<NodeAction> aux = new();
             while (finalNode.Parent != null)
@@ -42,7 +45,7 @@ namespace LUGoap.Planning
             }
         }
         
-        public Task<Effects> ExecuteNext(IAgent agent)
+        public async Task<Effects> ExecuteNext()
         {
             if (Current.Action != null) ExecutedActions.Push(Current);
 
@@ -50,20 +53,27 @@ namespace LUGoap.Planning
             if (First.Action == null) First = Current;
 
             _stopwatch.Start();
-            return ExecuteCurrent(agent);
+            try
+            {
+                return await ExecuteCurrent();
+            }
+            catch (OperationCanceledException)
+            {
+                return null;
+            }
         }
 
-        public void Finish(State state, IAgent agent)
+        public void Finish(State state)
         {
             DebugRecord.Record(state != null ? state.ToString() : "Plan failed.");
             if (!IsCompleted && state != null && Count == 0) IsCompleted = true;
-            ApplyLearning(state, agent);
+            ApplyLearning(state);
             _stopwatch.Stop();
         }
         
-        public void ApplyLearning(State state, IAgent agent)
+        public void ApplyLearning(State state)
         {
-            if (agent is not ILearningAgent { Learning: not null } learningAgent) return;
+            if (_agent is not ILearningAgent { Learning: not null } learningAgent) return;
             
             if (state != null)
             {
@@ -91,12 +101,12 @@ namespace LUGoap.Planning
             }
         }
 
-        public bool VerifyCurrent(IAgent agent)
+        public bool VerifyCurrent()
         {
-            var isConflict = Current.Conditions.CheckConflict(agent.CurrentState);
+            var isConflict = Current.Conditions.CheckConflict(_agent.CurrentState);
             if (isConflict) return false;
 
-            var state = agent.CurrentState + Current.Effects;
+            var state = _agent.CurrentState + Current.Effects;
             foreach (var nextAction in _nodes)
             {
                 isConflict = nextAction.Conditions.CheckConflict(state);
@@ -104,22 +114,22 @@ namespace LUGoap.Planning
                 state += nextAction.Effects;
             }
 
-            return !agent.CurrentGoal.Conditions.CheckConflict(state);
+            return !_agent.CurrentGoal.Conditions.CheckConflict(state);
         }
         
-        private Task<Effects> ExecuteCurrent(IAgent agent)
+        private Task<Effects> ExecuteCurrent()
         {
-            if (!CheckCurrent(agent)) return null;
+            if (!CurrentIsValid()) return Task.FromResult<Effects>(null);
 
             _cancellationTokenSource = new CancellationTokenSource();
             return Current.Action.Execute(Current.Effects, Current.Parameters, _cancellationTokenSource.Token);
         }
         
-        private bool CheckCurrent(IAgent agent)
+        private bool CurrentIsValid()
         {
-            if (!Current.Conditions.CheckConflict(agent.CurrentState))
+            if (!Current.Conditions.CheckConflict(_agent.CurrentState))
             {
-                var finalState = agent.CurrentState + Current.Effects;
+                var finalState = _agent.CurrentState + Current.Effects;
                 bool valid = Current.Action.Validate(finalState, Current.Parameters);
                 if (!valid)
                 {

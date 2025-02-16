@@ -36,10 +36,7 @@ namespace LUGoap.Base
         
         public virtual Task<Effects> Execute(Effects effects, string[] parameters, CancellationToken token)
         {
-            var result = OnExecute(effects, parameters, token);
-            if (token.IsCancellationRequested) return null;
-
-            return result;
+            return OnExecute(effects, parameters, token);
         }
 
         //Procedural related.

@@ -70,5 +70,10 @@ namespace LUGoap.Base
         /// Tries to stop current plan execution and waits x seconds.
         /// </summary>
         void Interrupt(float seconds);
+        
+        /// <summary>
+        /// Tries to stop current plan execution and waits x seconds.
+        /// </summary>
+        void ForceInterrupt(float seconds);
     }
 }

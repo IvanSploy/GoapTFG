@@ -9,13 +9,11 @@ namespace LUGoap.Base
         //Properties
         public Conditions Conditions { get; }
         public string Name { get; }
-        public int PriorityLevel { get; }
         
         //Constructors
-        public Goal(string name, Conditions conditions, int priorityLevel)
+        public Goal(string name, Conditions conditions)
         {
-            Conditions = new Conditions(conditions) ;
-            PriorityLevel = priorityLevel;
+            Conditions = new Conditions(conditions);
             Name = name;
         }
         

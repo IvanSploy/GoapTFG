@@ -25,7 +25,9 @@ namespace LUGoap.Planning
         private readonly HashSet<Node> _expandedNodes = new();
         private Func<Conditions, State, int> _customHeuristic;
         private QLearning _qLearning;
-        private Vector2 _exploreRange;
+
+        private readonly Dictionary<string, int> _exploreValues = new();
+        private int _explorationMaxValue;
         
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
@@ -48,15 +50,16 @@ namespace LUGoap.Planning
             _customHeuristic = customHeuristic;
         }
         
-        public void SetLearning(QLearning qLearning, Vector2 exploreRange)
+        public void SetLearning(QLearning qLearning, int explorationMaxValue)
         {
             Mode = HeuristicMode.Learning;
             _qLearning = qLearning;
-            _exploreRange = exploreRange;
+            _explorationMaxValue = explorationMaxValue;
         }
 
         public Node Initialize(State initialState, Conditions goal)
         {
+            _exploreValues.Clear();
             var goalState = new Conditions(goal);
             AStarNode node = (AStarNode) CreateNode(initialState, goalState);
             node.GCost = 0;
@@ -157,8 +160,8 @@ namespace LUGoap.Planning
         
         private int GetGLearning(Node node)
         {
-            if (_qLearning.IsExploring()) return GetExploreValue();
             if (node.Parent == null) return 0;
+            if (_qLearning.IsExploring()) return GetExploreValue(node.PreviousAction);
             var learningCode = GetLearningCode(node.Parent);
             var value = _qLearning.Get(learningCode, node.PreviousAction.Name);
             return -(int)Math.Round(value);
@@ -171,9 +174,13 @@ namespace LUGoap.Planning
             return -(int)Math.Round(value);
         }
         
-        private int GetExploreValue()
+        private int GetExploreValue(Action action)
         {
-            return Random.RangeToInt(_exploreRange.X, _exploreRange.Y);
+            if (!_exploreValues.TryGetValue(action.Name, out var result))
+            {
+                result = Random.RangeToInt(1, _explorationMaxValue);
+            }
+            return result;
         }
         
         private void UpdateChildrenCost(Node node)

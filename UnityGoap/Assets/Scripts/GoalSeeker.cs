@@ -7,17 +7,17 @@ public class GoalSeeker : MonoBehaviour
 {
     public List<Transform> CheckPoints;
 
-    Unit self;
-    AI ai;
-    
-    private readonly Queue<Vector3> _remainingCheckPoints = new();
+    protected Unit _self;
+    protected AI _ai;
+
+    protected readonly Queue<Vector3> _remainingCheckPoints = new();
     private bool _loaded;
     
     // Use this for initialization
-    void Start()
+    protected void Start()
     {
-        self = GetComponent<Unit>();
-        ai = GetComponent<AI>();
+        _self = GetComponent<Unit>();
+        _ai = GetComponent<AI>();
     }
 
     [Task]
@@ -44,7 +44,7 @@ public class GoalSeeker : MonoBehaviour
         
         var dst = _remainingCheckPoints.Peek();
         
-        var attacker = self.shotBy ? self.shotBy : ai.enemy;
+        var attacker = _self.shotBy ? _self.shotBy : _ai.enemy;
         if (attacker)
         {
             var src = attacker.transform.position;
@@ -55,9 +55,9 @@ public class GoalSeeker : MonoBehaviour
         }
         
         UnityEngine.AI.NavMeshPath selfPath = new UnityEngine.AI.NavMeshPath();
-        if (self.navMeshAgent.CalculatePath(dst, selfPath) && selfPath.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
+        if (_self.navMeshAgent.CalculatePath(dst, selfPath) && selfPath.status == UnityEngine.AI.NavMeshPathStatus.PathComplete)
         {
-            self.SetDestination(dst);
+            _self.SetDestination(dst);
             return true;
         }
 
@@ -71,7 +71,7 @@ public class GoalSeeker : MonoBehaviour
         ThisTask.Succeed();
     }
 
-    bool HasLoS( Vector3 source, Vector3 destination, List<GameObject>  ignoreList )
+    protected bool HasLoS( Vector3 source, Vector3 destination, List<GameObject>  ignoreList )
     {
         bool hasLos = true;
         var delta = (destination - source);

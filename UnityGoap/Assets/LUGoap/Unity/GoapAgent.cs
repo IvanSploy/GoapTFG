@@ -16,11 +16,12 @@ namespace LUGoap.Unity
         [SerializeField] private bool _runOnStart;
         [SerializeField] private bool _active = true;
         [SerializeField] private bool _async;
+        [SerializeField] private bool _greedy;
+        [SerializeField] private bool _useHeuristic;
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
-        [SerializeField] private List<PriorityGoal> _goalList;
+        [SerializeField] private List<GoalConfig> _goalList;
         [SerializeField] private List<ActionBaseConfig> _actionList;
-        [SerializeField] private bool _useHeuristic;
         
         [Header("View")]
         public float IndicatorTime = 0.5f;
@@ -65,7 +66,7 @@ namespace LUGoap.Unity
         {
             var generator = new AStar();
             if (_useHeuristic) generator.SetHeuristic(GoapHeuristics.GetCustomHeuristic());
-            return new BackwardPlanner(generator, this);
+            return new BackwardPlanner(generator, this, _greedy);
         }
 
         void Start()
@@ -94,7 +95,6 @@ namespace LUGoap.Unity
             {
                 _goals.Add(goal.Create());
             }
-            SortGoals();
 
             //ACTIONS
             foreach (var action in _actionList)
@@ -102,14 +102,7 @@ namespace LUGoap.Unity
                 _actions.Add(action.Create(this));
             }
 
-            if (_async)
-            {
-                StartCoroutine(PlanGeneratorAsync());
-            }
-            else
-            {
-                StartCoroutine(PlanGenerator());
-            }
+            StartCoroutine(_async ? PlanGeneratorAsync() : PlanGenerator());
         }
 
         //COROUTINES
@@ -184,28 +177,22 @@ namespace LUGoap.Unity
             _hasPlan = true;
             IsInterrupted = false;
             
-            State nextState;
             do
             {
-                nextState = null;
-                var task = _currentPlan.ExecuteNext(this);
-                if (task == null)
+                var task = _currentPlan.ExecuteNext();
+                while (!task.IsCompleted) yield return null;
+                if (task.Result == null)
                 {
-                    _currentPlan.Finish(null, this);
+                    _currentPlan.Finish(null);
+                    break;
                 }
-                else
+                State result = CurrentState + task.Result;
+                _currentPlan.Finish(result);
+                if (!IsInterrupted)
                 {
-                    while (!task.IsCompleted) yield return null;
-                    State result = null;
-                    if (task.Result != null) result = CurrentState + task.Result;
-                    _currentPlan.Finish(result, this);
-                    if (!IsInterrupted)
-                    {
-                        nextState = result;
-                        if (nextState != null) CurrentState = nextState;
-                    }
+                    CurrentState = result;
                 }
-            } while (nextState != null && !_currentPlan.IsCompleted && !IsInterrupted);
+            } while (!_currentPlan.IsCompleted && !IsInterrupted);
 
             if (_currentPlan.IsCompleted) PlanAchieved?.Invoke();
             else PlanFailed?.Invoke();
@@ -227,16 +214,12 @@ namespace LUGoap.Unity
         public void AddGoal(Goal goal)
         {
             _goals.Add(goal);
-            SortGoals();
         }
 
         public void AddGoals(List<Goal> goalList)
         {
             _goals.AddRange(goalList);
-            SortGoals();
         }
-
-        private void SortGoals() => _goals.Sort((g1, g2) => g2.PriorityLevel.CompareTo(g1.PriorityLevel));
 
         public int CreatePlan(State initialState)
         {
@@ -296,6 +279,17 @@ namespace LUGoap.Unity
         }
 
         [ContextMenu("ForceInterrupt")]
+        public void ForceInterruptEditor()
+        {
+            ForceInterrupt();
+        }
+        
+        [ContextMenu("Interrupt")]
+        public void InterruptEditor()
+        {
+            Interrupt();
+        }
+
         public void ForceInterrupt(float seconds = 0)
         {
             _interruptTime = seconds;
@@ -303,7 +297,6 @@ namespace LUGoap.Unity
             _currentPlan?.Interrupt();
         }
         
-        [ContextMenu("Interrupt")]
         public void Interrupt(float seconds = 0)
         {
             IsInterrupted = false;
@@ -317,7 +310,7 @@ namespace LUGoap.Unity
                     _currentPlan.IsCompleted = true;
                     ForceInterrupt(seconds);
                 }
-                else if (!_currentPlan.VerifyCurrent(this))
+                else if (!_currentPlan.VerifyCurrent())
                 {
                     ForceInterrupt(seconds);
                 }

@@ -28,13 +28,13 @@ namespace Panda.Examples.Shooter
         float targetMax;
         private void UpdateHUD()
         {
-            var hpStr = string.Format("HP:{0:0}/{1:0}", player.health, player.startHealth);
+            var hpStr = $"HP:{player.health:0}/{player.startHealth:0}";
             hpText.text = hpStr;
 
-            var ammoStr = string.Format("ammo:{0:0}/{1:0}", player.ammo, player.startAmmo);
+            var ammoStr = $"ammo:{player.ammo:0}/{player.startAmmo:0}";
             ammoText.text = ammoStr;
 
-            if (player.lastHit != null)
+            if (player.lastHit)
             {
                 targetHP = player.lastHit.health;
                 targetMax = player.lastHit.startHealth;
@@ -44,7 +44,7 @@ namespace Panda.Examples.Shooter
             }
 
             if( Time.time - player.lastHitTime < 3.0f)
-                targetText.text = string.Format("HP:{0:0}/{1:0}", targetHP , targetMax );
+                targetText.text = $"HP:{targetHP:0}/{targetMax:0}";
             else
                 targetText.text = "";
 

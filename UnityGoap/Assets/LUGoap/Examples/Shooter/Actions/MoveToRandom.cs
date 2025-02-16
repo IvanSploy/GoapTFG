@@ -4,19 +4,25 @@ using LUGoap.Base;
 using LUGoap.Unity;
 using Panda.Examples.Shooter;
 
-public class MoveToDestinationAction : Action
+public class MoveToRandomAction : Action
 {
-    private Unit _unit;
+    public float Range;
+    
+    private GoapUnit _unit;
+    private GoapAI _ai;
     
     protected override void Init()
     {
         if (_agent is not GoapAgent agent) return;
-        _unit = agent.GetComponent<Unit>();
+        _unit = agent.GetComponent<GoapUnit>();
+        _ai = agent.GetComponent<GoapAI>();
     }
     
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        await _unit.MoveTo_DestinationAsync();
+        _ai.SetDestination_Random(Range);
+        _unit.Move();
+        await _unit.WaitArrival(token);
         return effects;
     }
 }

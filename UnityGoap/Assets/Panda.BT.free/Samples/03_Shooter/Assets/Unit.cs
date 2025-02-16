@@ -67,7 +67,6 @@ namespace Panda.Examples.Shooter
                 if (ammo > startAmmo) ammo = startAmmo;
                 lastReloadTime = Time.time;
             }
-
         }
 
 
@@ -122,10 +121,9 @@ namespace Panda.Examples.Shooter
             {
                 navMeshAgent.SetDestination(p);
             }
-
-
-            if( Task.isInspected )
-                ThisTask.debugInfo = string.Format("({0}, {1})", destination.x, destination.z);
+            
+            if(Task.isInspected)
+                ThisTask.debugInfo = $"({destination.x}, {destination.z})";
             return true;
         }
 
@@ -156,17 +154,6 @@ namespace Panda.Examples.Shooter
         {
             MoveTo(destination);
             WaitArrival();
-        }
-        
-        public System.Threading.Tasks.Task MoveTo_DestinationAsync()
-        {
-            MoveTo(destination);
-            return WaitArrivalAsync();
-        }
-        
-        public async System.Threading.Tasks.Task WaitArrivalAsync()
-        {
-            while (navMeshAgent.remainingDistance > 1e-2) await System.Threading.Tasks.Task.Yield();
         }
 
 
@@ -312,10 +299,11 @@ namespace Panda.Examples.Shooter
 
 
         }
+        
         #endregion
 
         [Task]
-        bool Explode()
+        public bool Explode()
         {
             ShooterGameController.instance.OnUnitDestroy(this);
 

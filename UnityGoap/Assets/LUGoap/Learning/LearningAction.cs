@@ -59,22 +59,32 @@ namespace LUGoap.Learning
 
         public override async Task<Effects> Execute(Effects effects, string[] parameters, CancellationToken token)
         {
-            var finalEffects = await OnExecute(effects, parameters, token);
+            Effects finalEffects;
             var learningCode = _agent.CurrentAction.LocalLearningCode;
-            
-            if(token.IsCancellationRequested)
+            try
+            {
+                finalEffects = await OnExecute(effects, parameters, token);
+            }
+            catch (OperationCanceledException)
+            {
+                goto OnFail;
+            }
+
+            if (!token.IsCancellationRequested)
             {
                 _qLearning.Update(learningCode,
-                    ParseToActionName(parameters), _agent.IsCompleted ?
-                        _qLearning.SucceedReward : _qLearning.FailReward, _agent.CurrentAction.LocalLearningCode);
-                return null;
+                    ParseToActionName(parameters),
+                    finalEffects != null ? _qLearning.SucceedReward : _qLearning.FailReward,
+                    finalEffects != null ? 0 : -1);
+                return finalEffects;
             }
-            
-            _qLearning.Update(learningCode,
-                ParseToActionName(parameters), finalEffects != null ?
-                    _qLearning.SucceedReward : _qLearning.FailReward, finalEffects != null ? 0 : -1);
 
-            return finalEffects;
+            OnFail:
+            _qLearning.Update(learningCode,
+                ParseToActionName(parameters),
+                _agent.IsCompleted ? _qLearning.SucceedReward : _qLearning.FailReward,
+                _agent.CurrentAction.LocalLearningCode);
+            return null;
         }
 
         private string[] ParseToParameters(string actionName)

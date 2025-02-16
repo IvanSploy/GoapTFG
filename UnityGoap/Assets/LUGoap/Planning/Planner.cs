@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using static LUGoap.Base.BaseTypes;
+using Action = LUGoap.Base.Action;
 
 namespace LUGoap.Planning
 {
@@ -59,10 +61,14 @@ namespace LUGoap.Planning
                 
                 //Check if condition will be fulfilled.
                 if (Evaluate(resultValue, condition.ConditionType, condition.Value))
-                {
                     continue;
-                }
 
+                var initialDistance = Math.Abs(GetDistance(initialValue, condition.ConditionType, condition.Value));
+                var finalDistance = Math.Abs(GetDistance(resultValue, condition.ConditionType, condition.Value));
+
+                compatible = finalDistance < initialDistance;
+                continue;
+                
                 //Is condition is not reached after evaluation.
                 switch (effectType)
                 {
@@ -70,7 +76,7 @@ namespace LUGoap.Planning
                     case EffectType.Multiply:
                         switch (condition.ConditionType)
                         {
-                            //TODO Decide if not equal should be allowed.
+                            case ConditionType.Equal:
                             case ConditionType.NotEqual:
                             case ConditionType.GreaterThan:
                             case ConditionType.GreaterOrEqual:
@@ -85,6 +91,7 @@ namespace LUGoap.Planning
                     case EffectType.Divide:
                         switch (condition.ConditionType)
                         {
+                            case ConditionType.Equal:
                             case ConditionType.NotEqual:
                             case ConditionType.LessThan:
                             case ConditionType.LessOrEqual:

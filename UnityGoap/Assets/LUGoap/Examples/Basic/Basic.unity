@@ -595,10 +595,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6708556775544082582, guid: 645042b364aca544faebaf7f3d58dc41, type: 3}
-      propertyPath: _learningConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: f43ba6b6e2590d34fab1d4d2a1d5f91c, type: 2}
     m_RemovedComponents:
     - {fileID: 5618865412640746753, guid: 645042b364aca544faebaf7f3d58dc41, type: 3}
     m_RemovedGameObjects: []
@@ -742,7 +738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eac4438443f6744a84ef6699ec706d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lockProbability: 0.7
+  _lockProbability: 0.5
 --- !u!4 &701570362
 Transform:
   m_ObjectHideFlags: 0
@@ -1150,15 +1146,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
-      propertyPath: _async
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: _runAsync
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
-      propertyPath: _goalList.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}

@@ -10,11 +10,10 @@ public class PickUpAction : Action
 
     protected override void Init() { }
     
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
         GoapEntity entityKey = WorkingMemoryManager.Get(Target).Object;
         Object.Destroy(entityKey.gameObject);
-        
-        return effects;
+        return Task.FromResult(effects);
     }
 }

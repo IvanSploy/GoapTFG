@@ -21,13 +21,12 @@ DestinationZ,
 MoveState,
 TargetX,
 TargetZ,
-GoalReached,
 Hp,
 Ammo,
-LastBulletSeenTime,
-LastShotTime,
 HasEnemy,
 EnemyVisible,
+EnemyHp,
+HasMoved,
 
         }
         
@@ -45,13 +44,12 @@ EnemyVisible,
 { PropertyKey.MoveState, PropertyType.Enum },
 { PropertyKey.TargetX, PropertyType.Float },
 { PropertyKey.TargetZ, PropertyType.Float },
-{ PropertyKey.GoalReached, PropertyType.Boolean },
 { PropertyKey.Hp, PropertyType.Float },
 { PropertyKey.Ammo, PropertyType.Integer },
-{ PropertyKey.LastBulletSeenTime, PropertyType.Float },
-{ PropertyKey.LastShotTime, PropertyType.Float },
 { PropertyKey.HasEnemy, PropertyType.Boolean },
 { PropertyKey.EnemyVisible, PropertyType.Boolean },
+{ PropertyKey.EnemyHp, PropertyType.Integer },
+{ PropertyKey.HasMoved, PropertyType.Boolean },
        
         };
     }

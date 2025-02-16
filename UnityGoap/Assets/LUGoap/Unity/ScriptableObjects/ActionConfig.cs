@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using LUGoap.Base;
+using LUGoap.Unity.Actions;
 using UnityEngine;
 using UnityEngine.Serialization;
 using static LUGoap.Base.PropertyManager;
@@ -14,7 +15,7 @@ namespace LUGoap.Unity.ScriptableObjects
 
         protected override Base.Action CreateAction()
         {
-            return _actionData;
+            return _actionData ?? new DefaultAction();
         }
     }
     
@@ -41,6 +42,7 @@ namespace LUGoap.Unity.ScriptableObjects
 
             var action = CreateAction();
             action.Initialize(name, preconditions, effects, agent);
+            action.SetCost(_cost);
             return action;
         }
 

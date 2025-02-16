@@ -18,7 +18,7 @@ namespace LUGoap.Unity
             
             Learning = _learningConfig.GetLearning();
             var generator = new AStar();
-            generator.SetLearning(Learning, _learningConfig.ExploreRange);
+            generator.SetLearning(Learning, _learningConfig.MaxExploreValue);
             return new BackwardPlanner(generator, this);
         }
 

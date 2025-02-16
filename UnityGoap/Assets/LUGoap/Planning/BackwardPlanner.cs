@@ -11,15 +11,17 @@ namespace LUGoap.Planning
     /// </summary>
     public class BackwardPlanner : Planner
     {
-        private const int ACTION_LIMIT = 50000;
+        private const int ACTION_LIMIT = 50;
         private readonly bool _greedy;
         private readonly Dictionary<PropertyKey, List<Action>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
+        private readonly IAgent _agent;
 
-        public BackwardPlanner(INodeGenerator nodeGenerator, bool greedy = false)
+        public BackwardPlanner(INodeGenerator nodeGenerator, IAgent agent, bool greedy = false)
             : base(nodeGenerator)
         {
             _greedy = greedy;
+            _agent = agent;
         }
         
         private void RegisterActions(List<Action> actions)
@@ -64,8 +66,8 @@ namespace LUGoap.Planning
                         
                         //Check effect compatibility with initial state (the one getting closer).
                         Effects actionEffects = action.GetEffects(actionSettings);
-                        if(!CheckEffectCompatibility(InitialState.TryGetOrDefault(key), actionEffects[key].EffectType, 
-                               actionEffects[key].Value, goalPair.Value)) 
+                        if(!CheckEffectCompatibility(InitialState.TryGetOrDefault(key),
+                               actionEffects[key].EffectType, actionEffects[key].Value, goalPair.Value))
                             continue;
                         
                         _actionsVisited.Add(action.Name);
@@ -82,7 +84,7 @@ namespace LUGoap.Planning
                             //If greedy, plan is returned.
                             if (_greedy)
                             {
-                                return new Plan(child);
+                                return new Plan(_agent, child);
                             }
                         }
                         
@@ -98,14 +100,14 @@ namespace LUGoap.Planning
                     if (_current.IsGoal(InitialState))
                     {
                         DebugInfo(_current);
-                        return new Plan(_current);
+                        return new Plan(_agent, _current);
                     }
-                    
-                    //If no more actions can be checked.
+
+                        //If no more actions can be checked.
                     if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
                     {
                         DebugInfo(_current);
-                        return new Plan(_current);
+                        return new Plan(_agent, _current);
                     }
                 }
             }

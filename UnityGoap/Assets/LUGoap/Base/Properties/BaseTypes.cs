@@ -155,6 +155,21 @@ namespace LUGoap.Base
             
             return distance;
         }
+        
+        public static int GetAdditionalDistance(PropertyKey key, object a)
+        {
+            var b = GetDefault(key);
+            if (a.Equals(b)) return 0;
+            
+            return a switch
+            {
+                bool => 1,
+                int iValue => iValue,
+                float fValue => (int)Math.Round(fValue),
+                string sValue => sValue.GetHashCode(),
+                _ => 1
+            };
+        }
 
         public static object GetDefault(this PropertyKey key)
         {
@@ -164,7 +179,7 @@ namespace LUGoap.Base
                 PropertyType.Integer => 0,
                 PropertyType.Float => 0f,
                 PropertyType.String => "",
-                PropertyType.Enum => EnumNames[key][0],
+                PropertyType.Enum => "",
                 _ => throw new ArgumentOutOfRangeException()
             };
             return defaultValue;

@@ -10,16 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
-  m_Name: SetDestinationCover
+  m_Name: MoveToCover
   m_EditorClassIdentifier: 
   _cost: 2
-  _preconditions: []
-  _effects: []
+  _preconditions:
+  - name: HasMoved
+    value: False
+    condition: 0
+  _effects:
+  - name: Target
+    value: Cover
+    effect: 0
+  - name: HasMoved
+    value: True
+    effect: 0
   _actionData:
-    rid: 988238987786715217
+    rid: 988239078234521686
   references:
     version: 2
     RefIds:
-    - rid: 988238987786715217
-      type: {class: SetDestinationCoverAction, ns: , asm: Assembly-CSharp}
+    - rid: 988239078234521686
+      type: {class: MoveToCoverAction, ns: , asm: Assembly-CSharp}
       data: 

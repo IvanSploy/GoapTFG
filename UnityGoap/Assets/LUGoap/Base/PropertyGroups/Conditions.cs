@@ -347,11 +347,10 @@ namespace LUGoap.Base
                     if(distances.ContainsKey(additionalKey)) continue;
                     if (!state.Has(additionalKey)) continue;
 
-                    var defaultValue = additionalKey.GetDefault();
-                    if(state[additionalKey].Equals(defaultValue)) continue;
-                    
-                    distances[additionalKey] = GetDistance(state[additionalKey],
-                        ConditionType.Equal, defaultValue);
+                    var distance = GetAdditionalDistance(additionalKey, state[additionalKey]);
+                    if(distance == 0) continue;
+
+                    distances[additionalKey] = distance;
                 }
             }
             

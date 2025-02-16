@@ -5,7 +5,7 @@ namespace Panda.Examples.Shooter
 {
     public class AI : MonoBehaviour
     {
-        public Unit enemy { get; private set; }
+        public Unit enemy { get; protected set; }
         Unit self;
         AIVision vision;
 
@@ -36,43 +36,50 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool SetTarget_Angle( float angle )
+        public bool SetTarget_Angle( float angle )
         {
             var p = this.transform.position +  Quaternion.AngleAxis( angle, Vector3.up)*this.transform.forward;
+            self.SetTarget(p);
+            return true;
+        }
+        
+        [Task]
+        public bool SetGlobalTarget_Angle(float angle)
+        {
+            var p = this.transform.position +  Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward;
             self.SetTarget(p);
             return true;
         }
 
         float lastEnemyAcquisitionTime = float.NegativeInfinity;
         [Task]
-        void Acquire_Enemy()
+        public void Acquire_Enemy()
         {
             if (Time.time - lastEnemyAcquisitionTime > 0.5f)
             {
                 enemy = null;
 
-                if (enemy == null && self.shotBy != null && self.shotBy.team != self.team && (Time.time - self.lastShotTime) < 1.0f)
+                if (!enemy && self.shotBy && self.shotBy.team != self.team && (Time.time - self.lastShotTime) < 1.0f)
                     enemy = self.shotBy;
 
-                if (enemy == null && vision.visibles != null)
+                if (!enemy && vision.visibles != null)
                 {
                     foreach (var v in vision.visibles)
                     {
-                        if (v == null)
-                            continue;
+                        if (!v) continue;
 
                         var shooter = v.GetComponent<Unit>();
 
-                        if (shooter == null)
+                        if (!shooter)
                         {
                             var bullet = v.GetComponent<Bullet>();
-                            shooter = bullet != null && bullet.shooter != null ? bullet.shooter.GetComponent<Unit>() : null;
+                            shooter = bullet && bullet.shooter ? bullet.shooter.GetComponent<Unit>() : null;
 
-                            if (shooter != null && self.team == shooter.team)
+                            if (shooter && self.team == shooter.team)
                                 shooter = null;
                         }
 
-                        if (shooter != null && shooter.team != self.team)
+                        if (shooter && shooter.team != self.team)
                         {
                             enemy = shooter;
                             break;
@@ -82,7 +89,7 @@ namespace Panda.Examples.Shooter
                 lastEnemyAcquisitionTime = Time.time;
             }
 
-            ThisTask.Complete(enemy != null);
+            ThisTask.Complete(enemy);
 
         }
 
@@ -96,7 +103,7 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool Clear_Enemy()
+        public bool Clear_Enemy()
         {
             enemy = self.shotBy = null;
             return true;
@@ -104,9 +111,9 @@ namespace Panda.Examples.Shooter
 
         float lastSeenTime = float.NegativeInfinity;
         [Task]
-        bool IsVisible_Enemy()
+        public bool IsVisible_Enemy()
         {
-            if (enemy != null && enemy.gameObject != null)
+            if (enemy && enemy.gameObject)
             {
                 foreach (var v in vision.visibles)
                 {
@@ -151,9 +158,9 @@ namespace Panda.Examples.Shooter
         }
 
         [Task]
-        bool HasEnemy()
+        public bool HasEnemy()
         {
-            return enemy != null;
+            return enemy;
         }
 
         [Task]

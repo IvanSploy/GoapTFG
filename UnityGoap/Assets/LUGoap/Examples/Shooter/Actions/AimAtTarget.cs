@@ -2,20 +2,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using LUGoap.Base;
 using LUGoap.Unity;
+using Panda.Examples.Shooter;
 
-public class SetDestinationGoalAction : Action
+public class AimAtTargetAction : Action
 {
-    private GoalSeeker _goalSeeker;
+    private GoapUnit _unit;
     
     protected override void Init()
     {
         if (_agent is not GoapAgent agent) return;
-        _goalSeeker = agent.GetComponent<GoalSeeker>();
+        _unit = agent.GetComponent<GoapUnit>();
     }
     
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        if (!_goalSeeker.SetDestination_CheckPoint()) return null;
+        await _unit.AimAt_Target(token);
         return effects;
     }
 }

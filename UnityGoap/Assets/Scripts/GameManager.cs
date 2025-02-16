@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //Define starting simulation conditions.
-        var agent = FindObjectOfType<GoapAgent>();
+        var agent = FindFirstObjectByType<GoapAgent>();
         
         //EXAMPLE 1: DOOR
         var random = Random.Next();

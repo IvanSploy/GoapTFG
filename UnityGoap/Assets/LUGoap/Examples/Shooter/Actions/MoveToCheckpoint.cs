@@ -4,21 +4,23 @@ using LUGoap.Base;
 using LUGoap.Unity;
 using Panda.Examples.Shooter;
 
-public class ShooterRandomDestinationAction : Action
+public class MoveToCheckpointAction : Action
 {
-    public float Range;
-    
-    private AI _ai;
+    private GoapGoalSeeker _goalSeeker;
+    private GoapUnit _unit;
     
     protected override void Init()
     {
         if (_agent is not GoapAgent agent) return;
-        _ai = agent.GetComponent<AI>();
+        _goalSeeker = agent.GetComponent<GoapGoalSeeker>();
+        _unit = agent.GetComponent<GoapUnit>();
     }
     
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Random(Range);
+        if (!_goalSeeker.SetDestination_CheckPoint()) return null;
+        _unit.Move();
+        await _unit.WaitArrival(token);
         return effects;
     }
 }

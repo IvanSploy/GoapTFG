@@ -4,7 +4,7 @@ using LUGoap.Base;
 
 namespace LUGoap.Unity.Actions
 {
-    public class StandardAction : Base.Action
+    public class WaitAction : Base.Action
     {
         public int WaitSeconds = 1;
 

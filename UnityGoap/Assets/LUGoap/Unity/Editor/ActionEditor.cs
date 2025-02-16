@@ -17,6 +17,7 @@ namespace LUGoap.Unity
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type.IsClass && !type.IsAbstract && type.IsSubclassOf(typeof(Base.Action))
                                && !type.IsSubclassOf(typeof(LearningAction)))
+                .OrderBy(type => type.Name)
                 .ToArray();
 
             _derivedTypeNames = new string[_derivedTypes.Length + 1];

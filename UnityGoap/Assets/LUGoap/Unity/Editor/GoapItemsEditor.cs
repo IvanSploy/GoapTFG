@@ -312,7 +312,7 @@ namespace LUGoap.Unity.Editor
                     break;
                 case PropertyType.String:
                 default:
-                    value.stringValue = EditorGUI.TextArea(valueRect, value.stringValue);
+                    value.stringValue = EditorGUI.TextField(valueRect, value.stringValue);
                     break;
             }
         }

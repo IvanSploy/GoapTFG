@@ -472,13 +472,12 @@ MonoBehaviour:
   _runOnStart: 1
   _active: 1
   _async: 1
+  _greedy: 0
   _rePlanSeconds: 5
   _initialStateConfig: {fileID: 11400000, guid: 83fe839c0a3e77b4cb70d40b9778a9a1, type: 2}
   _goalList:
-  - _goalConfig: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
-    _priority: 1
-  - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
-    _priority: 0
+  - {fileID: 0}
+  - {fileID: 0}
   _actionList:
   - {fileID: 11400000, guid: 91022da430b9e8c409e24f346685272d, type: 2}
   - {fileID: 11400000, guid: 61cb0a72ba1d5024f8f09fe09ea76f7b, type: 2}
@@ -774,13 +773,12 @@ MonoBehaviour:
   _runOnStart: 1
   _active: 1
   _async: 1
+  _greedy: 0
   _rePlanSeconds: 5
   _initialStateConfig: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
   _goalList:
-  - _goalConfig: {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
-    _priority: 1
-  - _goalConfig: {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
-    _priority: 0
+  - {fileID: 11400000, guid: f10f4b035d0d26949932c0be3673427b, type: 2}
+  - {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
   _actionList:
   - {fileID: 11400000, guid: 414ade7192f4a054c90ae3101ac441ac, type: 2}
   - {fileID: 11400000, guid: 32411e4cfc7184643ba52f0416999d71, type: 2}

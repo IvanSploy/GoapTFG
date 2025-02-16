@@ -4,19 +4,23 @@ using LUGoap.Base;
 using LUGoap.Unity;
 using Panda.Examples.Shooter;
 
-public class SetDestinationCoverAction : Action
+public class MoveToCoverAction : Action
 {
-    private AI _ai;
+    private GoapUnit _unit;
+    private GoapAI _ai;
     
     protected override void Init()
     {
         if (_agent is not GoapAgent agent) return;
-        _ai = agent.GetComponent<AI>();
+        _unit = agent.GetComponent<GoapUnit>();
+        _ai = agent.GetComponent<GoapAI>();
     }
 
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
     {
         _ai.SetDestination_Cover();
+        _unit.Move();
+        await _unit.WaitArrival(token);
         return effects;
     }
 }

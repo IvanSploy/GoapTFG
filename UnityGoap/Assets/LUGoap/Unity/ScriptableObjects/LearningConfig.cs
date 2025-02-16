@@ -18,12 +18,10 @@ namespace LUGoap.Unity.ScriptableObjects
             ValueRange = 500
         };
 
-        [SerializeField] private Vector2 _exploreRange = new(-1000,1000);
-        public System.Numerics.Vector2 ExploreRange => new(_exploreRange.x, _exploreRange.y);
+        public int MaxExploreValue = 10;
 
         [Header("Reward")]
-        [FormerlySerializedAs("PositiveReward")] 
-        public float SuccessReward;
+        [FormerlySerializedAs("PositiveReward")] public float SuccessReward;
         [FormerlySerializedAs("NegativeReward")] public float FailReward;
 
         private QLearning _qLearning;

@@ -1,9 +1,5 @@
 ﻿using UnityEditor;
 using System;
-using System.Linq;
-using System.Text.RegularExpressions;
-using LUGoap.Learning;
-using LUGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
 namespace LUGoap.Unity
@@ -17,7 +13,9 @@ namespace LUGoap.Unity
 
         public void OnEnable()
         {
+            
             _actionProperty = serializedObject.FindProperty("_actionData");
+                
             Initialize();
         }
         
