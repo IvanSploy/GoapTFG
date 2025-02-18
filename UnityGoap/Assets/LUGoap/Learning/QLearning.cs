@@ -11,9 +11,19 @@ namespace LUGoap.Learning
 {
     public class QLearning
     {
+        [Serializable]
+        private class QLearningInfo
+        {
+            public Dictionary<int, Dictionary<string, float>> Values;
+            public float MaxValue;
+        }
+        
         private readonly string _path;
         private readonly string _file;
+        
         private Dictionary<int, Dictionary<string, float>> _qValues;
+        public float MaxValue;
+        
         private readonly Func<Dictionary<string, float>, string> _bestActionPolitic;
         
         private readonly QLearningData _learningData;
@@ -36,14 +46,44 @@ namespace LUGoap.Learning
             CreateFile();
             var fullPath = Path.Combine(_path, _file);
             var text = File.ReadAllText(fullPath);
-            _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text) ?? new();
+            var info = JsonConvert.DeserializeObject<QLearningInfo>(text);
+            if (info is { Values: not null })
+            {
+                _qValues = info.Values;
+                MaxValue = info.MaxValue;
+            }
+            else
+            {
+                _qValues = JsonConvert.DeserializeObject<Dictionary<int, Dictionary<string, float>>>(text);
+                MaxValue = int.MinValue;
+                if (_qValues != null)
+                {
+                    foreach (var pair in _qValues)
+                    foreach (var actionValue in pair.Value)
+                    {
+                        if (MaxValue < actionValue.Value)
+                        {
+                            MaxValue = actionValue.Value;
+                        }
+                    }
+                }
+                else
+                {
+                    _qValues = new Dictionary<int, Dictionary<string, float>>();
+                }
+            }
         }
 
         public void Save()
         {
             CreateFile();
             var fullPath = Path.Combine(_path, _file);
-            File.WriteAllText(fullPath, JsonConvert.SerializeObject(_qValues, Formatting.Indented));
+            var info = new QLearningInfo()
+            {
+                Values = _qValues,
+                MaxValue = MaxValue
+            };
+            File.WriteAllText(fullPath, JsonConvert.SerializeObject(info, Formatting.Indented));
         }
 
         public void Clear()
@@ -136,6 +176,11 @@ namespace LUGoap.Learning
             else
             {
                 _qValues[state] = new Dictionary<string, float> { { action, qValue } };
+            }
+            
+            if (MaxValue < _qValues[state][action])
+            {
+                MaxValue = _qValues[state][action];
             }
         }
 

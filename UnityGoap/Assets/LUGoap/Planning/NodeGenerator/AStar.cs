@@ -25,7 +25,8 @@ namespace LUGoap.Planning
         private readonly HashSet<Node> _expandedNodes = new();
         private Func<Conditions, State, int> _customHeuristic;
         private QLearning _qLearning;
-
+        
+        //Learning
         private readonly Dictionary<string, int> _exploreValues = new();
         private int _explorationMaxValue;
         
@@ -43,6 +44,16 @@ namespace LUGoap.Planning
         {
             NodeFactory.Release(node);
         }
+        
+        public Node Initialize(State initialState, Conditions goal)
+        {
+            _exploreValues.Clear();
+            var goalState = new Conditions(goal);
+            AStarNode node = (AStarNode) CreateNode(initialState, goalState);
+            node.GCost = 0;
+            node.HCost = GetHeuristicCost(node);
+            return node;
+        }
 
         public void SetHeuristic(Func<Conditions, State, int> customHeuristic)
         {
@@ -55,16 +66,6 @@ namespace LUGoap.Planning
             Mode = HeuristicMode.Learning;
             _qLearning = qLearning;
             _explorationMaxValue = explorationMaxValue;
-        }
-
-        public Node Initialize(State initialState, Conditions goal)
-        {
-            _exploreValues.Clear();
-            var goalState = new Conditions(goal);
-            AStarNode node = (AStarNode) CreateNode(initialState, goalState);
-            node.GCost = 0;
-            node.HCost = GetHeuristicCost(node);
-            return node;
         }
         
         public Node GetNextNode(Node current)
@@ -164,14 +165,20 @@ namespace LUGoap.Planning
             if (_qLearning.IsExploring()) return GetExploreValue(node.PreviousAction);
             var learningCode = GetLearningCode(node.Parent);
             var value = _qLearning.Get(learningCode, node.PreviousAction.Name);
-            return -(int)Math.Round(value);
+            return GetCostFromQValue(value);
         }
         
         private int GetHLearning(Node node)
         {
             var learningCode = GetLearningCode(node);
             var value = _qLearning.GetMax(learningCode);
-            return -(int)Math.Round(value);
+            return GetCostFromQValue(value);
+        }
+
+        private int GetCostFromQValue(float qValue)
+        {
+            var max = (int)Math.Round(_qLearning.MaxValue) + 1;
+            return -(int)Math.Round(qValue) + max;
         }
         
         private int GetExploreValue(Action action)
