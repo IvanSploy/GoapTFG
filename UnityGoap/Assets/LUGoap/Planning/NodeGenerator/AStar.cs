@@ -162,7 +162,10 @@ namespace LUGoap.Planning
         private int GetGLearning(Node node)
         {
             if (node.Parent == null) return 0;
-            if (_qLearning.IsExploring()) return GetExploreValue(node.PreviousAction);
+            
+            var explorationValue = GetExploreValue(node.PreviousAction);
+            if(explorationValue > 0) return explorationValue;
+            
             var learningCode = GetLearningCode(node.Parent);
             var value = _qLearning.Get(learningCode, node.PreviousAction.Name);
             return GetCostFromQValue(value);
@@ -183,10 +186,9 @@ namespace LUGoap.Planning
         
         private int GetExploreValue(Action action)
         {
-            if (!_exploreValues.TryGetValue(action.Name, out var result))
-            {
-                result = Random.RangeToInt(1, _explorationMaxValue);
-            }
+            if (_exploreValues.TryGetValue(action.Name, out var result)) return result;
+            if(_qLearning.IsExploring()) result = Random.RangeToInt(1, _explorationMaxValue);
+            _exploreValues[action.Name] = result;
             return result;
         }
         

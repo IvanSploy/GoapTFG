@@ -11,7 +11,7 @@ namespace LUGoap.Planning
     /// </summary>
     public class BackwardPlanner : Planner
     {
-        private const int ACTION_LIMIT = 50;
+        private const int NODES_LIMIT = 10000;
         private readonly bool _greedy;
         private readonly Dictionary<PropertyKey, List<Action>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
@@ -30,10 +30,8 @@ namespace LUGoap.Planning
             {
                 foreach (var key in action.GetAffectedKeys())
                 {
-                    if(!_actions.ContainsKey(key))
-                        _actions[key] = new List<Action>{action};
-                    else
-                        _actions[key].Add(action);
+                    if (_actions.TryGetValue(key, out var actionList)) actionList.Add(action);
+                    else _actions[key] = new List<Action> { action };
                 }
             }
         }
@@ -54,9 +52,9 @@ namespace LUGoap.Planning
                 foreach (var goalPair in _current.Goal)
                 {
                     PropertyKey key = goalPair.Key;
-                    if (!_actions.ContainsKey(key)) break;
+                    if (!_actions.TryGetValue(key, out var actionList)) break;
                     
-                    foreach (var action in _actions[key])
+                    foreach (var action in actionList)
                     {
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;
@@ -103,8 +101,8 @@ namespace LUGoap.Planning
                         return new Plan(_agent, _current);
                     }
 
-                        //If no more actions can be checked.
-                    if (ACTION_LIMIT > 0 && _current.ActionCount >= ACTION_LIMIT)
+                    //If no more actions can be checked.
+                    if (NODES_LIMIT > 0 && _nodesCreated > NODES_LIMIT)
                     {
                         DebugInfo(_current);
                         return new Plan(_agent, _current);

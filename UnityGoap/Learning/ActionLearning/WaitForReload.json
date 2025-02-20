@@ -7,16 +7,67 @@
       "WaitForReload_6": 9.999999
     },
     "16914": {
-      "WaitForReload_5": 9.999952
+      "WaitForReload_5": 9.999999
     },
     "543": {
       "WaitForReload_5": 9.999999
     },
     "545": {
-      "WaitForReload_4": 9.999635
+      "WaitForReload_4": 9.999999
     },
     "16945": {
-      "WaitForReload_6": 9.999781
+      "WaitForReload_6": 9.999999
+    },
+    "542": {
+      "WaitForReload_3": 9.999999
+    },
+    "16821": {
+      "WaitForReload_6": 9.999999
+    },
+    "521377": {
+      "WaitForReload_3": 9.999999
+    },
+    "17007": {
+      "WaitForReload_3": 9.899223
+    },
+    "521439": {
+      "WaitForReload_5": 9.832039
+    },
+    "16818": {
+      "WaitForReload_3": 9.999999
+    },
+    "521470": {
+      "WaitForReload_2": 9.995298
+    },
+    "16976": {
+      "WaitForReload_2": 9.832039
+    },
+    "548": {
+      "WaitForReload_5": 9.899223
+    },
+    "521432": {
+      "WaitForReload_6": 4.0
+    },
+    "547": {
+      "WaitForReload_5": 9.899223
+    },
+    "16820": {
+      "WaitForReload_2": 9.832039
+    },
+    "16814": {
+      "WaitForReload_2": 4.0
+    },
+    "16823": {
+      "WaitForReload_6": 4.0
+    },
+    "521339": {
+      "WaitForReload_3": 4.0
+    },
+    "16907": {
+      "WaitForReload_6": 4.0
+    },
+    "16876": {
+      "WaitForReload_4": 4.0
     }
   },
   "MaxValue": 9.999999

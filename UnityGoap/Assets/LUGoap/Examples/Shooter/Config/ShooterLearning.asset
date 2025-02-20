@@ -16,7 +16,7 @@ MonoBehaviour:
     Alpha: 0.25
     Gamma: 0.7
     ExploreChance: 0.7
-    FilterKeys: 0d000000120000000100000010000000
+    FilterKeys: 
     AdditionalKeys: 
     ValueRange: 1
   MaxExploreValue: 500

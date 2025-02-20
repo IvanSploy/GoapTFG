@@ -35,7 +35,6 @@ public class FireAction : Action
         _ai.SetTarget_Enemy();
         await _unit.AimAt_Target(token);
         _unit.Fire();
-        await Task.Delay(1000, token);
         return effects;
     }
 }
