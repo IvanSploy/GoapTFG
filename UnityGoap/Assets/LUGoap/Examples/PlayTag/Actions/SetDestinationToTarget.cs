@@ -41,13 +41,13 @@ public class SetDestinationToTargetAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         GoapEntity entityPlayer = WorkingMemoryManager.Get(Target).Object;
         var p = entityPlayer.transform.position;
-        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, p.x);
-        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, p.z);
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, p.x);
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, p.z);
         
-        return effects;
+        return effectGroup;
     }
 }

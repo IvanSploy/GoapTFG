@@ -17,13 +17,13 @@ public class SetDestinationAction : Action
         _transform = agent.transform;
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override EffectGroup GetProceduralEffects(ActionSettings settings)
     {
-        Effects effects = new Effects();
+        EffectGroup effectGroup = new EffectGroup();
 
-        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, DestinationX);
-        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, DestinationZ);
-        return effects;
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, DestinationX);
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, DestinationZ);
+        return effectGroup;
     }
 
     protected override bool OnValidate(State nextState, string[] parameters)
@@ -51,9 +51,9 @@ public class SetDestinationAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         
-        return effects;
+        return effectGroup;
     }
 }

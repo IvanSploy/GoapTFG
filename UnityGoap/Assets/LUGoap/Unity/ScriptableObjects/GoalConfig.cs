@@ -12,9 +12,9 @@ namespace LUGoap.Unity.ScriptableObjects
         
         public Goal Create()
         {
-            Conditions state = new();
-            state.ApplyProperties(Properties);
-            return new Goal(name, state);
+            ConditionGroup group = new();
+            group.ApplyProperties(Properties);
+            return new Goal(name, group);
         }
     }
 }

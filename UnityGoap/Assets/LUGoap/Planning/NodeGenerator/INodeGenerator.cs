@@ -10,7 +10,7 @@ namespace LUGoap.Planning
         /// Creates a new Node from the factory.
         /// </summary>
         /// <returns></returns>
-        Node CreateNode(State initialState, Conditions goal);
+        Node CreateNode(State initialState, ConditionGroup goal);
         
         /// <summary>
         /// Disposes a node to be used by the factory.
@@ -22,7 +22,7 @@ namespace LUGoap.Planning
         /// <summary>
         /// Performs the main planning cycle from the start to the end.
         /// </summary>
-        Node Initialize(State initialState, Conditions initialGoal);
+        Node Initialize(State initialState, ConditionGroup initialGoal);
         
         /// <summary>
         /// Add node to generator.

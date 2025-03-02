@@ -157,12 +157,12 @@ namespace LUGoap.Base
         /// Converts a ConditionProperty into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="state">State that will include the new Property.</param>
-        public static void ApplyProperties(this Conditions state, List<ConditionProperty> properties)
+        /// <param name="group">State that will include the new Property.</param>
+        public static void ApplyProperties(this ConditionGroup group, List<ConditionProperty> properties)
         {
             foreach (var property in properties)
             {
-                state.ApplyProperty(property);
+                group.ApplyProperty(property);
             }
         }
     
@@ -170,12 +170,12 @@ namespace LUGoap.Base
         /// Converts an EffectProperty into a value inside a State.
         /// </summary>
         /// <param name="properties">Property to be converted.</param>
-        /// <param name="state">State that will include the new Property.</param>
-        public static void ApplyProperties(this Effects state, List<EffectProperty> properties)
+        /// <param name="group">State that will include the new Property.</param>
+        public static void ApplyProperties(this EffectGroup group, List<EffectProperty> properties)
         {
             foreach (var property in properties)
             {
-                state.ApplyProperty(property);
+                group.ApplyProperty(property);
             }
         }
         
@@ -187,14 +187,14 @@ namespace LUGoap.Base
             pg.Set(ParseName(property), ParseValue(property));
         }
         
-        private static void ApplyProperty(this Conditions pg, ConditionProperty property)
+        private static void ApplyProperty(this ConditionGroup pg, ConditionProperty property)
         {
-            pg.Set(ParseName(property), new ConditionValue(ParseValue(property), property.condition));
+            pg.Set(ParseName(property), property.condition, ParseValue(property));
         }
 
-        private static void ApplyProperty(this Effects pg, EffectProperty property)
+        private static void ApplyProperty(this EffectGroup pg, EffectProperty property)
         {
-            pg.Set(ParseName(property), new EffectValue(ParseValue(property), property.effect));
+            pg.Set(ParseName(property), new Effect(ParseValue(property), property.effect));
         } 
         #endregion
     }

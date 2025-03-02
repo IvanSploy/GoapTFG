@@ -20,12 +20,12 @@ public class SetRandomDestinationAction : Action
         _transform = agent.transform;
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override EffectGroup GetProceduralEffects(ActionSettings settings)
     {
         var x = Mathf.RoundToInt(Random.Range(XLimits.x, XLimits.y));
         var z = Mathf.RoundToInt(Random.Range(ZLimits.x, ZLimits.y));
     
-        var effects = new Effects();
+        var effects = new EffectGroup();
         effects.Set(PropertyKey.DestinationX, EffectType.Set, (float)x);
         effects.Set(PropertyKey.DestinationZ, EffectType.Set, (float)z);
 
@@ -52,9 +52,9 @@ public class SetRandomDestinationAction : Action
         return true;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
 
-        return effects;
+        return effectGroup;
     }
 }

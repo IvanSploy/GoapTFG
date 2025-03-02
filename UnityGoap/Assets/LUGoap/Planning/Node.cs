@@ -12,21 +12,21 @@ namespace LUGoap.Planning
     {
         //Properties
         public State InitialState { get; private set; }
-        public Conditions Goal { get; private set; }
+        public ConditionGroup Goal { get; private set; }
         public Node Parent { get; private set; }
         public NodeAction ActionData { get; private set; }
         public virtual int TotalCost { get; private set; }
 
         public Action PreviousAction => ActionData.Action;
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
-        public bool IsGoal(State state) => !Goal.CheckConflict(state);
+        public bool IsGoal(State state) => !Goal.HasConflict(state);
 
         //Fields
         public readonly List<Node> Children = new();
         protected INodeGenerator _nodeGenerator;
         
         //Methods
-        public void Setup(INodeGenerator nodeGenerator, State initialState, Conditions goal)
+        public void Setup(INodeGenerator nodeGenerator, State initialState, ConditionGroup goal)
         {
             _nodeGenerator = nodeGenerator;
             InitialState = initialState;
@@ -52,23 +52,25 @@ namespace LUGoap.Planning
            
            //Merge new conflicts.
            var conditions = action.GetPreconditions(settings);
-           resultGoal = resultGoal.Merge(conditions);
+           resultGoal = resultGoal.Combine(conditions);
 
+           if(resultGoal == null) return null;
+           
            //Store action data.
            var actionInfo = new NodeAction
            {
                Action = action,
-               Conditions = conditions,
-               Effects = effects,
+               ConditionGroup = conditions,
+               EffectGroup = effects,
                GlobalLearningCode = settings.GlobalLearningCode,
                LocalLearningCode = settings.LocalLearningCode,
                Parameters = settings.Parameters,
            };
 
-           return resultGoal == null ? null : CreateChild(resultGoal, actionInfo);
+           return CreateChild(resultGoal, actionInfo);
         }
         
-        private Node CreateChild(Conditions goal, NodeAction action)
+        private Node CreateChild(ConditionGroup goal, NodeAction action)
         {
             var child = _nodeGenerator.CreateNode(InitialState, goal);
             child.Update(this, action);

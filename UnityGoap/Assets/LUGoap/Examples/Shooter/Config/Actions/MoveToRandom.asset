@@ -32,4 +32,4 @@ MonoBehaviour:
     - rid: 988239065627230430
       type: {class: MoveToRandomAction, ns: , asm: Assembly-CSharp}
       data:
-        Range: 5
+        Range: 1

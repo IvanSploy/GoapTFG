@@ -20,9 +20,9 @@ public class SetTargetAction : LearningAction
         return new[] { $"{Random.RangeToInt(-179, 180)}" };
     }
     
-    protected override Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         _ai.SetGlobalTarget_Angle(float.Parse(parameters[0]));
-        return Task.FromResult(effects);
+        return Task.FromResult(effectGroup);
     }
 }

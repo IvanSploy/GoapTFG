@@ -16,11 +16,11 @@ public class MoveToCheckpointAction : Action
         _unit = agent.GetComponent<GoapUnit>();
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         if (!_goalSeeker.SetDestination_CheckPoint()) return null;
         _unit.Move();
         await _unit.WaitArrival(token);
-        return effects;
+        return effectGroup;
     }
 }

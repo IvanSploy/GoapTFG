@@ -16,11 +16,11 @@ public class MoveToCoverAction : Action
         _ai = agent.GetComponent<GoapAI>();
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         _ai.SetDestination_Cover();
         _unit.Move();
         await _unit.WaitArrival(token);
-        return effects;
+        return effectGroup;
     }
 }

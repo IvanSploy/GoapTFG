@@ -18,8 +18,8 @@ public class DiscreteDestinationGenerator : MonoBehaviour
     public PropertyKey PropertyZ;
 
     private IAgent _agent;
-    private Conditions _conditions;
-    private Effects _effects;
+    private ConditionGroup _conditionGroup;
+    private EffectGroup _effectGroup;
 
     private void OnValidate()
     {
@@ -30,11 +30,11 @@ public class DiscreteDestinationGenerator : MonoBehaviour
     {
         _agent = GetComponent<IAgent>();
         
-        _conditions = new Conditions();
-        _conditions.Set(PropertyKey.MoveState, ConditionType.Equal, "Ready");
+        _conditionGroup = new ConditionGroup();
+        _conditionGroup.SetOrCombine(PropertyKey.MoveState, ConditionType.Equal, "Ready");
         
-        _effects = new Effects();
-        _effects.Set(PropertyKey.MoveState, EffectType.Set, "Required");
+        _effectGroup = new EffectGroup();
+        _effectGroup.Set(PropertyKey.MoveState, EffectType.Set, "Required");
 
         if(Active) GenerateActions();
     }
@@ -79,14 +79,14 @@ public class DiscreteDestinationGenerator : MonoBehaviour
 
     private Action CreateAction(string actionName, float x, float y, float z)
     {
-        var effects = new Effects(_effects);
+        var effects = new EffectGroup(_effectGroup);
         
         if(PropertyX != PropertyKey.None) effects.Set(PropertyX, EffectType.Set, x);
         if(PropertyY != PropertyKey.None) effects.Set(PropertyY, EffectType.Set, y);
         if(PropertyZ != PropertyKey.None) effects.Set(PropertyZ, EffectType.Set, z);
             
         var action = new SetDestinationAction();
-        action.Initialize(actionName, _conditions, effects, _agent);
+        action.Initialize(actionName, _conditionGroup, effects, _agent);
         return action;
     }
 }

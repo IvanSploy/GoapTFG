@@ -45,7 +45,7 @@ namespace LUGoap.Planning
 
             _nodesCreated = 0;
             
-            _current = _nodeGenerator.Initialize(InitialState, _goal.Conditions);
+            _current = _nodeGenerator.Initialize(InitialState, _goal.ConditionGroup);
             while (_current != null)
             {
                 _actionsVisited.Clear();
@@ -63,9 +63,9 @@ namespace LUGoap.Planning
                         var actionSettings = _nodeGenerator.CreateSettings(_current, action);
                         
                         //Check effect compatibility with initial state (the one getting closer).
-                        Effects actionEffects = action.GetEffects(actionSettings);
+                        EffectGroup actionEffectGroup = action.GetEffects(actionSettings);
                         if(!CheckEffectCompatibility(InitialState.TryGetOrDefault(key),
-                               actionEffects[key].EffectType, actionEffects[key].Value, goalPair.Value))
+                               actionEffectGroup[key].Type, actionEffectGroup[key].Value, goalPair.Value))
                             continue;
                         
                         _actionsVisited.Add(action.Name);
@@ -77,8 +77,8 @@ namespace LUGoap.Planning
                         
                         //Greedy check for goal plan.
                         if (child.IsGoal(InitialState))
-                        {
-                            DebugPlan(child, _goal.Name);
+                        { 
+                            //DebugPlan(child, _goal.Name);
                             //If greedy, plan is returned.
                             if (_greedy)
                             {

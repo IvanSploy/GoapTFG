@@ -24,32 +24,30 @@ namespace LUGoap.Unity.Action
             _transform = agent.transform;
         }
 
-        protected override Conditions GetProceduralConditions(ActionSettings settings)
+        protected override ConditionGroup GetProceduralConditions(ActionSettings settings)
         {
-            var condition = new Conditions();
-            condition.Set(TargetKey, BaseTypes.ConditionType.NotEqual, ExcludedLocation);
+            var condition = new ConditionGroup();
+            condition.SetOrCombine(TargetKey, BaseTypes.ConditionType.NotEqual, ExcludedLocation);
             return condition;
         }
         
-        protected override Effects GetProceduralEffects(ActionSettings settings)
+        protected override EffectGroup GetProceduralEffects(ActionSettings settings)
         {
-            Effects proceduralEffects = new Effects();
+            EffectGroup proceduralEffectGroup = new EffectGroup();
             string target = ExcludedLocation;
-            var targetList = settings.Goal.TryGetOrDefault(TargetKey, "");
-            if (targetList != null)
-            {
-                var condition = targetList.FirstOrDefault(condition => condition.ConditionType == BaseTypes.ConditionType.Equal);
-                if(condition != null) target = (string)condition.Value;
-            }
-            proceduralEffects[TargetKey] = new EffectValue(target, BaseTypes.EffectType.Set);
-            return proceduralEffects;
+            
+            var closest = settings.Goal.Get(TargetKey)?.RequiredValue;
+            if (closest != null) target = (string)closest;
+            
+            proceduralEffectGroup[TargetKey] = new Effect(target, BaseTypes.EffectType.Set);
+            return proceduralEffectGroup;
         }
         
-        public override int GetCost(Conditions goal)
+        public override int GetCost(ConditionGroup goal)
         {
             if (!goal.Has(TargetKey)) return 50 / SpeedFactor;
-            
-            var target = (string) goal[TargetKey].First(condition => condition.ConditionType == BaseTypes.ConditionType.Equal).Value;
+
+            string target = goal[TargetKey].RequiredValue as string ?? "";
 
             var pos = WorkingMemoryManager.Get(target).Position;
             
@@ -57,9 +55,9 @@ namespace LUGoap.Unity.Action
             return cost;
         }
 
-        protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+        protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
         {
-            var targetName = (string)effects.TryGetOrDefault(TargetKey, "None").Value;
+            var targetName = (string)effectGroup.TryGetOrDefault(TargetKey, "None").Value;
             GoapEntity targetEntity = WorkingMemoryManager.Get(targetName).Object;
             var target = targetEntity.transform.position;
 
@@ -102,7 +100,7 @@ namespace LUGoap.Unity.Action
                 await Task.Yield();
             }
 
-            return effects;
+            return effectGroup;
         }
     }
 }

@@ -1,0 +1,74 @@
+{
+  "Values": {
+    "546": {
+      "WaitForReload_5": 9.999999
+    },
+    "16852": {
+      "WaitForReload_6": 9.999999
+    },
+    "16914": {
+      "WaitForReload_5": 9.999999
+    },
+    "543": {
+      "WaitForReload_5": 9.999999
+    },
+    "545": {
+      "WaitForReload_4": 9.999999
+    },
+    "16945": {
+      "WaitForReload_6": 9.999999
+    },
+    "542": {
+      "WaitForReload_3": 9.999999
+    },
+    "16821": {
+      "WaitForReload_6": 9.999999
+    },
+    "521377": {
+      "WaitForReload_3": 9.999999
+    },
+    "17007": {
+      "WaitForReload_3": 9.899223
+    },
+    "521439": {
+      "WaitForReload_5": 9.998307
+    },
+    "16818": {
+      "WaitForReload_3": 9.999999
+    },
+    "521470": {
+      "WaitForReload_2": 9.995298
+    },
+    "16976": {
+      "WaitForReload_2": 9.939534
+    },
+    "548": {
+      "WaitForReload_5": 9.998307
+    },
+    "521432": {
+      "WaitForReload_6": 4.0
+    },
+    "547": {
+      "WaitForReload_5": 9.939534
+    },
+    "16820": {
+      "WaitForReload_2": 9.899223
+    },
+    "16814": {
+      "WaitForReload_2": 8.704
+    },
+    "16823": {
+      "WaitForReload_6": 6.4
+    },
+    "521339": {
+      "WaitForReload_3": 7.84
+    },
+    "16907": {
+      "WaitForReload_6": 4.0
+    },
+    "16876": {
+      "WaitForReload_4": 4.0
+    }
+  },
+  "MaxValue": 9.999999
+}

@@ -100,9 +100,9 @@ namespace LUGoap.Learning
             File.Create(fullPath).Close();
         }
         
-        public int GetLearningCode(State state, Conditions conditions)
+        public int GetLearningCode(State state, ConditionGroup conditionGroup)
         {
-            var distances = conditions.GetDistances(state, _learningData.FilterKeys, _learningData.AdditionalKeys);
+            var distances = conditionGroup.GetDistances(state, _learningData.FilterKeys, _learningData.AdditionalKeys);
             if(distances.Count == 0) return 0;
             
             if (_learningData.ValueRange > 1)

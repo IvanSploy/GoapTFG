@@ -10,10 +10,10 @@ namespace LUGoap.Unity.Actions
 
         protected override void Init() { }
 
-        protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+        protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
         {
             await Task.Delay(WaitSeconds * 1000, token);
-            return effects;
+            return effectGroup;
         }
     }
 }

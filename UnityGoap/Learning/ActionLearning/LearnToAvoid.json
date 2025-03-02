@@ -1,429 +1,318 @@
 {
   "Values": {
-    "498432": {
-      "LearnToAvoid_-3_-1": -4.0,
-      "LearnToAvoid_2_0": 40.0
-    },
     "511886": {
-      "LearnToAvoid_2_1": -4.0,
       "LearnToAvoid_4_-3": 40.0,
-      "LearnToAvoid_-4_-5": -4.0,
-      "LearnToAvoid_2_-1": -4.0
-    },
-    "16533": {
-      "LearnToAvoid_-4_-4": -4.0,
-      "LearnToAvoid_5_-2": -4.0,
-      "LearnToAvoid_-1_4": -4.0
-    },
-    "0": {
-      "LearnToAvoid_4_-2": -8.704,
-      "LearnToAvoid_3_2": -6.4,
-      "LearnToAvoid_3_3": -9.222401,
-      "LearnToAvoid_-4_-2": -4.0,
-      "LearnToAvoid_3_5": -6.4,
-      "LearnToAvoid_-1_5": -4.0,
-      "LearnToAvoid_5_-3": -4.0,
-      "LearnToAvoid_0_-4": -6.4,
-      "LearnToAvoid_4_5": -6.4,
-      "LearnToAvoid_5_3": -6.4,
-      "LearnToAvoid_3_-4": -4.0,
-      "LearnToAvoid_4_0": -7.84,
-      "LearnToAvoid_3_-3": -6.4,
-      "LearnToAvoid_4_-1": -6.4,
-      "LearnToAvoid_3_4": -7.84,
-      "LearnToAvoid_4_1": -6.4,
-      "LearnToAvoid_5_2": -4.0,
-      "LearnToAvoid_5_1": -4.0,
-      "LearnToAvoid_-2_4": -6.4,
-      "LearnToAvoid_-5_-4": -4.0,
-      "LearnToAvoid_-2_-4": -6.4,
-      "LearnToAvoid_-4_-5": -7.84,
-      "LearnToAvoid_2_-1": -6.4,
-      "LearnToAvoid_-3_1": -7.84,
-      "LearnToAvoid_-3_3": -7.84,
-      "LearnToAvoid_-2_2": -6.4,
-      "LearnToAvoid_-4_3": -6.4,
-      "LearnToAvoid_-4_-4": -8.704,
-      "LearnToAvoid_2_-4": -4.0,
-      "LearnToAvoid_-3_-4": -4.0,
-      "LearnToAvoid_-1_-5": -6.4,
-      "LearnToAvoid_3_-5": -6.4,
-      "LearnToAvoid_4_-4": -8.704,
-      "LearnToAvoid_-1_3": -7.84,
-      "LearnToAvoid_-4_5": -6.4,
-      "LearnToAvoid_-4_1": -4.0,
-      "LearnToAvoid_0_4": -4.0,
-      "LearnToAvoid_2_3": -4.0,
-      "LearnToAvoid_2_5": -4.0,
-      "LearnToAvoid_-5_4": -4.0,
-      "LearnToAvoid_-2_5": -4.0,
-      "LearnToAvoid_0_2": -6.4,
-      "LearnToAvoid_1_-3": -4.0,
-      "LearnToAvoid_1_-5": -6.4,
-      "LearnToAvoid_-5_-3": -4.0,
-      "LearnToAvoid_4_-3": -6.4,
-      "LearnToAvoid_-1_4": -7.84,
-      "LearnToAvoid_4_3": -4.0,
-      "LearnToAvoid_-2_3": -4.0,
-      "LearnToAvoid_1_0": -6.4,
-      "LearnToAvoid_1_-1": -7.84,
-      "LearnToAvoid_1_4": -6.4,
-      "LearnToAvoid_-3_-5": -4.0,
-      "LearnToAvoid_-3_2": -4.0,
-      "LearnToAvoid_4_4": -7.84,
-      "LearnToAvoid_-2_-2": -4.0,
-      "LearnToAvoid_1_2": -4.0,
-      "LearnToAvoid_-1_1": -4.0,
-      "LearnToAvoid_5_-2": -4.0,
-      "LearnToAvoid_3_-1": -4.0,
-      "LearnToAvoid_2_1": -4.0,
-      "LearnToAvoid_-5_3": -4.0,
-      "LearnToAvoid_0_-3": -6.4,
-      "LearnToAvoid_-4_4": -4.0,
-      "LearnToAvoid_-5_1": -6.4,
-      "LearnToAvoid_-4_-1": -4.0,
-      "LearnToAvoid_-1_-3": -6.4,
-      "LearnToAvoid_-2_-3": -4.0,
-      "LearnToAvoid_0_5": -4.0,
-      "LearnToAvoid_0_3": -4.0,
-      "LearnToAvoid_1_5": -4.0,
-      "LearnToAvoid_-2_-1": -4.0,
-      "LearnToAvoid_2_4": -4.0,
-      "LearnToAvoid_2_-2": -4.0,
-      "LearnToAvoid_-3_4": -4.0
-    },
-    "511825": {
-      "LearnToAvoid_1_5": -4.0
-    },
-    "511855": {
-      "LearnToAvoid_5_4": -4.0,
-      "LearnToAvoid_4_-5": -4.0
-    },
-    "512469": {
-      "LearnToAvoid_1_-4": -4.0,
-      "LearnToAvoid_-2_1": -4.0
-    },
-    "512478": {
-      "LearnToAvoid_1_-5": -4.0,
-      "LearnToAvoid_-4_-4": -6.4,
-      "LearnToAvoid_5_-1": -4.0,
-      "LearnToAvoid_5_4": 40.0,
-      "LearnToAvoid_-5_2": -4.0
-    },
-    "511885": {
-      "LearnToAvoid_3_5": 40.0,
-      "LearnToAvoid_3_0": -4.0,
-      "LearnToAvoid_4_3": 40.0,
-      "LearnToAvoid_3_2": 40.0
-    },
-    "16537": {
-      "LearnToAvoid_5_1": -4.0,
-      "LearnToAvoid_0_-4": -4.0,
-      "LearnToAvoid_5_-3": -4.0,
-      "LearnToAvoid_-2_-2": 40.0,
-      "LearnToAvoid_3_0": -4.0,
-      "LearnToAvoid_4_-2": 40.0,
-      "LearnToAvoid_2_-2": -4.0
-    },
-    "512536": {
-      "LearnToAvoid_-4_3": -4.0,
-      "LearnToAvoid_-4_-4": 40.0,
-      "LearnToAvoid_-4_-3": -4.0,
-      "LearnToAvoid_4_5": -4.0,
-      "LearnToAvoid_4_-3": -4.0,
-      "LearnToAvoid_-2_5": -4.0
-    },
-    "511917": {
-      "LearnToAvoid_3_4": -4.0
-    },
-    "16103": {
-      "LearnToAvoid_5_1": 40.0,
-      "LearnToAvoid_-3_-3": 40.0,
-      "LearnToAvoid_3_1": -4.0
-    },
-    "512537": {
-      "LearnToAvoid_4_3": -4.0,
+      "LearnToAvoid_3_-1": 40.0,
       "LearnToAvoid_-2_-4": 40.0
     },
-    "512691": {
-      "LearnToAvoid_5_3": -4.0,
-      "LearnToAvoid_-4_-2": -4.0,
-      "LearnToAvoid_-3_3": -4.0
-    },
-    "512660": {
-      "LearnToAvoid_3_2": -4.0
-    },
-    "498374": {
-      "LearnToAvoid_5_-5": 40.0,
-      "LearnToAvoid_3_-4": 40.0,
-      "LearnToAvoid_3_4": 40.0
-    },
-    "512477": {
-      "LearnToAvoid_4_1": -4.0,
-      "LearnToAvoid_3_3": -4.0,
-      "LearnToAvoid_4_5": -4.0
-    },
-    "512632": {
-      "LearnToAvoid_-3_-3": -4.0
-    },
-    "511828": {
-      "LearnToAvoid_-5_-3": -4.0,
-      "LearnToAvoid_-3_4": -4.0
-    },
-    "511858": {
-      "LearnToAvoid_-5_1": -4.0
-    },
-    "511920": {
-      "LearnToAvoid_3_2": -4.0,
-      "LearnToAvoid_3_1": -4.0
-    },
-    "512508": {
-      "LearnToAvoid_-2_3": -4.0
-    },
-    "519": {
-      "LearnToAvoid_4_-5": 40.0
-    },
-    "16507": {
-      "LearnToAvoid_2_5": -4.0,
-      "LearnToAvoid_5_3": -4.0
-    },
-    "16538": {
-      "LearnToAvoid_0_-2": -4.0,
-      "LearnToAvoid_-4_3": -4.0,
-      "LearnToAvoid_-1_-3": -4.0,
-      "LearnToAvoid_5_-4": -4.0
-    },
-    "499051": {
-      "LearnToAvoid_-1_-3": 40.0,
-      "LearnToAvoid_-2_1": -4.0
-    },
-    "16098": {
-      "LearnToAvoid_2_-5": 40.0
-    },
-    "512479": {
-      "LearnToAvoid_3_-5": -4.0
-    },
-    "16510": {
-      "LearnToAvoid_3_-3": -4.0,
-      "LearnToAvoid_1_-5": -4.0,
-      "LearnToAvoid_5_-4": 40.0,
-      "LearnToAvoid_5_2": -4.0,
-      "LearnToAvoid_4_1": -4.0,
-      "LearnToAvoid_-2_4": -4.0
-    },
-    "512509": {
-      "LearnToAvoid_3_-5": -4.0,
-      "LearnToAvoid_-2_3": -4.0
-    },
-    "512663": {
-      "LearnToAvoid_1_-5": -4.0
-    },
-    "512662": {
-      "LearnToAvoid_3_3": -4.0,
-      "LearnToAvoid_1_0": -4.0
-    },
-    "499024": {
-      "LearnToAvoid_5_-3": -4.0
-    },
-    "16531": {
-      "LearnToAvoid_0_4": -4.0,
-      "LearnToAvoid_2_-3": -4.0,
-      "LearnToAvoid_3_5": -4.0
-    },
-    "512686": {
-      "LearnToAvoid_3_-5": -4.0
-    },
-    "498400": {
-      "LearnToAvoid_4_5": 40.0,
-      "LearnToAvoid_4_1": 40.0,
-      "LearnToAvoid_-3_4": -4.0,
-      "LearnToAvoid_4_-4": 40.0
-    },
     "499056": {
-      "LearnToAvoid_-1_2": -4.0
-    },
-    "512510": {
-      "LearnToAvoid_4_5": 40.0,
-      "LearnToAvoid_-1_-5": -4.0,
-      "LearnToAvoid_-5_0": -4.0
-    },
-    "512506": {
-      "LearnToAvoid_-4_4": -4.0,
-      "LearnToAvoid_-1_-4": -4.0
-    },
-    "16509": {
-      "LearnToAvoid_4_-2": -4.0,
-      "LearnToAvoid_-4_-1": -4.0
-    },
-    "511849": {
-      "LearnToAvoid_-4_-4": -4.0
-    },
-    "16536": {
-      "LearnToAvoid_1_-4": -4.0,
-      "LearnToAvoid_3_4": -4.0,
-      "LearnToAvoid_-5_-4": -4.0,
-      "LearnToAvoid_-3_-2": -4.0,
-      "LearnToAvoid_-2_4": -4.0
-    },
-    "512448": {
-      "LearnToAvoid_-1_1": -4.0
-    },
-    "16511": {
-      "LearnToAvoid_2_5": -4.0,
-      "LearnToAvoid_3_-3": 40.0,
-      "LearnToAvoid_-4_1": -4.0,
-      "LearnToAvoid_4_0": -4.0
-    },
-    "512531": {
-      "LearnToAvoid_4_-2": -4.0,
-      "LearnToAvoid_-5_4": -4.0
-    },
-    "533": {
-      "LearnToAvoid_-4_-3": -4.0,
-      "LearnToAvoid_4_0": -4.0,
-      "LearnToAvoid_5_-2": -4.0,
-      "LearnToAvoid_0_5": -4.0
-    },
-    "511826": {
-      "LearnToAvoid_-5_3": -4.0
-    },
-    "512476": {
-      "LearnToAvoid_-1_-5": -4.0,
-      "LearnToAvoid_-3_-1": -4.0,
-      "LearnToAvoid_0_5": -4.0
-    },
-    "512447": {
-      "LearnToAvoid_-5_2": -4.0
-    },
-    "511918": {
-      "LearnToAvoid_5_4": -4.0
-    },
-    "498405": {
-      "LearnToAvoid_1_5": 40.0
-    },
-    "511854": {
       "LearnToAvoid_4_3": -4.0,
-      "LearnToAvoid_-4_4": -4.0,
-      "LearnToAvoid_-5_-3": 40.0
-    },
-    "512532": {
-      "LearnToAvoid_1_2": -4.0
-    },
-    "16078": {
-      "LearnToAvoid_4_1": -4.0,
-      "LearnToAvoid_-5_3": 40.0,
-      "LearnToAvoid_3_2": 40.0
-    },
-    "16074": {
-      "LearnToAvoid_-3_1": 40.0
-    },
-    "16512": {
-      "LearnToAvoid_-5_3": -4.0,
-      "LearnToAvoid_-3_5": -4.0,
-      "LearnToAvoid_1_-4": -4.0,
-      "LearnToAvoid_-5_4": -4.0
-    },
-    "16076": {
-      "LearnToAvoid_-5_-2": 40.0
-    },
-    "16514": {
-      "LearnToAvoid_4_-2": -4.0
-    },
-    "16075": {
-      "LearnToAvoid_-1_0": -4.0
-    },
-    "16508": {
-      "LearnToAvoid_-2_-1": -4.0,
-      "LearnToAvoid_1_3": 40.0,
-      "LearnToAvoid_-3_5": -4.0
-    },
-    "498431": {
-      "LearnToAvoid_4_-1": 40.0,
-      "LearnToAvoid_0_3": -4.0
-    },
-    "499082": {
-      "LearnToAvoid_-4_2": 40.0
-    },
-    "498404": {
-      "LearnToAvoid_4_3": -4.0
-    },
-    "16077": {
-      "LearnToAvoid_4_2": 40.0,
-      "LearnToAvoid_1_5": 40.0
-    },
-    "511919": {
-      "LearnToAvoid_-4_4": -4.0
-    },
-    "498373": {
-      "LearnToAvoid_-4_2": 40.0
-    },
-    "511859": {
-      "LearnToAvoid_0_2": -4.0
-    },
-    "511948": {
-      "LearnToAvoid_2_-2": -4.0,
-      "LearnToAvoid_3_5": -4.0
-    },
-    "511827": {
-      "LearnToAvoid_0_4": -4.0
-    },
-    "511850": {
-      "LearnToAvoid_2_-1": -4.0
-    },
-    "512505": {
-      "LearnToAvoid_-2_-4": -4.0,
-      "LearnToAvoid_0_-5": 40.0
-    },
-    "511857": {
-      "LearnToAvoid_0_5": -4.0,
-      "LearnToAvoid_3_4": -4.0
-    },
-    "512445": {
-      "LearnToAvoid_0_2": -4.0
-    },
-    "16099": {
-      "LearnToAvoid_2_4": 40.0
-    },
-    "512500": {
-      "LearnToAvoid_1_0": -4.0,
-      "LearnToAvoid_-4_-4": -4.0
-    },
-    "512693": {
-      "LearnToAvoid_-3_4": -4.0
+      "LearnToAvoid_-3_4": 40.0,
+      "LearnToAvoid_1_4": 40.0
     },
     "16532": {
-      "LearnToAvoid_5_0": -4.0
+      "LearnToAvoid_-1_-5": 40.0
     },
-    "512665": {
-      "LearnToAvoid_2_-2": -4.0
+    "499055": {
+      "LearnToAvoid_-4_-2": -4.0
     },
-    "512633": {
-      "LearnToAvoid_-5_-5": -4.0
-    },
-    "512474": {
-      "LearnToAvoid_-1_2": -4.0
-    },
-    "511889": {
+    "498402": {
+      "LearnToAvoid_1_5": -4.0,
+      "LearnToAvoid_-2_5": -4.0,
       "LearnToAvoid_4_-4": -4.0
     },
-    "511880": {
-      "LearnToAvoid_-2_-3": -4.0
+    "16104": {
+      "LearnToAvoid_3_-2": -4.0,
+      "LearnToAvoid_-3_4": -4.0,
+      "LearnToAvoid_3_-4": -4.0,
+      "LearnToAvoid_5_4": 40.0
     },
-    "511890": {
-      "LearnToAvoid_3_-2": -4.0
+    "511855": {
+      "LearnToAvoid_5_-3": 40.0,
+      "LearnToAvoid_-3_-3": 40.0
+    },
+    "0": {
+      "LearnToAvoid_4_3": -7.84,
+      "LearnToAvoid_3_-3": -4.0,
+      "LearnToAvoid_4_5": -4.0,
+      "LearnToAvoid_0_-2": -6.4,
+      "LearnToAvoid_1_-4": -4.0,
+      "LearnToAvoid_-3_0": -6.4,
+      "LearnToAvoid_4_-4": -4.0,
+      "LearnToAvoid_-4_4": -4.0,
+      "LearnToAvoid_-4_1": -4.0,
+      "LearnToAvoid_1_1": -4.0,
+      "LearnToAvoid_-2_3": -4.0,
+      "LearnToAvoid_-4_3": -6.4,
+      "LearnToAvoid_-2_2": -6.4,
+      "LearnToAvoid_-3_-2": -4.0,
+      "LearnToAvoid_4_4": -4.0,
+      "LearnToAvoid_2_-4": -4.0,
+      "LearnToAvoid_3_5": -4.0,
+      "LearnToAvoid_-3_5": -4.0,
+      "LearnToAvoid_-4_0": -6.4,
+      "LearnToAvoid_-5_-2": -4.0,
+      "LearnToAvoid_-3_-4": -6.4,
+      "LearnToAvoid_-4_-2": -4.0,
+      "LearnToAvoid_-4_2": -4.0,
+      "LearnToAvoid_1_2": -4.0,
+      "LearnToAvoid_0_2": -4.0,
+      "LearnToAvoid_-4_-5": -4.0,
+      "LearnToAvoid_-1_-4": -6.4
+    },
+    "499210": {
+      "LearnToAvoid_-5_-4": -4.0
+    },
+    "511885": {
+      "LearnToAvoid_4_3": 40.0,
+      "LearnToAvoid_1_2": -4.0,
+      "LearnToAvoid_-4_-3": 40.0
+    },
+    "16103": {
+      "LearnToAvoid_3_4": -4.0,
+      "LearnToAvoid_-1_-3": -4.0,
+      "LearnToAvoid_5_-2": -4.0
+    },
+    "16099": {
+      "LearnToAvoid_-4_5": 40.0,
+      "LearnToAvoid_-5_-4": -4.0,
+      "LearnToAvoid_4_-3": -4.0,
+      "LearnToAvoid_0_5": -4.0,
+      "LearnToAvoid_-3_5": -4.0
+    },
+    "498457": {
+      "LearnToAvoid_-5_3": -4.0
+    },
+    "512510": {
+      "LearnToAvoid_-5_-2": 40.0
+    },
+    "498373": {
+      "LearnToAvoid_-3_4": -4.0
+    },
+    "498494": {
+      "LearnToAvoid_1_1": -4.0
+    },
+    "511854": {
+      "LearnToAvoid_1_-3": 64.0,
+      "LearnToAvoid_-3_-4": 40.0,
+      "LearnToAvoid_-5_-1": 40.0
+    },
+    "16077": {
+      "LearnToAvoid_3_-4": -4.0,
+      "LearnToAvoid_1_5": -4.0,
+      "LearnToAvoid_-3_4": -4.0,
+      "LearnToAvoid_1_-3": -4.0,
+      "LearnToAvoid_-5_-3": -4.0,
+      "LearnToAvoid_-1_-3": -4.0,
+      "LearnToAvoid_-4_1": -4.0
     },
     "499054": {
-      "LearnToAvoid_-5_2": 40.0
+      "LearnToAvoid_3_-5": -4.0
     },
-    "511731": {
-      "LearnToAvoid_4_5": -4.0
+    "512445": {
+      "LearnToAvoid_-4_-5": -4.0
     },
-    "512470": {
-      "LearnToAvoid_-4_-1": -4.0
+    "512479": {
+      "LearnToAvoid_0_-4": -4.0,
+      "LearnToAvoid_3_3": 40.0
+    },
+    "499025": {
+      "LearnToAvoid_-2_-1": -4.0,
+      "LearnToAvoid_-4_-2": 40.0
+    },
+    "16076": {
+      "LearnToAvoid_-3_3": 40.0,
+      "LearnToAvoid_4_3": -4.0
+    },
+    "16080": {
+      "LearnToAvoid_0_3": -4.0
+    },
+    "498431": {
+      "LearnToAvoid_2_5": 40.0,
+      "LearnToAvoid_4_3": -4.0,
+      "LearnToAvoid_1_-5": -4.0,
+      "LearnToAvoid_0_-4": -4.0
+    },
+    "511828": {
+      "LearnToAvoid_3_3": 40.0,
+      "LearnToAvoid_-1_2": -4.0
+    },
+    "519": {
+      "LearnToAvoid_5_4": -4.0,
+      "LearnToAvoid_5_5": -4.0,
+      "LearnToAvoid_-3_-3": -4.0,
+      "LearnToAvoid_2_-4": -4.0
+    },
+    "533": {
+      "LearnToAvoid_2_5": 40.0
+    },
+    "499082": {
+      "LearnToAvoid_-3_3": -4.0,
+      "LearnToAvoid_5_3": -4.0,
+      "LearnToAvoid_-4_0": -4.0,
+      "LearnToAvoid_-3_-5": -4.0
+    },
+    "498395": {
+      "LearnToAvoid_0_0": -4.0,
+      "LearnToAvoid_-1_1": -4.0
+    },
+    "511859": {
+      "LearnToAvoid_-3_5": 40.0,
+      "LearnToAvoid_0_3": 40.0
+    },
+    "16078": {
+      "LearnToAvoid_4_0": -4.0,
+      "LearnToAvoid_-5_-3": -4.0,
+      "LearnToAvoid_-2_-5": -4.0,
+      "LearnToAvoid_4_-3": -4.0
+    },
+    "512478": {
+      "LearnToAvoid_5_4": 40.0,
+      "LearnToAvoid_-5_0": 40.0
+    },
+    "499020": {
+      "LearnToAvoid_-3_3": -4.0
+    },
+    "16537": {
+      "LearnToAvoid_4_-3": 40.0,
+      "LearnToAvoid_5_2": 40.0,
+      "LearnToAvoid_-5_3": 40.0
+    },
+    "16098": {
+      "LearnToAvoid_2_-4": -4.0
+    },
+    "499209": {
+      "LearnToAvoid_-4_-3": -4.0
+    },
+    "16511": {
+      "LearnToAvoid_4_2": 40.0,
+      "LearnToAvoid_3_0": 40.0,
+      "LearnToAvoid_3_3": 40.0,
+      "LearnToAvoid_-1_-4": 40.0
+    },
+    "499211": {
+      "LearnToAvoid_-1_0": -4.0,
+      "LearnToAvoid_-5_-2": -4.0
+    },
+    "499021": {
+      "LearnToAvoid_-4_1": -4.0
+    },
+    "498433": {
+      "LearnToAvoid_-4_0": -4.0,
+      "LearnToAvoid_-3_4": -4.0,
+      "LearnToAvoid_-2_3": -4.0
+    },
+    "16509": {
+      "LearnToAvoid_0_4": 40.0
     },
     "16102": {
-      "LearnToAvoid_-3_-2": 40.0
+      "LearnToAvoid_3_2": -4.0,
+      "LearnToAvoid_4_1": -4.0,
+      "LearnToAvoid_4_4": 40.0,
+      "LearnToAvoid_-2_5": -4.0
+    },
+    "499015": {
+      "LearnToAvoid_4_-2": -4.0
+    },
+    "512509": {
+      "LearnToAvoid_1_4": 40.0
+    },
+    "499084": {
+      "LearnToAvoid_-1_3": -4.0,
+      "LearnToAvoid_2_-3": -4.0
+    },
+    "499053": {
+      "LearnToAvoid_2_-1": -4.0
+    },
+    "499083": {
+      "LearnToAvoid_3_-3": -4.0,
+      "LearnToAvoid_-4_2": -4.0
+    },
+    "498374": {
+      "LearnToAvoid_-4_5": -4.0,
+      "LearnToAvoid_-2_3": 40.0
+    },
+    "498495": {
+      "LearnToAvoid_0_-1": -4.0,
+      "LearnToAvoid_2_-3": -4.0
+    },
+    "512537": {
+      "LearnToAvoid_-4_-1": 40.0
+    },
+    "498400": {
+      "LearnToAvoid_-5_0": -4.0
+    },
+    "498436": {
+      "LearnToAvoid_-3_4": -4.0
+    },
+    "16513": {
+      "LearnToAvoid_1_-3": 40.0
+    },
+    "498405": {
+      "LearnToAvoid_4_-2": -4.0
+    },
+    "499023": {
+      "LearnToAvoid_4_1": -4.0
+    },
+    "16510": {
+      "LearnToAvoid_4_-3": 40.0,
+      "LearnToAvoid_-4_3": 40.0
+    },
+    "499237": {
+      "LearnToAvoid_-3_-2": -4.0
+    },
+    "512506": {
+      "LearnToAvoid_-1_5": 40.0,
+      "LearnToAvoid_-3_2": 40.0
+    },
+    "499052": {
+      "LearnToAvoid_-4_5": -4.0
+    },
+    "498427": {
+      "LearnToAvoid_5_1": -4.0
+    },
+    "498401": {
+      "LearnToAvoid_-4_-3": -4.0
+    },
+    "512536": {
+      "LearnToAvoid_-4_-1": 64.0,
+      "LearnToAvoid_-3_3": 40.0,
+      "LearnToAvoid_-4_-2": 40.0
+    },
+    "498467": {
+      "LearnToAvoid_0_4": -4.0,
+      "LearnToAvoid_3_0": -4.0
+    },
+    "16536": {
+      "LearnToAvoid_-2_-3": 40.0
+    },
+    "16073": {
+      "LearnToAvoid_4_4": -4.0
+    },
+    "498464": {
+      "LearnToAvoid_-1_-3": -4.0
+    },
+    "16533": {
+      "LearnToAvoid_-3_2": 40.0
+    },
+    "498432": {
+      "LearnToAvoid_-4_2": -4.0
+    },
+    "498434": {
+      "LearnToAvoid_2_-1": -4.0
+    },
+    "511916": {
+      "LearnToAvoid_-2_-4": 40.0
+    },
+    "16079": {
+      "LearnToAvoid_-4_-5": -4.0
+    },
+    "16074": {
+      "LearnToAvoid_3_0": -4.0
+    },
+    "498463": {
+      "LearnToAvoid_1_4": -4.0
     }
   },
-  "MaxValue": 40.0
+  "MaxValue": 64.0
 }

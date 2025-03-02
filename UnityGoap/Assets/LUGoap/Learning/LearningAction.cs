@@ -17,9 +17,9 @@ namespace LUGoap.Learning
             _qLearning = qLearning;
         }
         
-        public int GetLearningCode(State state, Conditions conditions)
+        public int GetLearningCode(State state, ConditionGroup conditionGroup)
         {
-            return _qLearning.GetLearningCode(state, conditions);
+            return _qLearning.GetLearningCode(state, conditionGroup);
         }
         
         public override ActionSettings CreateSettings(ActionSettings settings)
@@ -57,13 +57,13 @@ namespace LUGoap.Learning
             return false;
         }
 
-        public override async Task<Effects> Execute(Effects effects, string[] parameters, CancellationToken token)
+        public override async Task<EffectGroup> Execute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
         {
-            Effects finalEffects;
+            EffectGroup finalEffectGroup;
             var learningCode = _agent.CurrentAction.LocalLearningCode;
             try
             {
-                finalEffects = await OnExecute(effects, parameters, token);
+                finalEffectGroup = await OnExecute(effectGroup, parameters, token);
             }
             catch (OperationCanceledException)
             {
@@ -74,9 +74,9 @@ namespace LUGoap.Learning
             {
                 _qLearning.Update(learningCode,
                     ParseToActionName(parameters),
-                    finalEffects != null ? _qLearning.SucceedReward : _qLearning.FailReward,
-                    finalEffects != null ? 0 : -1);
-                return finalEffects;
+                    finalEffectGroup != null ? _qLearning.SucceedReward : _qLearning.FailReward,
+                    finalEffectGroup != null ? 0 : -1);
+                return finalEffectGroup;
             }
 
             OnFail:

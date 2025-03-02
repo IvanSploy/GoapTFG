@@ -24,11 +24,6 @@ namespace LUGoap.Base
             Divide
         }
         
-        public static bool Evaluate(this ConditionValue conditionValue, object a)
-        {
-            return Evaluate(a, conditionValue.ConditionType, conditionValue.Value);
-        }
-        
         public static bool Evaluate(object a, ConditionType condition, object b)
         {
             if (a.GetType() != b.GetType()) return false;
@@ -69,9 +64,9 @@ namespace LUGoap.Base
         }
 
 
-        public static object Evaluate(this EffectValue effectValue, object a)
+        public static object Evaluate(this Effect effect, object a)
         {
-            return Evaluate(a, effectValue.EffectType, effectValue.Value);
+            return Evaluate(a, effect.Type, effect.Value);
         }
         
         public static object Evaluate(object a, EffectType effect, object b)
@@ -122,41 +117,7 @@ namespace LUGoap.Base
             return result;
         }
         
-        public static int GetDistance(this ConditionValue conditionValue, object a)
-        {
-            return GetDistance(a, conditionValue.ConditionType, conditionValue.Value);
-        }
-        
-        public static int GetDistance(object a, ConditionType condition, object b)
-        {
-            int distance = 0;
-            if (!a.Equals(b))
-            {
-                distance = a switch
-                {
-                    bool bValue => bValue ? -1 : 1,
-                    int iValue => iValue - (int)b,
-                    float fValue => (int)Math.Round(fValue - (float)b),
-                    string sValue => string.Compare(sValue, (string)b, StringComparison.InvariantCultureIgnoreCase),
-                    _ => 1
-                };
-            }
-            
-            switch (condition)
-            {
-                case ConditionType.NotEqual:
-                case ConditionType.GreaterThan:
-                    distance++;
-                    break;
-                case ConditionType.LessThan:
-                    distance--;
-                    break;
-            }
-            
-            return distance;
-        }
-        
-        public static int GetAdditionalDistance(PropertyKey key, object a)
+        public static int GetStateDistance(PropertyKey key, object a)
         {
             var b = GetDefault(key);
             if (a.Equals(b)) return 0;

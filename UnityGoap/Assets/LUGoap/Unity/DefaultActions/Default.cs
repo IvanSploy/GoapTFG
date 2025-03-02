@@ -8,9 +8,9 @@ namespace LUGoap.Unity.Actions
     {
         protected override void Init() { }
 
-        protected override Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+        protected override Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
         {
-            return Task.FromResult(effects);
+            return Task.FromResult(effectGroup);
         }
     }
 }

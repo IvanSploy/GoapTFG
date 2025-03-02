@@ -45,7 +45,7 @@ namespace LUGoap.Planning
             }
         }
         
-        public async Task<Effects> ExecuteNext()
+        public async Task<EffectGroup> ExecuteNext()
         {
             if (Current.Action != null) ExecutedActions.Push(Current);
 
@@ -103,33 +103,33 @@ namespace LUGoap.Planning
 
         public bool VerifyCurrent()
         {
-            var isConflict = Current.Conditions.CheckConflict(_agent.CurrentState);
+            var isConflict = Current.ConditionGroup.HasConflict(_agent.CurrentState);
             if (isConflict) return false;
 
-            var state = _agent.CurrentState + Current.Effects;
+            var state = _agent.CurrentState + Current.EffectGroup;
             foreach (var nextAction in _nodes)
             {
-                isConflict = nextAction.Conditions.CheckConflict(state);
+                isConflict = nextAction.ConditionGroup.HasConflict(state);
                 if (isConflict) return false;
-                state += nextAction.Effects;
+                state += nextAction.EffectGroup;
             }
 
-            return !_agent.CurrentGoal.Conditions.CheckConflict(state);
+            return !_agent.CurrentGoal.ConditionGroup.HasConflict(state);
         }
         
-        private Task<Effects> ExecuteCurrent()
+        private Task<EffectGroup> ExecuteCurrent()
         {
-            if (!CurrentIsValid()) return Task.FromResult<Effects>(null);
+            if (!CurrentIsValid()) return Task.FromResult<EffectGroup>(null);
 
             _cancellationTokenSource = new CancellationTokenSource();
-            return Current.Action.Execute(Current.Effects, Current.Parameters, _cancellationTokenSource.Token);
+            return Current.Action.Execute(Current.EffectGroup, Current.Parameters, _cancellationTokenSource.Token);
         }
         
         private bool CurrentIsValid()
         {
-            if (!Current.Conditions.CheckConflict(_agent.CurrentState))
+            if (!Current.ConditionGroup.HasConflict(_agent.CurrentState))
             {
-                var finalState = _agent.CurrentState + Current.Effects;
+                var finalState = _agent.CurrentState + Current.EffectGroup;
                 bool valid = Current.Action.Validate(finalState, Current.Parameters);
                 if (!valid)
                 {

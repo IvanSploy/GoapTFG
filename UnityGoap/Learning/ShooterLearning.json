@@ -1,13 +1,13 @@
 {
   "Values": {
     "546": {
-      "MoveToCover": 110.460052,
-      "FakeMove": 119.902885,
-      "MoveToEnemySight": -147.516708,
-      "MoveToCheckpoint": 103.567177,
-      "MoveToRandom": 119.868988,
-      "WaitForReload": 79.15474,
-      "MoveAndFire": 34.5666275,
+      "MoveToCover": 117.518982,
+      "FakeMove": 110.213547,
+      "MoveToEnemySight": 55.1759033,
+      "MoveToCheckpoint": 102.19355,
+      "MoveToRandom": 97.54751,
+      "WaitForReload": 76.11353,
+      "MoveAndFire": 35.59173,
       "AcquireEnemy": 0.0
     },
     "0": {
@@ -22,122 +22,129 @@
       "FakeMove": 19.629488
     },
     "508": {
-      "MoveAndFire": 49.9054451,
-      "WaitForReload": 11.5300331,
-      "AcquireEnemy": 0.0
+      "MoveAndFire": 2.52935982,
+      "WaitForReload": 8.90288448,
+      "AcquireEnemy": 8.483453,
+      "MoveToCover": -0.5875
     },
     "541": {
-      "AcquireEnemy": 82.88291
+      "AcquireEnemy": 81.28262,
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
     },
     "511": {
-      "KillEnemy": -94.39469
+      "KillEnemy": -48.22548
     },
     "16852": {
-      "WaitForReload": 35.8737679,
-      "MoveToCheckpoint": 25.9556847,
-      "MoveToCover": 51.39736,
-      "FakeMove": 52.1109772,
-      "MoveToRandom": 50.5554466,
-      "MoveToEnemySight": 49.43884
+      "WaitForReload": 35.43822,
+      "MoveToCheckpoint": 8.642953,
+      "MoveToCover": 53.02945,
+      "FakeMove": 51.2986221,
+      "MoveToRandom": 51.3668747,
+      "MoveToEnemySight": 35.5459442
     },
     "543": {
-      "WaitForReload": 52.75861,
-      "MoveAndFire": 71.27043,
+      "WaitForReload": 50.3822441,
+      "MoveAndFire": 75.8484344,
       "AcquireEnemy": 0.0,
-      "MoveToRandom": 0.0,
-      "MoveToEnemySight": -0.25,
-      "MoveToCheckpoint": -0.5,
-      "MoveToCover": 1.4325316,
+      "MoveToRandom": 4.427228,
+      "MoveToEnemySight": 13.24653,
+      "MoveToCheckpoint": 7.46031237,
+      "MoveToCover": 3.80382729,
       "FakeMove": 0.0
     },
     "16821": {
-      "WaitForReload": 77.4129944,
-      "MoveToCheckpoint": 23.8709869,
-      "MoveToCover": 41.4309464,
-      "FakeMove": 48.8413734,
-      "MoveToRandom": 45.314682,
-      "MoveToEnemySight": 7.36698246,
+      "WaitForReload": 69.5637054,
+      "MoveToCheckpoint": 2.72883463,
+      "MoveToCover": 54.3816872,
+      "FakeMove": 47.19859,
+      "MoveToRandom": 43.3489647,
+      "MoveToEnemySight": 43.53126,
       "AcquireEnemy": 0.0,
-      "MoveAndFire": 21.9566612
+      "MoveAndFire": 23.41218
     },
     "548": {
-      "MoveAndFire": 22.28488,
-      "WaitForReload": 9.816532,
+      "MoveAndFire": 21.8080425,
+      "WaitForReload": 13.2511215,
       "AcquireEnemy": 0.0,
       "MoveToCheckpoint": 0.151673332,
-      "MoveToCover": 0.0,
+      "MoveToCover": 1.05748785,
       "MoveToEnemySight": 0.0,
       "FakeMove": 0.0,
-      "MoveToRandom": 0.0
+      "MoveToRandom": 3.38535047
     },
     "16914": {
-      "WaitForReload": 22.935154,
-      "MoveToCheckpoint": 27.7877064,
-      "MoveToCover": 35.7902451,
-      "FakeMove": 33.2110367,
-      "MoveToRandom": 33.2124672,
-      "MoveToEnemySight": 35.4177628
+      "WaitForReload": 22.76541,
+      "MoveToCheckpoint": 16.8877182,
+      "MoveToCover": 35.34952,
+      "FakeMove": 35.9752769,
+      "MoveToRandom": 36.0081978,
+      "MoveToEnemySight": 35.4370155
     },
     "545": {
-      "MoveAndFire": 41.2554359,
+      "MoveAndFire": 53.75524,
       "AcquireEnemy": 0.0,
-      "WaitForReload": 35.7927666,
+      "WaitForReload": 34.6379929,
       "FakeMove": 3.42331672,
-      "MoveToRandom": 0.0,
-      "MoveToEnemySight": 0.0,
-      "MoveToCheckpoint": 10.9775753,
-      "MoveToCover": 0.0
+      "MoveToRandom": 9.237341,
+      "MoveToEnemySight": 23.60602,
+      "MoveToCheckpoint": 27.6244087,
+      "MoveToCover": 9.285814
     },
     "16945": {
-      "WaitForReload": 53.2389755,
-      "MoveToCheckpoint": 76.40999,
-      "FakeMove": 79.85604,
-      "MoveToEnemySight": 77.4334946,
-      "MoveToCover": 77.13128,
-      "MoveToRandom": 77.723175
+      "WaitForReload": 52.9417343,
+      "MoveToCheckpoint": 73.77169,
+      "FakeMove": 79.6231461,
+      "MoveToEnemySight": 73.33578,
+      "MoveToCover": 77.38436,
+      "MoveToRandom": 77.0564
     },
     "521470": {
       "WaitForReload": 40.4577065,
-      "MoveToCheckpoint": 29.87883,
-      "MoveToEnemySight": 41.2465973,
-      "MoveToRandom": 25.0984039,
-      "FakeMove": 45.27343,
-      "MoveToCover": 29.2335529
+      "MoveToCheckpoint": -4.26154566,
+      "MoveToEnemySight": 52.359417,
+      "MoveToRandom": 51.0825462,
+      "FakeMove": 52.62448,
+      "MoveToCover": 50.1988068
     },
     "521377": {
-      "WaitForReload": 35.654232,
-      "MoveToCheckpoint": 29.3379383,
-      "FakeMove": 33.1365852,
-      "MoveToEnemySight": 28.0475464,
-      "MoveToCover": 32.6847343,
-      "MoveToRandom": 32.98927
+      "WaitForReload": 36.4891434,
+      "MoveToCheckpoint": 29.53225,
+      "FakeMove": 35.582962,
+      "MoveToEnemySight": 35.2563324,
+      "MoveToCover": 34.7037277,
+      "MoveToRandom": 34.4979134
     },
     "16818": {
-      "WaitForReload": 50.9837,
-      "MoveAndFire": 51.5677567,
+      "WaitForReload": 51.5052,
+      "MoveAndFire": 51.7992744,
       "AcquireEnemy": 0.0,
       "MoveToCheckpoint": 0.0,
-      "MoveToCover": 4.64245367,
-      "FakeMove": -0.25,
-      "MoveToRandom": 0.0,
-      "MoveToEnemySight": 3.432321
+      "MoveToCover": 12.9593058,
+      "FakeMove": 11.144228,
+      "MoveToRandom": 5.81744528,
+      "MoveToEnemySight": 12.5641918
     },
     "521439": {
-      "WaitForReload": 15.3567877,
-      "MoveToCheckpoint": 3.86724925,
-      "MoveToCover": 3.99648738,
-      "FakeMove": 1.65381122,
-      "MoveToRandom": -0.423024029,
-      "MoveToEnemySight": 0.0
+      "WaitForReload": 21.88953,
+      "MoveToCheckpoint": -25.1239071,
+      "MoveToCover": 20.7175236,
+      "FakeMove": 21.3295631,
+      "MoveToRandom": 21.5706253,
+      "MoveToEnemySight": 14.4162531
     },
     "16820": {
-      "WaitForReload": 13.053318,
-      "MoveAndFire": 19.4249077,
+      "WaitForReload": 18.5680275,
+      "MoveAndFire": 34.551754,
       "AcquireEnemy": 0.0,
-      "MoveToEnemySight": 0.0
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 1.03222883,
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 3.932067,
+      "FakeMove": 0.0
     },
     "542": {
-      "WaitForReload": 76.24268,
+      "WaitForReload": 90.6130447,
       "AcquireEnemy": 0.0,
       "MoveAndFire": 0.0,
       "MoveToCheckpoint": 0.0,
@@ -147,141 +154,6576 @@
       "MoveToEnemySight": 0.0
     },
     "550": {
-      "MoveAndFire": -1.71979761,
+      "MoveAndFire": -2.70238519,
       "AcquireEnemy": 0.0,
-      "WaitForReload": 0.0
+      "WaitForReload": -1.77539063,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0
     },
     "16976": {
-      "WaitForReload": -2.000148,
-      "MoveToCheckpoint": -56.88575,
-      "MoveToCover": 0.00343949045,
-      "FakeMove": 0.479346216,
-      "MoveToRandom": 1.67174792,
-      "MoveToEnemySight": -37.6606369
+      "WaitForReload": -1.17239559,
+      "MoveToCheckpoint": -36.6075821,
+      "MoveToCover": 1.524778,
+      "FakeMove": 4.15092134,
+      "MoveToRandom": 2.70960855,
+      "MoveToEnemySight": 3.85007238
     },
     "547": {
-      "MoveAndFire": 7.41536474,
+      "MoveAndFire": 6.47577858,
       "AcquireEnemy": 0.0,
-      "WaitForReload": 0.0906284153,
-      "MoveToCover": -0.299246728
+      "WaitForReload": 1.02274561,
+      "MoveToCover": -0.299246728,
+      "MoveToCheckpoint": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "FakeMove": 0.0
     },
     "17007": {
-      "MoveToCheckpoint": -49.8896332,
-      "MoveToCover": 8.52152252,
-      "FakeMove": 13.3743467,
-      "MoveToEnemySight": 11.9566383,
+      "MoveToCheckpoint": -42.5028572,
+      "MoveToCover": 11.2414246,
+      "FakeMove": 14.9421225,
+      "MoveToEnemySight": 14.1694088,
       "WaitForReload": 3.492768,
-      "MoveToRandom": 11.53094
+      "MoveToRandom": 13.0328331
     },
     "16907": {
-      "MoveAndFire": 29.06265,
+      "MoveAndFire": 46.3670921,
       "AcquireEnemy": 0.0,
       "WaitForReload": 3.27872038
     },
     "16814": {
       "AcquireEnemy": 0.0,
-      "MoveAndFire": 10.685895,
-      "WaitForReload": 0.0
+      "MoveAndFire": 32.39757,
+      "WaitForReload": 10.5137053
     },
     "521339": {
-      "WaitForReload": -0.25,
-      "MoveAndFire": 27.9568787,
+      "WaitForReload": 2.92282271,
+      "MoveAndFire": 41.31577,
       "AcquireEnemy": 0.0
     },
     "16876": {
-      "MoveAndFire": 44.70111,
+      "MoveAndFire": 57.07052,
       "AcquireEnemy": 0.0,
       "WaitForReload": 7.3226943
     },
     "521432": {
-      "MoveAndFire": 0.0,
+      "MoveAndFire": 20.5419216,
       "AcquireEnemy": 0.0,
       "WaitForReload": 0.0
     },
     "520323": {
-      "WaitForReload": 0.0,
+      "WaitForReload": 31.3475761,
       "MoveToEnemySight": 0.0,
-      "MoveToCover": 0.0,
-      "MoveToCheckpoint": 0.0,
-      "FakeMove": 0.0,
-      "MoveToRandom": 0.0
+      "MoveToCover": 17.70014,
+      "MoveToCheckpoint": 15.4543476,
+      "FakeMove": 5.145614,
+      "MoveToRandom": 11.420146
     },
     "521532": {
-      "MoveToEnemySight": -1.07829964,
-      "MoveToCover": 0.0,
-      "MoveToRandom": 0.0,
-      "FakeMove": -0.4093885,
-      "MoveToCheckpoint": -0.6406042,
+      "MoveToEnemySight": 4.564164,
+      "MoveToCover": 3.75138474,
+      "MoveToRandom": 5.29595232,
+      "FakeMove": 5.460451,
+      "MoveToCheckpoint": -48.2942924,
       "WaitForReload": 0.0
     },
     "16823": {
-      "MoveAndFire": 2.0536902,
-      "WaitForReload": 0.0,
-      "AcquireEnemy": 0.0
+      "MoveAndFire": 13.0520821,
+      "WaitForReload": 3.11628342,
+      "AcquireEnemy": 0.0,
+      "MoveToCheckpoint": -0.336395234,
+      "MoveToRandom": 0.0,
+      "MoveToCover": 0.5615534,
+      "MoveToEnemySight": 0.0,
+      "FakeMove": 0.0
     },
     "17038": {
-      "MoveToRandom": -1.625,
-      "MoveToEnemySight": 0.0,
-      "MoveToCover": 0.0,
-      "MoveToCheckpoint": -2.375,
+      "MoveToRandom": -2.67907763,
+      "MoveToEnemySight": -1.84701669,
+      "MoveToCover": -2.668706,
+      "MoveToCheckpoint": -53.8150864,
       "WaitForReload": 0.0,
-      "FakeMove": -0.5
+      "FakeMove": -1.75690174
     },
     "549": {
-      "MoveAndFire": -2.81738281,
+      "MoveAndFire": -3.18020844,
       "WaitForReload": 0.0,
-      "AcquireEnemy": 0.0
+      "AcquireEnemy": 0.0,
+      "MoveToCover": -1.25,
+      "MoveToRandom": -1.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0
     },
     "17069": {
       "WaitForReload": 0.0,
-      "MoveToCheckpoint": -2.3125,
-      "FakeMove": -0.5,
-      "MoveToEnemySight": -1.625,
-      "MoveToCover": 0.0,
-      "MoveToRandom": 0.0
+      "MoveToCheckpoint": -80.56116,
+      "FakeMove": -1.73076677,
+      "MoveToEnemySight": -1.92326534,
+      "MoveToCover": -2.1358254,
+      "MoveToRandom": -2.642978
     },
     "552": {
-      "MoveAndFire": -2.82617188
+      "MoveAndFire": -56.16738,
+      "WaitForReload": 0.0
     },
     "521501": {
-      "MoveToCover": 0.0,
-      "MoveToRandom": 0.0,
-      "MoveToEnemySight": 0.0,
+      "MoveToCover": -2.02515674,
+      "MoveToRandom": -1.99034286,
+      "MoveToEnemySight": -1.66749883,
       "WaitForReload": 0.0,
-      "FakeMove": -1.625,
-      "MoveToCheckpoint": 0.0
+      "FakeMove": -1.59372473,
+      "MoveToCheckpoint": -2.83952212
     },
     "16822": {
       "WaitForReload": 0.0,
       "AcquireEnemy": 0.0,
-      "MoveAndFire": -1.625
+      "MoveAndFire": 1.18205488,
+      "MoveToCover": -0.496452183,
+      "MoveToRandom": -0.6245466,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": -38.07405,
+      "FakeMove": 0.0
     },
     "16938": {
       "MoveAndFire": 2.575733,
-      "AcquireEnemy": 0.0
+      "AcquireEnemy": 0.0,
+      "WaitForReload": 0.0
     },
     "16969": {
       "WaitForReload": 0.0,
       "AcquireEnemy": 0.0,
-      "MoveAndFire": 5.152419
+      "MoveAndFire": 17.6995964
     },
     "521401": {
-      "AcquireEnemy": 0.0
+      "AcquireEnemy": 0.0,
+      "WaitForReload": 8.755593,
+      "MoveAndFire": 21.7244854
     },
     "16784": {
-      "WaitForReload": 0.0,
+      "WaitForReload": 19.7453041,
       "AcquireEnemy": 0.0,
-      "MoveAndFire": 0.0
+      "MoveAndFire": 46.0344467,
+      "MoveToRandom": 0.0,
+      "FakeMove": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0
     },
     "520354": {
-      "WaitForReload": 0.0,
-      "MoveToCheckpoint": 0.0,
-      "MoveToCover": 0.0,
-      "MoveToRandom": 0.0
+      "WaitForReload": 3.80982161,
+      "MoveToCheckpoint": -11.4349222,
+      "MoveToCover": 9.34128952,
+      "MoveToRandom": 10.6532507,
+      "MoveToEnemySight": -5.065298,
+      "FakeMove": 8.488855
     },
     "16783": {
       "WaitForReload": 0.0,
+      "MoveAndFire": -0.875,
+      "AcquireEnemy": 0.0
+    },
+    "16785": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 21.1716328,
+      "MoveToRandom": 0.0,
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCover": 0.6709932
+    },
+    "520261": {
+      "MoveToEnemySight": -0.5,
+      "FakeMove": -0.5,
+      "MoveToCover": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToRandom": -0.5,
+      "WaitForReload": 0.0
+    },
+    "520292": {
+      "MoveToEnemySight": 0.0,
+      "FakeMove": -0.5,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": -0.5,
+      "WaitForReload": 0.0
+    },
+    "520199": {
+      "MoveToEnemySight": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "FakeMove": -0.5
+    },
+    "520230": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "520137": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "520168": {
+      "MoveToEnemySight": 0.0
+    },
+    "521563": {
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToRandom": -1.875,
+      "MoveToCover": -1.0,
+      "FakeMove": -1.3125,
+      "MoveToEnemySight": -1.484375
+    },
+    "16824": {
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -2.62887573
+    },
+    "521594": {
+      "WaitForReload": -0.75,
+      "MoveToCheckpoint": -2.703125,
+      "MoveToRandom": -2.53417969,
+      "MoveToCover": -1.875,
+      "FakeMove": -1.3125,
+      "MoveToEnemySight": -1.66015625
+    },
+    "16825": {
+      "WaitForReload": -1.3125,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -3.07595515,
+      "MoveToCover": -1.25,
+      "MoveToRandom": -1.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0
+    },
+    "520285": {
+      "AcquireEnemy": 0.0,
       "MoveAndFire": 0.0
+    },
+    "520316": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 6.69139,
+      "WaitForReload": 0.0
+    },
+    "16782": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -0.8030831,
+      "MoveToCover": -0.5875,
+      "WaitForReload": 0.0
+    },
+    "16780": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -0.5
+    },
+    "16781": {
+      "AcquireEnemy": 0.0
+    },
+    "521494": {
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 8.923162
+    },
+    "17000": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -2.0,
+      "WaitForReload": 0.0
+    },
+    "521556": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -1.43356383,
+      "WaitForReload": 0.0
+    },
+    "17031": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "521463": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 2.87741613,
+      "WaitForReload": 0.0
+    },
+    "504": {
+      "MoveAndFire": -38.70649
+    },
+    "494190": {
+      "MoveToCover": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "15941": {
+      "AcquireEnemy": 0.0
+    },
+    "494314": {
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0
+    },
+    "15945": {
+      "AcquireEnemy": 0.0
+    },
+    "15736": {
+      "FakeMove": 6.11286974,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 1.7029,
+      "MoveToRandom": 6.077223,
+      "MoveToEnemySight": 3.65609717,
+      "MoveToCover": 4.940701
+    },
+    "507": {
+      "MoveAndFire": 11.6103449,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": -0.288257122,
+      "MoveToRandom": 0.0
+    },
+    "15829": {
+      "FakeMove": 20.96364,
+      "WaitForReload": 1.66195858,
+      "MoveToCheckpoint": 6.142057,
+      "MoveToRandom": 20.06103,
+      "MoveToEnemySight": 19.20383,
+      "MoveToCover": 20.0410614
+    },
+    "510": {
+      "MoveAndFire": 31.45564,
+      "WaitForReload": 14.0930748,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "15798": {
+      "FakeMove": 46.3296623,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 42.0428734,
+      "MoveToRandom": 50.486805,
+      "MoveToEnemySight": 49.11132,
+      "MoveToCover": 47.91972
+    },
+    "509": {
+      "MoveAndFire": 81.02027,
+      "WaitForReload": 34.7962,
+      "AcquireEnemy": 0.0,
+      "FakeMove": 0.0,
+      "MoveToEnemySight": -0.25,
+      "MoveToCover": -0.5,
+      "MoveToRandom": 0.0
+    },
+    "16883": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "544": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17131": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "17100": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "551": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17193": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "554": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17162": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "553": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17255": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "556": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17224": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "555": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17317": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "558": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17286": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "557": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16387": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "528": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16356": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "527": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16449": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "530": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16418": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "529": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16511": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "532": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16480": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "531": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16573": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "534": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16542": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": 0.0
+    },
+    "533": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16635": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0
+    },
+    "536": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16604": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "535": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16697": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "538": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16666": {
+      "FakeMove": -0.5,
+      "WaitForReload": 18.4740372,
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": -0.5,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "537": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": -0.875,
+      "AcquireEnemy": 0.0
+    },
+    "16759": {
+      "FakeMove": 0.0,
+      "WaitForReload": 71.5811539,
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCover": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "540": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "16728": {
+      "FakeMove": 0.0,
+      "WaitForReload": 74.447525,
+      "MoveToCheckpoint": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "539": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16790": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "17875": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "576": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17844": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "575": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17937": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "578": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17906": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "577": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17999": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "580": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17968": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "579": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18061": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "582": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18030": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "581": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18123": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "584": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18092": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "583": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18185": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "586": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18154": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "585": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18247": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "588": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18216": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "587": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18309": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "590": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18278": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "589": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17379": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "560": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17348": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "559": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17441": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "562": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17410": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "561": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17503": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "564": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17472": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "563": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17565": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "566": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17534": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "565": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17627": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "568": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17596": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "567": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17689": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "570": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17658": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "569": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17751": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "572": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17720": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "571": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17813": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "574": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "17782": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "573": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18867": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "608": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18836": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "607": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18929": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "610": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18898": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "609": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18991": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "612": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18960": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "611": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19053": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "614": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19022": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "613": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19115": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "616": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19084": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "615": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19177": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "618": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19146": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "617": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19239": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "620": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19208": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "619": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19301": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "622": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19270": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "621": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18371": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "592": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18340": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "591": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18433": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "594": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18402": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "593": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18495": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "596": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18464": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "595": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18557": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "598": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18526": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "597": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18619": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "600": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18588": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "599": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18681": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "602": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18650": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "601": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18743": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "604": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18712": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "603": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18805": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "606": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "18774": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "605": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19859": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "640": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19828": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "639": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19921": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "642": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19890": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "641": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19983": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "644": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19952": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "643": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20045": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "646": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20014": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "645": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20107": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "648": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20076": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "647": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20169": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "650": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20138": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "649": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20231": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "652": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20200": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "651": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20293": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "654": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20262": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "653": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19363": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "624": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19332": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "623": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19425": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "626": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19394": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "625": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19487": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "628": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19456": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "627": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19549": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "630": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19518": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "629": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19611": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "632": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19580": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "631": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19673": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "634": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19642": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "633": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19735": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "636": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19704": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "635": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19797": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "638": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "19766": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "637": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20851": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "672": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20820": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "671": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20913": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "674": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20882": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "673": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20975": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "676": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20944": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "675": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21037": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "678": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21006": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "677": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21099": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "680": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21068": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "679": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21161": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "682": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21130": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "681": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21223": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "684": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21192": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "683": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21285": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "686": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21254": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "685": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20355": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "656": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20324": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "655": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20417": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "658": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20386": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "657": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20479": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "660": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20448": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "659": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20541": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "662": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20510": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "661": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20603": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "664": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20572": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "663": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20665": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "666": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20634": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "665": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20727": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "668": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20696": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "667": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20789": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "670": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "20758": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "669": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21843": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "704": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21812": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "703": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21905": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "706": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21874": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "705": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21967": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "708": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21936": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "707": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22029": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "710": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21998": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "709": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22091": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "712": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22060": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "711": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22153": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "714": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22122": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "713": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22215": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "716": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22184": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "715": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22277": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "718": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22246": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "717": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21347": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "688": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21316": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "687": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21409": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "690": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21378": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "689": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21471": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "692": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21440": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "691": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21533": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "694": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21502": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "693": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21595": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "696": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21564": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "695": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21657": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "698": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21626": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "697": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21719": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "700": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21688": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "699": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21781": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "702": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "21750": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "701": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22835": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "736": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22804": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "735": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22897": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "738": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22866": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "737": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22959": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "740": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22928": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "739": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23021": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "742": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22990": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "741": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23083": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "744": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23052": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "743": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23145": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "746": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23114": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "745": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23207": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "748": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23176": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "747": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23269": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "750": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23238": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "749": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22339": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "720": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22308": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "719": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22401": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "722": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22370": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "721": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22463": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "724": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22432": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "723": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22525": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "726": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22494": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "725": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22587": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "728": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22556": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "727": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22649": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "730": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22618": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "729": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22711": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "732": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22680": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "731": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22773": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "734": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "22742": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "733": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23827": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "768": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23796": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "767": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23889": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "770": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23858": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "769": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23951": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "772": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23920": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "771": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24013": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "774": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23982": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "773": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24075": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "776": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24044": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "775": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24137": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "778": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24106": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "777": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24199": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "780": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24168": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "779": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24261": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "782": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24230": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "781": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23331": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "752": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23300": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "751": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23393": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "754": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23362": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "753": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23455": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "756": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23424": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "755": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23517": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "758": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23486": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "757": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23579": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "760": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23548": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "759": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23641": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "762": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23610": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "761": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23703": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "764": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23672": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "763": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23765": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "766": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "23734": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "765": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24819": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "800": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24788": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "799": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24881": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "802": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24850": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "801": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24943": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "804": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24912": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "803": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25005": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "806": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24974": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "805": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25067": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "808": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25036": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "807": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25129": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "810": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25098": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "809": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25191": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "812": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25160": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "811": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25253": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "814": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25222": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "813": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24323": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "784": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24292": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "783": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24385": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "786": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24354": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "785": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24447": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "788": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24416": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "787": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24509": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "790": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24478": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "789": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24571": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "792": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24540": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "791": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24633": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "794": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24602": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "793": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24695": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "796": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24664": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "795": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24757": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "798": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "24726": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "797": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25811": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "832": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25780": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "831": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25873": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "834": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25842": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "833": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25935": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "836": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25904": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "835": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25997": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "838": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25966": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "837": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26059": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "840": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26028": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "839": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26121": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "842": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26090": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "841": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26183": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "844": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26152": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "843": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26245": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "846": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26214": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "845": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25315": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "816": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25284": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "815": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25377": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "818": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25346": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "817": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25439": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "820": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25408": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "819": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25501": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "822": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25470": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "821": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25563": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "824": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25532": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "823": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25625": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "826": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25594": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "825": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25687": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "828": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25656": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "827": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25749": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "830": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "25718": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "829": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26803": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "864": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26772": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "863": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26865": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "866": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26834": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "865": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26927": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "868": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26896": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "867": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26989": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "870": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26958": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "869": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27051": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "872": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27020": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "871": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27113": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "874": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27082": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "873": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27175": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "876": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27144": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "875": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27237": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "878": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27206": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "877": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26307": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "848": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26276": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "847": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26369": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "850": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26338": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "849": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26431": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "852": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26400": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "851": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26493": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "854": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26462": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "853": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26555": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "856": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26524": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "855": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26617": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "858": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26586": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "857": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26679": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "860": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26648": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "859": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26741": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "862": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "26710": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "861": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27795": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "896": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27764": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "895": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27857": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "898": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27826": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "897": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27919": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "900": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27888": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "899": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27981": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "902": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27950": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "901": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28043": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "904": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28012": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "903": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28105": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "906": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28074": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "905": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28167": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "908": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28136": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "907": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28229": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "910": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28198": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "909": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27299": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "880": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27268": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "879": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27361": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "882": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27330": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "881": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27423": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "884": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27392": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "883": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27485": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "886": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27454": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "885": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27547": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "888": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27516": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "887": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27609": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "890": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27578": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "889": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27671": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "892": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27640": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "891": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27733": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "894": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "27702": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "893": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28787": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "928": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28756": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "927": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28849": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "930": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28818": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "929": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28911": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "932": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28880": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "931": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28973": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "934": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28942": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "933": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29035": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "936": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29004": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "935": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29097": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "938": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29066": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "937": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29159": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "940": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29128": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "939": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29221": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "942": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29190": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "941": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28291": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "912": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28260": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "911": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28353": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "914": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28322": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "913": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28415": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "916": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28384": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "915": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28477": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "918": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28446": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "917": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28539": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "920": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28508": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "919": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28601": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "922": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28570": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "921": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28663": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "924": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28632": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "923": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28725": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "926": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "28694": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "925": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29779": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "960": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29748": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "959": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29841": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "962": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29810": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "961": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29903": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "964": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29872": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "963": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29965": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "966": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29934": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "965": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30027": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "968": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29996": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "967": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30089": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "970": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30058": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "969": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30151": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "972": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30120": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "971": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30213": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "974": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30182": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "973": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29283": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "944": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29252": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "943": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29345": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "946": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29314": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "945": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29407": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "948": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29376": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "947": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29469": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "950": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29438": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "949": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29531": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "952": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29500": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "951": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29593": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "954": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29562": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "953": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29655": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "956": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29624": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "955": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29717": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "958": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "29686": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "957": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30771": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "992": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30740": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "991": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30833": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "994": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30802": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "993": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30895": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "996": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30864": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "995": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30957": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "998": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30926": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "997": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31019": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1000": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30988": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "999": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31081": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1002": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31050": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1001": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31143": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1004": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31112": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1003": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31205": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1006": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31174": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1005": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30275": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "976": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30244": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "975": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30337": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "978": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30306": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "977": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30399": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "980": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30368": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "979": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30461": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "982": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30430": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "981": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30523": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "984": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30492": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "983": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30585": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "986": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30554": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "985": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30647": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "988": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30616": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "987": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30709": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "990": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "30678": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "989": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31763": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1024": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31732": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1023": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31825": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1026": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31794": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1025": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31887": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1028": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31856": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1027": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31949": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1030": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31918": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1029": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32011": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1032": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31980": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1031": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32073": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1034": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32042": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1033": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32135": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1036": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32104": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1035": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32197": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1038": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32166": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1037": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31267": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1008": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31236": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1007": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31329": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1010": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31298": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1009": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31391": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1012": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31360": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1011": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31453": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1014": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31422": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1013": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31515": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1016": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31484": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1015": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31577": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1018": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31546": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1017": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31639": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1020": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31608": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1019": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31701": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1022": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "31670": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1021": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32755": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1056": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32724": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1055": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32817": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1058": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32786": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1057": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32879": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1060": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32848": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1059": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32941": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1062": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32910": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1061": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33003": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1064": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32972": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1063": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33065": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1066": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33034": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1065": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33127": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1068": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33096": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1067": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33189": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1070": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33158": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1069": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32259": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1040": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32228": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1039": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32321": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1042": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32290": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1041": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32383": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1044": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32352": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1043": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32445": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1046": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32414": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1045": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32507": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1048": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32476": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1047": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32569": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1050": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32538": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1049": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32631": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1052": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32600": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1051": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32693": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1054": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "32662": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1053": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33747": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1088": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33716": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1087": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33809": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1090": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33778": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1089": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33871": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1092": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33840": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1091": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33933": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1094": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33902": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1093": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33995": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1096": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33964": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1095": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34057": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1098": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34026": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1097": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34119": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1100": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34088": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1099": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34181": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1102": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34150": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1101": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33251": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1072": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33220": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1071": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33313": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1074": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33282": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1073": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33375": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1076": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33344": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1075": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33437": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1078": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33406": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1077": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33499": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1080": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33468": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1079": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33561": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1082": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33530": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1081": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33623": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1084": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33592": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1083": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33685": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1086": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "33654": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1085": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34739": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1120": {
+      "MoveAndFire": -6.5,
+      "WaitForReload": 0.0
+    },
+    "34708": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCover": -7.6375,
+      "MoveToCheckpoint": 0.0
+    },
+    "1119": {
+      "MoveAndFire": -6.5,
+      "WaitForReload": -6.5
+    },
+    "34801": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCover": -6.54375,
+      "MoveToCheckpoint": 0.0
+    },
+    "1122": {
+      "MoveAndFire": -0.25,
+      "WaitForReload": -6.5
+    },
+    "34770": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCover": -0.29375,
+      "MoveToCheckpoint": 0.0
+    },
+    "1121": {
+      "MoveAndFire": -0.25,
+      "WaitForReload": -0.25
+    },
+    "34863": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCover": -0.29375,
+      "MoveToCheckpoint": 0.0
+    },
+    "1124": {
+      "MoveAndFire": -28.8055382,
+      "WaitForReload": -0.25
+    },
+    "34832": {
+      "FakeMove": 0.0,
+      "MoveToCover": -0.25,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1123": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34925": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1126": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34894": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1125": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34987": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1128": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "34956": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0
+    },
+    "1127": {
+      "MoveAndFire": -0.5,
+      "WaitForReload": -0.5
+    },
+    "35049": {
+      "FakeMove": 0.0,
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": -0.5
+    },
+    "1130": {
+      "MoveAndFire": 0.0
+    },
+    "35018": {
+      "FakeMove": 0.0
+    },
+    "1129": {
+      "MoveAndFire": 0.0
+    },
+    "35111": {
+      "FakeMove": 0.0
+    },
+    "1132": {
+      "MoveAndFire": 0.0
+    },
+    "35080": {
+      "FakeMove": 0.0
+    },
+    "1131": {
+      "MoveAndFire": 0.0
+    },
+    "35173": {
+      "FakeMove": 0.0
+    },
+    "1134": {
+      "MoveAndFire": 0.0
+    },
+    "35142": {
+      "FakeMove": 0.0
+    },
+    "1133": {
+      "MoveAndFire": 0.0
+    },
+    "34243": {
+      "FakeMove": 0.0
+    },
+    "1104": {
+      "MoveAndFire": 0.0
+    },
+    "34212": {
+      "FakeMove": 0.0
+    },
+    "1103": {
+      "MoveAndFire": 0.0
+    },
+    "34305": {
+      "FakeMove": 0.0
+    },
+    "1106": {
+      "MoveAndFire": 0.0
+    },
+    "34274": {
+      "FakeMove": 0.0
+    },
+    "1105": {
+      "MoveAndFire": 0.0
+    },
+    "34367": {
+      "FakeMove": 0.0
+    },
+    "1108": {
+      "MoveAndFire": 0.0
+    },
+    "34336": {
+      "FakeMove": 0.0
+    },
+    "1107": {
+      "MoveAndFire": 0.0
+    },
+    "34429": {
+      "FakeMove": 0.0
+    },
+    "1110": {
+      "MoveAndFire": 0.0
+    },
+    "34398": {
+      "FakeMove": 0.0
+    },
+    "1109": {
+      "MoveAndFire": 0.0
+    },
+    "34491": {
+      "FakeMove": 0.0
+    },
+    "1112": {
+      "MoveAndFire": 0.0
+    },
+    "34460": {
+      "FakeMove": 0.0
+    },
+    "1111": {
+      "MoveAndFire": 0.0
+    },
+    "34553": {
+      "FakeMove": 0.0
+    },
+    "1114": {
+      "MoveAndFire": 0.0
+    },
+    "34522": {
+      "FakeMove": 0.0
+    },
+    "1113": {
+      "MoveAndFire": 0.0
+    },
+    "34615": {
+      "FakeMove": 0.0
+    },
+    "1116": {
+      "MoveAndFire": 0.0
+    },
+    "34584": {
+      "FakeMove": 0.0
+    },
+    "1115": {
+      "MoveAndFire": 0.0
+    },
+    "34677": {
+      "FakeMove": 0.0
+    },
+    "1118": {
+      "MoveAndFire": 0.0
+    },
+    "34646": {
+      "FakeMove": 0.0
+    },
+    "1117": {
+      "MoveAndFire": 0.0
+    },
+    "35731": {
+      "FakeMove": 0.0
+    },
+    "1152": {
+      "MoveAndFire": 0.0
+    },
+    "35700": {
+      "FakeMove": 0.0
+    },
+    "1151": {
+      "MoveAndFire": 0.0
+    },
+    "35793": {
+      "FakeMove": 0.0
+    },
+    "1154": {
+      "MoveAndFire": 0.0
+    },
+    "35762": {
+      "FakeMove": 0.0
+    },
+    "1153": {
+      "MoveAndFire": 0.0
+    },
+    "35855": {
+      "FakeMove": 0.0
+    },
+    "1156": {
+      "MoveAndFire": 0.0
+    },
+    "35824": {
+      "FakeMove": 0.0
+    },
+    "1155": {
+      "MoveAndFire": 0.0
+    },
+    "35917": {
+      "FakeMove": 0.0
+    },
+    "1158": {
+      "MoveAndFire": 0.0
+    },
+    "35886": {
+      "FakeMove": 0.0
+    },
+    "1157": {
+      "MoveAndFire": 0.0
+    },
+    "35979": {
+      "FakeMove": 0.0
+    },
+    "1160": {
+      "MoveAndFire": 0.0
+    },
+    "35948": {
+      "FakeMove": 0.0
+    },
+    "1159": {
+      "MoveAndFire": 0.0
+    },
+    "36041": {
+      "FakeMove": 0.0
+    },
+    "1162": {
+      "MoveAndFire": 0.0
+    },
+    "36010": {
+      "FakeMove": 0.0
+    },
+    "1161": {
+      "MoveAndFire": 0.0
+    },
+    "36103": {
+      "FakeMove": 0.0
+    },
+    "1164": {
+      "MoveAndFire": 0.0
+    },
+    "36072": {
+      "FakeMove": 0.0
+    },
+    "1163": {
+      "MoveAndFire": 0.0
+    },
+    "36165": {
+      "FakeMove": 0.0
+    },
+    "1166": {
+      "MoveAndFire": 0.0
+    },
+    "36134": {
+      "FakeMove": 0.0
+    },
+    "1165": {
+      "MoveAndFire": 0.0
+    },
+    "35235": {
+      "FakeMove": 0.0
+    },
+    "1136": {
+      "MoveAndFire": 0.0
+    },
+    "35204": {
+      "FakeMove": 0.0
+    },
+    "1135": {
+      "MoveAndFire": 0.0
+    },
+    "35297": {
+      "FakeMove": 0.0
+    },
+    "1138": {
+      "MoveAndFire": 0.0
+    },
+    "35266": {
+      "FakeMove": 0.0
+    },
+    "1137": {
+      "MoveAndFire": 0.0
+    },
+    "35359": {
+      "FakeMove": 0.0
+    },
+    "1140": {
+      "MoveAndFire": 0.0
+    },
+    "35328": {
+      "FakeMove": 0.0
+    },
+    "1139": {
+      "MoveAndFire": 0.0
+    },
+    "35421": {
+      "FakeMove": 0.0
+    },
+    "1142": {
+      "MoveAndFire": 0.0
+    },
+    "35390": {
+      "FakeMove": 0.0
+    },
+    "1141": {
+      "MoveAndFire": 0.0
+    },
+    "35483": {
+      "FakeMove": 0.0
+    },
+    "1144": {
+      "MoveAndFire": 0.0
+    },
+    "35452": {
+      "FakeMove": 0.0
+    },
+    "1143": {
+      "MoveAndFire": 0.0
+    },
+    "35545": {
+      "FakeMove": 0.0
+    },
+    "1146": {
+      "MoveAndFire": 0.0
+    },
+    "35514": {
+      "FakeMove": 0.0
+    },
+    "1145": {
+      "MoveAndFire": 0.0
+    },
+    "35607": {
+      "FakeMove": 0.0
+    },
+    "1148": {
+      "MoveAndFire": 0.0
+    },
+    "35576": {
+      "FakeMove": 0.0
+    },
+    "1147": {
+      "MoveAndFire": 0.0
+    },
+    "35669": {
+      "FakeMove": 0.0
+    },
+    "1150": {
+      "MoveAndFire": 0.0
+    },
+    "35638": {
+      "FakeMove": 0.0
+    },
+    "1149": {
+      "MoveAndFire": 0.0
+    },
+    "36723": {
+      "FakeMove": 0.0
+    },
+    "1184": {
+      "MoveAndFire": 0.0
+    },
+    "36692": {
+      "FakeMove": 0.0
+    },
+    "1183": {
+      "MoveAndFire": 0.0
+    },
+    "36785": {
+      "FakeMove": 0.0
+    },
+    "1186": {
+      "MoveAndFire": 0.0
+    },
+    "36754": {
+      "FakeMove": 0.0
+    },
+    "1185": {
+      "MoveAndFire": 0.0
+    },
+    "36847": {
+      "FakeMove": 0.0
+    },
+    "1188": {
+      "MoveAndFire": 0.0
+    },
+    "36816": {
+      "FakeMove": 0.0
+    },
+    "1187": {
+      "MoveAndFire": 0.0
+    },
+    "36909": {
+      "FakeMove": 0.0
+    },
+    "1190": {
+      "MoveAndFire": 0.0
+    },
+    "36878": {
+      "FakeMove": 0.0
+    },
+    "1189": {
+      "MoveAndFire": 0.0
+    },
+    "36971": {
+      "FakeMove": 0.0
+    },
+    "1192": {
+      "MoveAndFire": 0.0
+    },
+    "36940": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -1.175
+    },
+    "1191": {
+      "MoveAndFire": -1.0
+    },
+    "37033": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -1.175,
+      "WaitForReload": -1.0
+    },
+    "1194": {
+      "MoveAndFire": -1.0
+    },
+    "37002": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -1.175,
+      "WaitForReload": -1.0
+    },
+    "1193": {
+      "MoveAndFire": -1.0
+    },
+    "37095": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -1.175,
+      "WaitForReload": -1.0
+    },
+    "1196": {
+      "MoveAndFire": -1.0
+    },
+    "37064": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.88125,
+      "WaitForReload": -1.0
+    },
+    "1195": {
+      "MoveAndFire": -0.75
+    },
+    "37157": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.88125,
+      "WaitForReload": -0.75
+    },
+    "1198": {
+      "MoveAndFire": -0.75
+    },
+    "37126": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.88125,
+      "WaitForReload": -0.75
+    },
+    "1197": {
+      "MoveAndFire": -0.75
+    },
+    "36227": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.8375,
+      "WaitForReload": -0.75
+    },
+    "1168": {
+      "MoveAndFire": -0.5
+    },
+    "36196": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.5875,
+      "WaitForReload": -0.5
+    },
+    "1167": {
+      "MoveAndFire": -0.5
+    },
+    "36289": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.5875,
+      "WaitForReload": -0.5
+    },
+    "1170": {
+      "MoveAndFire": -0.5
+    },
+    "36258": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.5875,
+      "WaitForReload": -0.5
+    },
+    "1169": {
+      "MoveAndFire": -0.5
+    },
+    "36351": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.54375,
+      "WaitForReload": -0.5
+    },
+    "1172": {
+      "MoveAndFire": -0.25
+    },
+    "36320": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.29375,
+      "WaitForReload": -0.25
+    },
+    "1171": {
+      "MoveAndFire": -0.25
+    },
+    "36413": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.29375,
+      "WaitForReload": -0.25
+    },
+    "1174": {
+      "MoveAndFire": -0.25
+    },
+    "36382": {
+      "FakeMove": 0.0,
+      "MoveToRandom": -0.25
+    },
+    "15612": {
+      "WaitForReload": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": -0.5,
+      "FakeMove": -0.875,
+      "MoveToRandom": -1.125,
+      "MoveToEnemySight": -1.34375
+    },
+    "503": {
+      "WaitForReload": 0.0,
+      "MoveAndFire": -2.10910034,
+      "AcquireEnemy": 0.0
+    },
+    "15705": {
+      "WaitForReload": 0.0,
+      "MoveToRandom": -1.125,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": -0.5,
+      "MoveToEnemySight": -1.34375,
+      "FakeMove": -0.875
+    },
+    "506": {
+      "WaitForReload": 0.0,
+      "MoveAndFire": -1.85910034,
+      "AcquireEnemy": 0.0
+    },
+    "15674": {
+      "WaitForReload": -0.75,
+      "MoveToRandom": -0.875,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": -1.37956893,
+      "FakeMove": -0.7966398
+    },
+    "505": {
+      "WaitForReload": -0.8490312,
+      "MoveAndFire": -0.0398547761,
+      "AcquireEnemy": 0.0
+    },
+    "15767": {
+      "WaitForReload": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 3.47608232,
+      "FakeMove": 1.76775575,
+      "MoveToCheckpoint": 0.0
+    },
+    "16691": {
+      "MoveAndFire": 44.86589,
+      "WaitForReload": 44.58454,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "517440": {
+      "MoveToEnemySight": 14.4036655,
+      "MoveToCheckpoint": 14.716424,
+      "MoveToRandom": 16.5718346,
+      "FakeMove": 12.320837,
+      "WaitForReload": 33.2377167,
+      "MoveToCover": 21.4359779
+    },
+    "517409": {
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0,
+      "FakeMove": -0.5
+    },
+    "518339": {
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0,
+      "WaitForReload": 0.227920681
+    },
+    "515549": {
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "516479": {
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "517471": {
+      "MoveToEnemySight": -0.5,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": -0.5,
+      "WaitForReload": 3.22345376,
+      "FakeMove": -0.5
+    },
+    "16692": {
+      "MoveAndFire": -1.00597417,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": -0.5875,
+      "WaitForReload": 0.0
+    },
+    "518401": {
+      "MoveToEnemySight": 0.336967915,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": -0.0217326358,
+      "FakeMove": 0.60599333
+    },
+    "16722": {
+      "MoveAndFire": 6.319962,
+      "AcquireEnemy": 0.0,
+      "MoveToCover": -0.5,
+      "WaitForReload": 0.0
+    },
+    "518494": {
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "519548": {
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "516572": {
+      "FakeMove": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "519455": {
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "FakeMove": 0.0
+    },
+    "517378": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": -0.0166107323,
+      "MoveToEnemySight": 0.0,
+      "WaitForReload": 0.0,
+      "FakeMove": -0.2557361
+    },
+    "518432": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "WaitForReload": 0.0,
+      "FakeMove": 0.0
+    },
+    "515518": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "FakeMove": 0.0
+    },
+    "15760": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": -0.68359375,
+      "WaitForReload": -0.25
+    },
+    "16756": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "16725": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "15667": {
+      "MoveAndFire": 0.0
+    },
+    "520161": {
+      "MoveAndFire": 0.0
+    },
+    "15636": {
+      "MoveAndFire": 0.0
+    },
+    "517371": {
+      "MoveAndFire": 0.0
+    },
+    "520254": {
+      "MoveAndFire": 0.0
+    },
+    "15729": {
+      "MoveAndFire": -0.5
+    },
+    "518301": {
+      "MoveAndFire": 0.0
+    },
+    "517340": {
+      "MoveAndFire": 0.0
+    },
+    "520223": {
+      "MoveAndFire": -0.5
+    },
+    "15698": {
+      "MoveAndFire": 2.63853073,
+      "WaitForReload": 0.0
+    },
+    "515511": {
+      "MoveAndFire": 0.0
+    },
+    "518394": {
+      "MoveAndFire": 0.0
+    },
+    "517433": {
+      "MoveAndFire": -0.5
+    },
+    "15791": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "516441": {
+      "MoveAndFire": 0.0
+    },
+    "515480": {
+      "MoveAndFire": 0.0
+    },
+    "518363": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": -0.5
+    },
+    "517402": {
+      "MoveAndFire": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16566": {
+      "MoveAndFire": 0.0
+    },
+    "16659": {
+      "MoveAndFire": 0.0
+    },
+    "16628": {
+      "MoveAndFire": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16721": {
+      "MoveAndFire": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "16690": {
+      "MoveAndFire": -0.460113883,
+      "AcquireEnemy": 0.0
+    },
+    "515573": {
+      "MoveAndFire": 0.0
+    },
+    "516634": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "16665": {
+      "AcquireEnemy": 0.0
+    },
+    "517688": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16699": {
+      "AcquireEnemy": 0.0
+    },
+    "514774": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16605": {
+      "AcquireEnemy": 0.0
+    },
+    "515828": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16639": {
+      "AcquireEnemy": 0.0
+    },
+    "512914": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16545": {
+      "AcquireEnemy": 0.0
+    },
+    "513968": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16579": {
+      "AcquireEnemy": 0.0
+    },
+    "511054": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16485": {
+      "AcquireEnemy": 0.0
+    },
+    "512108": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16519": {
+      "AcquireEnemy": 0.0
+    },
+    "509194": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16425": {
+      "AcquireEnemy": 0.0
+    },
+    "510248": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16459": {
+      "AcquireEnemy": 0.0
+    },
+    "507334": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16365": {
+      "AcquireEnemy": 0.0
+    },
+    "508388": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "16399": {
+      "AcquireEnemy": 0.0
+    },
+    "536226": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "17297": {
+      "AcquireEnemy": 0.0
+    },
+    "536288": {
+      "MoveToCheckpoint": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "17299": {
+      "AcquireEnemy": 0.0
+    },
+    "16720": {
+      "AcquireEnemy": 0.0
+    },
+    "16630": {
+      "AcquireEnemy": 0.0
+    },
+    "16689": {
+      "AcquireEnemy": 0.0,
+      "WaitForReload": 2.76222444
+    },
+    "16660": {
+      "AcquireEnemy": 0.0
+    },
+    "16723": {
+      "AcquireEnemy": 0.0,
+      "WaitForReload": 0.0
+    },
+    "16629": {
+      "AcquireEnemy": 0.0,
+      "WaitForReload": 0.0
+    },
+    "515611": {
+      "MoveToEnemySight": 0.0
+    },
+    "16632": {
+      "AcquireEnemy": 0.0
+    },
+    "512821": {
+      "MoveToEnemySight": 0.0
+    },
+    "514650": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0,
+      "FakeMove": 0.0
+    },
+    "517533": {
+      "MoveToEnemySight": 0.0,
+      "FakeMove": 0.0
+    },
+    "16694": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "16601": {
+      "AcquireEnemy": 0.0
+    },
+    "16663": {
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "514743": {
+      "FakeMove": 0.0
+    },
+    "517626": {
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "514712": {
+      "MoveToCheckpoint": 0.0,
+      "FakeMove": 0.0,
+      "MoveToRandom": 0.0
+    },
+    "515673": {
+      "FakeMove": 0.0
+    },
+    "16778": {
+      "AcquireEnemy": 0.0
+    },
+    "517347": {
+      "MoveToCover": 0.0
+    },
+    "16688": {
+      "AcquireEnemy": 0.0
+    },
+    "518277": {
+      "MoveToCover": 0.0
+    },
+    "16718": {
+      "AcquireEnemy": 0.0
+    },
+    "517316": {
+      "MoveToCover": 0.0
+    },
+    "16687": {
+      "AcquireEnemy": 0.0
+    },
+    "515487": {
+      "MoveToCover": 0.0
+    },
+    "518370": {
+      "MoveToCover": 0.0
+    },
+    "516417": {
+      "MoveToCover": 0.0
+    },
+    "16658": {
+      "AcquireEnemy": 0.0
+    },
+    "515456": {
+      "MoveToCover": 0.0
+    },
+    "16627": {
+      "AcquireEnemy": 0.0
+    },
+    "513627": {
+      "MoveToCover": 0.0
+    },
+    "16568": {
+      "AcquireEnemy": 0.0
+    },
+    "516510": {
+      "MoveToCover": 0.0
+    },
+    "16661": {
+      "AcquireEnemy": 0.0
+    },
+    "514557": {
+      "MoveToCover": 0.0
+    },
+    "16598": {
+      "AcquireEnemy": 0.0
+    },
+    "513596": {
+      "MoveToCover": 0.0
+    },
+    "16567": {
+      "AcquireEnemy": 0.0
     }
   },
   "MaxValue": 157.5279

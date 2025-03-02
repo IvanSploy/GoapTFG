@@ -19,6 +19,6 @@ MonoBehaviour:
     FilterKeys: 
     AdditionalKeys: 05000000
     ValueRange: 1
-  _exploreRange: {x: -1000, y: 1000}
+  MaxExploreValue: 1000
   SuccessReward: 100
   FailReward: -100

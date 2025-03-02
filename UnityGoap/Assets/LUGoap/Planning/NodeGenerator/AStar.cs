@@ -23,7 +23,7 @@ namespace LUGoap.Planning
         //Fields
         private readonly SortedSet<Node> _openList = new();
         private readonly HashSet<Node> _expandedNodes = new();
-        private Func<Conditions, State, int> _customHeuristic;
+        private Func<ConditionGroup, State, int> _customHeuristic;
         private QLearning _qLearning;
         
         //Learning
@@ -33,7 +33,7 @@ namespace LUGoap.Planning
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
         
-        public Node CreateNode(State initialState, Conditions goal)
+        public Node CreateNode(State initialState, ConditionGroup goal)
         {
             var node = NodeFactory.Get();
             node.Setup(this, initialState, goal);
@@ -45,17 +45,17 @@ namespace LUGoap.Planning
             NodeFactory.Release(node);
         }
         
-        public Node Initialize(State initialState, Conditions goal)
+        public Node Initialize(State initialState, ConditionGroup goal)
         {
             _exploreValues.Clear();
-            var goalState = new Conditions(goal);
+            var goalState = new ConditionGroup(goal);
             AStarNode node = (AStarNode) CreateNode(initialState, goalState);
             node.GCost = 0;
             node.HCost = GetHeuristicCost(node);
             return node;
         }
 
-        public void SetHeuristic(Func<Conditions, State, int> customHeuristic)
+        public void SetHeuristic(Func<ConditionGroup, State, int> customHeuristic)
         {
             Mode = HeuristicMode.Custom;
             _customHeuristic = customHeuristic;

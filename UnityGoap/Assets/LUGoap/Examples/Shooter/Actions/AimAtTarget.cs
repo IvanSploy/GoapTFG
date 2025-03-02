@@ -14,9 +14,9 @@ public class AimAtTargetAction : Action
         _unit = agent.GetComponent<GoapUnit>();
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         await _unit.AimAt_Target(token);
-        return effects;
+        return effectGroup;
     }
 }

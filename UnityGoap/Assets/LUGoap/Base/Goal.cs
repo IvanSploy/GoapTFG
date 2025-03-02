@@ -4,42 +4,41 @@ using static LUGoap.Base.PropertyManager;
 
 namespace LUGoap.Base
 {
-    public class Goal : IEnumerable<KeyValuePair<PropertyKey, List<ConditionValue>>>
+    public class Goal : IEnumerable<KeyValuePair<PropertyKey, Condition>>
     {
         //Properties
-        public Conditions Conditions { get; }
+        public ConditionGroup ConditionGroup { get; }
         public string Name { get; }
         
         //Constructors
-        public Goal(string name, Conditions conditions)
+        public Goal(string name, ConditionGroup conditionGroup)
         {
-            Conditions = new Conditions(conditions);
+            ConditionGroup = new ConditionGroup(conditionGroup);
             Name = name;
         }
         
         //GOAP Utilites
-        public bool IsEmpty() => Conditions.IsEmpty();
-        public bool IsGoal (State state) => !Conditions.CheckConflict(state);
-        public bool Has(PropertyKey key) => Conditions.Has(key);
-        public List<ConditionValue> TryGetOrDefault(PropertyKey key, object defaultValue) => 
-            Conditions.TryGetOrDefault(key, defaultValue);
+        public bool IsEmpty() => ConditionGroup.IsEmpty();
+        public bool IsGoal (State state) => !ConditionGroup.HasConflict(state);
+        public bool Has(PropertyKey key) => ConditionGroup.Has(key);
+        public Condition Get(PropertyKey key) => ConditionGroup.Get(key);
 
         //Operators
-        public List<ConditionValue> this[PropertyKey key] => Conditions[key];
+        public Condition this[PropertyKey key] => ConditionGroup[key];
 
         public override string ToString()
         {
-            return "Goal: " + Name + "\n" + Conditions;
+            return "Goal: " + Name + "\n" + ConditionGroup;
         }
 
-        public IEnumerator<KeyValuePair<PropertyKey, List<ConditionValue>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<PropertyKey, Condition>> GetEnumerator()
         {
-            return Conditions.GetEnumerator();
+            return ConditionGroup.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return Conditions.GetEnumerator();
+            return ConditionGroup.GetEnumerator();
         }
     }
 }

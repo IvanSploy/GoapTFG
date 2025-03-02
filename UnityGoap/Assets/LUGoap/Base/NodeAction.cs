@@ -3,8 +3,8 @@
     public struct NodeAction
     {
         public Action Action;
-        public Conditions Conditions;
-        public Effects Effects;
+        public ConditionGroup ConditionGroup;
+        public EffectGroup EffectGroup;
         public int GlobalLearningCode;
         public int LocalLearningCode;
         public string[] Parameters;

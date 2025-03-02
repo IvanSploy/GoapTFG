@@ -68,16 +68,16 @@ public class LearningTagAction : LearningAction
         return !(Vector3.Angle(destinationDirection, targetDirection) >= 45.0f);
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override EffectGroup GetProceduralEffects(ActionSettings settings)
     {
-        Effects effects = new Effects();
+        EffectGroup effectGroup = new EffectGroup();
 
         var parameters = DeSerializeParameters(settings.Parameters);
         
-        effects.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, parameters[0]);
-        effects.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, parameters[1]);
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationX, BaseTypes.EffectType.Set, parameters[0]);
+        effectGroup.Set(PropertyManager.PropertyKey.DestinationZ, BaseTypes.EffectType.Set, parameters[1]);
         
-        return effects;
+        return effectGroup;
     }
 
     protected override bool OnValidate(State nextState, string[] parameters)
@@ -105,10 +105,10 @@ public class LearningTagAction : LearningAction
         return !(Vector3.Angle(destinationDirection, targetDirection) >= 45.0f);
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
-        var x = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f).Value;
-        var z = (float)effects.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f).Value;
+        var x = (float)effectGroup.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f).Value;
+        var z = (float)effectGroup.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f).Value;
         var target = new Vector3(x, 0, z);
         
         bool reached = false;
@@ -132,7 +132,7 @@ public class LearningTagAction : LearningAction
         }
 
         var isIt = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false);
-        return !isIt ? effects : null;
+        return !isIt ? effectGroup : null;
     }
     
     //TODO: Parameters should be PropertyKeys type values, or something less generic.

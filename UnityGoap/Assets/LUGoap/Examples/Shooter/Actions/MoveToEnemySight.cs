@@ -17,7 +17,7 @@ public class MoveToEnemySightAction : Action
         _ai = agent.GetComponent<GoapAI>();
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         if (!_ai.Enemy) return null;
         int tries = 0;
@@ -29,6 +29,6 @@ public class MoveToEnemySightAction : Action
         }
         _unit.Move();
         await _unit.WaitArrival(token);
-        return effects;
+        return effectGroup;
     }
 }

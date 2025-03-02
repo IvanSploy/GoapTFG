@@ -26,12 +26,12 @@ public class OpenAction : Action
         return true;
     }
     
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         GoapEntity entityLocked = WorkingMemoryManager.Get(Target).Object;
         var openBehaviour = entityLocked.GetComponent<OpenableBehaviour>();
         openBehaviour.Open();
         while (!openBehaviour.IsOpen) await Task.Yield();
-        return effects;
+        return effectGroup;
     }
 }

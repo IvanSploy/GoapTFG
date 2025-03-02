@@ -49,70 +49,21 @@ namespace LUGoap.Planning
             return plan;
         }
 
-        public static bool CheckEffectCompatibility(object initialValue, EffectType effectType, object actionValue,
-            List<ConditionValue> conditions)
+        public static bool CheckEffectCompatibility(object initialValue, EffectType effectType,
+            object actionValue, Condition condition)
         {
-            bool compatible = true;
             object resultValue = Evaluate(initialValue, effectType, actionValue);
+            
+            if (condition.Check(resultValue)) return true;
 
-            for (var i = 0; i < conditions.Count && compatible; i++)
-            {
-                var condition = conditions[i];
-                
-                //Check if condition will be fulfilled.
-                if (Evaluate(resultValue, condition.ConditionType, condition.Value))
-                    continue;
+            var initialDistance = Math.Abs(condition.GetDistance(initialValue));
+            var finalDistance = Math.Abs(condition.GetDistance(resultValue));
 
-                var initialDistance = Math.Abs(GetDistance(initialValue, condition.ConditionType, condition.Value));
-                var finalDistance = Math.Abs(GetDistance(resultValue, condition.ConditionType, condition.Value));
-
-                compatible = finalDistance < initialDistance;
-                continue;
-                
-                //Is condition is not reached after evaluation.
-                switch (effectType)
-                {
-                    case EffectType.Add:
-                    case EffectType.Multiply:
-                        switch (condition.ConditionType)
-                        {
-                            case ConditionType.Equal:
-                            case ConditionType.NotEqual:
-                            case ConditionType.GreaterThan:
-                            case ConditionType.GreaterOrEqual:
-                                break;
-                            default:
-                                compatible = false;
-                                break;
-                        }
-
-                        break;
-                    case EffectType.Subtract:
-                    case EffectType.Divide:
-                        switch (condition.ConditionType)
-                        {
-                            case ConditionType.Equal:
-                            case ConditionType.NotEqual:
-                            case ConditionType.LessThan:
-                            case ConditionType.LessOrEqual:
-                                break;
-                            default:
-                                compatible = false;
-                                break;
-                        }
-                        break;
-                    default:
-                        compatible = false;
-                        break;
-                }
-            }
-
-            if (!compatible)
-            {
-                _nodesSkipped++;
-                //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
-            }
-            return compatible;
+            if (finalDistance >= initialDistance) return false;
+            
+            _nodesSkipped++;
+            //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
+            return true;
         }
         
         /// <summary>

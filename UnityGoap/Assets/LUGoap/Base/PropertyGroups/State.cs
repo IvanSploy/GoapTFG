@@ -10,7 +10,7 @@ namespace LUGoap.Base
     /// </summary>
     /// <typeparam name="PropertyKey">Key type</typeparam>
     /// <typeparam name="object">Value type</typeparam>
-    public class State : StateBase<object>
+    public class State : Group<object>
     {
         public State(State state = null) : base(state)
         { }
@@ -30,15 +30,15 @@ namespace LUGoap.Base
             }
         }
         
-        public void Set(Effects effects)
+        public void Set(EffectGroup effectGroup)
         {
-            foreach (var pair in effects)
+            foreach (var pair in effectGroup)
             {   
                 Set(pair.Key, pair.Value.Value);
             }
         }
         
-        private object Get(PropertyKey key)
+        public object Get(PropertyKey key)
         {
             return _values[key];
         }
@@ -71,7 +71,7 @@ namespace LUGoap.Base
             return propertyGroup;
         }
         
-        public static State operator +(State a, Effects b)
+        public static State operator +(State a, EffectGroup b)
         {
             if (b == null) return a;
             if (a == null) return (State)b;
@@ -80,24 +80,24 @@ namespace LUGoap.Base
             foreach (var pair in b)
             {
                 PropertyKey key = pair.Key;
-                EffectValue bValue = pair.Value;
+                Effect effect = pair.Value;
                 
                 object aux;
                 if (propertyGroup.Has(key))
                 {
-                    aux = bValue.Evaluate(propertyGroup[key]);
+                    aux = effect.Evaluate(propertyGroup[key]);
                 }
                 else
                 {
                     object defValue = key.GetDefault();
-                    aux = bValue.Evaluate(defValue);
+                    aux = effect.Evaluate(defValue);
                 }
                 propertyGroup.Set(key, aux);
             }
             return propertyGroup;
         }
         
-        public static State operator -(State a, StateBase<object> b)
+        public static State operator -(State a, Group<object> b)
         {
             if (b == null) return a;
             
@@ -165,7 +165,7 @@ namespace LUGoap.Base
         
         //Casts
         // Implicit conversion operator
-        public static explicit operator State(Effects custom)
+        public static explicit operator State(EffectGroup custom)
         {
             State state = new State();
             state.Set(custom);

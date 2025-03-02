@@ -16,25 +16,25 @@ public class FireAction : Action
         _ai = agent.GetComponent<GoapAI>();
     }
 
-    protected override Conditions GetProceduralConditions(ActionSettings settings)
+    protected override ConditionGroup GetProceduralConditions(ActionSettings settings)
     {
-        var conditions = new Conditions();
-        conditions.Set(PropertyManager.PropertyKey.Ammo, BaseTypes.ConditionType.GreaterThan, 0);
+        var conditions = new ConditionGroup();
+        conditions.SetOrCombine(PropertyManager.PropertyKey.Ammo, BaseTypes.ConditionType.GreaterThan, 0);
         return conditions;
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override EffectGroup GetProceduralEffects(ActionSettings settings)
     {
-        var effects = new Effects();
+        var effects = new EffectGroup();
         effects.Set(PropertyManager.PropertyKey.Ammo, BaseTypes.EffectType.Subtract, 1);
         return effects;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         _ai.SetTarget_Enemy();
         await _unit.AimAt_Target(token);
         _unit.Fire();
-        return effects;
+        return effectGroup;
     }
 }

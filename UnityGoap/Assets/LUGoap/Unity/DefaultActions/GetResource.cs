@@ -14,9 +14,9 @@ namespace LUGoap.Unity.Action
 
         protected override void Init() { }
 
-        protected override Effects GetProceduralEffects(ActionSettings settings)
+        protected override EffectGroup GetProceduralEffects(ActionSettings settings)
         {
-            var proceduralEffects = new Effects();
+            var proceduralEffects = new EffectGroup();
             var fact = WorkingMemoryManager.Get(Resource);
             
             switch (GetPropertyType(Resource))
@@ -63,7 +63,7 @@ namespace LUGoap.Unity.Action
             return valid;
         }
         
-        protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+        protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
         {
             var fact = WorkingMemoryManager.Get(Resource);
             
@@ -85,7 +85,7 @@ namespace LUGoap.Unity.Action
             }
 
             await Task.Delay(WaitSeconds * 1000, token);
-            return effects;
+            return effectGroup;
         }
     }
 }

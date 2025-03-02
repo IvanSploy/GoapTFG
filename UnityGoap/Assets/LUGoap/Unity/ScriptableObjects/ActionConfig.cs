@@ -34,10 +34,10 @@ namespace LUGoap.Unity.ScriptableObjects
 
         public Base.Action Create(IAgent agent)
         {
-            var preconditions = new Conditions();
+            var preconditions = new ConditionGroup();
             preconditions.ApplyProperties(_preconditions);
 
-            var effects = new Effects();
+            var effects = new EffectGroup();
             effects.ApplyProperties(_effects);
 
             var action = CreateAction();

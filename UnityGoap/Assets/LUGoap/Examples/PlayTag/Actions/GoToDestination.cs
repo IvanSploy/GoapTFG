@@ -19,7 +19,7 @@ public class GoToDestinationAction : Action
         _transform = _goapAgent.transform;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         var x = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
         var z = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
@@ -45,6 +45,6 @@ public class GoToDestinationAction : Action
             await Task.Yield();
         }
 
-        return effects;
+        return effectGroup;
     }
 }

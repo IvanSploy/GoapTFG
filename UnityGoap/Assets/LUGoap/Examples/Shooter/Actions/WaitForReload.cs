@@ -24,17 +24,17 @@ public class WaitForReloadAction : LearningAction
         };
     }
 
-    protected override Effects GetProceduralEffects(ActionSettings settings)
+    protected override EffectGroup GetProceduralEffects(ActionSettings settings)
     {
-        var effects = new Effects();
+        var effects = new EffectGroup();
         effects.Set(PropertyManager.PropertyKey.Ammo, BaseTypes.EffectType.Set, int.Parse(settings.Parameters[0]));
         return effects;
     }
 
-    protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)
+    protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         var waitAmmo = int.Parse(parameters[0]);
         while (_unit.ammo < waitAmmo) await Task.Yield();
-        return effects;
+        return effectGroup;
     }
 }
