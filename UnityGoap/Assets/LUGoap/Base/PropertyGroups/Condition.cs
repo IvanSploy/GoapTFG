@@ -150,8 +150,7 @@ namespace LUGoap.Base
 
         protected override bool CheckRange(float min, float max, bool minInclusive, bool maxInclusive)
         {
-            if (Math.Abs(min - max) <= TOLERANCE && !(minInclusive && maxInclusive)) return false;
-            return true;
+            return Math.Abs(min - max) > TOLERANCE || minInclusive && maxInclusive;
         }
     }
     
@@ -231,15 +230,44 @@ namespace LUGoap.Base
             if(condition is not RangeCondition<T> rangeCondition) return false;
             
             //Check ranges
-            var min = Max(MinValue, rangeCondition.MinValue);
-            var max = Min(MaxValue, rangeCondition.MaxValue);
-
-            if (min.CompareTo(max) > 0) return false;
+            T min, max;
+            bool minInclusive, maxInclusive;
             
-            var minInclusive = MinInclusive && rangeCondition.MinInclusive;
-            var maxInclusive = MaxInclusive && rangeCondition.MaxInclusive;
+            var minCompare = MinValue.CompareTo(rangeCondition.MinValue);
+            if (minCompare == -1)
+            {
+                min = rangeCondition.MinValue;
+                minInclusive = rangeCondition.MinInclusive;
+            }
+            else if (minCompare == 0)
+            {
+                min = MinValue;
+                minInclusive = MinInclusive && rangeCondition.MinInclusive;
+            }
+            else
+            {
+                min = MinValue;
+                minInclusive = MinInclusive;
+            }
+                
+            var maxCompare = MaxValue.CompareTo(rangeCondition.MaxValue);
+            if (maxCompare == 1)
+            {
+                max = rangeCondition.MaxValue;
+                maxInclusive = rangeCondition.MaxInclusive;
+            }
+            else if (maxCompare == 0)
+            {
+                max = MaxValue;
+                maxInclusive = MaxInclusive && rangeCondition.MaxInclusive;
+            }
+            else
+            {
+                max = MaxValue;
+                maxInclusive = MaxInclusive;
+            }
 
-            return CheckRange(min, max, minInclusive, maxInclusive);
+            return min.CompareTo(max) <= 0 && CheckRange(min, max, minInclusive, maxInclusive);
         }
 
         protected abstract bool CheckRange(T min, T max, bool minInclusive, bool maxInclusive);
@@ -282,16 +310,6 @@ namespace LUGoap.Base
                     MaxInclusive = MaxInclusive && floatCondition.MaxInclusive;
                 }
             }
-        }
-
-        private T Min(T min1, T min2)
-        {
-            return min1.CompareTo(min2) < 0 ? min1 : min2;
-        }
-        
-        private T Max(T min1, T min2)
-        {
-            return min1.CompareTo(min2) > 0 ? min1 : min2;
         }
         
         //Overrides
