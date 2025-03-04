@@ -260,11 +260,27 @@ namespace LUGoap.Base
             }
             else
             {
-                MinValue = Max(MinValue, floatCondition.MinValue);
-                MaxValue = Min(MaxValue, floatCondition.MaxValue);
-            
-                MinInclusive = MinInclusive && floatCondition.MinInclusive;
-                MaxInclusive = MaxInclusive && floatCondition.MaxInclusive;
+                var minCompare = MinValue.CompareTo(floatCondition.MinValue);
+                if (minCompare == -1)
+                {
+                    MinValue = floatCondition.MinValue;
+                    MinInclusive = floatCondition.MinInclusive;
+                }
+                else if (minCompare == 0)
+                {
+                    MinInclusive = MinInclusive && floatCondition.MinInclusive;
+                }
+                
+                var maxCompare = MaxValue.CompareTo(floatCondition.MaxValue);
+                if (maxCompare == 1)
+                {
+                    MinValue = floatCondition.MaxValue;
+                    MinInclusive = floatCondition.MaxInclusive;
+                }
+                else if (maxCompare == 0)
+                {
+                    MaxInclusive = MaxInclusive && floatCondition.MaxInclusive;
+                }
             }
         }
 
@@ -392,7 +408,7 @@ namespace LUGoap.Base
             RequiredValue ??= condition.RequiredValue;
             if(RequiredValue != null) return;
 
-            ExcludedValues.IntersectWith(condition.ExcludedValues);
+            ExcludedValues.UnionWith(condition.ExcludedValues);
         }
 
         public virtual void ApplyEffect(EffectType type, object value)
