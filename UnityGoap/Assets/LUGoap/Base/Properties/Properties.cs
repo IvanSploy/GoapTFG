@@ -27,6 +27,7 @@ HasEnemy,
 EnemyVisible,
 EnemyHp,
 HasMoved,
+EnemyType,
 
         }
         
@@ -50,6 +51,7 @@ HasMoved,
 { PropertyKey.EnemyVisible, PropertyType.Boolean },
 { PropertyKey.EnemyHp, PropertyType.Integer },
 { PropertyKey.HasMoved, PropertyType.Boolean },
+{ PropertyKey.EnemyType, PropertyType.Enum },
        
         };
     }

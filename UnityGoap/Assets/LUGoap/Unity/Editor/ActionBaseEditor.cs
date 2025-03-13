@@ -38,7 +38,7 @@ namespace LUGoap.Unity
             AdditionalGUI();
             
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Custom", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Behaviour", EditorStyles.boldLabel);
             
             var popupStyle = new GUIStyle(EditorStyles.popup)
             {

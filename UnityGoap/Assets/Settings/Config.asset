@@ -49,6 +49,8 @@ MonoBehaviour:
     Type: 1
   - Key: HasMoved
     Type: 0
+  - Key: EnemyType
+    Type: 4
   Enums:
   - EnumType: 3
     EnumValues:
@@ -69,3 +71,8 @@ MonoBehaviour:
     - Close
     - Near
     - Far
+  - EnumType: 19
+    EnumValues:
+    - Hunter
+    - Patroller
+    - Sniper

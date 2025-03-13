@@ -44,6 +44,7 @@ namespace LUGoap.Planning
             RegisterActions(actions);
 
             _nodesCreated = 0;
+            _nodesSkipped = 0;
             
             _current = _nodeGenerator.Initialize(InitialState, _goal.ConditionGroup);
             while (_current != null)

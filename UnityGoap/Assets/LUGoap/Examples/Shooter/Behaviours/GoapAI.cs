@@ -186,10 +186,9 @@ public class GoapAI : MonoBehaviour
         return hasLos;
     }
 
-    public bool SetDestination_Cover()
+    public bool SetDestination_Cover(float searchRadius = 3)
     {
         var possibleCovers = new List<Vector3>();
-        float searchRadius = 3.0f;
 
         int n = 20;
         int s = 10;

@@ -1,71 +1,194 @@
 {
   "Values": {
     "510": {
-      "WaitForReload_5": 8.704
+      "WaitForReload_5": 9.616555
     },
     "505": {
-      "WaitForReload_6": 6.4
+      "WaitForReload_6": 5.227201
     },
     "15829": {
-      "WaitForReload_2": 4.0
+      "WaitForReload_2": 7.764603
     },
     "517440": {
-      "WaitForReload_6": 9.96372
+      "WaitForReload_6": 9.999999
     },
     "520323": {
-      "WaitForReload_5": 9.939534
+      "WaitForReload_5": 9.999898
     },
     "16728": {
-      "WaitForReload_5": 9.899223
+      "WaitForReload_5": 9.972427
     },
     "16759": {
-      "WaitForReload_6": 9.939534
+      "WaitForReload_6": 2.109685
     },
     "520354": {
-      "WaitForReload_5": 4.0
+      "WaitForReload_5": 9.720064
     },
     "15760": {
       "WaitForReload_2": 4.0
     },
     "16821": {
-      "WaitForReload_5": 9.978232
+      "WaitForReload_5": 7.25804424
     },
     "16784": {
-      "WaitForReload_4": 6.4
+      "WaitForReload_4": 9.999999
     },
     "542": {
-      "WaitForReload_4": 4.0
+      "WaitForReload_4": 5.439722
     },
     "15674": {
-      "WaitForReload_4": 4.0
+      "WaitForReload_4": 9.992164
     },
     "508": {
-      "WaitForReload_5": 6.4
+      "WaitForReload_5": 2.39986825
     },
     "16691": {
-      "WaitForReload_5": 7.84
+      "WaitForReload_5": 9.999999
     },
     "509": {
-      "WaitForReload_3": 8.704
+      "WaitForReload_3": 9.78722
     },
     "518339": {
-      "WaitForReload_6": 4.0
+      "WaitForReload_6": 9.939534
     },
     "518363": {
-      "WaitForReload_5": 4.0
+      "WaitForReload_5": 6.4
     },
     "16666": {
-      "WaitForReload_5": 4.0
+      "WaitForReload_5": 1.832663
     },
     "537": {
-      "WaitForReload_6": 6.4
+      "WaitForReload_6": 9.999999
     },
     "16689": {
-      "WaitForReload_6": 6.4
+      "WaitForReload_6": 9.999391
     },
     "517471": {
+      "WaitForReload_6": 9.832039
+    },
+    "16692": {
+      "WaitForReload_6": 9.720064
+    },
+    "16783": {
+      "WaitForReload_5": 4.0
+    },
+    "16697": {
+      "WaitForReload_6": 9.997179
+    },
+    "507": {
+      "WaitForReload_6": 9.999999
+    },
+    "540": {
+      "WaitForReload_5": 2.39785528
+    },
+    "16658": {
+      "WaitForReload_6": 9.720064
+    },
+    "518370": {
+      "WaitForReload_5": 8.704
+    },
+    "515456": {
+      "WaitForReload_6": 9.832039
+    },
+    "520292": {
+      "WaitForReload_3": 4.0
+    },
+    "16785": {
+      "WaitForReload_5": 7.84
+    },
+    "517409": {
+      "WaitForReload_6": 7.84
+    },
+    "539": {
+      "WaitForReload_3": 9.845748
+    },
+    "16782": {
       "WaitForReload_6": 4.0
+    },
+    "15798": {
+      "WaitForReload_5": 9.720064
+    },
+    "520285": {
+      "WaitForReload_6": 9.720064
+    },
+    "516417": {
+      "WaitForReload_6": 9.533441
+    },
+    "15767": {
+      "WaitForReload_6": 7.09603834
+    },
+    "517316": {
+      "WaitForReload_6": 4.0
+    },
+    "16720": {
+      "WaitForReload_5": 7.84
+    },
+    "15736": {
+      "WaitForReload_6": 9.939534
+    },
+    "15636": {
+      "WaitForReload_5": 4.0
+    },
+    "16722": {
+      "WaitForReload_6": 9.939534
+    },
+    "16629": {
+      "WaitForReload_6": 5.160064
+    },
+    "517378": {
+      "WaitForReload_6": 6.4
+    },
+    "16780": {
+      "WaitForReload_4": 4.0
+    },
+    "518401": {
+      "WaitForReload_5": 9.533441
+    },
+    "16723": {
+      "WaitForReload_6": 9.899223
+    },
+    "520261": {
+      "WaitForReload_5": 6.4
+    },
+    "515487": {
+      "WaitForReload_6": 4.0
+    },
+    "16661": {
+      "WaitForReload_6": 6.4
+    },
+    "515549": {
+      "WaitForReload_6": 9.999781
+    },
+    "506": {
+      "WaitForReload_2": 9.645409
+    },
+    "538": {
+      "WaitForReload_6": 7.84
+    },
+    "16721": {
+      "WaitForReload_6": 4.0
+    },
+    "15705": {
+      "WaitForReload_5": 9.222401
+    },
+    "15791": {
+      "WaitForReload_2": 4.0
+    },
+    "535": {
+      "WaitForReload_6": 8.704
+    },
+    "16630": {
+      "WaitForReload_6": 9.899223
+    },
+    "517402": {
+      "WaitForReload_4": 4.0
+    },
+    "16604": {
+      "WaitForReload_6": 6.4
+    },
+    "15698": {
+      "WaitForReload_5": 4.0
     }
   },
-  "MaxValue": 9.978232
+  "MaxValue": 9.999999
 }

@@ -168,14 +168,14 @@ namespace LUGoap.Planning
             
             var learningCode = GetLearningCode(node.Parent);
             var value = _qLearning.Get(learningCode, node.PreviousAction.Name);
-            return GetCostFromQValue(value);
+            return Math.Max(GetCostFromQValue(value), 1);
         }
         
         private int GetHLearning(Node node)
         {
             var learningCode = GetLearningCode(node);
             var value = _qLearning.GetMax(learningCode);
-            return GetCostFromQValue(value);
+            return Math.Max(GetCostFromQValue(value), 1);
         }
 
         private int GetCostFromQValue(float qValue)

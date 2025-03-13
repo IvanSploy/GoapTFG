@@ -22,7 +22,9 @@
       "LearnToTag_2_-2": -4.0,
       "LearnToTag_1_-1": -4.0,
       "LearnToTag_-1_-2": -4.0,
-      "LearnToTag_3_-2": -4.0
+      "LearnToTag_3_-2": -4.0,
+      "LearnToTag_-1_-5": -4.0,
+      "LearnToTag_4_-4": -4.0
     },
     "16129": {
       "LearnToTag_3_2": -4.0,
@@ -53,7 +55,8 @@
       "LearnToTag_5_2": -4.0,
       "LearnToTag_5_0": -4.0,
       "LearnToTag_-1_2": -4.0,
-      "LearnToTag_3_0": -4.0
+      "LearnToTag_3_0": -4.0,
+      "LearnToTag_5_-1": -4.0
     },
     "499392": {
       "LearnToTag_-4_5": -4.0,
@@ -76,7 +79,8 @@
       "LearnToTag_-2_-4": -4.0,
       "LearnToTag_-4_-3": -4.0,
       "LearnToTag_-2_0": -4.0,
-      "LearnToTag_-2_-3": -4.0
+      "LearnToTag_-2_-3": -4.0,
+      "LearnToTag_-4_1": -4.0
     },
     "499393": {
       "LearnToTag_-1_4": -4.0,
@@ -131,7 +135,7 @@
       "LearnToTag_-2_-1": -4.0,
       "LearnToTag_-3_0": -4.0,
       "LearnToTag_-3_1": -4.0,
-      "LearnToTag_0_-2": -4.0,
+      "LearnToTag_0_-2": -6.4,
       "LearnToTag_-2_-3": -4.0,
       "LearnToTag_5_-2": -4.0,
       "LearnToTag_3_4": -4.0,
@@ -173,12 +177,14 @@
       "LearnToTag_-3_0": -4.0,
       "LearnToTag_4_-3": -4.0,
       "LearnToTag_4_3": -4.0,
-      "LearnToTag_2_1": -4.0
+      "LearnToTag_2_1": -4.0,
+      "LearnToTag_4_1": -4.0
     },
     "499363": {
       "LearnToTag_0_1": -4.0,
       "LearnToTag_-4_3": 40.0,
-      "LearnToTag_2_1": -4.0
+      "LearnToTag_2_1": -4.0,
+      "LearnToTag_-4_4": -4.0
     },
     "500200": {
       "LearnToTag_2_3": -4.0
@@ -207,7 +213,8 @@
       "LearnToTag_5_2": -4.0,
       "LearnToTag_3_3": -4.0,
       "LearnToTag_3_2": -4.0,
-      "LearnToTag_-2_0": -4.0
+      "LearnToTag_-2_0": -4.0,
+      "LearnToTag_0_2": -4.0
     },
     "500016": {
       "LearnToTag_-1_4": -4.0,
@@ -232,7 +239,9 @@
       "LearnToTag_-1_-3": -4.0,
       "LearnToTag_2_-5": -4.0,
       "LearnToTag_4_2": -4.0,
-      "LearnToTag_2_-3": -4.0
+      "LearnToTag_2_-3": -4.0,
+      "LearnToTag_0_-3": -4.0,
+      "LearnToTag_3_-5": -4.0
     },
     "16105": {
       "LearnToTag_0_-2": -4.0,
@@ -263,7 +272,7 @@
       "LearnToTag_-3_-5": -4.0,
       "LearnToTag_0_-4": -4.0,
       "LearnToTag_3_-1": 40.0,
-      "LearnToTag_2_-5": 20.0,
+      "LearnToTag_2_-5": 52.0,
       "LearnToTag_-1_1": -4.0,
       "LearnToTag_4_-4": 40.0,
       "LearnToTag_4_-1": -6.4,
@@ -329,7 +338,8 @@
       "LearnToTag_2_4": -4.0,
       "LearnToTag_3_4": -4.0,
       "LearnToTag_-3_1": -4.0,
-      "LearnToTag_2_3": -4.0
+      "LearnToTag_2_3": -4.0,
+      "LearnToTag_-2_3": -4.0
     },
     "500017": {
       "LearnToTag_-5_-4": -6.4,
@@ -344,7 +354,7 @@
       "LearnToTag_-4_1": -4.0,
       "LearnToTag_-4_-2": -4.0,
       "LearnToTag_2_-2": -4.0,
-      "LearnToTag_3_-2": 40.0,
+      "LearnToTag_3_-2": 20.0,
       "LearnToTag_-2_-2": -4.0,
       "LearnToTag_5_-1": -4.0,
       "LearnToTag_2_1": -6.4,
@@ -357,7 +367,7 @@
       "LearnToTag_1_-5": -4.0,
       "LearnToTag_-1_0": -4.0,
       "LearnToTag_5_4": -4.0,
-      "LearnToTag_1_-2": -4.0,
+      "LearnToTag_1_-2": -6.4,
       "LearnToTag_0_1": -4.0,
       "LearnToTag_2_4": -4.0,
       "LearnToTag_0_-1": -4.0,
@@ -365,7 +375,7 @@
     },
     "499955": {
       "LearnToTag_-4_4": -4.0,
-      "LearnToTag_1_0": -4.0,
+      "LearnToTag_1_0": -6.4,
       "LearnToTag_1_-3": -4.0,
       "LearnToTag_-1_-3": -4.0
     },
@@ -426,7 +436,7 @@
       "LearnToTag_-1_5": -4.0,
       "LearnToTag_0_3": -6.4,
       "LearnToTag_1_-2": -4.0,
-      "LearnToTag_-2_-2": 37.6000023,
+      "LearnToTag_-2_-2": 18.5600014,
       "LearnToTag_1_-3": -4.0,
       "LearnToTag_4_-1": -4.0,
       "LearnToTag_3_-2": -4.0,
@@ -438,13 +448,14 @@
       "LearnToTag_2_-1": -4.0,
       "LearnToTag_1_3": -4.0,
       "LearnToTag_-2_4": -4.0,
-      "LearnToTag_-5_2": -4.0
+      "LearnToTag_-5_2": -4.0,
+      "LearnToTag_-3_-4": -4.0
     },
     "16130": {
-      "LearnToTag_2_3": -4.0,
+      "LearnToTag_2_3": -6.4,
       "LearnToTag_4_2": -4.0,
       "LearnToTag_5_2": -4.0,
-      "LearnToTag_2_1": -6.4,
+      "LearnToTag_2_1": -7.84,
       "LearnToTag_-4_4": -4.0,
       "LearnToTag_-1_-4": -4.0,
       "LearnToTag_4_-4": 40.0,
@@ -464,7 +475,8 @@
       "LearnToTag_1_-3": -4.0,
       "LearnToTag_-2_0": -4.0,
       "LearnToTag_0_-1": -4.0,
-      "LearnToTag_2_-2": -4.0
+      "LearnToTag_2_-2": -4.0,
+      "LearnToTag_5_4": -4.0
     },
     "499366": {
       "LearnToTag_-3_2": -4.0,
@@ -492,7 +504,8 @@
       "LearnToTag_3_2": -4.0,
       "LearnToTag_2_-2": -4.0,
       "LearnToTag_1_0": -4.0,
-      "LearnToTag_1_2": -4.0
+      "LearnToTag_1_2": -4.0,
+      "LearnToTag_-2_-3": -4.0
     },
     "16109": {
       "LearnToTag_-1_3": -7.84,
@@ -516,7 +529,7 @@
       "LearnToTag_1_4": -4.0,
       "LearnToTag_-4_-1": -4.0,
       "LearnToTag_2_3": -4.0,
-      "LearnToTag_-2_0": -4.0,
+      "LearnToTag_-2_0": -6.4,
       "LearnToTag_-2_3": 40.0,
       "LearnToTag_4_-3": -4.0,
       "LearnToTag_-1_-4": -4.0,
@@ -524,7 +537,8 @@
       "LearnToTag_2_-3": -4.0,
       "LearnToTag_1_1": -4.0,
       "LearnToTag_1_5": -4.0,
-      "LearnToTag_-1_4": -4.0
+      "LearnToTag_-1_4": -4.0,
+      "LearnToTag_-5_-2": -4.0
     },
     "499334": {
       "LearnToTag_-5_0": -4.0,
@@ -548,7 +562,8 @@
       "LearnToTag_3_4": -4.0,
       "LearnToTag_0_-2": -6.4,
       "LearnToTag_-1_0": -4.0,
-      "LearnToTag_-5_-1": -4.0
+      "LearnToTag_-5_-1": -4.0,
+      "LearnToTag_-2_-3": 40.0
     },
     "499362": {
       "LearnToTag_-2_-2": -6.4,
@@ -581,7 +596,8 @@
       "LearnToTag_1_2": -4.0,
       "LearnToTag_3_-5": -4.0,
       "LearnToTag_3_4": -4.0,
-      "LearnToTag_0_0": 40.0
+      "LearnToTag_0_0": 40.0,
+      "LearnToTag_-3_2": -6.4
     },
     "500044": {
       "LearnToTag_-3_0": -4.0,
@@ -605,7 +621,7 @@
       "LearnToTag_2_1": -6.4,
       "LearnToTag_-4_-3": -4.0,
       "LearnToTag_4_-4": -4.0,
-      "LearnToTag_0_1": -4.0,
+      "LearnToTag_0_1": -6.4,
       "LearnToTag_-1_-1": -4.0,
       "LearnToTag_0_-1": -4.0,
       "LearnToTag_0_4": -4.0,
@@ -825,11 +841,14 @@
     "500015": {
       "LearnToTag_-1_-4": -4.0,
       "LearnToTag_4_3": -4.0,
-      "LearnToTag_1_-1": -4.0
+      "LearnToTag_1_-1": -4.0,
+      "LearnToTag_4_2": -4.0,
+      "LearnToTag_4_1": -4.0,
+      "LearnToTag_3_-1": -4.0
     },
     "16111": {
       "LearnToTag_-3_1": -4.0
     }
   },
-  "MaxValue": 40.0
+  "MaxValue": 52.0
 }

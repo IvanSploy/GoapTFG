@@ -10,6 +10,7 @@ namespace LUGoap.Base
 { PropertyKey.Indicator, new [] { "Blue", "Red", }},
 { PropertyKey.MoveState, new [] { "Ready", "Set", "Required", }},
 { PropertyKey.PlayerNear, new [] { "Close", "Near", "Far", }},
+{ PropertyKey.EnemyType, new [] { "Hunter", "Patroller", "Sniper", }},
 
         };
     }

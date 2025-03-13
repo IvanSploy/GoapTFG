@@ -523,6 +523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ammoKey: 14
   _hasEnemyKey: 15
+  _enemyTypeKey: 0
   _visibleEnemyKey: 16
   _enemyHpKey: 17
 --- !u!114 &8005266
@@ -1038,6 +1039,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ammoKey: 14
   _hasEnemyKey: 15
+  _enemyTypeKey: 19
   _visibleEnemyKey: 16
   _enemyHpKey: 17
 --- !u!114 &29070064

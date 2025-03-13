@@ -1,9 +1,11 @@
+using System.Threading.Tasks;
 using LUGoap.Base;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GoapFinish : MonoBehaviour
 {
+    private bool _isDeath;
     private IAgent _agent;
     private GoapUnit _unit;
     
@@ -17,15 +19,18 @@ public class GoapFinish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isDeath) return;
         if (_unit.health <= 0)
         {
+            _isDeath = true;
             OnEndGame();
         }
     }
 
-    public void OnEndGame()
+    public async void OnEndGame()
     {
         _agent.ForceInterrupt(0);
+        await Task.Delay(100);
         _unit.Explode();
         var currentScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(currentScene.name);

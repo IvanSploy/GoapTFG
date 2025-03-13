@@ -31,4 +31,5 @@ MonoBehaviour:
     RefIds:
     - rid: 988239078234521686
       type: {class: MoveToCoverAction, ns: , asm: Assembly-CSharp}
-      data: 
+      data:
+        SearchRadius: 3

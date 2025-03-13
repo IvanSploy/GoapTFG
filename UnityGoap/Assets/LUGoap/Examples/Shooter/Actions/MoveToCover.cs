@@ -6,6 +6,8 @@ using Panda.Examples.Shooter;
 
 public class MoveToCoverAction : Action
 {
+    public float SearchRadius = 3;
+    
     private GoapUnit _unit;
     private GoapAI _ai;
     
@@ -18,7 +20,7 @@ public class MoveToCoverAction : Action
 
     protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Cover();
+        _ai.SetDestination_Cover(SearchRadius);
         _unit.Move();
         await _unit.WaitArrival(token);
         return effectGroup;

@@ -53,7 +53,6 @@ namespace LUGoap.Planning
            //Merge new conflicts.
            var conditions = action.GetPreconditions(settings);
            resultGoal = resultGoal.Combine(conditions);
-
            if(resultGoal == null) return null;
            
            //Store action data.
@@ -96,9 +95,26 @@ namespace LUGoap.Planning
         /// <param name="parent"></param>
         public void SetParent(Node parent)
         {
+            if (FoundParentInChildren(parent))
+            {
+                DebugRecord.Record("[GOAP ERROR] Tried to parent a child node.");
+                return;
+            }
             //Se define la relación padre hijo.
             Parent = parent;
             UpdateCost();
+        }
+
+        private bool FoundParentInChildren(Node parent)
+        {
+            if (this == parent) return true;
+            foreach (var child in Children)
+            {
+                if(child == parent) return true;
+                child.FoundParentInChildren(parent);
+            }
+
+            return false;
         }
 
         public virtual void UpdateCost() => TotalCost = PreviousAction.GetCost(Parent.Goal) + Parent.TotalCost;

@@ -1,13 +1,14 @@
+using System;
+using System.Linq;
 using LUGoap.Base;
 using LUGoap.Unity;
-using Panda.Examples.Shooter;
-using TMPro;
 using UnityEngine;
 
 public class GoapLinker : MonoBehaviour
 {
     [SerializeField] private PropertyManager.PropertyKey _ammoKey;
     [SerializeField] private PropertyManager.PropertyKey _hasEnemyKey;
+    [SerializeField] private PropertyManager.PropertyKey _enemyTypeKey;
     [SerializeField] private PropertyManager.PropertyKey _visibleEnemyKey;
     [SerializeField] private PropertyManager.PropertyKey _enemyHpKey;
 
@@ -27,13 +28,26 @@ public class GoapLinker : MonoBehaviour
     void Update()
     {
         _agent.CurrentState.Set(_ammoKey, _self.ammo);
-        _agent.CurrentState.Set(_visibleEnemyKey, _ai.IsEnemyInSight());
-        _agent.CurrentState.Set(_enemyHpKey, (int)(_ai.Enemy?.health ?? 0));
 
         if(!_ai.HasEnemy()) _ai.Acquire_Enemy();
         
         bool hadEnemy = _agent.CurrentState.TryGetOrDefault(_hasEnemyKey, false);
-        _agent.CurrentState.Set(_hasEnemyKey, (bool)_ai.Enemy);
         if (hadEnemy != _ai.Enemy) _agent.Interrupt();
+
+        if (_ai.Enemy)
+        {
+            _agent.CurrentState.Set(_hasEnemyKey, true);
+            _agent.CurrentState.Set(_enemyTypeKey, PropertyManager.EnumNames[_enemyTypeKey].First(
+                value => _ai.Enemy.name.Contains(value, StringComparison.InvariantCultureIgnoreCase)));
+            _agent.CurrentState.Set(_visibleEnemyKey, _ai.IsEnemyInSight());
+            _agent.CurrentState.Set(_enemyHpKey, (int)_ai.Enemy.health);
+        }
+        else
+        {
+            _agent.CurrentState.Set(_hasEnemyKey, false);
+            _agent.CurrentState.Remove(_enemyTypeKey);
+            _agent.CurrentState.Remove(_visibleEnemyKey);
+            _agent.CurrentState.Remove(_enemyHpKey);
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace LUGoap.Planning
         //Stats
         protected static int _actionsApplied;
         protected static int _nodesCreated;
-        private static int _nodesSkipped;
+        protected static int _nodesSkipped;
 
         protected Planner(INodeGenerator nodeGenerator)
         {
@@ -59,9 +59,12 @@ namespace LUGoap.Planning
             var initialDistance = Math.Abs(condition.GetDistance(initialValue));
             var finalDistance = Math.Abs(condition.GetDistance(resultValue));
 
-            if (finalDistance >= initialDistance) return false;
+            if (finalDistance >= initialDistance)
+            {
+                _nodesSkipped++;
+                return false;
+            }
             
-            _nodesSkipped++;
             //Debug.Log( currentValue + " | " + effectType + " | " + actionValue + " || " + resultValue + " | " + conditionType + " | " + desiredValue);
             return true;
         }

@@ -30,6 +30,13 @@ public class FireAction : Action
         return effects;
     }
 
+    protected override bool OnValidate(State state, string[] parameters)
+    {
+        if (_ai.IsEnemyInSight()) return true;
+        _agent.CurrentState.Set(PropertyManager.PropertyKey.HasMoved, false);
+        return false;
+    }
+
     protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         _ai.SetTarget_Enemy();

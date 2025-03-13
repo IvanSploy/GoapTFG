@@ -341,7 +341,7 @@ namespace LUGoap.Base
     public class Condition
     {
         public object RequiredValue;
-        public HashSet<object> ExcludedValues = new();
+        public readonly HashSet<object> ExcludedValues = new();
         
         public Condition(Condition condition)
         {
