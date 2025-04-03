@@ -110,8 +110,8 @@ namespace LUGoap.Planning
             if (this == parent) return true;
             foreach (var child in Children)
             {
-                if(child == parent) return true;
-                child.FoundParentInChildren(parent);
+                if (child == parent) return true;
+                if (child.FoundParentInChildren(parent)) return true;
             }
 
             return false;

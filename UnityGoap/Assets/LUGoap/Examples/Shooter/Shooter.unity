@@ -1150,11 +1150,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: eb3088f390cc28a4097d9105399137de, type: 2}
   - {fileID: 11400000, guid: 54878402d2fb8a04c80fbc7bc745617b, type: 2}
   - {fileID: 11400000, guid: a7b1c2adf1e1fd042bad9f596f166a68, type: 2}
-  - {fileID: 11400000, guid: 47b1bd83faf677242913f149abc57956, type: 2}
   - {fileID: 11400000, guid: 56714c32e7bc4624ea78155bb5126bc8, type: 2}
   - {fileID: 11400000, guid: e87deeb4a77b78c4f90981c18d43b786, type: 2}
   - {fileID: 11400000, guid: f07491406af161a4ca4cef485c29d652, type: 2}
   - {fileID: 11400000, guid: aa3fea5827cba914d9e491efd50ca126, type: 2}
+  - {fileID: 11400000, guid: 8ae3906f07b9968499c517a59ce3f416, type: 2}
   IndicatorTime: 0.5
   Speed: 5
   _learningConfig: {fileID: 11400000, guid: 6766377be30ca754bb466d4e10398eef, type: 2}

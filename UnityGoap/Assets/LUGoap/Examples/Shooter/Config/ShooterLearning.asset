@@ -15,7 +15,7 @@ MonoBehaviour:
   Learning:
     Alpha: 0.25
     Gamma: 0.7
-    ExploreChance: 0.7
+    ExploreChance: 0.3
     FilterKeys: 
     AdditionalKeys: 13000000
     ValueRange: 1

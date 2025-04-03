@@ -127,6 +127,7 @@ public class GoapAI : MonoBehaviour
     public void SetDestination_Random(float radius)
     {
         var dst = transform.position + (Random.insideUnitSphere * radius);
+        dst.y = transform.position.y;
         _self.SetDestination(dst);
     }
 
@@ -138,11 +139,10 @@ public class GoapAI : MonoBehaviour
     public bool IsEnemyInSight()
     {
         bool hasLoS = false;
-        var attacker = _self.shotBy ? _self.shotBy : Enemy;
-        if (attacker)
+        if (Enemy)
         {
-            var ignoreList = new List<GameObject>() { gameObject, attacker.gameObject };
-            var src = attacker.transform.position;
+            var ignoreList = new List<GameObject>() { gameObject, Enemy.gameObject };
+            var src = Enemy.transform.position;
             var dst = _self.destination;
             dst.y = transform.position.y;
             hasLoS = HasLoS(src, dst, ignoreList);

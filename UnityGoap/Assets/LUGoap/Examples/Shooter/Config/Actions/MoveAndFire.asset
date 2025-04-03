@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cost: 1
   _preconditions:
+  - name: HasMoved
+    value: True
+    condition: 0
   - name: Ammo
     value: 1
     condition: 5
-  - name: HasMoved
+  - name: EnemyVisible
     value: True
     condition: 0
   _effects:

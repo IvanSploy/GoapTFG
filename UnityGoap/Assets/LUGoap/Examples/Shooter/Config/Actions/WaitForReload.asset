@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: WaitForReload
   m_EditorClassIdentifier: 
   _cost: 1
-  _preconditions: []
+  _preconditions:
+  - name: EnemyVisible
+    value: False
+    condition: 0
   _effects: []
   _learningData:
     Alpha: 0.4
