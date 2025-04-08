@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using LUGoap.Base;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GoapFinish : MonoBehaviour
 {
@@ -32,7 +31,5 @@ public class GoapFinish : MonoBehaviour
         _agent.ForceInterrupt(0);
         await Task.Delay(100);
         _unit.Explode();
-        var currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.name);
     }
 }

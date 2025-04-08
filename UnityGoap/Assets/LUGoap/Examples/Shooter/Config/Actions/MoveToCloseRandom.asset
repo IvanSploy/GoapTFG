@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
-  m_Name: MoveToCheckpoint
+  m_Name: MoveToCloseRandom
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 5
   _preconditions:
   - name: HasMoved
     value: False
     condition: 0
   _effects:
   - name: Target
-    value: Checkpoint
+    value: 
     effect: 0
   - name: HasMoved
     value: True
     effect: 0
-  - name: EnemyVisible
-    value: False
-    effect: 0
   _actionData:
-    rid: 988239078234521674
+    rid: 988239065627230430
   references:
     version: 2
     RefIds:
-    - rid: 988239078234521674
-      type: {class: MoveToCheckpointAction, ns: , asm: Assembly-CSharp}
-      data: 
+    - rid: 988239065627230430
+      type: {class: MoveToRandomAction, ns: , asm: Assembly-CSharp}
+      data:
+        MinDistance: 2
+        MaxDistance: 5
+        Offset: 2

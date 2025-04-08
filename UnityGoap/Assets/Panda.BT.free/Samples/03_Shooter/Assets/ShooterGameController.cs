@@ -47,6 +47,7 @@ namespace Panda.Examples.Shooter
         [Task]
         bool ReloadLevel()
         {
+            Debug.Log($"[SHOOTER] Enemies left: {enemies.Count}");
 #if UNITY_5_2 
             Application.LoadLevel(Application.loadedLevel);
 #else

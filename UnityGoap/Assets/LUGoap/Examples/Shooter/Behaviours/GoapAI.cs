@@ -124,11 +124,20 @@ public class GoapAI : MonoBehaviour
         return succeeded;
     }
 
-    public void SetDestination_Random(float radius)
+    public bool SetDestination_Random(float minRadius, float maxRadius, float offset)
     {
-        var dst = transform.position + (Random.insideUnitSphere * radius);
-        dst.y = transform.position.y;
-        _self.SetDestination(dst);
+        var iterations = -1;
+        do {
+            iterations++;
+            var randomUnits = Random.insideUnitSphere;
+            var dst = transform.position + (randomUnits * (maxRadius - minRadius) + new Vector3(
+                minRadius * Mathf.Sign(randomUnits.x),
+                minRadius * Mathf.Sign(randomUnits.y),
+                minRadius * Mathf.Sign(randomUnits.z)));
+            dst.y = transform.position.y;
+            _self.SetDestination(dst);
+        } while (_self.navMeshAgent.remainingDistance > maxRadius + offset && iterations < 15);
+        return iterations < 15;
     }
 
     public bool HasEnemy()

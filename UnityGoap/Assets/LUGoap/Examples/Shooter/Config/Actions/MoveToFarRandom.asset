@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
-  m_Name: MoveToRandom
+  m_Name: MoveToFarRandom
   m_EditorClassIdentifier: 
-  _cost: 10
+  _cost: 5
   _preconditions:
   - name: HasMoved
     value: False
@@ -32,4 +32,6 @@ MonoBehaviour:
     - rid: 988239065627230430
       type: {class: MoveToRandomAction, ns: , asm: Assembly-CSharp}
       data:
-        Range: 1
+        MinDistance: 5
+        MaxDistance: 10
+        Offset: 3

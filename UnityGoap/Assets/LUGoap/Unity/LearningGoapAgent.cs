@@ -7,14 +7,15 @@ namespace LUGoap.Unity
 {
     public class LearningGoapAgent : GoapAgent, ILearningAgent
     {
-        [Header("Learning")]
+        [Header("Learning")] 
+        [field: SerializeField] public bool UseLearning { get; set; } = true;
         [SerializeField] private LearningConfig _learningConfig;
         
         public QLearning Learning { get; private set; }
 
         protected override Planner CreatePlanner()
         {
-            if (!_learningConfig) return base.CreatePlanner();
+            if (!UseLearning || !_learningConfig) return base.CreatePlanner();
             
             Learning = _learningConfig.GetLearning();
             var generator = new AStar();

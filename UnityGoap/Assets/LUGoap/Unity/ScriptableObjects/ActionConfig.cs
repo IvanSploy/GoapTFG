@@ -17,6 +17,12 @@ namespace LUGoap.Unity.ScriptableObjects
         {
             return _actionData ?? new DefaultAction();
         }
+
+        [ContextMenu("FixReference")]
+        public void FixReference()
+        {
+            _actionData = null;
+        }
     }
     
     public abstract class ActionBaseConfig : ScriptableObject

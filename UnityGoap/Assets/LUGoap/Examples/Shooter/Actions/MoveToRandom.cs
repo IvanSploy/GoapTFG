@@ -6,7 +6,9 @@ using Panda.Examples.Shooter;
 
 public class MoveToRandomAction : Action
 {
-    public float Range;
+    public float MinDistance;
+    public float MaxDistance;
+    public float Offset;
     
     private GoapUnit _unit;
     private GoapAI _ai;
@@ -20,7 +22,7 @@ public class MoveToRandomAction : Action
     
     protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Random(Range);
+        if (!_ai.SetDestination_Random(MinDistance, MaxDistance, Offset)) return null;
         _unit.Move();
         await _unit.WaitArrival(token);
         return effectGroup;

@@ -23,7 +23,7 @@ public class MoveToEnemySightAction : Action
         int tries = 0;
         while (!_ai.IsEnemyInSight())
         {
-            _ai.SetDestination_Random((_ai.Enemy.transform.position - _unit.destination).magnitude);
+            _ai.SetDestination_Random(0, (_ai.Enemy.transform.position - _unit.destination).magnitude, 5);
             tries++;
             if (tries >= Tries) return null;
         }

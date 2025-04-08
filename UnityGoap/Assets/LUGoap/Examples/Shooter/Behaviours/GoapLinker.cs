@@ -32,7 +32,6 @@ public class GoapLinker : MonoBehaviour
         if(!_ai.HasEnemy()) _ai.Acquire_Enemy();
         
         bool hadEnemy = _agent.CurrentState.TryGetOrDefault(_hasEnemyKey, false);
-        if (hadEnemy != _ai.Enemy) _agent.Interrupt();
 
         if (_ai.Enemy)
         {
@@ -49,5 +48,7 @@ public class GoapLinker : MonoBehaviour
             _agent.CurrentState.Remove(_visibleEnemyKey);
             _agent.CurrentState.Remove(_enemyHpKey);
         }
+        
+        if (hadEnemy != _ai.Enemy) _agent.Interrupt();
     }
 }

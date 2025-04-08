@@ -25,9 +25,10 @@ MonoBehaviour:
     value: False
     effect: 0
   _actionData:
-    rid: -2
+    rid: 7695972443459420231
   references:
     version: 2
     RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    - rid: 7695972443459420231
+      type: {class: AcquireEnemy, ns: , asm: Assembly-CSharp}
+      data: 
