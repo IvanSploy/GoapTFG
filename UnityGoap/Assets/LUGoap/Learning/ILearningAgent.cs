@@ -8,8 +8,13 @@ namespace LUGoap.Learning
     public interface ILearningAgent : IAgent
     {
         /// <summary>
-        /// Represents the current Goal associated with the current entity.
+        /// Gets the learning that 
         /// </summary>
         QLearning Learning { get; }
+        
+        /// <summary>
+        /// If learning actions of the plan should also apply a reward relative to the result of the plan.
+        /// </summary>
+        bool ApplyRewardsToLocal { get; }
     }
 }

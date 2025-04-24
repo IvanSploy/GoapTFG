@@ -1,4 +1,6 @@
-﻿using LUGoap.Learning;
+﻿using System.Collections.Generic;
+using LUGoap.Base;
+using LUGoap.Learning;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,14 +11,17 @@ namespace LUGoap.Unity.ScriptableObjects
     {
         private static readonly string Path = Application.dataPath + "/../Learning/";
         
-        [FormerlySerializedAs("QLearningData")] 
         [Header("Main")]
-        public QLearningTemplate Learning = new()
-        {
-            Alpha = 0.25f,
-            Gamma = 0.9f,
-            ValueRange = 500
-        };
+        [Range(0f,1f)] public float Alpha;
+        [Range(0f,1f)] public float Gamma;
+        
+        [Header("Exploration")]
+        [Range(0f,1f)] public float Epsilon;
+
+        [Header("Filtering")]
+        public List<PropertyManager.PropertyKey> FilterKeys;
+        public List<PropertyManager.PropertyKey> AdditionalKeys;
+        public int ValueRange;
 
         public int MaxExploreValue = 10;
 
@@ -24,22 +29,22 @@ namespace LUGoap.Unity.ScriptableObjects
         [FormerlySerializedAs("PositiveReward")] public float SuccessReward;
         [FormerlySerializedAs("NegativeReward")] public float FailReward;
 
-        private QLearning _qLearning;
+        private QLearning _learning;
         
         public QLearning GetLearning()
         {
-            if (_qLearning == null)
+            if (_learning == null)
             {
                 Load();
             }
-            return _qLearning;
+            return _learning;
         }
         
         [ContextMenu("Load")]
         public void Load()
         {
-            _qLearning = new QLearning(Path, name, Learning.DeSerialize(), SuccessReward, FailReward);
-            _qLearning.Load();
+            _learning = new QLearning(Path, name, GetLearningConfig(), SuccessReward, FailReward);
+            _learning.Load();
         }
 
         [ContextMenu("Save")]
@@ -55,6 +60,19 @@ namespace LUGoap.Unity.ScriptableObjects
             var qLearning = GetLearning();
             qLearning.Clear();
             qLearning.Save();
+        }
+        
+        public QLearningConfig GetLearningConfig()
+        {
+            return new QLearningConfig
+            {
+                Alpha = Alpha,
+                Gamma = Gamma,
+                Epsilon = Epsilon,
+                FilterKeys = FilterKeys,
+                AdditionalKeys = AdditionalKeys,
+                ValueRange = ValueRange
+            };
         }
     }
 }

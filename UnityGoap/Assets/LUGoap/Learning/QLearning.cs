@@ -12,7 +12,7 @@ namespace LUGoap.Learning
     public class QLearning
     {
         [Serializable]
-        private class QLearningInfo
+        private class QLearningData
         {
             public Dictionary<int, Dictionary<string, float>> Values;
             public float MaxValue;
@@ -26,16 +26,16 @@ namespace LUGoap.Learning
         
         private readonly Func<Dictionary<string, float>, string> _bestActionPolitic;
         
-        private readonly QLearningData _learningData;
+        private readonly QLearningConfig _learningConfig;
         public float SucceedReward { get; private set; }
         public float FailReward { get; private set; }
 
-        public QLearning(string dataPath, string fileName, QLearningData data, float succeedReward, float failReward,
+        public QLearning(string dataPath, string fileName, QLearningConfig config, float succeedReward, float failReward,
             Func<Dictionary<string, float>, string> bestActionPolitic = null)
         {
             _path = dataPath;
             _file = fileName + ".json";
-            _learningData = data;
+            _learningConfig = config;
             SucceedReward = succeedReward;
             FailReward = failReward;
             _bestActionPolitic = bestActionPolitic ?? Politics.GetMax;
@@ -46,7 +46,7 @@ namespace LUGoap.Learning
             CreateFile();
             var fullPath = Path.Combine(_path, _file);
             var text = File.ReadAllText(fullPath);
-            var info = JsonConvert.DeserializeObject<QLearningInfo>(text);
+            var info = JsonConvert.DeserializeObject<QLearningData>(text);
             if (info is { Values: not null })
             {
                 _qValues = info.Values;
@@ -78,7 +78,7 @@ namespace LUGoap.Learning
         {
             CreateFile();
             var fullPath = Path.Combine(_path, _file);
-            var info = new QLearningInfo()
+            var info = new QLearningData()
             {
                 Values = _qValues,
                 MaxValue = MaxValue
@@ -102,14 +102,14 @@ namespace LUGoap.Learning
         
         public int GetLearningCode(State state, ConditionGroup conditionGroup)
         {
-            var distances = conditionGroup.GetDistances(state, _learningData.FilterKeys, _learningData.AdditionalKeys);
+            var distances = conditionGroup.GetDistances(state, _learningConfig.FilterKeys, _learningConfig.AdditionalKeys);
             if(distances.Count == 0) return 0;
             
-            if (_learningData.ValueRange > 1)
+            if (_learningConfig.ValueRange > 1)
             {
                 foreach (var pair in distances.ToList())
                 {
-                    distances[pair.Key] = pair.Value / _learningData.ValueRange + 1;
+                    distances[pair.Key] = pair.Value / _learningConfig.ValueRange + 1;
                 }
             }
 
@@ -154,17 +154,17 @@ namespace LUGoap.Learning
             return values.Max(pair => pair.Value);
         }
         
-        public void Update(int learningCode, string action, float r, int nextLearningCode)
+        public void Update(int learningCode, string action, float r, int nextLearningCode = 0)
         {
-            var qValue = (1 - _learningData.Alpha) * Get(learningCode, action) + _learningData.Alpha * (r + _learningData.Gamma * GetMax(nextLearningCode));
+            var qValue = (1 - _learningConfig.Alpha) * Get(learningCode, action) + _learningConfig.Alpha * (r + _learningConfig.Gamma * GetMax(nextLearningCode));
             Set(learningCode, action, qValue);
         }
         
         //Exploration
         public bool IsExploring()
         {
-            float randomExplore = Random.Next();
-            return randomExplore < _learningData.ExploreChance;
+            float exploreChance = Random.Next();
+            return exploreChance < _learningConfig.Epsilon;
         }
 
         private void Set(int state, string action, float qValue)

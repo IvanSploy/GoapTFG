@@ -9,6 +9,8 @@ namespace LUGoap.Unity
     {
         [Header("Learning")] 
         [field: SerializeField] public bool UseLearning { get; set; } = true;
+        [field: SerializeField] public bool ApplyRewardsToLocal { get; private set; }
+        
         [SerializeField] private LearningConfig _learningConfig;
         
         public QLearning Learning { get; private set; }

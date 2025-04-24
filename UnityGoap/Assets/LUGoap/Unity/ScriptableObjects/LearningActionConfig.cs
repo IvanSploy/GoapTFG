@@ -1,4 +1,6 @@
-﻿using LUGoap.Learning;
+﻿using System.Collections.Generic;
+using LUGoap.Base;
+using LUGoap.Learning;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,36 +10,31 @@ namespace LUGoap.Unity.ScriptableObjects
     public class LearningActionConfig : ActionBaseConfig
     {
         private static readonly string Path = Application.dataPath + "/../Learning/" + "ActionLearning/";
-        
-        [FormerlySerializedAs("LearningData")]
-        [SerializeField] private QLearningTemplate _learningData = new()
-        {
-            Alpha = 0.25f,
-            Gamma = 0.9f,
-            ValueRange = 5
-        };
+
+        [FormerlySerializedAs("LearningData")] [SerializeField]
+        private QLearningTemplate _learningData = QLearningTemplate.GetDefault();
         
         [SerializeField] protected float _succeedReward;
         [SerializeField] protected float _failReward;
         
         [SerializeReference] private LearningAction _actionData;
         
-        private QLearning _qLearning;
+        private QLearning _localLearning;
         
         public QLearning GetLearning()
         {
-            if (_qLearning == null)
+            if (_localLearning == null)
             {
                 Load();
             }
-            return _qLearning;
+            return _localLearning;
         }
         
         [ContextMenu("Load")]
         public void Load()
         {
-            _qLearning = new QLearning(Path, name, _learningData.DeSerialize(), _succeedReward, _failReward);
-            _qLearning.Load();
+            _localLearning = new QLearning(Path, name, _learningData.DeSerialize(), _succeedReward, _failReward);
+            _localLearning.Load();
         }
 
         [ContextMenu("Save")]

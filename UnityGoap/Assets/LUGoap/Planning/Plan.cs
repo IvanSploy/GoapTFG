@@ -67,11 +67,11 @@ namespace LUGoap.Planning
         {
             DebugRecord.Record(state != null ? state.ToString() : "Plan failed.");
             if (!IsCompleted && state != null && Count == 0) IsCompleted = true;
-            ApplyLearning(state);
+            ApplyReward(state);
             _stopwatch.Stop();
         }
         
-        public void ApplyLearning(State state)
+        public void ApplyReward(State state)
         {
             if (_agent is not ILearningAgent { Learning: not null } learningAgent) return;
             
@@ -91,6 +91,17 @@ namespace LUGoap.Planning
                 {
                     learningAgent.Learning.Update(First.GlobalLearningCode,
                         First.Action.Name, learningAgent.Learning.SucceedReward, 0);
+
+                    if (learningAgent.ApplyRewardsToLocal)
+                    {
+                        foreach (var node in ExecutedActions)
+                        {
+                            if (node.Action is LearningAction learningAction)
+                            {
+                                learningAction.ApplyReward(node.LocalLearningCode, node.Parameters, learningAgent.Learning.SucceedReward);
+                            }
+                        }
+                    }
                 }
             }
             //Plan fail
@@ -98,6 +109,17 @@ namespace LUGoap.Planning
             {
                 learningAgent.Learning.Update(Current.GlobalLearningCode,
                     Current.Action.Name, learningAgent.Learning.FailReward, 0);
+
+                if (learningAgent.ApplyRewardsToLocal)
+                {
+                    foreach (var node in ExecutedActions)
+                    {
+                        if (node.Action is LearningAction learningAction)
+                        {
+                            learningAction.ApplyReward(node.LocalLearningCode, node.Parameters, learningAgent.Learning.FailReward);
+                        }
+                    }
+                }
             }
         }
 

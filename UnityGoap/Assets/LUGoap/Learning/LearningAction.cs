@@ -10,16 +10,16 @@ namespace LUGoap.Learning
     [Serializable]
     public abstract class LearningAction : Action
     {
-        private QLearning _qLearning;
+        private QLearning _learning;
         
-        public void SetLearning(QLearning qLearning)
+        public void SetLearning(QLearning learning)
         {
-            _qLearning = qLearning;
+            _learning = learning;
         }
         
         public int GetLearningCode(State state, ConditionGroup conditionGroup)
         {
-            return _qLearning.GetLearningCode(state, conditionGroup);
+            return _learning.GetLearningCode(state, conditionGroup);
         }
         
         public override ActionSettings CreateSettings(ActionSettings settings)
@@ -33,9 +33,9 @@ namespace LUGoap.Learning
 
         public string[] CreateParameters(ActionSettings settings)
         {
-            if (!_qLearning.IsExploring())
+            if (!_learning.IsExploring())
             {
-                var action = _qLearning.GetBestAction(settings.LocalLearningCode);
+                var action = _learning.GetBestAction(settings.LocalLearningCode);
                 if (action != null) return ParseToParameters(action);
             }
             return OnCreateParameters(settings);
@@ -51,8 +51,8 @@ namespace LUGoap.Learning
             bool valid = OnValidate(nextState, parameters);
             if (valid) return true;
             
-            _qLearning.Update(_agent.CurrentAction.GlobalLearningCode,
-                ParseToActionName(parameters), _qLearning.FailReward, -1);
+            _learning.Update(_agent.CurrentAction.GlobalLearningCode,
+                ParseToActionName(parameters), _learning.FailReward);
 
             return false;
         }
@@ -72,19 +72,22 @@ namespace LUGoap.Learning
 
             if (!token.IsCancellationRequested)
             {
-                _qLearning.Update(learningCode,
-                    ParseToActionName(parameters),
-                    finalEffectGroup != null ? _qLearning.SucceedReward : _qLearning.FailReward,
-                    finalEffectGroup != null ? 0 : -1);
+                ApplyReward(learningCode, parameters,
+                    finalEffectGroup != null ? _learning.SucceedReward : _learning.FailReward);
                 return finalEffectGroup;
             }
 
             OnFail:
-            _qLearning.Update(learningCode,
-                ParseToActionName(parameters),
-                _agent.IsCompleted ? _qLearning.SucceedReward : _qLearning.FailReward,
-                _agent.CurrentAction.LocalLearningCode);
+            ApplyReward(learningCode, parameters, _agent.IsCompleted ? _learning.SucceedReward : _learning.FailReward);
+            
             return null;
+        }
+
+        public void ApplyReward(int learningCode, string[] parameters, float reward)
+        {
+            _learning.Update(learningCode,
+                ParseToActionName(parameters),
+                reward);
         }
 
         private string[] ParseToParameters(string actionName)

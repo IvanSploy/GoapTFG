@@ -2,22 +2,22 @@
   "Values": {
     "546": {
       "FakeMove": 81.0204,
-      "MoveToEnemySight": -199.999969,
+      "MoveToEnemySight": -123.730446,
       "MoveToCheckpoint": -22.7317047,
-      "MoveToCover": 55.71427,
+      "MoveToCover": 55.7142754,
       "MoveToRandom": 55.67517,
       "MoveToCloseRandom": 55.7142754,
-      "MoveToFarRandom": 7.76785
+      "MoveToFarRandom": 54.5752029
     },
     "541": {
-      "AcquireEnemy": -199.999969
+      "AcquireEnemy": -100.000015
     },
     "-851515079": {
-      "KillEnemy": 38.6738319
+      "KillEnemy": 41.08277
     },
     "-851515172": {
       "MoveAndFire": -28.5974789,
-      "Fire": 11.2217827,
+      "Fire": 10.1587887,
       "WaitForReload": 0.0,
       "AcquireEnemy": 70.442276
     },
@@ -228,7 +228,7 @@
       "MoveToRandom": -1.44718277,
       "MoveToEnemySight": 15.3543758,
       "MoveToCheckpoint": 10.5328693,
-      "Fire": 22.2979
+      "Fire": 22.7018166
     },
     "1363682577": {
       "MoveToCover": -1.53857422,
@@ -259,7 +259,7 @@
       "MoveToRandom": 6.45956659,
       "MoveToEnemySight": 19.4920235,
       "MoveToCheckpoint": -29.2109375,
-      "Fire": 38.7468224,
+      "Fire": 51.6931076,
       "MoveToCloseRandom": 0.0,
       "MoveToFarRandom": 0.0
     },
@@ -299,7 +299,7 @@
       "Fire": -54.5224457
     },
     "1347568405": {
-      "KillEnemy": 18.14275
+      "KillEnemy": 19.8992081
     },
     "1363676811": {
       "WaitForReload": 0.0,
@@ -4814,7 +4814,7 @@
     "-851008756": {
       "AcquireEnemy": 0.0,
       "MoveAndFire": -22.5168972,
-      "Fire": 10.5133162,
+      "Fire": 11.385437,
       "MoveToEnemySight": -0.625,
       "MoveToRandom": -0.5
     },
@@ -4828,7 +4828,7 @@
     "-851008663": {
       "AcquireEnemy": 0.0,
       "MoveAndFire": -73.64511,
-      "Fire": 21.1855679,
+      "Fire": 21.4311447,
       "MoveToEnemySight": 5.98094559,
       "MoveToRandom": 0.284488082,
       "MoveToCloseRandom": 0.0,
@@ -4844,7 +4844,7 @@
     "-851008694": {
       "AcquireEnemy": 0.0,
       "MoveAndFire": -101.835205,
-      "Fire": -149.647827,
+      "Fire": -104.307106,
       "MoveToEnemySight": 33.0969658,
       "MoveToRandom": 2.26855445,
       "MoveToCloseRandom": 0.0,
@@ -4863,7 +4863,7 @@
       "AcquireEnemy": 36.06543,
       "MoveAndFire": 0.0,
       "Fire": 0.0,
-      "MoveToEnemySight": 50.7954445,
+      "MoveToEnemySight": 60.05184,
       "MoveToRandom": 0.0,
       "MoveToCloseRandom": 0.0,
       "MoveToFarRandom": 0.0

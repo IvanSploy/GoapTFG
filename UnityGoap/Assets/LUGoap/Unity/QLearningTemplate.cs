@@ -11,10 +11,7 @@ namespace LUGoap.Unity
     {
         [Header("Main")]
         [Range(0f,1f)] public float Alpha;
-        [Range(0f,1f)] public float Gamma;
-        
-        [Header("Exploration")]
-        [Range(0f,1f)] public float ExploreChance;
+        [Range(0f,1f)] public float Epsilon;
 
         [Header("Filtering")]
         public List<PropertyManager.PropertyKey> FilterKeys;
@@ -26,18 +23,17 @@ namespace LUGoap.Unity
             return new QLearningTemplate()
             {
                 Alpha = 0.25f,
-                Gamma = 0.9f,
                 ValueRange = 5,
             };
         }
 
-        public QLearningData DeSerialize()
+        public QLearningConfig DeSerialize()
         {
-            return new QLearningData
+            return new QLearningConfig
             {
                 Alpha = Alpha,
-                Gamma = Gamma,
-                ExploreChance = ExploreChance,
+                Gamma = 0,
+                Epsilon = Epsilon,
                 FilterKeys = FilterKeys,
                 AdditionalKeys = AdditionalKeys,
                 ValueRange = ValueRange

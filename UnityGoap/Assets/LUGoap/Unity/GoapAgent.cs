@@ -32,7 +32,6 @@ namespace LUGoap.Unity
         private readonly List<Goal> _goals = new();
         private readonly List<Base.Action> _actions = new();
         private Planner _planner;
-        private QLearning _qLearning;
         
         private bool _hasPlan;
         private Plan _currentPlan;

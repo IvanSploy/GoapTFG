@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
   m_Name: ShooterLearning
   m_EditorClassIdentifier: 
-  Learning:
-    Alpha: 0.25
-    Gamma: 0.7
-    ExploreChance: 0.3
-    FilterKeys: 
-    AdditionalKeys: 13000000
-    ValueRange: 1
+  Alpha: 0.25
+  Gamma: 0.7
+  Epsilon: 0.3
+  FilterKeys: 
+  AdditionalKeys: 13000000
+  ValueRange: 1
   MaxExploreValue: 500
   SuccessReward: 100
-  FailReward: -200
+  FailReward: -100
