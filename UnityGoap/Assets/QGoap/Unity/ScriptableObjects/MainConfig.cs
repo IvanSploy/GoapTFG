@@ -6,7 +6,7 @@ using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "MainConfig", menuName = "LUGoap/Main Config", order = -11)]
+    [CreateAssetMenu(fileName = "MainConfig", menuName = "QGoap/Main Config", order = -11)]
     public class MainConfig : ScriptableObject
     {
         public PropertyConfig[] Properties;

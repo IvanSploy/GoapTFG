@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace QGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Goal", menuName = "LUGoap/Goal")]
+    [CreateAssetMenu(fileName = "Goal", menuName = "QGoap/Goal")]
     public class GoalConfig : ScriptableObject
     {
         [HideInInspector] public List<PropertyManager.ConditionProperty> Properties;

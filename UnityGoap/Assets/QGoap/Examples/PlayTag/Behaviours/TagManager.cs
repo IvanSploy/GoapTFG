@@ -82,7 +82,7 @@ public class TagManager : MonoBehaviour
     {
         var fullPath = GetFullPath();
         CreateFile(fullPath);
-        string log = "INDEX;BT;LUGOAP;\n";
+        string log = "INDEX;BT;QGOAP;\n";
         var maxPars = _logTimes.Count % 2 == 0 ? _logTimes.Count : _logTimes.Count - 1;
         for (var i = 0; i < maxPars; i+=2)
         {

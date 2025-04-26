@@ -6,7 +6,7 @@ using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "State", menuName = "LUGoap/State", order = -1)]
+    [CreateAssetMenu(fileName = "State", menuName = "QGoap/State", order = -1)]
     public class StateConfig : ScriptableObject
     {
         [FormerlySerializedAs("properties")] 

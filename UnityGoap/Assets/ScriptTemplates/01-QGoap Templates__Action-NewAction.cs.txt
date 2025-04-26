@@ -1,10 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Unity;
 
-public class #SCRIPTNAME#Action : LearningAction
+public class #SCRIPTNAME#Action : Action
 {
     #NOTRIM#
     
@@ -12,12 +11,6 @@ public class #SCRIPTNAME#Action : LearningAction
     {
         if (_agent is not GoapAgent agent) return;
         #NOTRIM#
-    }
-    
-    protected override string[] OnCreateParameters(ActionSettings settings)
-    {
-        #NOTRIM#
-        return null;
     }
     
     protected override async Task<Effects> OnExecute(Effects effects, string[] parameters, CancellationToken token)

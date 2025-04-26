@@ -8,11 +8,11 @@ namespace QGoap.Unity.Utils
 {
     public static class PropertyGenerator
     {
-        private const string CodeDirectory = "Assets/LUGoap/Base/Properties/";
+        private const string CodeDirectory = "Assets/QGoap/Base/Properties/";
         private const string CodeKeysName = "Properties.cs";
         private const string CodeValuesName = "PropertyEnums.cs";
-        private const string ReferenceKeysPath = "Assets/LUGoap/Base/Properties/PropertiesReference.txt";
-        private const string ReferenceValuesPath = "Assets/LUGoap/Base/Properties/PropertyEnumsReference.txt";
+        private const string ReferenceKeysPath = "Assets/QGoap/Base/Properties/PropertiesReference.txt";
+        private const string ReferenceValuesPath = "Assets/QGoap/Base/Properties/PropertyEnumsReference.txt";
 
         public static void GenerateProperties(PropertyConfig[] properties)
         {

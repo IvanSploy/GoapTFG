@@ -8,7 +8,7 @@ using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "Action", menuName = "LUGoap/Action")]
+    [CreateAssetMenu(fileName = "Action", menuName = "QGoap/Action")]
     public class ActionConfig : ActionBaseConfig
     {
         [SerializeReference] private Base.Action _actionData;

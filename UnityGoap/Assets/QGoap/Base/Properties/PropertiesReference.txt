@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public static partial class PropertyManager
     {

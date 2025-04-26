@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 namespace QGoap.Unity.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "LearningAction", menuName = "LUGoap/Learning/Action")]
+    [CreateAssetMenu(fileName = "LearningAction", menuName = "QGoap/Learning/Action")]
     public class LearningActionConfig : ActionBaseConfig
     {
         private static readonly string Path = Application.dataPath + "/../Learning/" + "ActionLearning/";
