@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
+using QGoap.Base;
 
-namespace LUGoap.Unity.Actions
+namespace QGoap.Unity.Actions
 {
     public class DefaultAction : Base.Action
     {

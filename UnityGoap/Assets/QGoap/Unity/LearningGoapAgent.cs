@@ -1,9 +1,9 @@
-using LUGoap.Learning;
-using LUGoap.Planning;
-using LUGoap.Unity.ScriptableObjects;
+using QGoap.Learning;
+using QGoap.Planning;
+using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     public class LearningGoapAgent : GoapAgent, ILearningAgent
     {

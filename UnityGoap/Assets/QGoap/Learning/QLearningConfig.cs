@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using LUGoap.Base;
+using QGoap.Base;
 
-namespace LUGoap.Learning
+namespace QGoap.Learning
 {
     public struct QLearningConfig
     {

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using LUGoap.Base;
-using Action = LUGoap.Base.Action;
+using QGoap.Base;
+using Action = QGoap.Base.Action;
+using Base_Action = QGoap.Base.Action;
 
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     /// <summary>
     /// Defines the Node used by the Planner Search.
@@ -17,7 +18,7 @@ namespace LUGoap.Planning
         public NodeAction ActionData { get; private set; }
         public virtual int TotalCost { get; private set; }
 
-        public Action PreviousAction => ActionData.Action;
+        public Base_Action PreviousAction => ActionData.Action;
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
         public bool IsGoal(State state) => !Goal.HasConflict(state);
 
@@ -43,7 +44,7 @@ namespace LUGoap.Planning
         /// <param name="action">PreviousAction applied to the node.</param>
         /// <param name="settings">Parameters created for the action.</param>
         /// <returns>Node result and unchecked conditions.</returns>
-        public Node ApplyAction(Action action, ActionSettings settings)
+        public Node ApplyAction(Base_Action action, ActionSettings settings)
         {
            //Apply action
            var effects = action.GetEffects(settings);

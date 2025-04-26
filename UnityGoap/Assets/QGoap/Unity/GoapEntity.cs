@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using LUGoap.Base;
+using QGoap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     public class GoapEntity : MonoBehaviour, IEntity
     {

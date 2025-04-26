@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using static LUGoap.Base.PropertyManager;
+using QGoap.Base;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.Action
+namespace QGoap.Unity.Action
 {
     public class GetResourceAction : Base.Action
     {

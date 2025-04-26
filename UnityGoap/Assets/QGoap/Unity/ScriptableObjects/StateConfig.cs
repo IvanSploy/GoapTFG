@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using LUGoap.Base;
+using QGoap.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.ScriptableObjects
+namespace QGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "State", menuName = "LUGoap/State", order = -1)]
     public class StateConfig : ScriptableObject

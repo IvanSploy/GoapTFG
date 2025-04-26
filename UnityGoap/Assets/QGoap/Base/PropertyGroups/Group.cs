@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// A group of properties.
     /// </summary>
-    public abstract class Group<T> : IEnumerable<KeyValuePair<PropertyKey, T>>
+    public abstract class Group<T> : IEnumerable<KeyValuePair<PropertyManager.PropertyKey, T>>
     {
-        protected internal readonly SortedDictionary<PropertyKey, T> _values;
+        protected internal readonly SortedDictionary<PropertyManager.PropertyKey, T> _values;
         
         public Group(Group<T> group = null)
         {
-            _values = group == null ? new SortedDictionary<PropertyKey, T>()
-                : new SortedDictionary<PropertyKey, T>(group._values);
+            _values = group == null ? new SortedDictionary<PropertyManager.PropertyKey, T>()
+                : new SortedDictionary<PropertyManager.PropertyKey, T>(group._values);
         }
 
-        protected void AssertValidType(PropertyKey key, object value)
+        protected void AssertValidType(PropertyManager.PropertyKey key, object value)
         {
             var type = PropertyManager.GetType(key);
             if (value.GetType() != type)
@@ -28,17 +28,17 @@ namespace LUGoap.Base
         }
 
         //Key Access
-        public List<PropertyKey> GetPropertyKeys()
+        public List<PropertyManager.PropertyKey> GetPropertyKeys()
         {
-            return new List<PropertyKey>(_values.Keys);
+            return new List<PropertyManager.PropertyKey>(_values.Keys);
         }
         
-        public bool Has(PropertyKey key)
+        public bool Has(PropertyManager.PropertyKey key)
         {
             return _values.ContainsKey(key);
         }
         
-        public void Remove(PropertyKey key)
+        public void Remove(PropertyManager.PropertyKey key)
         {
             if(Has(key)) _values.Remove(key);
         }
@@ -48,7 +48,7 @@ namespace LUGoap.Base
             return _values.Count == 0;
         }
         
-        public IEnumerator<KeyValuePair<PropertyKey, T>> GetEnumerator()
+        public IEnumerator<KeyValuePair<PropertyManager.PropertyKey, T>> GetEnumerator()
         {
             return _values.GetEnumerator();
         }

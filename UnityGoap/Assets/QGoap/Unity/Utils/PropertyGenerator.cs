@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using LUGoap.Base;
-using LUGoap.Unity.ScriptableObjects;
+using QGoap.Base;
+using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
-namespace LUGoap.Unity.Utils
+namespace QGoap.Unity.Utils
 {
     public static class PropertyGenerator
     {

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using static LUGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     [Serializable]
     public abstract class Action
@@ -64,9 +63,9 @@ namespace LUGoap.Base
         {
             return _effectGroup + GetProceduralEffects(settings);
         }
-        public HashSet<PropertyKey> GetAffectedKeys()
+        public HashSet<PropertyManager.PropertyKey> GetAffectedKeys()
         {
-            HashSet<PropertyKey> affectedPropertyLists = new HashSet<PropertyKey>();
+            HashSet<PropertyManager.PropertyKey> affectedPropertyLists = new HashSet<PropertyManager.PropertyKey>();
             foreach (var key in _effectGroup.GetPropertyKeys())
             {
                 affectedPropertyLists.Add(key);

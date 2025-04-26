@@ -1,7 +1,7 @@
 ﻿using System;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public static class BaseTypes
     {
@@ -117,7 +117,7 @@ namespace LUGoap.Base
             return result;
         }
         
-        public static int GetStateDistance(PropertyKey key, object a)
+        public static int GetStateDistance(PropertyManager.PropertyKey key, object a)
         {
             var b = GetDefault(key);
             if (a.Equals(b)) return 0;
@@ -132,15 +132,15 @@ namespace LUGoap.Base
             };
         }
 
-        public static object GetDefault(this PropertyKey key)
+        public static object GetDefault(this PropertyManager.PropertyKey key)
         {
             object defaultValue = GetPropertyType(key) switch
             {
-                PropertyType.Boolean => false,
-                PropertyType.Integer => 0,
-                PropertyType.Float => 0f,
-                PropertyType.String => "",
-                PropertyType.Enum => "",
+                PropertyManager.PropertyType.Boolean => false,
+                PropertyManager.PropertyType.Integer => 0,
+                PropertyManager.PropertyType.Float => 0f,
+                PropertyManager.PropertyType.String => "",
+                PropertyManager.PropertyType.Enum => "",
                 _ => throw new ArgumentOutOfRangeException()
             };
             return defaultValue;

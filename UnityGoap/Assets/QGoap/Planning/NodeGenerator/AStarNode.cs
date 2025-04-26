@@ -1,4 +1,4 @@
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     public class AStarNode : Node
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// Represents the info recollected by the sensors.

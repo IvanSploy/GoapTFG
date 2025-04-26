@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Unity;
+using QGoap.Learning;
 using Panda.Examples.Shooter;
-using Random = LUGoap.Base.Random;
+using Random = QGoap.Base.Random;
 
 public class WaitForReloadAction : LearningAction
 {

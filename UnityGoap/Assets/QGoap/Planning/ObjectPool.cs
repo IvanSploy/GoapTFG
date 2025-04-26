@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     public class ObjectPool<TObject>
     {

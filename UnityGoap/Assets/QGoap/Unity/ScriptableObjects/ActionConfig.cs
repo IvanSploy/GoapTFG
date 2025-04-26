@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using LUGoap.Base;
-using LUGoap.Unity.Actions;
+using QGoap.Base;
+using QGoap.Unity.Actions;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.ScriptableObjects
+namespace QGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Action", menuName = "LUGoap/Action")]
     public class ActionConfig : ActionBaseConfig

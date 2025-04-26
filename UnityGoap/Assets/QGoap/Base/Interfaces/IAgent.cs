@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// Represents a NPC with the hability to plan. Can also be treated as IEntity.

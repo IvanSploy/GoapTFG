@@ -1,7 +1,7 @@
-﻿using LUGoap.Unity;
+﻿using QGoap.Unity;
 using UnityEngine;
 using UnityEngine.Serialization;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
 [RequireComponent(typeof(GoapAgent))]
 public class TargetProximityDetector : MonoBehaviour

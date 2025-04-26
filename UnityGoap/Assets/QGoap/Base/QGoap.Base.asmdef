@@ -1,6 +1,6 @@
 {
-    "name": "LUGoap.Base",
-    "rootNamespace": "LUGoap.Base",
+    "name": "QGoap.Base",
+    "rootNamespace": "QGoap.Base",
     "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],

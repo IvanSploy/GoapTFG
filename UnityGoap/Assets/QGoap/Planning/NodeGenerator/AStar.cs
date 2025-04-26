@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Numerics;
-using LUGoap.Base;
-using LUGoap.Learning;
-using Action = LUGoap.Base.Action;
-using Random = LUGoap.Base.Random;
+using QGoap.Base;
+using QGoap.Learning;
+using Action = QGoap.Base.Action;
+using Random = QGoap.Base.Random;
 
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     public class AStar : INodeGenerator
     {

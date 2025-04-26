@@ -1,8 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Unity;
+using QGoap.Learning;
 using Panda.Examples.Shooter;
 
 public class SetTargetAction : LearningAction

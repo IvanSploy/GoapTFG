@@ -1,12 +1,12 @@
 using System;
 using System.Globalization;
-using LUGoap.Base;
-using LUGoap.Unity.ScriptableObjects;
+using QGoap.Base;
+using QGoap.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.Editor
+namespace QGoap.Unity.Editor
 {
     #region ScriptableObjects
 

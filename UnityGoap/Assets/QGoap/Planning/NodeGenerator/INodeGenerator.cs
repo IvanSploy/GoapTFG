@@ -1,8 +1,9 @@
 ﻿using System;
-using LUGoap.Base;
-using Action = LUGoap.Base.Action;
+using QGoap.Base;
+using Action = QGoap.Base.Action;
+using Base_Action = QGoap.Base.Action;
 
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     public interface INodeGenerator : IDisposable
     {
@@ -43,7 +44,7 @@ namespace LUGoap.Planning
         /// <param name="node"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        ActionSettings CreateSettings(Node node, Action action);
+        ActionSettings CreateSettings(Node node, Base_Action action);
         
         /// <summary>
         /// Gets the heuristic according to a certain node.

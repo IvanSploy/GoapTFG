@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     public abstract class ActionBaseEditor : UnityEditor.Editor
     {

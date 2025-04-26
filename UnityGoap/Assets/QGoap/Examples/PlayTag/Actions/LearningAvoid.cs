@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
+using QGoap.Base;
 using System.Globalization;
-using LUGoap.Learning;
-using LUGoap.Unity;
-using Random = LUGoap.Base.Random;
+using QGoap.Learning;
+using QGoap.Unity;
+using Random = QGoap.Base.Random;
 
 public class LearningAvoidAction : LearningAction
 {

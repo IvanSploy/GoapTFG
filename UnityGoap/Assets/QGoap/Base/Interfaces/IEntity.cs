@@ -1,4 +1,4 @@
-﻿namespace LUGoap.Base
+﻿namespace QGoap.Base
 {
     /// <summary>
     /// Represents an Enitity with an goapState.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// A group of properties.
@@ -16,7 +16,7 @@ namespace LUGoap.Base
         { }
         
         //Value Access
-        public void Set(PropertyKey key, object value)
+        public void Set(PropertyManager.PropertyKey key, object value)
         {
             AssertValidType(key, value);
             _values[key] = value;
@@ -38,20 +38,20 @@ namespace LUGoap.Base
             }
         }
         
-        public object Get(PropertyKey key)
+        public object Get(PropertyManager.PropertyKey key)
         {
             return _values[key];
         }
         
-        public object TryGetOrDefault(PropertyKey key) => Has(key) ? _values[key] : key.GetDefault();
+        public object TryGetOrDefault(PropertyManager.PropertyKey key) => Has(key) ? _values[key] : key.GetDefault();
 
-        public T TryGetOrDefault<T>(PropertyKey key, T defaultValue)
+        public T TryGetOrDefault<T>(PropertyManager.PropertyKey key, T defaultValue)
         {
             if(Has(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
             return defaultValue;
         }
 
-        public object this[PropertyKey key]
+        public object this[PropertyManager.PropertyKey key]
         {
             get => Get(key);
             set => Set(key, value);
@@ -79,7 +79,7 @@ namespace LUGoap.Base
             var propertyGroup = new State(a);
             foreach (var pair in b)
             {
-                PropertyKey key = pair.Key;
+                PropertyManager.PropertyKey key = pair.Key;
                 Effect effect = pair.Value;
                 
                 object aux;
@@ -142,7 +142,7 @@ namespace LUGoap.Base
         public override int GetHashCode()
         {
             int hash = 17;
-            foreach(KeyValuePair<PropertyKey, object> kvp in _values)
+            foreach(KeyValuePair<PropertyManager.PropertyKey, object> kvp in _values)
             {
                 if (!IsRelevantPropertyKey(kvp.Key)) continue;
                 
@@ -157,7 +157,7 @@ namespace LUGoap.Base
             return _values.Keys.Count(IsRelevantPropertyKey);
         }
 
-        private bool IsRelevantPropertyKey(PropertyKey key)
+        private bool IsRelevantPropertyKey(PropertyManager.PropertyKey key)
         {
             return _values[key].GetHashCode() != key.GetDefault().GetHashCode();
         }

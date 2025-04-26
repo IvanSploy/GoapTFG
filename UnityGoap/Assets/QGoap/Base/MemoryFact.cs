@@ -1,4 +1,4 @@
-namespace LUGoap.Base{
+namespace QGoap.Base{
     /// <summary>
     /// Info useful for every agent in the goap system.
     /// </summary>

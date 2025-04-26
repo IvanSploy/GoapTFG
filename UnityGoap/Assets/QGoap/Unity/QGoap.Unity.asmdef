@@ -1,10 +1,10 @@
 {
-    "name": "LUGoap.Unity",
-    "rootNamespace": "LUGoap.Unity",
+    "name": "QGoap.Unity",
+    "rootNamespace": "QGoap.Unity",
     "references": [
-        "LUGoap.Base",
-        "LUGoap.Planning",
-        "LUGoap.Learning"
+        "QGoap.Base",
+        "QGoap.Planning",
+        "QGoap.Learning"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LUGoap.Learning
+namespace QGoap.Learning
 {
     public static class Politics
     {

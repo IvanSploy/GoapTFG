@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using Action = LUGoap.Base.Action;
+using QGoap.Base;
+using Action = QGoap.Base.Action;
+using Base_Action = QGoap.Base.Action;
 
-namespace LUGoap.Learning
+namespace QGoap.Learning
 {
     [Serializable]
-    public abstract class LearningAction : Action
+    public abstract class LearningAction : Base_Action
     {
         private QLearning _learning;
         

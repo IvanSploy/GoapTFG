@@ -1,6 +1,6 @@
-﻿using LUGoap.Base;
+﻿using QGoap.Base;
 
-namespace LUGoap.Learning
+namespace QGoap.Learning
 {
     /// <summary>
     /// Represents a NPC with the hability to plan. Can also be treated as IEntity.

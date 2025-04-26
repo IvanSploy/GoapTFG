@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using static LUGoap.Base.PropertyManager;
-using Action = LUGoap.Base.Action;
+using QGoap.Base;
+using QGoap.Unity;
+using static QGoap.Base.PropertyManager;
+using Action = QGoap.Base.Action;
 
 [Serializable]
 public class OpenAction : Action

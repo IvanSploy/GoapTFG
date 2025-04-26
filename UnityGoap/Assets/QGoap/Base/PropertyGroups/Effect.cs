@@ -1,13 +1,13 @@
-﻿using static LUGoap.Base.BaseTypes;
+﻿using static QGoap.Base.BaseTypes;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public class Effect
     {
         public readonly object Value;
-        public readonly EffectType Type;
+        public readonly BaseTypes.EffectType Type;
 
-        public Effect(object value, EffectType type)
+        public Effect(object value, BaseTypes.EffectType type)
         {
             Value = value;
             Type = type;

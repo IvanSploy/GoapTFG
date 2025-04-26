@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
+using QGoap.Base;
+using QGoap.Unity;
 
 public class MoveToEnemySightAction : Action
 {

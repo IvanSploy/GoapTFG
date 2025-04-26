@@ -1,4 +1,4 @@
-﻿namespace LUGoap.Base
+﻿namespace QGoap.Base
 {
     public class ActionSettings
     {

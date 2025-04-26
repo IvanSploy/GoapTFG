@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using Action = LUGoap.Base.Action;
+using QGoap.Base;
+using QGoap.Unity;
+using Action = QGoap.Base.Action;
 
 public class GoToDestinationAction : Action
 {

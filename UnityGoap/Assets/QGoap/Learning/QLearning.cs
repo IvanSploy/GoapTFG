@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using LUGoap.Base;
+using QGoap.Base;
 using Unity.Plastic.Newtonsoft.Json;
-using static LUGoap.Base.PropertyManager;
-using Random = LUGoap.Base.Random;
+using Random = QGoap.Base.Random;
 
-namespace LUGoap.Learning
+namespace QGoap.Learning
 {
     public class QLearning
     {
@@ -117,7 +116,7 @@ namespace LUGoap.Learning
             list.Sort((comp1, comp2) => comp1.Key.CompareTo(comp2.Key));
 
             int hash = 17;
-            foreach(KeyValuePair<PropertyKey, int> kvp in list)
+            foreach(KeyValuePair<PropertyManager.PropertyKey, int> kvp in list)
             {
                 hash = hash * 31 + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
             }

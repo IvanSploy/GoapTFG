@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public class DebugRecord
     {

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     [RequireComponent(typeof(GoapAgent))]
     [DisallowMultipleComponent]

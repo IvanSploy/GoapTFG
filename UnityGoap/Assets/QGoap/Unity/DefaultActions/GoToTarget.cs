@@ -3,10 +3,10 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using static LUGoap.Base.PropertyManager;
+using QGoap.Base;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.Action
+namespace QGoap.Unity.Action
 {
     public class GoToTargetAction : Base.Action
     {

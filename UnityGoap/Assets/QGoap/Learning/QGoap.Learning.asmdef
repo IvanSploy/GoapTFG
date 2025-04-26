@@ -1,8 +1,8 @@
 {
-    "name": "LUGoap.Learning",
-    "rootNamespace": "LUGoap.Learning",
+    "name": "QGoap.Learning",
+    "rootNamespace": "QGoap.Learning",
     "references": [
-        "GUID:3ab1c13863885c242abffb1ed61459fc"
+        "QGoap.Base"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

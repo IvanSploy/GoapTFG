@@ -1,8 +1,8 @@
-using LUGoap.Base;
-using LUGoap.Unity;
+using QGoap.Base;
+using QGoap.Unity;
 using UnityEngine;
-using static LUGoap.Base.PropertyManager;
-using Random = LUGoap.Base.Random;
+using static QGoap.Base.PropertyManager;
+using Random = QGoap.Base.Random;
 
 //TODO: Replace for local initializators, per example.
 public class GameManager : MonoBehaviour

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Unity;
-using static LUGoap.Base.BaseTypes;
-using static LUGoap.Base.PropertyManager;
+using QGoap.Base;
+using QGoap.Unity;
+using static QGoap.Base.BaseTypes;
+using static QGoap.Base.PropertyManager;
 using Random = UnityEngine.Random;
 
 public class SetRandomDestinationAction : Action

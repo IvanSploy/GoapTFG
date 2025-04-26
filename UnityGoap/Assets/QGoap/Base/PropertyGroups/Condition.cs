@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static LUGoap.Base.BaseTypes;
+using static QGoap.Base.BaseTypes;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public class IntCondition : RangeCondition<int>
     {
         public IntCondition(RangeCondition<int> condition) : base(condition) { }
-        public IntCondition(ConditionType conditionType, int value) : base(conditionType, value) { }
+        public IntCondition(BaseTypes.ConditionType conditionType, int value) : base(conditionType, value) { }
 
         protected override void Initialize()
         {
@@ -16,7 +16,7 @@ namespace LUGoap.Base
             MaxValue = int.MaxValue;
         }
         
-        public override void ApplyEffect(EffectType type, object value)
+        public override void ApplyEffect(BaseTypes.EffectType type, object value)
         {
             base.ApplyEffect(type, value);
             
@@ -84,7 +84,7 @@ namespace LUGoap.Base
     {
         public const float TOLERANCE = 0.001f;
         public FloatCondition(RangeCondition<float> condition) : base(condition) { }
-        public FloatCondition(ConditionType conditionType, float value) : base(conditionType, value) { }
+        public FloatCondition(BaseTypes.ConditionType conditionType, float value) : base(conditionType, value) { }
         
         protected override void Initialize()
         {
@@ -92,7 +92,7 @@ namespace LUGoap.Base
             MaxValue = float.MaxValue;
         }
         
-        public override void ApplyEffect(EffectType type, object value)
+        public override void ApplyEffect(BaseTypes.EffectType type, object value)
         {
             base.ApplyEffect(type, value);
             
@@ -169,23 +169,23 @@ namespace LUGoap.Base
             MaxInclusive = condition.MaxInclusive;
         }
 
-        protected RangeCondition(ConditionType conditionType, T value) : base(conditionType, value)
+        protected RangeCondition(BaseTypes.ConditionType conditionType, T value) : base(conditionType, value)
         {
             Initialize();
             switch (conditionType)
             {
-                case ConditionType.LessThan:
+                case BaseTypes.ConditionType.LessThan:
                     MaxValue = value;
                     MaxInclusive = false;
                     break;
-                case ConditionType.LessOrEqual:
+                case BaseTypes.ConditionType.LessOrEqual:
                     MaxValue = value;
                     break;
-                case ConditionType.GreaterThan:
+                case BaseTypes.ConditionType.GreaterThan:
                     MinValue = value;
                     MinInclusive = false;
                     break;
-                case ConditionType.GreaterOrEqual:
+                case BaseTypes.ConditionType.GreaterOrEqual:
                     MinValue = value;
                     break;
             }
@@ -348,14 +348,14 @@ namespace LUGoap.Base
             RequiredValue = condition.RequiredValue;
             ExcludedValues = new HashSet<object>(condition.ExcludedValues);
         }
-        public Condition(ConditionType conditionType, object value)
+        public Condition(BaseTypes.ConditionType conditionType, object value)
         {
             switch (conditionType)
             {
-                case ConditionType.Equal:
+                case BaseTypes.ConditionType.Equal:
                     RequiredValue = value;
                     break;
-                case ConditionType.NotEqual:
+                case BaseTypes.ConditionType.NotEqual:
                     ExcludedValues.Add(value);
                     break;
             }
@@ -429,7 +429,7 @@ namespace LUGoap.Base
             ExcludedValues.UnionWith(condition.ExcludedValues);
         }
 
-        public virtual void ApplyEffect(EffectType type, object value)
+        public virtual void ApplyEffect(BaseTypes.EffectType type, object value)
         {
             if (RequiredValue != null)
             {

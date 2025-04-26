@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public static class Random
     {

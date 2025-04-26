@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using LUGoap.Base;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Learning;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace LUGoap.Unity.ScriptableObjects
+namespace QGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "LearningConfig", menuName = "LUGoap/Learning/Config", order = -10)]
     public class LearningConfig : ScriptableObject

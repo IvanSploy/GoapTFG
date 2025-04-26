@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using LUGoap.Base;
+using QGoap.Base;
 using UnityEngine;
 
-namespace LUGoap.Unity.ScriptableObjects
+namespace QGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "Goal", menuName = "LUGoap/Goal")]
     public class GoalConfig : ScriptableObject

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using static LUGoap.Base.BaseTypes;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.BaseTypes;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// A group of properties.
@@ -14,13 +14,13 @@ namespace LUGoap.Base
         { }
 
         //Value Access
-        public void Set(PropertyKey key, EffectType effectType, object value)
+        public void Set(PropertyManager.PropertyKey key, BaseTypes.EffectType effectType, object value)
         {
             AssertValidType(key, value);
             _values[key] = new Effect(value, effectType);
         }
         
-        public void Set(PropertyKey key, Effect effect) =>
+        public void Set(PropertyManager.PropertyKey key, Effect effect) =>
             Set(key, effect.Type, effect.Value);
 
         public void Set(EffectGroup otherPg)
@@ -31,17 +31,17 @@ namespace LUGoap.Base
             }
         }
         
-        public Effect Get(PropertyKey key) => _values[key];
+        public Effect Get(PropertyManager.PropertyKey key) => _values[key];
 
-        public Effect TryGetOrDefault<T>(PropertyKey key, T defaultValue)
+        public Effect TryGetOrDefault<T>(PropertyManager.PropertyKey key, T defaultValue)
         {
-            if (!Has(key)) return new Effect(defaultValue, EffectType.Set);
+            if (!Has(key)) return new Effect(defaultValue, BaseTypes.EffectType.Set);
             
             var original = Get(key);
             return new Effect((T)Convert.ChangeType(original.Value, typeof(T)), original.Type);
         }
         
-        public Effect this[PropertyKey key]
+        public Effect this[PropertyManager.PropertyKey key]
         {
             get => Get(key);
             set => Set(key, value);

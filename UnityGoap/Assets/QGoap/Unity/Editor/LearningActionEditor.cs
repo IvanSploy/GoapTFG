@@ -2,10 +2,10 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using LUGoap.Unity.ScriptableObjects;
+using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     [CustomEditor(typeof(LearningActionConfig))]
     public class LearningActionEditor : ActionBaseEditor

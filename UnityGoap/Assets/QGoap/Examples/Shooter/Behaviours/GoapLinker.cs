@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
-using LUGoap.Base;
-using LUGoap.Unity;
+using QGoap.Base;
+using QGoap.Unity;
 using UnityEngine;
 
 public class GoapLinker : MonoBehaviour

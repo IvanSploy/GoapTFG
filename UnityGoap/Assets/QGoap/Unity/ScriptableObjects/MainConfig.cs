@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using LUGoap.Unity.Utils;
+using QGoap.Unity.Utils;
 using UnityEngine;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Unity.ScriptableObjects
+namespace QGoap.Unity.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "MainConfig", menuName = "LUGoap/Main Config", order = -11)]
     public class MainConfig : ScriptableObject

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using LUGoap.Base;
+using QGoap.Base;
 using UnityEngine;
 
 public class GoapFinish : MonoBehaviour

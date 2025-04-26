@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Learning;
-using LUGoap.Planning;
-using LUGoap.Unity.ScriptableObjects;
+using QGoap.Base;
+using QGoap.Learning;
+using QGoap.Planning;
+using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     public class GoapAgent : MonoBehaviour, IAgent
     {

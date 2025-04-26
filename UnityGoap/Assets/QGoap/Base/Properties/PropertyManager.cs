@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using static LUGoap.Base.BaseTypes;
+using static QGoap.Base.BaseTypes;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     public static partial class PropertyManager
     {
@@ -30,9 +30,9 @@ namespace LUGoap.Base
 
         [Serializable]
         public class ConditionProperty : Property{
-            public ConditionType condition;
+            public BaseTypes.ConditionType condition;
 
-            public ConditionProperty(string name, ConditionType condition, string value) : base(name, value)
+            public ConditionProperty(string name, BaseTypes.ConditionType condition, string value) : base(name, value)
             {
                 this.condition = condition;
             }
@@ -40,9 +40,9 @@ namespace LUGoap.Base
         
         [Serializable]
         public class EffectProperty : Property {
-            public EffectType effect;
+            public BaseTypes.EffectType effect;
 
-            public EffectProperty(string name, EffectType effect, string value) : base(name, value)
+            public EffectProperty(string name, BaseTypes.EffectType effect, string value) : base(name, value)
             {
                 this.effect = effect;
             }

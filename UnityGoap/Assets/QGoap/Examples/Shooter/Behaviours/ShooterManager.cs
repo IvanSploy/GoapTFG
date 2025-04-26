@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using LUGoap.Unity;
+using QGoap.Unity;
 using Panda.Examples.Shooter;
 using UnityEngine;
 using Random = UnityEngine.Random;

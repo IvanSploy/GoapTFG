@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using LUGoap.Base;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Learning;
 using UnityEngine;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     [Serializable]
     public struct QLearningTemplate

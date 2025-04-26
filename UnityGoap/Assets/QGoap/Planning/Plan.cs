@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using LUGoap.Base;
-using LUGoap.Learning;
+using QGoap.Base;
+using QGoap.Learning;
 
-namespace LUGoap.Planning
+namespace QGoap.Planning
 {
     public class Plan
     {

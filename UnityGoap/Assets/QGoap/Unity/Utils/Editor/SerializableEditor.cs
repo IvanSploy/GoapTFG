@@ -2,7 +2,7 @@
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace LUGoap.Unity.Utils
+namespace QGoap.Unity.Utils
 {
     [CustomPropertyDrawer(typeof(SerializablePair<,>))]
     public class PairDrawer : PropertyDrawer

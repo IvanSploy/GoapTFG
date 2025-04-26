@@ -1,7 +1,7 @@
 using System;
-using LUGoap.Base;
+using QGoap.Base;
 
-namespace LUGoap.Unity
+namespace QGoap.Unity
 {
     public static class GoapHeuristics
     {

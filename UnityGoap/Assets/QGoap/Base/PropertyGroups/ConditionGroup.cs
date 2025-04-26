@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using static LUGoap.Base.BaseTypes;
-using static LUGoap.Base.PropertyManager;
+using static QGoap.Base.BaseTypes;
+using static QGoap.Base.PropertyManager;
 
-namespace LUGoap.Base
+namespace QGoap.Base
 {
     /// <summary>
     /// A group of properties.
@@ -18,22 +18,22 @@ namespace LUGoap.Base
             }
         }
         
-        public Condition Get(PropertyKey key)
+        public Condition Get(PropertyManager.PropertyKey key)
         {
             _values.TryGetValue(key, out var condition);
             return condition;
         }
 
-        public Condition this[PropertyKey key] => Get(key);
+        public Condition this[PropertyManager.PropertyKey key] => Get(key);
         public int Count => _values.Count;
 
-        public void Set(PropertyKey key, ConditionType conditionType, object value)
+        public void Set(PropertyManager.PropertyKey key, BaseTypes.ConditionType conditionType, object value)
         {
             AssertValidType(key, value);
             _values[key] = ConditionFactory.Create(conditionType, value);
         }
         
-        public void Set(PropertyKey key, Condition condition)
+        public void Set(PropertyManager.PropertyKey key, Condition condition)
         {
             _values[key] = condition;
         }
@@ -61,13 +61,13 @@ namespace LUGoap.Base
             return result;
         }
         
-        public void SetOrCombine(PropertyKey key, ConditionType conditionType, object value)
+        public void SetOrCombine(PropertyManager.PropertyKey key, BaseTypes.ConditionType conditionType, object value)
         {
             AssertValidType(key, value);
             SetOrCombine(key, ConditionFactory.Create(conditionType, value));
         }
         
-        public void SetOrCombine(PropertyKey key, Condition condition)
+        public void SetOrCombine(PropertyManager.PropertyKey key, Condition condition)
         {
             if (!Has(key))
             {
@@ -77,7 +77,7 @@ namespace LUGoap.Base
             Combine(key, condition);
         }
         
-        public void Combine(PropertyKey key, Condition condition)
+        public void Combine(PropertyManager.PropertyKey key, Condition condition)
         {
             var conditionValue = Get(key);
             conditionValue?.Combine(condition);
@@ -89,7 +89,7 @@ namespace LUGoap.Base
             return this.Any(pg => HasConflict(pg.Key, state));
         }
 
-        public ConditionGroup GetConflicts(State state, ICollection<PropertyKey> filter = null)
+        public ConditionGroup GetConflicts(State state, ICollection<PropertyManager.PropertyKey> filter = null)
         {
             bool hasFilter = filter != null && filter.Count > 0;
             ConditionGroup conflicts = new ConditionGroup();
@@ -107,7 +107,7 @@ namespace LUGoap.Base
             return conflicts;
         }
 
-        public bool HasConflict(PropertyKey key, State state)
+        public bool HasConflict(PropertyManager.PropertyKey key, State state)
         {
             Condition condition = Get(key);
             object mainValue = !state.Has(key) ? key.GetDefault() : state[key];
@@ -173,23 +173,23 @@ namespace LUGoap.Base
                 var condition = ConditionFactory.Create(Get(effectPair.Key));
                 switch (effect.Type)
                 {
-                    case EffectType.Set:
+                    case BaseTypes.EffectType.Set:
                         if (!condition.Check(effect.Value)) return null;
                         break;
-                    case EffectType.Add:
-                        condition.ApplyEffect(EffectType.Subtract, effect.Value);
+                    case BaseTypes.EffectType.Add:
+                        condition.ApplyEffect(BaseTypes.EffectType.Subtract, effect.Value);
                         result.Set(effectPair.Key, condition);
                         break;
-                    case EffectType.Subtract:
-                        condition.ApplyEffect(EffectType.Add, effect.Value);
+                    case BaseTypes.EffectType.Subtract:
+                        condition.ApplyEffect(BaseTypes.EffectType.Add, effect.Value);
                         result.Set(effectPair.Key, condition);
                         break;
-                    case EffectType.Multiply:
-                        condition.ApplyEffect(EffectType.Divide, effect.Value);
+                    case BaseTypes.EffectType.Multiply:
+                        condition.ApplyEffect(BaseTypes.EffectType.Divide, effect.Value);
                         result.Set(effectPair.Key, condition);
                         break;
-                    case EffectType.Divide:
-                        condition.ApplyEffect(EffectType.Multiply, effect.Value);
+                    case BaseTypes.EffectType.Divide:
+                        condition.ApplyEffect(BaseTypes.EffectType.Multiply, effect.Value);
                         result.Set(effectPair.Key, condition);
                         break;
                 }
@@ -198,9 +198,9 @@ namespace LUGoap.Base
             return result;
         }
         
-        public Dictionary<PropertyKey, int> GetDistances(State state, ICollection<PropertyKey> filter = null, ICollection<PropertyKey> additional = null)
+        public Dictionary<PropertyManager.PropertyKey, int> GetDistances(State state, ICollection<PropertyManager.PropertyKey> filter = null, ICollection<PropertyManager.PropertyKey> additional = null)
         {
-            var distances = new Dictionary<PropertyKey, int>();
+            var distances = new Dictionary<PropertyManager.PropertyKey, int>();
             var conflicts = GetConflicts(state, filter);
 
             if (additional != null)

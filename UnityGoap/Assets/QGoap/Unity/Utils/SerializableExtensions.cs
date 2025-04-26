@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace LUGoap.Unity.Utils
+namespace QGoap.Unity.Utils
 {
     [Serializable]
     public struct SerializablePair<TKey, TValue>
