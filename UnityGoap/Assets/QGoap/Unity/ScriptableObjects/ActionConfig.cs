@@ -18,7 +18,7 @@ namespace QGoap.Unity.ScriptableObjects
             return _actionData ?? new DefaultAction();
         }
 
-        [ContextMenu("FixReference")]
+        [ContextMenu("Fix Reference")]
         public void FixReference()
         {
             _actionData = null;

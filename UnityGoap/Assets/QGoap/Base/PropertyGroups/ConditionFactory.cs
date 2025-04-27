@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using static QGoap.Base.BaseTypes;
+﻿using static QGoap.Base.BaseTypes;
 
 namespace QGoap.Base
 {
     public static class ConditionFactory
     {
-        public static Condition Create(BaseTypes.ConditionType conditionType, object value)
+        public static Condition Create(ConditionType conditionType, object value)
         {
             Condition result;
             switch (value)

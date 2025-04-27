@@ -30,6 +30,12 @@ namespace QGoap.Unity.ScriptableObjects
             return _localLearning;
         }
         
+        [ContextMenu("Fix Reference")]
+        public void FixReference()
+        {
+            _actionData = null;
+        }
+        
         [ContextMenu("Load")]
         public void Load()
         {

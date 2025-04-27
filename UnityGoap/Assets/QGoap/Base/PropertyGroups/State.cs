@@ -16,7 +16,7 @@ namespace QGoap.Base
         { }
         
         //Value Access
-        public void Set(PropertyManager.PropertyKey key, object value)
+        public void Set(PropertyKey key, object value)
         {
             AssertValidType(key, value);
             _values[key] = value;
@@ -38,20 +38,20 @@ namespace QGoap.Base
             }
         }
         
-        public object Get(PropertyManager.PropertyKey key)
+        public object Get(PropertyKey key)
         {
             return _values[key];
         }
         
-        public object TryGetOrDefault(PropertyManager.PropertyKey key) => Has(key) ? _values[key] : key.GetDefault();
+        public object TryGetOrDefault(PropertyKey key) => Has(key) ? _values[key] : key.GetDefault();
 
-        public T TryGetOrDefault<T>(PropertyManager.PropertyKey key, T defaultValue)
+        public T TryGetOrDefault<T>(PropertyKey key, T defaultValue)
         {
             if(Has(key)) return (T)Convert.ChangeType(_values[key], typeof(T));;
             return defaultValue;
         }
 
-        public object this[PropertyManager.PropertyKey key]
+        public object this[PropertyKey key]
         {
             get => Get(key);
             set => Set(key, value);
@@ -79,7 +79,7 @@ namespace QGoap.Base
             var propertyGroup = new State(a);
             foreach (var pair in b)
             {
-                PropertyManager.PropertyKey key = pair.Key;
+                PropertyKey key = pair.Key;
                 Effect effect = pair.Value;
                 
                 object aux;
@@ -102,7 +102,6 @@ namespace QGoap.Base
             if (b == null) return a;
             
             var propertyGroup = new State(a);
-            if (b is null) return propertyGroup;
             foreach (var pair in b._values)
             {
                 if(a.Has(pair.Key)) propertyGroup.Remove(pair.Key);
@@ -142,7 +141,7 @@ namespace QGoap.Base
         public override int GetHashCode()
         {
             int hash = 17;
-            foreach(KeyValuePair<PropertyManager.PropertyKey, object> kvp in _values)
+            foreach(KeyValuePair<PropertyKey, object> kvp in _values)
             {
                 if (!IsRelevantPropertyKey(kvp.Key)) continue;
                 
@@ -157,7 +156,7 @@ namespace QGoap.Base
             return _values.Keys.Count(IsRelevantPropertyKey);
         }
 
-        private bool IsRelevantPropertyKey(PropertyManager.PropertyKey key)
+        private bool IsRelevantPropertyKey(PropertyKey key)
         {
             return _values[key].GetHashCode() != key.GetDefault().GetHashCode();
         }

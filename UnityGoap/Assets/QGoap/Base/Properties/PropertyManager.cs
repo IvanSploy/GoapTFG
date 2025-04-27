@@ -30,9 +30,9 @@ namespace QGoap.Base
 
         [Serializable]
         public class ConditionProperty : Property{
-            public BaseTypes.ConditionType condition;
+            public ConditionType condition;
 
-            public ConditionProperty(string name, BaseTypes.ConditionType condition, string value) : base(name, value)
+            public ConditionProperty(string name, ConditionType condition, string value) : base(name, value)
             {
                 this.condition = condition;
             }
@@ -40,9 +40,9 @@ namespace QGoap.Base
         
         [Serializable]
         public class EffectProperty : Property {
-            public BaseTypes.EffectType effect;
+            public EffectType effect;
 
-            public EffectProperty(string name, BaseTypes.EffectType effect, string value) : base(name, value)
+            public EffectProperty(string name, EffectType effect, string value) : base(name, value)
             {
                 this.effect = effect;
             }

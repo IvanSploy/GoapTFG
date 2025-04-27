@@ -8,7 +8,7 @@ namespace QGoap.Base
     public class IntCondition : RangeCondition<int>
     {
         public IntCondition(RangeCondition<int> condition) : base(condition) { }
-        public IntCondition(BaseTypes.ConditionType conditionType, int value) : base(conditionType, value) { }
+        public IntCondition(ConditionType conditionType, int value) : base(conditionType, value) { }
 
         protected override void Initialize()
         {
@@ -16,7 +16,7 @@ namespace QGoap.Base
             MaxValue = int.MaxValue;
         }
         
-        public override void ApplyEffect(BaseTypes.EffectType type, object value)
+        public override void ApplyEffect(EffectType type, object value)
         {
             base.ApplyEffect(type, value);
             
@@ -84,7 +84,7 @@ namespace QGoap.Base
     {
         public const float TOLERANCE = 0.001f;
         public FloatCondition(RangeCondition<float> condition) : base(condition) { }
-        public FloatCondition(BaseTypes.ConditionType conditionType, float value) : base(conditionType, value) { }
+        public FloatCondition(ConditionType conditionType, float value) : base(conditionType, value) { }
         
         protected override void Initialize()
         {
@@ -92,7 +92,7 @@ namespace QGoap.Base
             MaxValue = float.MaxValue;
         }
         
-        public override void ApplyEffect(BaseTypes.EffectType type, object value)
+        public override void ApplyEffect(EffectType type, object value)
         {
             base.ApplyEffect(type, value);
             
@@ -169,23 +169,23 @@ namespace QGoap.Base
             MaxInclusive = condition.MaxInclusive;
         }
 
-        protected RangeCondition(BaseTypes.ConditionType conditionType, T value) : base(conditionType, value)
+        protected RangeCondition(ConditionType conditionType, T value) : base(conditionType, value)
         {
             Initialize();
             switch (conditionType)
             {
-                case BaseTypes.ConditionType.LessThan:
+                case ConditionType.LessThan:
                     MaxValue = value;
                     MaxInclusive = false;
                     break;
-                case BaseTypes.ConditionType.LessOrEqual:
+                case ConditionType.LessOrEqual:
                     MaxValue = value;
                     break;
-                case BaseTypes.ConditionType.GreaterThan:
+                case ConditionType.GreaterThan:
                     MinValue = value;
                     MinInclusive = false;
                     break;
-                case BaseTypes.ConditionType.GreaterOrEqual:
+                case ConditionType.GreaterOrEqual:
                     MinValue = value;
                     break;
             }
@@ -348,14 +348,14 @@ namespace QGoap.Base
             RequiredValue = condition.RequiredValue;
             ExcludedValues = new HashSet<object>(condition.ExcludedValues);
         }
-        public Condition(BaseTypes.ConditionType conditionType, object value)
+        public Condition(ConditionType conditionType, object value)
         {
             switch (conditionType)
             {
-                case BaseTypes.ConditionType.Equal:
+                case ConditionType.Equal:
                     RequiredValue = value;
                     break;
-                case BaseTypes.ConditionType.NotEqual:
+                case ConditionType.NotEqual:
                     ExcludedValues.Add(value);
                     break;
             }
@@ -429,7 +429,7 @@ namespace QGoap.Base
             ExcludedValues.UnionWith(condition.ExcludedValues);
         }
 
-        public virtual void ApplyEffect(BaseTypes.EffectType type, object value)
+        public virtual void ApplyEffect(EffectType type, object value)
         {
             if (RequiredValue != null)
             {

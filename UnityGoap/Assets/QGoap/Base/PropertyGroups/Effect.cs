@@ -5,9 +5,9 @@ namespace QGoap.Base
     public class Effect
     {
         public readonly object Value;
-        public readonly BaseTypes.EffectType Type;
+        public readonly EffectType Type;
 
-        public Effect(object value, BaseTypes.EffectType type)
+        public Effect(object value, EffectType type)
         {
             Value = value;
             Type = type;

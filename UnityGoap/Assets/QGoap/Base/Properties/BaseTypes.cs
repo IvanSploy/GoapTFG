@@ -117,7 +117,7 @@ namespace QGoap.Base
             return result;
         }
         
-        public static int GetStateDistance(PropertyManager.PropertyKey key, object a)
+        public static int GetStateDistance(PropertyKey key, object a)
         {
             var b = GetDefault(key);
             if (a.Equals(b)) return 0;
@@ -132,15 +132,15 @@ namespace QGoap.Base
             };
         }
 
-        public static object GetDefault(this PropertyManager.PropertyKey key)
+        public static object GetDefault(this PropertyKey key)
         {
             object defaultValue = GetPropertyType(key) switch
             {
-                PropertyManager.PropertyType.Boolean => false,
-                PropertyManager.PropertyType.Integer => 0,
-                PropertyManager.PropertyType.Float => 0f,
-                PropertyManager.PropertyType.String => "",
-                PropertyManager.PropertyType.Enum => "",
+                PropertyType.Boolean => false,
+                PropertyType.Integer => 0,
+                PropertyType.Float => 0f,
+                PropertyType.String => "",
+                PropertyType.Enum => "",
                 _ => throw new ArgumentOutOfRangeException()
             };
             return defaultValue;
