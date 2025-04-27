@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c82d3306d3fa40eeb41817bd41e6f303, type: 3}
   m_Name: DoorLearning
   m_EditorClassIdentifier: 
-  Alpha: 0.7
-  Gamma: 0.6
+  Alpha: 0.3
+  Gamma: 0.9
   Epsilon: 0
   FilterKeys: 
   AdditionalKeys: 05000000

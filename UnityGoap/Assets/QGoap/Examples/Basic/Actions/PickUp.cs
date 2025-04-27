@@ -13,7 +13,7 @@ public class PickUpAction : Action
     protected override Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
         GoapEntity entityKey = WorkingMemoryManager.Get(Target).Object;
-        Object.Destroy(entityKey.gameObject);
+        if(entityKey) Object.Destroy(entityKey.gameObject);
         return Task.FromResult(effectGroup);
     }
 }

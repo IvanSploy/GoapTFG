@@ -13,7 +13,6 @@ namespace QGoap.Unity
 
         public void OnEnable()
         {
-            
             _actionProperty = serializedObject.FindProperty("_actionData");
                 
             Initialize();

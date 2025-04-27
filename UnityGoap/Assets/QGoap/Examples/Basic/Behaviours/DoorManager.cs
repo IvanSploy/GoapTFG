@@ -4,8 +4,7 @@ using UnityEngine;
 using static QGoap.Base.PropertyManager;
 using Random = QGoap.Base.Random;
 
-//TODO: Replace for local initializators, per example.
-public class GameManager : MonoBehaviour
+public class DoorManager : MonoBehaviour
 {
     [Range(0f,1f)]
     [SerializeField] private float _lockProbability;
@@ -13,10 +12,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        //Define starting simulation conditions.
-        var agent = FindFirstObjectByType<GoapAgent>();
-        
-        //EXAMPLE 1: DOOR
         var random = Random.Next();
         bool isLocked = random <= _lockProbability;
         
@@ -30,8 +25,10 @@ public class GameManager : MonoBehaviour
         agentState[PropertyKey.DoorState] = "Closed";
         agentState[PropertyKey.Indicator] = isLocked ? "Red" : "Blue";
         
-        //EXAMPLE 2: ???
-        
-        agent.Initialize(agentState);
+        var agents = FindObjectsByType<GoapAgent>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        foreach (var agent in agents)
+        {
+            agent.Initialize(agentState);
+        }
     }
 }

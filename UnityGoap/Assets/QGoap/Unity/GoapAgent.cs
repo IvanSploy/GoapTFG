@@ -89,13 +89,17 @@ namespace QGoap.Unity
             //GOALS
             foreach (var goal in _goalList)
             {
-                _goals.Add(goal.Create());
+                var goalCopy = Instantiate(goal);
+                goalCopy.name = goal.name;
+                _goals.Add(goalCopy.Create());
             }
 
             //ACTIONS
             foreach (var action in _actionList)
             {
-                _actions.Add(action.Create(this));
+                var actionCopy = Instantiate(action);
+                actionCopy.name = action.name;
+                _actions.Add(actionCopy.Create(this));
             }
 
             StartCoroutine(_async ? PlanGeneratorAsync() : PlanGenerator());

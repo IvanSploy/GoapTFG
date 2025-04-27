@@ -720,7 +720,7 @@ GameObject:
   - component: {fileID: 701570362}
   - component: {fileID: 701570361}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1113,7 +1113,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1825519284758387565, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.28
+      value: -10.51
       objectReference: {fileID: 0}
     - target: {fileID: 1825519284758387565, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1121,7 +1121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1825519284758387565, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.44
+      value: 8.96
       objectReference: {fileID: 0}
     - target: {fileID: 1825519284758387565, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1165,7 +1165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6666400550694463628, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8394798974164423846, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_SortingOrder
@@ -1331,10 +1331,10 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 701570362}
   - {fileID: 5504456597601622214}
   - {fileID: 318107108}
   - {fileID: 1205379817}
-  - {fileID: 701570362}
   - {fileID: 383890019}
   - {fileID: 1986780076}
   - {fileID: 3541883905212535973}
