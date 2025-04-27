@@ -1,7 +1,6 @@
 ﻿using System;
 using QGoap.Base;
 using Action = QGoap.Base.Action;
-using Base_Action = QGoap.Base.Action;
 
 namespace QGoap.Planning
 {
@@ -44,7 +43,7 @@ namespace QGoap.Planning
         /// <param name="node"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        ActionSettings CreateSettings(Node node, Base_Action action);
+        ActionSettings CreateSettings(Node node, Action action);
         
         /// <summary>
         /// Gets the heuristic according to a certain node.

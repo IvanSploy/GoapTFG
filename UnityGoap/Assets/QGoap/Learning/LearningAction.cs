@@ -4,12 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using QGoap.Base;
 using Action = QGoap.Base.Action;
-using Base_Action = QGoap.Base.Action;
 
 namespace QGoap.Learning
 {
     [Serializable]
-    public abstract class LearningAction : Base_Action
+    public abstract class LearningAction : Action
     {
         private QLearning _learning;
         

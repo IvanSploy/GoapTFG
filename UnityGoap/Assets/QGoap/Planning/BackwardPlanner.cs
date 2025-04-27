@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using QGoap.Base;
 using static QGoap.Base.PropertyManager;
 using Action = QGoap.Base.Action;
-using Base_Action = QGoap.Base.Action;
 
 namespace QGoap.Planning
 {
@@ -14,7 +13,7 @@ namespace QGoap.Planning
     {
         private const int NODES_LIMIT = 10000;
         private readonly bool _greedy;
-        private readonly Dictionary<PropertyManager.PropertyKey, List<Base_Action>> _actions = new(); 
+        private readonly Dictionary<PropertyKey, List<Action>> _actions = new(); 
         private readonly HashSet<string> _actionsVisited = new();
         private readonly IAgent _agent;
 
@@ -25,19 +24,19 @@ namespace QGoap.Planning
             _agent = agent;
         }
         
-        private void RegisterActions(List<Base_Action> actions)
+        private void RegisterActions(List<Action> actions)
         {
             foreach (var action in actions)
             {
                 foreach (var key in action.GetAffectedKeys())
                 {
                     if (_actions.TryGetValue(key, out var actionList)) actionList.Add(action);
-                    else _actions[key] = new List<Base_Action> { action };
+                    else _actions[key] = new List<Action> { action };
                 }
             }
         }
 
-        protected override Plan GeneratePlan(List<Base_Action> actions)
+        protected override Plan GeneratePlan(List<Action> actions)
         {
             if (InitialState == null || actions == null) throw new ArgumentNullException();
             if (actions.Count == 0) return null;
@@ -53,7 +52,7 @@ namespace QGoap.Planning
                 _actionsVisited.Clear();
                 foreach (var goalPair in _current.Goal)
                 {
-                    PropertyManager.PropertyKey key = goalPair.Key;
+                    PropertyKey key = goalPair.Key;
                     if (!_actions.TryGetValue(key, out var actionList)) break;
                     
                     foreach (var action in actionList)

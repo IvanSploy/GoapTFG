@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using QGoap.Base;
 using static QGoap.Base.BaseTypes;
 using Action = QGoap.Base.Action;
-using Base_Action = QGoap.Base.Action;
 
 namespace QGoap.Planning
 {
@@ -27,7 +26,7 @@ namespace QGoap.Planning
             _nodeGenerator = nodeGenerator;
         }
         
-        public Plan CreatePlan(State initialState, Goal goal, List<Base_Action> actions)
+        public Plan CreatePlan(State initialState, Goal goal, List<Action> actions)
         {
             InitialState = initialState;
             _goal = goal;
@@ -38,7 +37,7 @@ namespace QGoap.Planning
             return plan;
         }
         
-        public async Task<Plan> CreatePlanAsync(State initialState, Goal goal, List<Base_Action> actions)
+        public async Task<Plan> CreatePlanAsync(State initialState, Goal goal, List<Action> actions)
         {
             InitialState = initialState;
             _goal = goal;
@@ -50,7 +49,7 @@ namespace QGoap.Planning
             return plan;
         }
 
-        public static bool CheckEffectCompatibility(object initialValue, BaseTypes.EffectType effectType,
+        public static bool CheckEffectCompatibility(object initialValue, EffectType effectType,
             object actionValue, Condition condition)
         {
             object resultValue = Evaluate(initialValue, effectType, actionValue);
@@ -76,7 +75,7 @@ namespace QGoap.Planning
         /// <param name="initialState"></param>
         /// <param name="actions"></param>
         /// <returns></returns>
-        protected abstract Plan GeneratePlan(List<Base_Action> actions);
+        protected abstract Plan GeneratePlan(List<Action> actions);
 
         public void DebugPlan(Node node, string goalName)
         {
