@@ -102,7 +102,7 @@ namespace QGoap.Base
         
         protected override int GetDistance(float value)
         {
-            return (int)Math.Ceiling(GetCloserValue(value) - value);
+            return (GetCloserValue(value) - value).RoundAwayFromZero();
         }
 
         protected override float GetCloserValue(float value)

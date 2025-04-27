@@ -9,25 +9,13 @@ namespace QGoap.Planning
 {
     public class AStar : INodeGenerator
     {
-        public enum HeuristicMode
-        {
-            Default,
-            Custom,
-            Learning
-        }
-        
-        //Properties
-        public HeuristicMode Mode { get; private set; }
-        
         //Fields
         private readonly SortedSet<Node> _openList = new();
         private readonly HashSet<Node> _expandedNodes = new();
-        private Func<ConditionGroup, State, int> _customHeuristic;
         private QLearning _learning;
         
         //Learning
-        private readonly Dictionary<string, int> _exploreValues = new();
-        private int _explorationMaxValue;
+        private int _explorationCost;
         
         //Factory
         private static readonly ObjectPool<Node> NodeFactory = new(() => new AStarNode());
@@ -36,6 +24,7 @@ namespace QGoap.Planning
         {
             var node = NodeFactory.Get();
             node.Setup(this, initialState, goal);
+            node.IsExploring = _learning?.IsExploring() ?? false;
             return node;
         }
 
@@ -46,25 +35,17 @@ namespace QGoap.Planning
         
         public Node Initialize(State initialState, ConditionGroup goal)
         {
-            _exploreValues.Clear();
             var goalState = new ConditionGroup(goal);
             AStarNode node = (AStarNode) CreateNode(initialState, goalState);
             node.GCost = 0;
             node.HCost = GetHeuristicCost(node);
             return node;
         }
-
-        public void SetHeuristic(Func<ConditionGroup, State, int> customHeuristic)
-        {
-            Mode = HeuristicMode.Custom;
-            _customHeuristic = customHeuristic;
-        }
         
         public void SetLearning(QLearning learning, int explorationMaxValue)
         {
-            Mode = HeuristicMode.Learning;
             _learning = learning;
-            _explorationMaxValue = explorationMaxValue;
+            _explorationCost = explorationMaxValue;
         }
         
         public Node GetNextNode(Node current)
@@ -126,44 +107,34 @@ namespace QGoap.Planning
         
         public int GetCost(Node node)
         {
-            return Mode switch
-            {
-                HeuristicMode.Learning => GetGLearning(node),
-                _ => node.PreviousAction.GetCost(node.Parent.Goal)
-            };
+            if (_learning is null) return node.PreviousAction.GetCost(node.Parent.Goal);
+            return GetGLearning(node);
         }
         
         public int GetHeuristicCost(Node node)
         {
-            return Mode switch
+            var heuristic = 0;
+            foreach (var conditionPair in node.Goal)
             {
-                HeuristicMode.Default => node.Goal.CountConflicts(node.InitialState),
-                HeuristicMode.Custom => GetHeuristic(node),
-                HeuristicMode.Learning => GetHLearning(node),
-                _ => 0
-            };
+                heuristic += Math.Abs(conditionPair.Value.GetDistance(node.InitialState.TryGetOrDefault(conditionPair.Key)));
+            }
+
+            return heuristic;
+
+            return GetHLearning(node);
         }
 
         public int GetLearningCode(Node node)
         {
-            return Mode switch
-            {
-                HeuristicMode.Learning => _learning.GetLearningCode(node.InitialState, node.Goal),
-                _ => 0
-            };
-        }
-
-        private int GetHeuristic(Node node)
-        {
-            return _customHeuristic(node.Goal, node.InitialState);
+            return _learning?.GetLearningCode(node.InitialState, node.Goal) ?? 0;
         }
         
         private int GetGLearning(Node node)
         {
             if (node.Parent == null) return 0;
             
-            var explorationValue = GetExploreValue(node.PreviousAction);
-            if(explorationValue > 0) return explorationValue;
+            if(node.Parent.IsExploring)
+                return node.Parent.Children.Count * _explorationCost + 1;
             
             var learningCode = GetLearningCode(node.Parent);
             return GetCost(_learning.Get(learningCode, node.PreviousAction.Name));
@@ -179,14 +150,6 @@ namespace QGoap.Planning
         {
             var value = -(int)Math.Round(qValue) + (int)Math.Round(_learning.MaxValue) + 1;
             return Math.Max(value, 1);
-        }
-        
-        private int GetExploreValue(Action action)
-        {
-            if (_exploreValues.TryGetValue(action.Name, out var result)) return result;
-            if(_learning.IsExploring()) result = Random.RangeToInt(1, _explorationMaxValue);
-            _exploreValues[action.Name] = result;
-            return result;
         }
         
         private void UpdateChildrenCost(Node node)

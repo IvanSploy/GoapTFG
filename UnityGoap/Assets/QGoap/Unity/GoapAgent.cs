@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QGoap.Base;
-using QGoap.Learning;
 using QGoap.Planning;
 using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
@@ -17,7 +16,6 @@ namespace QGoap.Unity
         [SerializeField] private bool _active = true;
         [SerializeField] private bool _async;
         [SerializeField] private bool _greedy;
-        [SerializeField] private bool _useHeuristic;
         [SerializeField] private float _rePlanSeconds = 5;
         [SerializeField] private StateConfig _initialStateConfig;
         [SerializeField] private List<GoalConfig> _goalList;
@@ -64,7 +62,6 @@ namespace QGoap.Unity
         protected virtual Planner CreatePlanner()
         {
             var generator = new AStar();
-            if (_useHeuristic) generator.SetHeuristic(GoapHeuristics.GetCustomHeuristic());
             return new BackwardPlanner(generator, this, _greedy);
         }
 

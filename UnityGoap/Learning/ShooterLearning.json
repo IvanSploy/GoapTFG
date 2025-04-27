@@ -4,10 +4,10 @@
       "FakeMove": 81.0204,
       "MoveToEnemySight": -123.730446,
       "MoveToCheckpoint": -22.7317047,
-      "MoveToCover": 55.7142754,
+      "MoveToCover": 55.70834,
       "MoveToRandom": 55.67517,
       "MoveToCloseRandom": 55.7142754,
-      "MoveToFarRandom": 54.8599739
+      "MoveToFarRandom": 55.6782
     },
     "541": {
       "AcquireEnemy": -100.000015
@@ -8087,6 +8087,133 @@
       "MoveToRandom": 0.0,
       "MoveToCloseRandom": 0.0,
       "MoveToFarRandom": 0.0
+    },
+    "15859": {
+      "KillEnemy": -0.8527343
+    },
+    "15704": {
+      "Fire": -0.25
+    },
+    "15673": {
+      "Fire": -0.25,
+      "AcquireEnemy": 0.0
+    },
+    "485912": {
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0
+    },
+    "15766": {
+      "Fire": -0.58978194,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "488795": {
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0
+    },
+    "15735": {
+      "Fire": 1.23038745,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "487834": {
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "15828": {
+      "Fire": 9.136083,
+      "AcquireEnemy": 0.0,
+      "MoveAndFire": 0.0,
+      "MoveToEnemySight": 1.09881449,
+      "WaitForReload": -0.502442539
+    },
+    "490717": {
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToEnemySight": 0.0,
+      "MoveToCover": 0.0
+    },
+    "15797": {
+      "Fire": 53.96816,
+      "MoveAndFire": 0.0,
+      "AcquireEnemy": 0.0
+    },
+    "489756": {
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToEnemySight": 0.0
+    },
+    "520322": {
+      "MoveToEnemySight": 0.0,
+      "MoveAndFire": 0.0,
+      "Fire": 0.0
+    },
+    "16130031": {
+      "MoveToEnemySight": 0.0,
+      "Fire": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0
+    },
+    "16727": {
+      "MoveToEnemySight": 0.0,
+      "MoveAndFire": 0.0
+    },
+    "518586": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0
+    },
+    "16103123": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0,
+      "MoveToCover": 0.0
+    },
+    "519454": {
+      "MoveAndFire": 0.0
+    },
+    "15174797": {
+      "MoveToCover": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0
+    },
+    "16016633": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0
+    },
+    "15177680": {
+      "MoveToCover": 1.34881449,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0
+    },
+    "516664": {
+      "MoveAndFire": 0.0
+    },
+    "15176719": {
+      "MoveToCover": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0
+    },
+    "16045463": {
+      "MoveToEnemySight": 0.0,
+      "MoveToCloseRandom": 0.0,
+      "MoveToFarRandom": 0.0
+    },
+    "489601": {
+      "AcquireEnemy": -0.0139574688
     }
   },
   "MaxValue": 81.0204

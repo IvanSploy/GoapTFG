@@ -20,6 +20,9 @@ namespace QGoap.Planning
         public Action PreviousAction => ActionData.Action;
         public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
         public bool IsGoal(State state) => !Goal.HasConflict(state);
+        
+        //Learning
+        public bool IsExploring { get; set; }
 
         //Fields
         public readonly List<Node> Children = new();

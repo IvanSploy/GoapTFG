@@ -100,7 +100,7 @@ namespace QGoap.Base
                 case EffectType.Multiply:
                     result = a switch
                     {
-                        int i => i * (int)b,
+                        //int i => i * (int)b,
                         float f => f * (float)b,
                         _ => b
                     };
@@ -108,7 +108,7 @@ namespace QGoap.Base
                 case EffectType.Divide:
                     result = a switch
                     {
-                        int i => i / (int)b,
+                        //int i => i / (int)b,
                         float f => f / (float)b,
                         _ => b
                     };
@@ -124,12 +124,17 @@ namespace QGoap.Base
             
             return a switch
             {
-                bool => 1,
                 int iValue => iValue,
-                float fValue => (int)Math.Round(fValue),
+                float fValue => RoundAwayFromZero(fValue),
                 string sValue => sValue.GetHashCode(),
                 _ => 1
             };
+        }
+
+        public static int RoundAwayFromZero(this float value)
+        {
+            if (value >= 0) return (int)Math.Ceiling(value);
+            return (int)Math.Floor(value);
         }
 
         public static object GetDefault(this PropertyKey key)

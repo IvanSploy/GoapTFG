@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using QGoap.Base;
@@ -11,8 +10,8 @@ namespace QGoap.Unity.Action
     public class GoToTargetAction : Base.Action
     {
         public PropertyKey TargetKey;
-        public int SpeedFactor;
-        public string ExcludedLocation;
+        public int SpeedFactor = 1;
+        public string ExcludedLocation = "None";
 
         private GoapAgent _goapAgent;
         private Transform _transform;

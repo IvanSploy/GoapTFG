@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using QGoap.Base;
 using static QGoap.Base.PropertyManager;
 using Action = QGoap.Base.Action;
+using Random = QGoap.Base.Random;
 
 namespace QGoap.Planning
 {
@@ -36,6 +37,20 @@ namespace QGoap.Planning
             }
         }
 
+        private List<Action> ShuffleActions(List<Action> actions)
+        {
+            actions = new List<Action>(actions);
+            var result = new List<Action>();
+            while (actions.Count > 0)
+            {
+                var randomIndex = Random.RangeToInt(0, actions.Count - 1);
+                result.Add(actions[randomIndex]);
+                actions.RemoveAt(randomIndex);
+            }
+
+            return result;
+        }
+
         protected override Plan GeneratePlan(List<Action> actions)
         {
             if (InitialState == null || actions == null) throw new ArgumentNullException();
@@ -54,8 +69,9 @@ namespace QGoap.Planning
                 {
                     PropertyKey key = goalPair.Key;
                     if (!_actions.TryGetValue(key, out var actionList)) break;
-                    
-                    foreach (var action in actionList)
+
+                    var shuffledActions = ShuffleActions(actionList);
+                    foreach (var action in shuffledActions)
                     {
                         //If action checked on other goal condition.
                         if(_actionsVisited.Contains(action.Name)) continue;

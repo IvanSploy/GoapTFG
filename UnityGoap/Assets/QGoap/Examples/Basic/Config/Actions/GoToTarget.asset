@@ -16,13 +16,13 @@ MonoBehaviour:
   _preconditions: []
   _effects: []
   _actionData:
-    rid: 988238986598678647
+    rid: 7695972888033099845
   references:
     version: 2
     RefIds:
-    - rid: 988238986598678647
-      type: {class: GoToTargetAction, ns: LUGoap.Unity.Action, asm: LUGoap.Unity}
+    - rid: 7695972888033099845
+      type: {class: GoToTargetAction, ns: QGoap.Unity.Action, asm: QGoap.Unity}
       data:
         TargetKey: 1
         SpeedFactor: 1
-        ExcludedLocation: none
+        ExcludedLocation: None

@@ -17,6 +17,7 @@ namespace QGoap.Base
         public void Set(PropertyKey key, EffectType effectType, object value)
         {
             AssertValidType(key, value);
+            effectType = AssertEffectType(key, effectType);
             _values[key] = new Effect(value, effectType);
         }
         
@@ -39,6 +40,25 @@ namespace QGoap.Base
             
             var original = Get(key);
             return new Effect((T)Convert.ChangeType(original.Value, typeof(T)), original.Type);
+        }
+        
+        private EffectType AssertEffectType(PropertyKey key, EffectType effectType)
+        {
+            var propertyType = GetPropertyType(key);
+            switch (propertyType)
+            {
+                case PropertyType.Integer:
+                    if (effectType is EffectType.Multiply or EffectType.Divide) 
+                        effectType = EffectType.Set;
+                    break;
+                case PropertyType.Float:
+                    break;
+                default:
+                    effectType = EffectType.Set;
+                    break;
+            }
+
+            return effectType;
         }
         
         public Effect this[PropertyKey key]
