@@ -10,7 +10,7 @@ namespace QGoap.Learning
         public float Epsilon;
         public List<PropertyManager.PropertyKey> FilterKeys;
         public List<PropertyManager.PropertyKey> AdditionalKeys;
-        public int ValueRange;
+        public int RangeSize;
 
         public static QLearningConfig GetDefault()
         {
@@ -18,7 +18,7 @@ namespace QGoap.Learning
             {
                 Alpha = 0.25f,
                 Gamma = 0.9f,
-                ValueRange = 5,
+                RangeSize = 5,
             };
         }
     }

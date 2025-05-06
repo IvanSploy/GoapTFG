@@ -42,23 +42,23 @@ namespace QGoap.Base
             return new Effect((T)Convert.ChangeType(original.Value, typeof(T)), original.Type);
         }
         
-        private EffectType AssertEffectType(PropertyKey key, EffectType effectType)
+        private EffectType AssertEffectType(PropertyKey key, EffectType type)
         {
             var propertyType = GetPropertyType(key);
             switch (propertyType)
             {
                 case PropertyType.Integer:
-                    if (effectType is EffectType.Multiply or EffectType.Divide) 
-                        effectType = EffectType.Set;
+                    if (type is EffectType.Multiply or EffectType.Divide) 
+                        type = EffectType.Set;
                     break;
                 case PropertyType.Float:
                     break;
                 default:
-                    effectType = EffectType.Set;
+                    type = EffectType.Set;
                     break;
             }
 
-            return effectType;
+            return type;
         }
         
         public Effect this[PropertyKey key]

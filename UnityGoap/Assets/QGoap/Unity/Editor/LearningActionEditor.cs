@@ -3,7 +3,6 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using QGoap.Unity.ScriptableObjects;
-using UnityEngine;
 
 namespace QGoap.Unity
 {

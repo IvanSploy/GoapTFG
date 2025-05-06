@@ -1156,6 +1156,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
+      propertyPath: _actionList.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
+      propertyPath: '_actionList.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01ab4477c8865a548aeacf3182e9283e, type: 2}
+    - target: {fileID: 5618865412640746753, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: _goalList.Array.data[1]._priority
       value: 0
       objectReference: {fileID: 0}
@@ -1165,7 +1173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6666400550694463628, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8394798974164423846, guid: ba09abb0c0a1f3147b37628149019884, type: 3}
       propertyPath: m_SortingOrder

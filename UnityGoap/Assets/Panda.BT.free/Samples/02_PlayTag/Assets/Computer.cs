@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Panda.Examples.PlayTag
@@ -150,12 +151,17 @@ namespace Panda.Examples.PlayTag
             return true;
         }
         
-        public async void Tag(float tagCooldown)
+        public void Tag(float tagCooldown)
         {
             IsIt = true;
             _renderer.material.color = it;
+            StartCoroutine(StopCoroutine(tagCooldown));
+        }
+        
+        IEnumerator StopCoroutine(float tagCooldown)
+        {
             _stopped = true;
-            await System.Threading.Tasks.Task.Delay((int)(tagCooldown * 1000));
+            yield return new WaitForSeconds(tagCooldown);
             _stopped = false;
         }
 

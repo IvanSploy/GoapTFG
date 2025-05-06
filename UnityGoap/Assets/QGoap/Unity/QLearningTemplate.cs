@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using QGoap.Base;
 using QGoap.Learning;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace QGoap.Unity
 {
@@ -16,14 +17,15 @@ namespace QGoap.Unity
         [Header("Filtering")]
         public List<PropertyManager.PropertyKey> FilterKeys;
         public List<PropertyManager.PropertyKey> AdditionalKeys;
-        public int ValueRange;
+        [FormerlySerializedAs("ValueRange")] 
+        public int RangeSize;
 
         public static QLearningTemplate GetDefault()
         {
             return new QLearningTemplate()
             {
                 Alpha = 0.25f,
-                ValueRange = 5,
+                RangeSize = 5,
             };
         }
 
@@ -36,7 +38,7 @@ namespace QGoap.Unity
                 Epsilon = Epsilon,
                 FilterKeys = FilterKeys,
                 AdditionalKeys = AdditionalKeys,
-                ValueRange = ValueRange
+                RangeSize = RangeSize
             };
         }
     }

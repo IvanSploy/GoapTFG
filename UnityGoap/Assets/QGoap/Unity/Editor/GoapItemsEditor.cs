@@ -1,9 +1,9 @@
 using System;
 using System.Globalization;
-using QGoap.Base;
 using QGoap.Unity.ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
+using static QGoap.Base.BaseTypes;
 using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.Editor
@@ -155,7 +155,7 @@ namespace QGoap.Unity.Editor
                 EditorGUI.LabelField(labelValueRect, "Value");
                 
                 SerializedProperty conditionProperty = property.FindPropertyRelative("condition");
-                BaseTypes.ConditionType conditionType = (BaseTypes.ConditionType)conditionProperty.enumValueIndex;
+                ConditionType conditionType = (ConditionType)conditionProperty.enumValueIndex;
                 string[] conditionTexts =
                 {
                     "=",
@@ -230,7 +230,7 @@ namespace QGoap.Unity.Editor
                 EditorGUI.LabelField(labelValueRect, "Value");
                 
                 SerializedProperty effectProperty = property.FindPropertyRelative("effect");
-                BaseTypes.EffectType effectType = (BaseTypes.EffectType)effectProperty.enumValueIndex;
+                EffectType effectType = (EffectType)effectProperty.enumValueIndex;
                 string[] effectTexts =
                 {
                     "=",

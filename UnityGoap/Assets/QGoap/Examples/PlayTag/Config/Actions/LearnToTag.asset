@@ -23,12 +23,11 @@ MonoBehaviour:
     effect: 0
   _learningData:
     Alpha: 0.4
-    Gamma: 0
-    ExploreChance: 1
+    Epsilon: 0.3
     FilterKeys: 
     AdditionalKeys: 0b0000000c000000
-    ValueRange: 1
-  _succeedReward: 100
+    RangeSize: 1
+  _succeedReward: 10
   _failReward: -10
   _actionData:
     rid: 988238986598678659

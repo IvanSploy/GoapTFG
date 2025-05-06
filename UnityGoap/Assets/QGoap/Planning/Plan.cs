@@ -90,7 +90,7 @@ namespace QGoap.Planning
                 if (Count == 0)
                 {
                     learningAgent.Learning.Update(First.GlobalLearningCode,
-                        First.Action.Name, learningAgent.Learning.SucceedReward, 0);
+                        First.Action.Name, learningAgent.Learning.SucceedReward);
 
                     if (learningAgent.ApplyRewardsToLocal)
                     {

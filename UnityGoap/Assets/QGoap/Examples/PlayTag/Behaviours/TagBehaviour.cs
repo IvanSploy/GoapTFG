@@ -25,7 +25,7 @@ public class TagBehaviour : MonoBehaviour, ITaggable
     {
         UpdateColor(true);
         _goapAgent.CurrentState.Set(PropertyKey.IsIt, true);
-        _goapAgent.Interrupt(tagCooldown);
+        _goapAgent.ForceInterrupt(tagCooldown);
     }
 
     public void UnTag()

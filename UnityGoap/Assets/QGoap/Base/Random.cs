@@ -30,19 +30,19 @@ namespace QGoap.Base
             }
         }
         
-        public static int RangeToInt(float inclusiveMin, float inclusiveMax)
-        {
-            lock (_random)
-            {
-                return (int)Math.Round(_random.NextDouble() * (inclusiveMax - inclusiveMin) + inclusiveMin);
-            }
-        }
-        
         public static int RangeToInt(int inclusiveMin, int inclusiveMax)
         {
             lock (_random)
             {
                 return (int)Math.Round(_random.NextDouble() * (float)(inclusiveMax - inclusiveMin) + inclusiveMin);
+            }
+        }
+        
+        public static int RangeToInt(float inclusiveMin, float inclusiveMax)
+        {
+            lock (_random)
+            {
+                return (int)Math.Round(_random.NextDouble() * (inclusiveMax - inclusiveMin) + inclusiveMin);
             }
         }
     }

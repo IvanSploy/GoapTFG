@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using QGoap.Base;
+using static QGoap.Base.BaseTypes;
 using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.Action
@@ -24,12 +25,12 @@ namespace QGoap.Unity.Action
                 case PropertyType.Integer:
                     var ivalue = fact.Object.CurrentState.TryGetOrDefault(Resource, 0);
                     var icount = (int)Math.Min(Count, ivalue);
-                    proceduralEffects.Set(Resource, BaseTypes.EffectType.Add, icount);
+                    proceduralEffects.Set(Resource, EffectType.Add, icount);
                     break;
                 case PropertyType.Float:
                     var fvalue = fact.Object.CurrentState.TryGetOrDefault(Resource, 0f);
                     var fcount = Math.Min(Count, fvalue);
-                    proceduralEffects.Set(Resource, BaseTypes.EffectType.Add, fcount);
+                    proceduralEffects.Set(Resource, EffectType.Add, fcount);
                     break;
                 default:
                     throw new 

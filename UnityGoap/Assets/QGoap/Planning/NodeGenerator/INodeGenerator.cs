@@ -58,12 +58,5 @@ namespace QGoap.Planning
         /// <param name="node"></param>
         /// <returns></returns>
         int GetHeuristicCost(Node node);
-        
-        /// <summary>
-        /// Retrieves the learning code related to a certain node.
-        /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
-        int GetLearningCode(Node node);
     }
 }

@@ -11,16 +11,16 @@ namespace QGoap.Base
         //Fields
         public string Name { get; private set; }
         private ConditionGroup _preconditions = new();
-        private EffectGroup _effectGroup = new();
+        private EffectGroup _effects = new();
         private int _cost = 1;
         
         protected IAgent _agent;
         
-        public void Initialize(string name, ConditionGroup conditionGroup, EffectGroup effectGroup, IAgent agent)
+        public void Initialize(string name, ConditionGroup conditions, EffectGroup effects, IAgent agent)
         {
             Name = name;
-            if (conditionGroup != null) _preconditions = conditionGroup;
-            if (effectGroup != null) _effectGroup = effectGroup;
+            if (conditions != null) _preconditions = conditions;
+            if (effects != null) _effects = effects;
             _agent = agent;
             Init();
         }
@@ -33,9 +33,9 @@ namespace QGoap.Base
             return OnValidate(nextState, parameters);
         }
         
-        public virtual Task<EffectGroup> Execute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
+        public virtual Task<EffectGroup> Execute(EffectGroup effects, string[] parameters, CancellationToken token)
         {
-            return OnExecute(effectGroup, parameters, token);
+            return OnExecute(effects, parameters, token);
         }
 
         //Procedural related.
@@ -61,12 +61,12 @@ namespace QGoap.Base
 
         public EffectGroup GetEffects(ActionSettings settings)
         {
-            return _effectGroup + GetProceduralEffects(settings);
+            return _effects + GetProceduralEffects(settings);
         }
         public HashSet<PropertyManager.PropertyKey> GetAffectedKeys()
         {
             HashSet<PropertyManager.PropertyKey> affectedPropertyLists = new HashSet<PropertyManager.PropertyKey>();
-            foreach (var key in _effectGroup.GetPropertyKeys())
+            foreach (var key in _effects.GetPropertyKeys())
             {
                 affectedPropertyLists.Add(key);
             }
@@ -87,7 +87,7 @@ namespace QGoap.Base
         public override string ToString()
         {
             return Name 
-                   + " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effectGroup
+                   + " ->\nPreconditions:\n" + _preconditions + "Effects:\n" + _effects
                    ;
         }
     }

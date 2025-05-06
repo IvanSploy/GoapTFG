@@ -1,4 +1,5 @@
-﻿using static QGoap.Base.BaseTypes;
+﻿using System;
+using static QGoap.Base.BaseTypes;
 
 namespace QGoap.Base
 {
@@ -25,8 +26,7 @@ namespace QGoap.Base
 
         public override int GetHashCode()
         {
-            var displaced = Value.GetHashCode() << 1;
-            return displaced + (int)Type;
+            return HashCode.Combine(Value, Type);
         }
     }
 }

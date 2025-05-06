@@ -484,7 +484,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6aaf2be481d954d45ad70430544c28f5, type: 2}
   - {fileID: 11400000, guid: fabd7b437555d59489c196bf1ff2ea24, type: 2}
   - {fileID: 11400000, guid: 7aecef871602c9c41a229bf1f3884be1, type: 2}
-  _useHeuristic: 0
   IndicatorTime: 0.5
   Speed: 5
 --- !u!114 &509687089
@@ -733,7 +732,7 @@ MonoBehaviour:
   - {fileID: 640428485}
   - {fileID: 376903267}
   TagIndex: 0
-  TagCooldown: 2
+  TagCooldown: 1
 --- !u!1 &640428485
 GameObject:
   m_ObjectHideFlags: 0
@@ -782,7 +781,6 @@ MonoBehaviour:
   _actionList:
   - {fileID: 11400000, guid: 414ade7192f4a054c90ae3101ac441ac, type: 2}
   - {fileID: 11400000, guid: 32411e4cfc7184643ba52f0416999d71, type: 2}
-  _useHeuristic: 0
   IndicatorTime: 0
   Speed: 15
 --- !u!4 &640428490
@@ -2129,10 +2127,10 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 635513383}
   - {fileID: 376903273}
   - {fileID: 640428490}
   - {fileID: 509687092}
   - {fileID: 605849549}
-  - {fileID: 635513383}
   - {fileID: 2135777589}
   - {fileID: 856031076}

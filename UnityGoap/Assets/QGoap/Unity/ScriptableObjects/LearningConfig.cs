@@ -21,13 +21,17 @@ namespace QGoap.Unity.ScriptableObjects
         [Header("Filtering")]
         public List<PropertyManager.PropertyKey> FilterKeys;
         public List<PropertyManager.PropertyKey> AdditionalKeys;
-        public int ValueRange;
+        [FormerlySerializedAs("ValueRange")] 
+        public int RangeSize;
 
-        public int MaxExploreValue = 10;
+        [FormerlySerializedAs("MaxExploreValue")] 
+        public int ExplorationCost = 10;
 
         [Header("Reward")]
-        [FormerlySerializedAs("PositiveReward")] public float SuccessReward;
-        [FormerlySerializedAs("NegativeReward")] public float FailReward;
+        [FormerlySerializedAs("PositiveReward")] 
+        public float SuccessReward;
+        [FormerlySerializedAs("NegativeReward")] 
+        public float FailReward;
 
         private QLearning _learning;
         
@@ -71,7 +75,7 @@ namespace QGoap.Unity.ScriptableObjects
                 Epsilon = Epsilon,
                 FilterKeys = FilterKeys,
                 AdditionalKeys = AdditionalKeys,
-                ValueRange = ValueRange
+                RangeSize = RangeSize
             };
         }
     }

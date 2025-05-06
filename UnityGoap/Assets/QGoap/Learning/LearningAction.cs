@@ -17,9 +17,9 @@ namespace QGoap.Learning
             _learning = learning;
         }
         
-        public int GetLearningCode(State state, ConditionGroup conditionGroup)
+        public int GetLearningCode(State state, ConditionGroup conditions)
         {
-            return _learning.GetLearningCode(state, conditionGroup);
+            return _learning.GetLearningCode(state, conditions);
         }
         
         public override ActionSettings CreateSettings(ActionSettings settings)
@@ -57,13 +57,13 @@ namespace QGoap.Learning
             return false;
         }
 
-        public override async Task<EffectGroup> Execute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
+        public override async Task<EffectGroup> Execute(EffectGroup effects, string[] parameters, CancellationToken token)
         {
             EffectGroup finalEffectGroup;
             var learningCode = _agent.CurrentAction.LocalLearningCode;
             try
             {
-                finalEffectGroup = await OnExecute(effectGroup, parameters, token);
+                finalEffectGroup = await OnExecute(effects, parameters, token);
             }
             catch (OperationCanceledException)
             {

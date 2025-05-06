@@ -18,7 +18,6 @@ namespace QGoap.Planning
         public virtual int TotalCost { get; private set; }
 
         public Action PreviousAction => ActionData.Action;
-        public int ActionCount => Parent != null ? Parent.ActionCount + 1 : 0;
         public bool IsGoal(State state) => !Goal.HasConflict(state);
         
         //Learning

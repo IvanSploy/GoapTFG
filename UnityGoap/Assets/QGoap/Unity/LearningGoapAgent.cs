@@ -21,7 +21,7 @@ namespace QGoap.Unity
             
             Learning = _learningConfig.GetLearning();
             var generator = new AStar();
-            generator.SetLearning(Learning, _learningConfig.MaxExploreValue);
+            generator.SetLearning(Learning, _learningConfig.ExplorationCost);
             return new BackwardPlanner(generator, this);
         }
 

@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Base
 {
-    public class Goal : IEnumerable<KeyValuePair<PropertyManager.PropertyKey, Condition>>
+    public class Goal : IEnumerable<KeyValuePair<PropertyKey, Condition>>
     {
         //Properties
         public ConditionGroup ConditionGroup { get; }
@@ -19,18 +20,18 @@ namespace QGoap.Base
         //GOAP Utilites
         public bool IsEmpty() => ConditionGroup.IsEmpty();
         public bool IsGoal (State state) => !ConditionGroup.HasConflict(state);
-        public bool Has(PropertyManager.PropertyKey key) => ConditionGroup.Has(key);
-        public Condition Get(PropertyManager.PropertyKey key) => ConditionGroup.Get(key);
+        public bool Has(PropertyKey key) => ConditionGroup.Has(key);
+        public Condition Get(PropertyKey key) => ConditionGroup.Get(key);
 
         //Operators
-        public Condition this[PropertyManager.PropertyKey key] => ConditionGroup[key];
+        public Condition this[PropertyKey key] => ConditionGroup[key];
 
         public override string ToString()
         {
             return "Goal: " + Name + "\n" + ConditionGroup;
         }
 
-        public IEnumerator<KeyValuePair<PropertyManager.PropertyKey, Condition>> GetEnumerator()
+        public IEnumerator<KeyValuePair<PropertyKey, Condition>> GetEnumerator()
         {
             return ConditionGroup.GetEnumerator();
         }

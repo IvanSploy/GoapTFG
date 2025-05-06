@@ -97,7 +97,7 @@ namespace QGoap.Base
             return propertyGroup;
         }
         
-        public static State operator -(State a, Group<object> b)
+        public static State operator -(State a, State b)
         {
             if (b == null) return a;
             

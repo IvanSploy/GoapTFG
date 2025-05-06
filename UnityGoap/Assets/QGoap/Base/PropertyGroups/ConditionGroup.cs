@@ -61,10 +61,10 @@ namespace QGoap.Base
             return result;
         }
         
-        public void SetOrCombine(PropertyKey key, ConditionType conditionType, object value)
+        public void SetOrCombine(PropertyKey key, ConditionType type, object value)
         {
             AssertValidType(key, value);
-            SetOrCombine(key, ConditionFactory.Create(conditionType, value));
+            SetOrCombine(key, ConditionFactory.Create(type, value));
         }
         
         public void SetOrCombine(PropertyKey key, Condition condition)
@@ -115,57 +115,21 @@ namespace QGoap.Base
         }
         
         public int CountConflicts(State state) => this.Count(pg => HasConflict(pg.Key, state));
-
-        //Overrides
-        public override string ToString() => 
-            _values.Aggregate("", (current, pair) =>
-                "Key: " + pair.Key + " | Value: " + pair.Value + "\n");
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            if (this == obj) return true;
-            if (obj.GetType() != GetType()) return false;
-
-            ConditionGroup otherPg = (ConditionGroup)obj;
-
-            if (Count != otherPg.Count) return false;            
-            foreach (var key in _values.Keys)
-            {
-                if (!otherPg.Has(key)) return false;
-                if (!_values[key].Equals(otherPg._values[key])) return false;
-            }
-            return true;
-        }
-
-        /// <summary>
-        /// Evaluate hash code of the dictionary with sort order and xor exclusion.
-        /// </summary>
-        /// <returns>Hash Number</returns>
-        public override int GetHashCode()
-        {
-            int hash = 17;
-            foreach(var kvp in _values)
-            { 
-                hash = 31 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
-            }
-            return hash;
-        }
         
         //Operators
-        public ConditionGroup ApplyEffects(EffectGroup effectGroup)
+        public ConditionGroup ApplyEffects(EffectGroup effects)
         {
             ConditionGroup result = new ConditionGroup();
             
             //If effect doesn't affect properties, they are added to result.
             foreach (var pair in this)
             {
-                if (effectGroup.Has(pair.Key)) continue;
+                if (effects.Has(pair.Key)) continue;
                 result.Set(pair.Key, pair.Value);
             }
             
             //Properties changed by effects.
-            foreach (var effectPair in effectGroup)
+            foreach (var effectPair in effects)
             {
                 if(!Has(effectPair.Key)) continue;
                 var effect = effectPair.Value;
@@ -210,7 +174,7 @@ namespace QGoap.Base
                     if(distances.ContainsKey(additionalKey)) continue;
                     if (!state.Has(additionalKey)) continue;
 
-                    var distance = GetStateDistance(additionalKey, state[additionalKey]);
+                    var distance = GetDefaultDistance(additionalKey, state[additionalKey]);
                     if(distance == 0) continue;
 
                     distances[additionalKey] = distance;
@@ -227,6 +191,42 @@ namespace QGoap.Base
             }
 
             return distances;
+        }
+        
+        //Overrides
+        public override string ToString() => 
+            _values.Aggregate("", (current, pair) =>
+                "Key: " + pair.Key + " | Value: " + pair.Value + "\n");
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            if (this == obj) return true;
+            if (obj.GetType() != GetType()) return false;
+
+            ConditionGroup otherPg = (ConditionGroup)obj;
+
+            if (Count != otherPg.Count) return false;            
+            foreach (var key in _values.Keys)
+            {
+                if (!otherPg.Has(key)) return false;
+                if (!_values[key].Equals(otherPg._values[key])) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Evaluate hash code of the dictionary with sort order and xor exclusion.
+        /// </summary>
+        /// <returns>Hash Number</returns>
+        public override int GetHashCode()
+        {
+            int hash = 17;
+            foreach(var kvp in _values)
+            { 
+                hash = 31 * hash + (kvp.Key.GetHashCode() ^ kvp.Value.GetHashCode());
+            }
+            return hash;
         }
     }
 }

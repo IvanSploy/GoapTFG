@@ -99,16 +99,16 @@ namespace QGoap.Learning
             File.Create(fullPath).Close();
         }
         
-        public int GetLearningCode(State state, ConditionGroup conditionGroup)
+        public int GetLearningCode(State state, ConditionGroup conditions)
         {
-            var distances = conditionGroup.GetDistances(state, _learningConfig.FilterKeys, _learningConfig.AdditionalKeys);
+            var distances = conditions.GetDistances(state, _learningConfig.FilterKeys, _learningConfig.AdditionalKeys);
             if(distances.Count == 0) return 0;
             
-            if (_learningConfig.ValueRange > 1)
+            if (_learningConfig.RangeSize > 1)
             {
                 foreach (var pair in distances.ToList())
                 {
-                    distances[pair.Key] = pair.Value / _learningConfig.ValueRange + 1;
+                    distances[pair.Key] = pair.Value / _learningConfig.RangeSize + 1;
                 }
             }
 

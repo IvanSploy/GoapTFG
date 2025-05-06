@@ -5,9 +5,8 @@ namespace QGoap.Planning
 {
     public class ObjectPool<TObject>
     {
-        public Queue<TObject> _pool = new();
-
-        private Func<TObject> _createObject;
+        private readonly Queue<TObject> _pool = new();
+        private readonly Func<TObject> _createObject;
 
         public ObjectPool(Func<TObject> createFunc)
         {

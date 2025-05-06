@@ -28,6 +28,7 @@ namespace QGoap.Base
         /// </summary>
         bool IsInterrupted { get; }
         
+        
         /// <summary>
         /// Add posible action to the agent.
         /// </summary>

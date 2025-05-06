@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using QGoap.Unity.Utils;
 using UnityEngine;
+using static QGoap.Base.BaseTypes;
 using static QGoap.Base.PropertyManager;
 
 namespace QGoap.Unity.ScriptableObjects

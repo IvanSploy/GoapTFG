@@ -42,10 +42,10 @@ namespace QGoap.Planning
             return node;
         }
         
-        public void SetLearning(QLearning learning, int explorationMaxValue)
+        public void SetLearning(QLearning learning, int explorationCost)
         {
             _learning = learning;
-            _explorationCost = explorationMaxValue;
+            _explorationCost = explorationCost;
         }
         
         public Node GetNextNode(Node current)

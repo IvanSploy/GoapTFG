@@ -3,8 +3,8 @@ namespace QGoap.Planning
     public class AStarNode : Node
     {
         //Properties
-        public int HCost { get; set; }
         public int GCost { get; set; }
+        public int HCost { get; set; }
 
         public override int TotalCost => GCost + HCost;
         

@@ -7,16 +7,6 @@ namespace QGoap.Base
     public static partial class PropertyManager
     {
         [Serializable]
-        public enum PropertyType
-        {
-            Boolean = 0,
-            Integer = 1,
-            Float = 2,
-            String = 3,
-            Enum = 4,
-        }
-        
-        [Serializable]
         public class Property {
             public string name;
             public string value;
@@ -25,6 +15,12 @@ namespace QGoap.Base
             {
                 this.name = name;
                 this.value = value;
+            }
+            
+            public void Apply(State state)
+            {
+                var key = ParseName(name);
+                state.Set(key, ParseValue(key, value));
             }
         }
 
@@ -36,6 +32,12 @@ namespace QGoap.Base
             {
                 this.condition = condition;
             }
+            
+            public void Apply(ConditionGroup conditions)
+            {
+                var key = ParseName(name);
+                conditions.Set(key, condition, ParseValue(key, value));
+            }
         }
         
         [Serializable]
@@ -46,24 +48,49 @@ namespace QGoap.Base
             {
                 this.effect = effect;
             }
+            
+            public void Apply(EffectGroup effects)
+            {
+                var key = ParseName(name);
+                effects.Set(key, effect, ParseValue(key, value));
+            }
         }
         
-        public static PropertyType GetPropertyType(PropertyKey property)
+        public static Type GetType(PropertyKey key)
         {
-            if (property == PropertyKey.None) return PropertyType.Boolean;
-            return PropertyTypes[property];
-        }
-        
-        public static Type GetType(PropertyKey property)
-        {
-            var pType = GetPropertyType(property);
+            var pType = GetPropertyType(key);
             return GetType(pType);
         }
-
-        public static object ParseValue(PropertyKey name, string value)
+        
+        public static PropertyType GetPropertyType(PropertyKey key)
+        {
+            if (key == PropertyKey.None) return PropertyType.Boolean;
+            return PropertyTypes[key];
+        }
+        
+        private static Type GetType(PropertyType pType)
+        {
+            return pType switch
+            {
+                PropertyType.Boolean => typeof(bool),
+                PropertyType.Integer => typeof(int),
+                PropertyType.Float => typeof(float),
+                PropertyType.String => typeof(string),
+                PropertyType.Enum => typeof(string),
+                _ => typeof(bool)
+            };
+        }
+        
+        private static PropertyKey ParseName(string name)
+        {
+            Enum.TryParse(name, out PropertyKey key);
+            return key;
+        }
+        
+        public static object ParseValue(PropertyKey key, string value)
         {
             object result;
-            var type = GetPropertyType(name);
+            var type = GetPropertyType(key);
             switch (type)
             {
                 case PropertyType.Boolean:
@@ -105,37 +132,6 @@ namespace QGoap.Base
             }
             return result;
         }
-        
-        private static Type GetType(PropertyType pType)
-        {
-            return pType switch
-            {
-                PropertyType.Boolean => typeof(bool),
-                PropertyType.Integer => typeof(int),
-                PropertyType.Float => typeof(float),
-                PropertyType.String => typeof(string),
-                PropertyType.Enum => typeof(string),
-                _ => typeof(bool)
-            };
-        }
-        
-        private static PropertyKey ParseName(Property prop)
-        {
-            return ParseName(prop.name);
-        }
-        
-        private static PropertyKey ParseName(string name)
-        {
-            Enum.TryParse(name, out PropertyKey key);
-            return key;
-        }
-        
-        private static object ParseValue(Property prop)
-        {
-            var name = ParseName(prop.name);
-            var value = prop.value;
-            return ParseValue(name, value);
-        }
 
         #region Utilities
         
@@ -148,7 +144,7 @@ namespace QGoap.Base
         {
             foreach (var property in properties)
             {
-                state.ApplyProperty(property);
+                property.Apply(state);
             }
         }
     
@@ -162,7 +158,7 @@ namespace QGoap.Base
         {
             foreach (var property in properties)
             {
-                group.ApplyProperty(property);
+                property.Apply(group);
             }
         }
     
@@ -175,27 +171,10 @@ namespace QGoap.Base
         {
             foreach (var property in properties)
             {
-                group.ApplyProperty(property);
+                property.Apply(group);
             }
         }
         
-        #endregion
-
-        #region Converters
-        private static void ApplyProperty(this State pg, Property property)
-        {
-            pg.Set(ParseName(property), ParseValue(property));
-        }
-        
-        private static void ApplyProperty(this ConditionGroup pg, ConditionProperty property)
-        {
-            pg.Set(ParseName(property), property.condition, ParseValue(property));
-        }
-
-        private static void ApplyProperty(this EffectGroup pg, EffectProperty property)
-        {
-            pg.Set(ParseName(property), new Effect(ParseValue(property), property.effect));
-        } 
         #endregion
     }
 }

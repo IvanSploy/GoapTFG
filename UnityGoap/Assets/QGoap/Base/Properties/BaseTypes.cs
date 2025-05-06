@@ -6,6 +6,16 @@ namespace QGoap.Base
     public static class BaseTypes
     {
         [Serializable]
+        public enum PropertyType
+        {
+            Boolean = 0,
+            Integer = 1,
+            Float = 2,
+            String = 3,
+            Enum = 4,
+        }
+        
+        [Serializable]
         public enum ConditionType {
             Equal,
             NotEqual,
@@ -63,7 +73,6 @@ namespace QGoap.Base
             return result;
         }
 
-
         public static object Evaluate(this Effect effect, object a)
         {
             return Evaluate(a, effect.Type, effect.Value);
@@ -117,7 +126,7 @@ namespace QGoap.Base
             return result;
         }
         
-        public static int GetStateDistance(PropertyKey key, object a)
+        public static int GetDefaultDistance(PropertyKey key, object a)
         {
             var b = GetDefault(key);
             if (a.Equals(b)) return 0;

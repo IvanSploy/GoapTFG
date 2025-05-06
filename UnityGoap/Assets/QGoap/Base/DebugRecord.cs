@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace QGoap.Base
 {
-    public class DebugRecord
+    public static class DebugRecord
     {
         private static List<string> _recordedInfo = new();
 
