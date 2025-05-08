@@ -26,10 +26,12 @@ public class LearningAvoidAction : LearningAction
     protected override string[] OnCreateParameters(ActionSettings settings)
     {
         var parameters = new float[2];
-        
+
+        var tries = 0;
         bool found;
         do
         {
+            tries++;
             parameters[0] = Random.RangeToInt(XLimits.x, XLimits.y);
             parameters[1] = Random.RangeToInt(ZLimits.x, ZLimits.y);
             
@@ -52,7 +54,7 @@ public class LearningAvoidAction : LearningAction
             };
 
             found = CheckDestination(origin, target, destination);
-        } while (!found);
+        } while (!found && tries < 20);
             
         return SerializeParameters(parameters);
     }

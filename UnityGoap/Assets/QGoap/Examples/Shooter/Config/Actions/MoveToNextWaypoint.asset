@@ -10,23 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
-  m_Name: GoToDestination
+  m_Name: MoveToNextWaypoint
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 3
   _preconditions:
-  - name: MoveState
-    value: Required
+  - name: HasMoved
+    value: False
     condition: 0
   _effects:
-  - name: MoveState
-    value: Ready
+  - name: Target
+    value: 
+    effect: 0
+  - name: HasMoved
+    value: True
     effect: 0
   _actionData:
-    rid: 988238986598678657
+    rid: 5878885437967171689
   references:
     version: 2
     RefIds:
-    - rid: 988238986598678657
-      type: {class: GoToDestinationAction, ns: , asm: Assembly-CSharp}
+    - rid: 5878885437967171689
+      type: {class: MoveToWaypointAction, ns: , asm: Assembly-CSharp}
       data:
-        SpeedFactor: 1
+        Previous: 0

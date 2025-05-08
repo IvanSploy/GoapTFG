@@ -75,7 +75,6 @@ namespace QGoap.Planning
         {
             var child = _nodeGenerator.CreateNode(InitialState, goal);
             child.Update(this, action);
-            Children.Add(child);
             return child;
         }
 
@@ -102,17 +101,19 @@ namespace QGoap.Planning
                 DebugRecord.Record("[GOAP ERROR] Tried to parent a child node.");
                 return;
             }
-            //Se define la relación padre hijo.
+
+            Parent?.Children.Remove(this);
             Parent = parent;
+            parent.Children.Add(this);
             UpdateCost();
         }
 
         private bool FoundParentInChildren(Node parent)
         {
-            if (this == parent) return true;
+            if (this == parent || Equals(parent)) return true;
             foreach (var child in Children)
             {
-                if (child == parent) return true;
+                if (child == parent || child.Equals(parent)) return true;
                 if (child.FoundParentInChildren(parent)) return true;
             }
 

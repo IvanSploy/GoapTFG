@@ -5,7 +5,7 @@ using QGoap.Base;
 using QGoap.Unity;
 using Action = QGoap.Base.Action;
 
-public class GoToDestinationAction : Action
+public class GoToPlayerAction : Action
 {
     public int SpeedFactor = 1;
 
@@ -21,9 +21,9 @@ public class GoToDestinationAction : Action
 
     protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
-        var x = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationX, 0f);
-        var z = _agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.DestinationZ, 0f);
-        var target = new Vector3(x, 0, z);
+        GoapEntity entityPlayer = WorkingMemoryManager.Get("Player").Object;
+        var targetPos = entityPlayer.transform.position;
+        var target = new Vector3(targetPos.x, 0, targetPos.z);
         
         bool reached = false;
 
@@ -45,6 +45,7 @@ public class GoToDestinationAction : Action
             await Task.Yield();
         }
 
+        if (_agent.CurrentState.TryGetOrDefault(PropertyManager.PropertyKey.IsIt, false)) return null;
         return effectGroup;
     }
 }

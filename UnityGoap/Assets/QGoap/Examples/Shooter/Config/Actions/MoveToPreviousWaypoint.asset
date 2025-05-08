@@ -10,23 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
-  m_Name: SetPlayerDestination
+  m_Name: MoveToPreviousWaypoint
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 3
   _preconditions:
-  - name: MoveState
-    value: Ready
+  - name: HasMoved
+    value: False
     condition: 0
   _effects:
-  - name: MoveState
-    value: Required
+  - name: Target
+    value: 
+    effect: 0
+  - name: HasMoved
+    value: True
     effect: 0
   _actionData:
-    rid: 988238986598678666
+    rid: 5878885437967171688
   references:
     version: 2
     RefIds:
-    - rid: 988238986598678666
-      type: {class: SetDestinationToTargetAction, ns: , asm: Assembly-CSharp}
+    - rid: 5878885437967171688
+      type: {class: MoveToWaypointAction, ns: , asm: Assembly-CSharp}
       data:
-        Target: Player
+        Previous: 1

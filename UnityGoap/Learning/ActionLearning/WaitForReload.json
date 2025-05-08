@@ -1,10 +1,10 @@
 {
   "Values": {
     "510": {
-      "WaitForReload_5": 9.9999
+      "WaitForReload_5": 9.923349
     },
     "505": {
-      "WaitForReload_6": 9.783508
+      "WaitForReload_6": 9.870105
     },
     "15829": {
       "WaitForReload_2": 9.999999
@@ -13,73 +13,73 @@
       "WaitForReload_6": 9.999999
     },
     "520323": {
-      "WaitForReload_5": 8.354827
+      "WaitForReload_5": 9.999999
     },
     "16728": {
-      "WaitForReload_5": 9.645407
+      "WaitForReload_5": 9.972426
     },
     "16759": {
-      "WaitForReload_6": 8.341856
+      "WaitForReload_6": 2.39999938
     },
     "520354": {
-      "WaitForReload_5": 9.986939
+      "WaitForReload_5": 9.999635
     },
     "15760": {
-      "WaitForReload_2": 8.954574
+      "WaitForReload_2": 9.989465
     },
     "16821": {
-      "WaitForReload_5": 9.999537
+      "WaitForReload_5": 9.999997
     },
     "16784": {
       "WaitForReload_4": 9.999999
     },
     "542": {
-      "WaitForReload_4": 9.999999
+      "WaitForReload_4": 8.660451
     },
     "15674": {
-      "WaitForReload_4": 9.996427
+      "WaitForReload_4": 9.9999
     },
     "508": {
-      "WaitForReload_5": 9.787249
+      "WaitForReload_5": 9.999999
     },
     "16691": {
-      "WaitForReload_5": 9.360926
+      "WaitForReload_5": 9.999999
     },
     "509": {
-      "WaitForReload_3": 9.999892
+      "WaitForReload_3": 9.999999
     },
     "518339": {
       "WaitForReload_6": 9.939534
     },
     "518363": {
-      "WaitForReload_5": 8.190438
+      "WaitForReload_5": 9.915573
     },
     "16666": {
-      "WaitForReload_5": 7.26393557
+      "WaitForReload_5": 9.872346
     },
     "537": {
-      "WaitForReload_6": 9.999999
+      "WaitForReload_6": 8.424064
     },
     "16689": {
       "WaitForReload_6": 9.999999
     },
     "517471": {
-      "WaitForReload_6": 9.999635
+      "WaitForReload_6": 9.999952
     },
     "16692": {
-      "WaitForReload_6": 9.999999
+      "WaitForReload_6": 8.003815
     },
     "16783": {
-      "WaitForReload_5": 9.405403
+      "WaitForReload_5": 9.997843
     },
     "16697": {
-      "WaitForReload_6": 9.999983
+      "WaitForReload_6": 5.43999624
     },
     "507": {
-      "WaitForReload_6": 9.01504
+      "WaitForReload_6": 9.999999
     },
     "540": {
-      "WaitForReload_5": 9.999701
+      "WaitForReload_5": 9.927565
     },
     "16658": {
       "WaitForReload_6": 9.720064
@@ -94,46 +94,46 @@
       "WaitForReload_3": 4.0
     },
     "16785": {
-      "WaitForReload_5": 9.999868
+      "WaitForReload_5": 9.999999
     },
     "517409": {
       "WaitForReload_6": 9.832039
     },
     "539": {
-      "WaitForReload_3": 9.999999
+      "WaitForReload_3": 7.187409
     },
     "16782": {
-      "WaitForReload_6": 9.995298
+      "WaitForReload_6": 9.999391
     },
     "15798": {
-      "WaitForReload_5": 2.383453
+      "WaitForReload_5": 9.999999
     },
     "520285": {
-      "WaitForReload_6": 9.999781
+      "WaitForReload_6": 9.999921
     },
     "516417": {
       "WaitForReload_6": 9.720064
     },
     "15767": {
-      "WaitForReload_6": 9.999999
+      "WaitForReload_6": 8.3584
     },
     "517316": {
       "WaitForReload_6": 4.0
     },
     "16720": {
-      "WaitForReload_5": 7.84
+      "WaitForReload_5": 8.704
     },
     "15736": {
-      "WaitForReload_6": 9.014918
+      "WaitForReload_6": 9.999999
     },
     "15636": {
       "WaitForReload_5": 7.84
     },
     "16722": {
-      "WaitForReload_6": 9.645414
+      "WaitForReload_6": 9.786786
     },
     "16629": {
-      "WaitForReload_6": 9.95373
+      "WaitForReload_6": 9.645135
     },
     "517378": {
       "WaitForReload_6": 9.720064
@@ -142,13 +142,13 @@
       "WaitForReload_4": 7.84
     },
     "518401": {
-      "WaitForReload_5": 9.997839
+      "WaitForReload_5": 9.999995
     },
     "16723": {
-      "WaitForReload_6": 9.999921
+      "WaitForReload_6": 9.999983
     },
     "520261": {
-      "WaitForReload_5": 9.222401
+      "WaitForReload_5": 9.533441
     },
     "515487": {
       "WaitForReload_6": 6.4
@@ -163,37 +163,37 @@
       "WaitForReload_2": -2.288114
     },
     "538": {
-      "WaitForReload_6": 9.78722
+      "WaitForReload_6": 9.99972248
     },
     "16721": {
-      "WaitForReload_6": 9.978232
+      "WaitForReload_6": 9.999999
     },
     "15705": {
       "WaitForReload_5": 8.352397
     },
     "15791": {
-      "WaitForReload_2": 8.704
+      "WaitForReload_2": 9.720064
     },
     "535": {
-      "WaitForReload_6": 9.999149
+      "WaitForReload_6": 9.999933
     },
     "16630": {
       "WaitForReload_6": 9.9999
     },
     "517402": {
-      "WaitForReload_4": 9.978232
+      "WaitForReload_4": 9.992164
     },
     "16604": {
-      "WaitForReload_6": 9.408009
+      "WaitForReload_6": 2.27213
     },
     "15698": {
-      "WaitForReload_5": 0.239999965
+      "WaitForReload_5": 7.89184
     },
     "16628": {
-      "WaitForReload_4": 9.939534
+      "WaitForReload_4": 7.25929832
     },
     "516479": {
-      "WaitForReload_6": 6.4
+      "WaitForReload_6": 7.84
     },
     "518394": {
       "WaitForReload_5": 4.0
@@ -208,7 +208,7 @@
       "WaitForReload_5": 6.4
     },
     "16690": {
-      "WaitForReload_4": 9.997841
+      "WaitForReload_4": 9.999999
     },
     "520317": {
       "WaitForReload_4": 4.0
@@ -235,16 +235,25 @@
       "WaitForReload_4": 4.0
     },
     "515480": {
-      "WaitForReload_6": 9.832039
+      "WaitForReload_6": 9.998984
     },
     "15729": {
-      "WaitForReload_3": 6.4
+      "WaitForReload_3": 9.222401
     },
     "16566": {
-      "WaitForReload_6": 4.0
+      "WaitForReload_6": 8.704
     },
     "16659": {
       "WaitForReload_5": 6.4
+    },
+    "546": {
+      "WaitForReload_5": 9.999999
+    },
+    "520254": {
+      "WaitForReload_3": 4.0
+    },
+    "515518": {
+      "WaitForReload_5": 7.84
     }
   },
   "MaxValue": 9.999999

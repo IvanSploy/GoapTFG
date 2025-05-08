@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
   m_Name: MoveToEnemySight
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 2
   _preconditions:
   - name: HasMoved
     value: False
+    condition: 0
+  - name: HasEnemy
+    value: True
     condition: 0
   _effects:
   - name: EnemyVisible

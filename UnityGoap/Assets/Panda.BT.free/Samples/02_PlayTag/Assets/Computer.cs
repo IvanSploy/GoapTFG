@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -123,6 +124,7 @@ namespace Panda.Examples.PlayTag
         { 
             get
             {
+                if (Vector3.Distance(target.transform.position, this.transform.position) < Single.Epsilon) return true;
                 Vector3 playerDirection = (target.transform.position - this.transform.position).normalized;
                 Vector3 destinationDirection = (destination - this.transform.position).normalized;
                 bool isSafe = Vector3.Angle(destinationDirection, playerDirection) > 45.0f;

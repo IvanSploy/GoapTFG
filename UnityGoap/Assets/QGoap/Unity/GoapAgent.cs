@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using QGoap.Base;
+using QGoap.Learning;
 using QGoap.Planning;
 using QGoap.Unity.ScriptableObjects;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace QGoap.Unity
         private Plan _currentPlan;
         private float _rePlanCooldown;
         private float _interruptTime;
+        private Coroutine _planCoroutine;
         
         //Agent Properties
         public string Name => name;
@@ -56,35 +58,38 @@ namespace QGoap.Unity
         {
             gameObject.layer = LayerMask.NameToLayer("Agent");
             CurrentState = _initialStateConfig != null ? _initialStateConfig.Create() : new State();
-            _planner = CreatePlanner();
         }
 
+        void Start()
+        {
+            if (_runOnStart)
+            {
+                Initialize(CurrentState);
+            }
+        }
+        
+        public void OnDestroy()
+        {
+            _currentPlan?.Interrupt();
+            foreach (var action in _actions)
+            {
+                if(action is LearningAction learningAction)
+                {
+                    learningAction.Save();
+                }
+            }
+        }
+        
         protected virtual Planner CreatePlanner()
         {
             var generator = new AStar();
             return new BackwardPlanner(generator, this, _greedy);
         }
 
-        void Start()
-        {
-            if (_runOnStart) Initialize(CurrentState);
-        }
-        
-        public void OnDestroy()
-        {
-            _currentPlan?.Interrupt();
-            foreach (var actionConfig in _actionList)
-            {
-                if(actionConfig is LearningActionConfig learningAction)
-                {
-                    learningAction.Save();
-                }
-            }
-        }
-
         public void Initialize(State initialState)
         {
             CurrentState = initialState;
+            _planner = CreatePlanner();
             
             //GOALS
             foreach (var goal in _goalList)
@@ -102,7 +107,17 @@ namespace QGoap.Unity
                 _actions.Add(actionCopy.Create(this));
             }
 
-            StartCoroutine(_async ? PlanGeneratorAsync() : PlanGenerator());
+            StartPlanning();
+        }
+
+        private void StartPlanning()
+        {
+            if (_planCoroutine != null)
+            {
+                StopCoroutine(_planCoroutine);
+                _planCoroutine = null;
+            }
+            _planCoroutine = StartCoroutine(_async ? PlanGeneratorAsync() : PlanGenerator());
         }
 
         //COROUTINES
@@ -110,17 +125,18 @@ namespace QGoap.Unity
         {
             while (true)
             {
-                while (_rePlanCooldown > 0)
+                if (IsInterrupted)
                 {
-                    _rePlanCooldown -= Time.deltaTime;
-                    yield return null;
+                    if(_interruptTime > 0) yield return new WaitForSeconds(_interruptTime);
+                    _interruptTime = 0;
+                    _rePlanCooldown = 0;
                 }
                 
                 Debug.Log("Estado actual: " + CurrentState);
                 
                 //Simular pensamiento.
                 PlanningStarted?.Invoke();
-                yield return new WaitForSeconds(IndicatorTime);
+                if(IndicatorTime > 0) yield return new WaitForSeconds(IndicatorTime);
                 
                 var id = CreatePlan(CurrentState);
                 PlanningEnded?.Invoke();
@@ -135,6 +151,11 @@ namespace QGoap.Unity
                 {
                     Debug.LogWarning("No se ha encontrado plan asequible" + " | Estado actual: " + CurrentState);
                     _rePlanCooldown = _rePlanSeconds;
+                    while (_rePlanCooldown > 0)
+                    {
+                        _rePlanCooldown -= Time.deltaTime;
+                        yield return null;
+                    }
                 }
             }
         }
@@ -143,6 +164,13 @@ namespace QGoap.Unity
         {
             while (true)
             {
+                if (IsInterrupted)
+                {
+                    if(_interruptTime > 0) yield return new WaitForSeconds(_interruptTime);
+                    _interruptTime = 0;
+                    _rePlanCooldown = 0;
+                }
+                
                 Debug.Log("Estado actual: " + CurrentState);
                 
                 //Simular pensamiento.
@@ -196,12 +224,6 @@ namespace QGoap.Unity
 
             if (_currentPlan.IsCompleted) PlanAchieved?.Invoke();
             else PlanFailed?.Invoke();
-
-            if (IsInterrupted)
-            {
-                yield return new WaitForSeconds(_interruptTime);
-                _interruptTime = 0;
-            }
             
             _hasPlan = false;
         }
@@ -295,6 +317,7 @@ namespace QGoap.Unity
             _interruptTime = seconds;
             IsInterrupted = true;
             _currentPlan?.Interrupt();
+            if (seconds > 0) StartPlanning();
         }
         
         public void Interrupt(float seconds = 0)

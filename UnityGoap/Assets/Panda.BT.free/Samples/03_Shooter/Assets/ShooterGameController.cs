@@ -72,7 +72,7 @@ namespace Panda.Examples.Shooter
         void Start()
         {
             enemies.AddRange(FindObjectsOfType<Unit>());
-            enemies.RemoveAll( (u) => u.team == player.team) ;
+            enemies.RemoveAll( (u) => !u.enabled || u.team == player.team) ;
         }
 
         // SetParent is called once per frame

@@ -99,5 +99,10 @@ namespace QGoap.Learning
         {
             return parameters.Aggregate(Name, (current, param) => $"{current}_{param}");
         }
+
+        public void Save()
+        {
+            _learning.Save();
+        }
     }
 }

@@ -17,6 +17,9 @@ MonoBehaviour:
   - name: HasMoved
     value: False
     condition: 0
+  - name: HasEnemy
+    value: True
+    condition: 0
   _effects:
   - name: Target
     value: Cover

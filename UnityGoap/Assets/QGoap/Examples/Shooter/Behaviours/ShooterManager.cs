@@ -36,10 +36,7 @@ public class ShooterManager : MonoBehaviour
         {
             _patrols = FindObjectsByType<Patroller>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID);
         }
-    }
-
-    private void Start()
-    {
+        
         Random.InitState(_seed == 0 ? DateTime.Now.Ticks.GetHashCode() : _seed);
         
         SpawnEnemies();

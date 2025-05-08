@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 376903267}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 0, z: 0}
+  m_LocalPosition: {x: 0.01, y: 0, z: -1.92}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -413,7 +413,6 @@ GameObject:
   - component: {fileID: 509687090}
   - component: {fileID: 509687089}
   - component: {fileID: 509687088}
-  - component: {fileID: 509687087}
   - component: {fileID: 509687086}
   m_Layer: 0
   m_Name: Goap_2
@@ -438,25 +437,6 @@ MonoBehaviour:
   PropertyX: 11
   PropertyY: 0
   PropertyZ: 12
---- !u!114 &509687087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509687085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 0
-  PositionA: {x: -5, y: 0, z: -5}
-  PositionB: {x: 5, y: 0, z: 5}
-  Count: {x: 5, y: 1, z: 5}
-  PropertyX: 8
-  PropertyY: 0
-  PropertyZ: 9
 --- !u!114 &509687088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -727,7 +707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c29a0d8b7210c7439b0c56785e2297f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Rounds: 100
+  Rounds: 200
   _tagObjects:
   - {fileID: 640428485}
   - {fileID: 376903267}
@@ -744,7 +724,6 @@ GameObject:
   - component: {fileID: 640428490}
   - component: {fileID: 640428493}
   - component: {fileID: 640428486}
-  - component: {fileID: 640428491}
   - component: {fileID: 640428492}
   - component: {fileID: 640428495}
   - component: {fileID: 640428494}
@@ -771,7 +750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _runOnStart: 1
   _active: 1
-  _async: 1
+  _async: 0
   _greedy: 0
   _rePlanSeconds: 5
   _initialStateConfig: {fileID: 11400000, guid: b65bb752d21f643488448114ec0cb3e5, type: 2}
@@ -780,7 +759,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ec1316a5e901b184a8902bcee04d9966, type: 2}
   _actionList:
   - {fileID: 11400000, guid: 414ade7192f4a054c90ae3101ac441ac, type: 2}
-  - {fileID: 11400000, guid: 32411e4cfc7184643ba52f0416999d71, type: 2}
+  - {fileID: 11400000, guid: 4aed228d468e2b14fb0b0703bad3a042, type: 2}
   IndicatorTime: 0
   Speed: 15
 --- !u!4 &640428490
@@ -800,25 +779,6 @@ Transform:
   - {fileID: 1971996178}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &640428491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 640428485}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80e54067f99a07c44bb8990d7b2b75d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Active: 0
-  PositionA: {x: -5, y: 0, z: -5}
-  PositionB: {x: 5, y: 0, z: 5}
-  Count: {x: 5, y: 1, z: 5}
-  PropertyX: 8
-  PropertyY: 0
-  PropertyZ: 9
 --- !u!114 &640428492
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e64bd387a39432d83f9a8fea6a7c1f5, type: 3}
   m_Name: Fire
   m_EditorClassIdentifier: 
-  _cost: 1
+  _cost: 5
   _preconditions:
   - name: EnemyVisible
     value: True
@@ -20,6 +20,9 @@ MonoBehaviour:
   - name: Ammo
     value: 1
     condition: 5
+  - name: HasMoved
+    value: False
+    condition: 0
   _effects:
   - name: EnemyHp
     value: 1

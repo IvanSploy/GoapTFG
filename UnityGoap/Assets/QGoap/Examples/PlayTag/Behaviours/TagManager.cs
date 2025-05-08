@@ -62,7 +62,7 @@ public class TagManager : MonoBehaviour
         TagIndex = (int)Mathf.Repeat(TagIndex + 1, _taggables.Length);
         _taggables[previous].UnTag();
 
-        if (_logTimes.Count >= Rounds)
+        if (Rounds > 0 && _logTimes.Count >= Rounds)
         {
             Debug.Break();
             return;

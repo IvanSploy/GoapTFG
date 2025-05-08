@@ -161,14 +161,14 @@ namespace QGoap.Planning
                 var aStarChild = (AStarNode)child;
                 if (aStarChild.Children.Count != 0)
                 {
-                    aStarChild.SetParent(node);
+                    aStarChild.UpdateCost();
                     UpdateChildrenCost(aStarChild);
                 }
                 else
                 {
                     if (!_openList.Remove(aStarChild)) continue;
                     
-                    aStarChild.SetParent(node);
+                    aStarChild.UpdateCost();
                     _openList.Add(aStarChild);
                 }
             }

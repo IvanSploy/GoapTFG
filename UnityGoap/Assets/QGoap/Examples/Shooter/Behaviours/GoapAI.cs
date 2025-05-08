@@ -195,6 +195,11 @@ public class GoapAI : MonoBehaviour
         return hasLos;
     }
 
+    public void SetDestination(Vector3 destination)
+    {
+        _self.SetDestination(destination);
+    }
+
     public bool SetDestination_Cover(float searchRadius = 3)
     {
         var possibleCovers = new List<Vector3>();
@@ -225,6 +230,8 @@ public class GoapAI : MonoBehaviour
 
                 searchRadius += 2.0f;
             }
+
+            if (possibleCovers.Count == 0) return false;
 
             // Search the closest cover point
             UnityEngine.AI.NavMeshPath selfPath = new UnityEngine.AI.NavMeshPath();

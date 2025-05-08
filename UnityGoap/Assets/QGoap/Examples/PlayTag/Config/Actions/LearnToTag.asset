@@ -22,13 +22,13 @@ MonoBehaviour:
     value: False
     effect: 0
   _learningData:
-    Alpha: 0.4
-    Epsilon: 0.3
+    Alpha: 0.7
+    Epsilon: 1
     FilterKeys: 
     AdditionalKeys: 0b0000000c000000
     RangeSize: 1
-  _succeedReward: 10
-  _failReward: -10
+  _succeedReward: 100
+  _failReward: -100
   _actionData:
     rid: 988238986598678659
   references:

@@ -20,7 +20,7 @@ public class MoveToCoverAction : Action
 
     protected override async Task<EffectGroup> OnExecute(EffectGroup effectGroup, string[] parameters, CancellationToken token)
     {
-        _ai.SetDestination_Cover(SearchRadius);
+        if (!_ai.SetDestination_Cover(SearchRadius)) return null;
         _unit.Move();
         await _unit.WaitArrival(token);
         return effectGroup;
