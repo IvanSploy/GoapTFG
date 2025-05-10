@@ -22,7 +22,8 @@ namespace QGoap.Planning
         
         public Node CreateNode(State initialState, ConditionGroup goal)
         {
-            var node = NodeFactory.Get();
+            var node = new AStarNode();
+            //var node = NodeFactory.Get();
             node.Setup(this, initialState, goal);
             node.IsExploring = _learning?.IsExploring() ?? false;
             return node;
@@ -30,6 +31,7 @@ namespace QGoap.Planning
 
         public void DisposeNode(Node node)
         {
+            node.ClearRelationships();
             NodeFactory.Release(node);
         }
         
@@ -159,16 +161,15 @@ namespace QGoap.Planning
             foreach (var child in node.Children)
             {
                 var aStarChild = (AStarNode)child;
+                aStarChild.UpdateCost();
+                
                 if (aStarChild.Children.Count != 0)
                 {
-                    aStarChild.UpdateCost();
                     UpdateChildrenCost(aStarChild);
                 }
                 else
                 {
                     if (!_openList.Remove(aStarChild)) continue;
-                    
-                    aStarChild.UpdateCost();
                     _openList.Add(aStarChild);
                 }
             }

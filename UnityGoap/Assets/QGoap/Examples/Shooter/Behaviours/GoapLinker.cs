@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Panda.Examples.Shooter;
 using QGoap.Base;
 using QGoap.Unity;
 using UnityEngine;
@@ -11,6 +12,7 @@ public class GoapLinker : MonoBehaviour
     [SerializeField] private PropertyManager.PropertyKey _enemyTypeKey;
     [SerializeField] private PropertyManager.PropertyKey _visibleEnemyKey;
     [SerializeField] private PropertyManager.PropertyKey _enemyHpKey;
+    [SerializeField] private PropertyManager.PropertyKey _enemyCountKey;
 
     private GoapAgent _agent;
     private GoapAI _ai;
@@ -28,6 +30,7 @@ public class GoapLinker : MonoBehaviour
     void Update()
     {
         _agent.CurrentState.Set(_ammoKey, _self.ammo);
+        _agent.CurrentState.Set(_enemyCountKey, ShooterGameController.instance.GetCurrentEnemies());
 
         if(!_ai.HasEnemy()) _ai.Acquire_Enemy();
         

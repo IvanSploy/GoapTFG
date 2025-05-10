@@ -87,7 +87,7 @@ namespace QGoap.Planning
                     reward, nextLearningCode);
 
                 //Plan succeed
-                if (Count == 0)
+                if (IsCompleted)
                 {
                     learningAgent.Learning.Update(First.GlobalLearningCode,
                         First.Action.Name, learningAgent.Learning.SucceedReward);

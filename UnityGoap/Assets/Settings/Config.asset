@@ -51,6 +51,8 @@ MonoBehaviour:
     Type: 0
   - Key: EnemyType
     Type: 4
+  - Key: EnemyCount
+    Type: 1
   Enums:
   - EnumType: 3
     EnumValues:

@@ -120,6 +120,13 @@ namespace QGoap.Planning
             return false;
         }
 
+        public void ClearRelationships()
+        {
+            Parent?.Children.Remove(this);
+            Parent = null;
+            Children.Clear();
+        }
+
         public virtual void UpdateCost() => TotalCost = PreviousAction.GetCost(Parent.Goal) + Parent.TotalCost;
 
         public int CompareTo(object obj)

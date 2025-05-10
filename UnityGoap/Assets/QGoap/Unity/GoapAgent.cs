@@ -141,7 +141,7 @@ namespace QGoap.Unity
                 var id = CreatePlan(CurrentState);
                 PlanningEnded?.Invoke();
                 //If plan found.
-                if (id >= 0)
+                if (id >= 0 && _currentPlan.Count > 0)
                 {
                     yield return StartCoroutine(PlanExecution());
                     yield return new WaitUntil(() => _active);

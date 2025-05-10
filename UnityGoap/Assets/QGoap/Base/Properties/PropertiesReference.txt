@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static QGoap.Base.BaseTypes;
 
 namespace QGoap.Base
 {

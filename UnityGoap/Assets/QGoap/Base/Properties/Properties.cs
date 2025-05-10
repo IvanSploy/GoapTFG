@@ -29,6 +29,7 @@ EnemyVisible,
 EnemyHp,
 HasMoved,
 EnemyType,
+EnemyCount,
 
         }
         
@@ -53,6 +54,7 @@ EnemyType,
 { PropertyKey.EnemyHp, PropertyType.Integer },
 { PropertyKey.HasMoved, PropertyType.Boolean },
 { PropertyKey.EnemyType, PropertyType.Enum },
+{ PropertyKey.EnemyCount, PropertyType.Integer },
        
         };
     }

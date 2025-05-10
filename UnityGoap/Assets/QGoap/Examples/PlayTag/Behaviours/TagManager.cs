@@ -100,13 +100,13 @@ public class TagManager : MonoBehaviour
         Directory.CreateDirectory(Path);
         File.Create(fullPath).Close();
     }
-    
-    public string GetFullPath()
+
+    private string GetFullPath()
     {
         return System.IO.Path.Combine(Path, $"{_file}_{GetCurrentDate()}.csv");
     }
 
-    public static string GetCurrentDate()
+    private static string GetCurrentDate()
     {
         var date = DateTime.Now;
         return $"{date.Year}_{date.Month}_{date.Day}__{date.Hour}_{date.Minute}";
